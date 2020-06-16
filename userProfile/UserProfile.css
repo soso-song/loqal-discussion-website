@@ -1,0 +1,16 @@
+body {
+	background-color: #f5f5dc;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.Logo {
+    width:50px;
+	margin-left:20px;
+	position:relative;
+}
+
+.edit{
+    width: 50px;
+    margin-right:20px;
+}
