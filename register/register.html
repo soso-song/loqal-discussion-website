@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+ 		<meta charset="utf-8">
+    	<title>Register</title>
+		<link rel="stylesheet" type="text/css" href="../index.css">
+    	<link rel="stylesheet" type="text/css" href="register.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="register.js"></script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<div class="headline">
+				Register Here
+			</div>
+			<div>
+				<form id='registerForm'>
+					<div class="formerror"></div>
+					<label for="dname">Display Name</label>
+			 		<input id='dname' name="dname" type="text" placeholder="Display Name">
+			
+					<div class="formerror"></div>
+					<label for="rmail">Email</label>
+			 		<input id='rmail' name="rmail" type="text" placeholder="E-mail address">
+			
+					<div class="formerror"></div>
+					<label for="uname">Username</label>
+			 		<input id='uname' name="uname" type="text" placeholder="Username">
+			
+					<div class="formerror"></div>
+					<label for="pword">Password</label>
+			 		<input id='pword' name="pword" type="password" placeholder="Password">
+			
+					<div class="formerror"></div>
+					<label for="cpword">Confirm Password</label>
+			 		<input id='cpword' name="cpword" type="password" placeholder="Password">
+			
+			 		<input id="formbtn" type="submit" value="Register">
+			 	</form>
+			</div>
+			<div class="headline">
+				Or Sign In
+			</div>
+			<div class="desc">
+				Use Username 'admin' and Password 'behrad'
+			</div>
+			<div>
+				<form id='loginForm'>			
+					<div class="formerror"></div>
+					<label for="loginuser">Username</label>
+			 		<input id='loginuser' name="loginuser" type="text" placeholder="Username">
+			
+					<label for="loginpass">Password</label>
+			 		<input id='loginpass' name="loginpass" type="password" placeholder="Password">
+			
+			 		<input id="formbtn" type="submit" value="Sign In">
+			 	</form>
+			</div>
+		</div>
+		
+	</body>
+</html>

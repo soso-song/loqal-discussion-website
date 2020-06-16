@@ -1,4 +1,11 @@
 body {
 	background-color: #eeeeee;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	color:#000;
+	line-height: 1.5em;
+	font-size:13px;
+}
+
+#container {
+	padding:20px;
 }
