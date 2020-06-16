@@ -6,11 +6,35 @@ body {
 
 .Logo {
     width:50px;
-	margin-left:20px;
-	position:relative;
+	position: relative;
 }
-
+.button{
+    border: 3px;
+    cursor: pointer;
+}
 .edit{
     width: 50px;
-    margin-right:20px;
+    top: 5px;
+    right: 10px;
+    position: absolute;
+}
+
+
+#userCard{
+    border-color: black;
+    border-width: 2px;
+}
+.userIcon
+{
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    border-radius: 100%;
+}
+.userName{
+    position:absolute;
+    margin-left: 52.5%;
+    top: 200px;
 }
