@@ -57,7 +57,11 @@ table{
     font-size: 150%;
 }
 
-.tags tr td{
+.tagsTable tr td{
     left: 500px;
     border: 2px solid black;
+}
+
+.mostAct tr td{
+    right: 50px;
 }
