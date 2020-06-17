@@ -9,7 +9,7 @@ let num_notices = 0;
 
 
 // global arrays
-const user = [];
+const users = [];
 const questions = [];
 const answers = [];
 const tags = [];
