@@ -1,46 +1,57 @@
 /* Ass1 Library - JS */
 
-// question/answer/user id count
+// global id count
 let num_questions = 0;
 let num_answers = 0;
 let num_users = 0;
+let num_tags = 0;
+let num_notices = 0;
+
 
 // global arrays
 const user = [];
 const questions = [];
 const answers = [];
+const tags = [];
+const notices = [];
 
 
 class User{
 	constructor(username, email, display_name, password, 
-				list_of_tags, photo, is_admin){
+				tag_list, is_admin, photo_src='noPhoto.jpg'){
 		this.username = username;
 		this.email = email;
 		this.display_name = display_name;
 		this.password = password;
-		this.photo = photo;
-		this.is_admin;
+		this.tag_list = tag_list;					// list of tag id
+		this.photo_src = photo_src;
+		this.is_admin = is_admin;
+		this.is_flagged = false;
+		// unique user id
+		this.id = num_users;
+		num_users++;
 	}
-
-
-
-
-
-
 
 }
 
-
+class Tag{
+	constructor(is_geo, tagName){
+		this.is_geo = is_geo;						// it is a community tag if is_geo = false
+		this.name = tagName;
+		this.id = num_tags;
+		num_tags++;
+	}
+}
 
 
 class Question{
-	constructor(title, content, user, tags){	
+	constructor(title, content, user_id, tag_list){	
 		this.title = title;
 		this.content = content;
-		this.user = user;
-		this.tag = tag;
+		this.user_id = user_id;
+		this.tag_list = tag_list;					// list of tag id
 		this.is_resolved = false;
-		this.is_flagged = user.is_flagged;			// in case flagged user posting questions
+		this.is_flagged = users[user_id].is_flagged;	// in case flagged user posting questions
 		// this.answer = [];
 		this.time = new Date().toLocaleTimeString();
 		// unique id
@@ -50,30 +61,61 @@ class Question{
 }
 
 class Answer{
-	constructor(content, user, question_id, answer_id=-1){
+	constructor(content, user_id, question_id, answer_id=-1){
 		this.is_best = false;
 		this.content = content;
-		this.user = user;
+		this.user_id = user_id;
 		this.question_id = question_id;
 		this.answer_id = answer_id;				// -1 if this is an answer to answer
 		this.time = new Date().toLocaleTimeString();
-		this.is_flagged = user.flagged;			// in case flagged user posting answers
+		this.is_flagged = users[user_id].flagged;			// in case flagged user posting answers
 		// unique id
 		this.id = num_answers;
 		num_answers++;
 	}
 }
 
+class Notice{
+	constructor(title, content, user_id){
+		this.title = title;
+		this.content = content;
+		this.user_id = user_id;
+		this.time = new Date().toLocaleTimeString();
+		// unique id
+		this.id = num_notices;
+		num_notices++;
+	}
 
-// hardcoded questions
-questions.push(new Question('1st question title a1','1st qustion content a2', 'user1', 'tag is general'));
-questions.push(new Question('2st question title a3','2st qustion content a4', 'user2', 'tag is general'));
-questions.push(new Question('3st question a4 title','3st qustion content', 'user3', 'tag is pin_by_author'));
-questions.push(new Question('4st question title','4st qustion content', 'user1', 'tag is flagged_by_user'));
-// user make new answer note: when we are answering post, we should already know where is it
-questions[1].add_answer(new Answer('answering xcc to post1', 'user1'));
-questions[1].add_answer(new Answer('answering cxx to post1', 'user2'));
-questions[2].add_answer(new Answer('answering xcc to post2', 'user2'));
-questions[3].add_answer(new Answer('answering to post3', 'user1'));
+}
 
+// tags
+tags.push(new Tag(true, 'Toronto'));
+tags.push(new Tag(true, 'DT'));
+tags.push(new Tag(true, 'NorthYork'));
+tags.push(new Tag(false, 'student'));
+tags.push(new Tag(false, 'parent'));
+tags.push(new Tag(false, 'diabete'));
+
+// users(username, email, display_name, password, tag_list, is_admin, photo_src='noPhoto.jpg')
+users.push(new User('user', 'user@user.com','u1', 'user', [0,3], false));
+users.push(new User('user2', 'user2@user.com', 'u2', 'user2', [1,4,5], false));
+users.push(new User('admin', 'admin@admin.com', 'admin', 'admin', [0], true));
+
+
+// questions and answers
+questions.push(new Question('1st question title','1st qustion content', 0, [0,5]));
+questions.push(new Question('2st question title','2st qustion content', 1, [1,4]));
+questions.push(new Question('3st question title','3st qustion content', 1, [0,3]));
+questions.push(new Question('4st question title','4st qustion content', 0, [2,3]));
+
+
+// answers (content, user, question_id, answer_id=-1)
+answers.push(new Answer('answer to 1st question', 1, 0));
+answers.push(new Answer('answer to 1st answer in 1st quetion', 0, 0, 0));
+answers.push(new Answer('answer to 2nd question', 0, 1));
+answers.push(new Answer('answer to 3rd question', 0, 2));
+
+
+// notice
+notices.push(new Notice('notice title', 'notice content', 2))
 
