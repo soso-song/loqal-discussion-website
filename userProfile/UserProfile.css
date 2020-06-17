@@ -21,20 +21,47 @@ body {
 
 
 #userCard{
+    font-size: 165%;
     border-color: black;
     border-width: 2px;
 }
+
 .userIcon
 {
     width: 150px;
     height: 150px;
-    position: absolute;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     top: 50px;
-    left: 50%;
     border-radius: 100%;
 }
 .userName{
-    position:absolute;
-    margin-left: 52.5%;
     top: 200px;
+    text-align: center;
+}
+
+.description{
+    top: 230px;
+    text-align: center;
+}
+table{
+    border: 1px solid black;
+}
+.followInfo{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.followInfoNum{
+    font-size: 150%;
+}
+
+.tagsTable tr td{
+    left: 500px;
+    border: 2px solid black;
+}
+
+.mostAct tr td{
+    right: 50px;
 }
