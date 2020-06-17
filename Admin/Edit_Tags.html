@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Phase1</title>
+    <!-- <link rel="stylesheet" type="text/css" href="e2_style.css"> -->
+ </head>
+ <body onload="load_row()">
+ 	<form id='searchQuestionForm'>
+ 		<input id='keyword' type="text" placeholder="search_question: keyword">
+ 		<input type="submit" value="search">
+ 	</form>
+ 	<div>
+	 	<table>
+	 		<tbody id=posts>
+				<tr>
+					<th>title</th>
+					<th>content</th>
+					<th>user</th>
+					<th>tag</th>
+					<th>is_flagged</th>
+					<th>#answer</th>
+					<th>time</th>
+
+					<!-- <tr id='row3'>
+						<td id='title1'>title</td>
+						<td id='content1'>content</td>
+						<td>user</td>
+						<td id='tag1'>tag</td>
+						<td>is_flagged</td>
+						<td>answer</td>
+						<td>time</td>
+						<td>
+							<input type='button' id='edit_button1' value='Edit' class='edit' onclick="edit_row('1')">
+							<input type='button' id='save_button1' value='Save' class='save' onclick="save_row('1')">
+							<input type='button' value='Delete' class='delete' onclick="delete_row('1')">
+						</td>
+					</tr> -->
+				</tr>
+	 		</tbody>
+	 	</table>
+ 	</div>
+ 	<script type="text/javascript" src="niconiconi_ssong.js"></script>
+ </body>
+</html>
