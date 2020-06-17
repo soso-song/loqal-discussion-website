@@ -1,0 +1,86 @@
+/*#searchQuestionForm label{
+	display:block;
+	margin-bottom:10px;
+}*/
+
+#searchQuestionForm input{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px 10px;
+}
+
+/*#loginForm input{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px 10px;
+}
+
+#loginForm label{
+	display:block;
+	margin-bottom:10px;
+}*/
+
+.headline{
+	font-size:23px;
+	padding:30px 0px 10px 0px;
+}
+
+.desc{
+	font-style: italic;
+	margin-bottom:20px;
+}
+
+#formbtn{
+	display:block;
+	color:#ee6261;
+	text-decoration:none;
+	margin-top: 40px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:8px 15px;
+	height:38px;
+	font-size:15px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+}
+
+.formerror{
+	color:red;
+}
+
+
+table.postTable {
+  width: 100%;
+}
+table.postTable td, table.postTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 0px;
+}
+table.postTable tbody td {
+  font-size: 13px;
+}
+table.postTable tr:nth-child(even) {
+  background: #F7F3F2;
+}
+table.postTable thead {
+  background: #4E4E4E;
+}
+table.postTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+table.postTable tfoot td {
+  font-size: 14px;
+}
+table.postTable tfoot .links {
+  text-align: right;
+}
+table.postTable tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
