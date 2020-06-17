@@ -49,11 +49,11 @@ function search_questions(e) {
 	const keyword = searchQuestionForm.elements['keyword'].value;
 	// console.log(searchQuestionForm.elements['keyword']);
 	// console.log(keyword);
-	result_post = [];
+	result_ques = [];
 	result_answ = [];
 	for(curr_que of questions){
 		if(curr_que.title.includes(keyword) || curr_que.content.includes(keyword)){
-			result_post.push(curr_que);
+			result_ques.push(curr_que);
 			//console.log(curr_que);
 		}
 	}
@@ -62,12 +62,55 @@ function search_questions(e) {
 			result_answ.push(curr_ans)
 		}
 	}
-	console.log('post_result:');
-	console.log(result_post);
+	console.log('ques_result:');
+	console.log(result_ques);
 	console.log('answ_result:');
 	console.log( result_answ);
 	// document.write(result_post);
 	// document.write(result_answ);
+	load_result_question();
+	load_result_answer();
+}
+
+
+const questionResultEntries = document.querySelector('#questionResult');
+const answerResultEntries = document.querySelector('#answerResult');
+function load_result_question(){	
+	//var table=document.getElementById("questionResult");
+	var i=0;
+	while(i < questions.length){
+	//var row = table.insertRow(i).outerHTML=
+		questionResultEntries.innerHTML +=
+			"<tr>"+
+				"<td>"+questions[i].id+"</td>"+
+				"<td>"+questions[i].title+"</td>"+
+				"<td>"+questions[i].content+"</td>"+
+				"<td>"+questions[i].user_id+"</td>"+
+				"<td>"+questions[i].tag_list+"</td>"+
+				"<td>"+questions[i].is_flagged+"</td>"+
+				"<td>"+questions[i].time+"</td>"+
+			"</tr>";
+		i++;
+	}
+}
+
+function load_result_answer(){	
+	//var table=document.getElementById("questionResult");
+	var i=0;
+	while(i < answers.length){
+	//var row = table.insertRow(i).outerHTML=
+		answerResultEntries.innerHTML +=
+			"<tr>"+
+				"<td>"+answers[i].id+"</td>"+
+				"<td>"+answers[i].question_id+"</td>"+
+				"<td>"+answers[i].content+"</td>"+
+				"<td>"+answers[i].user_id+"</td>"+
+				"<td>"+answers[i].is_best+"</td>"+
+				"<td>"+answers[i].is_flagged+"</td>"+
+				"<td>"+answers[i].time+"</td>"+
+			"</tr>";
+		i++;
+	}
 }
 
 
@@ -79,7 +122,7 @@ const postEntries = document.querySelector('#posts');
 
 function load_row()
 {	
-	var table=document.getElementById("posts");
+	//var table=document.getElementById("posts");
 	var i=0;
 	while(i < questions.length){
 	//var row = table.insertRow(i).outerHTML=

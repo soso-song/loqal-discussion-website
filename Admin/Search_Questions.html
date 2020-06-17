@@ -2,29 +2,61 @@
 <html lang="en">
  <head>
  	<meta charset="utf-8">
-    <title>Phase1</title>
+    <title>edit_tags</title>
+    <link rel="stylesheet" type="text/css" href="../index.css">
+    <link rel="stylesheet" type="text/css" href="admin.css">
     <!-- <link rel="stylesheet" type="text/css" href="e2_style.css"> -->
  </head>
- <body>
- 	<h1>suppose 4 questions and 4 answers are posted:</h1>
- 	<h2>1st question title a1</h2>
- 	<p>1st qustion content a2</p>
- 	<p style="background-color:tomato;">'answering xcc to post1'</p>
- 	<p style="background-color:tomato;">'answering cxx to post1'</p>
+ <body id="container">
+ 	<div class="headline">
+ 		Search a keyword
+ 	</div>
+ 	<div>
+	 	<form id='searchQuestionForm'>
+	 		<!-- <label>Search a keyword</label> -->
+	 		<input id='keyword' type="text" placeholder="search_question: keyword">
+	 		<input id="formbtn" type="submit" value="search">
+	 	</form>
+ 	</div>
+ 	<div class="headline">Question Results</div>
+	<table class="postTable">
+ 		<thead>
+			<tr>
+				<th>id(Q)</th>
+				<th>title</th>
+				<th>content</th>
+				<th>user_id</th>
+				<th>tag</th>
+				<th>is_flagged</th>
+				<th>time</th>
+			</tr>
+		</thead>
+		<tbody id=questionResult>
+			
+ 		</tbody>
+ 	</table>
+ 	<div class="headline">Answer Results</div>
+ 	<table class="postTable">
+		<thead>
+			<tr>
+				<th>id(A)</th>
+				<th>id(Q)</th>
+				<th>content</th>
+				<th>user_id</th>
+				<th>is_best</th>
+				<th>is_flagged</th>
+				<th>time</th>
+			</tr>
+		</thead>
+		<tbody id=answerResult>
+			
+ 		</tbody>
+ 	</table>
+ 	<div class="desc">
+		keyword include in title or content column
+	</div>
 
- 	<h2>2st question title a3</h2>
- 	<p>2st qustion content a4</p>
- 	<p style="background-color:tomato;">'answering xcc to post2'</p>
- 	<h2>3st question a4 title</h2>
- 	<p>3st qustion content</p>
- 	<p style="background-color:tomato;">'answering to post3'</p>
- 	<h2>4st question title</h2>
- 	<p>4st qustion content</p>
- 	<form id='searchQuestionForm'>
- 		<input id='keyword' type="text" placeholder="search_question: keyword">
- 		<input type="submit" value="search">
- 	</form>
+ 	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
  	<script type="text/javascript" src="niconiconi_ssong.js"></script>
- 	<p>check console for question(post) result and answer result</p>
  </body>
 </html>
