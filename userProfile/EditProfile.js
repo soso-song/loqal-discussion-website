@@ -1,12 +1,9 @@
 let user;
-const userEditForm = document.querySelector('#editForm').value;
+const userEditForm = document.querySelector('#editForm');
 console.log(userEditForm);
 userEditForm.addEventListener('submit',edit);
-
-function load(e){
-    document.querySelector('#userName').innerHTML=user.Name;
-    document.querySelector('newPassword').innerHTML=user.password;
-}
+document.querySelector('#userName').innerHTML=user.Name;
+document.querySelector('newPassword').innerHTML=user.password;
 
 
 function edit(e){
