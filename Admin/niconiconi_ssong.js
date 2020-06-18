@@ -68,25 +68,32 @@ function search_questions(e) {
 	console.log( result_answ);
 	// document.write(result_post);
 	// document.write(result_answ);
-	load_result_question();
-	load_result_answer();
+	load_result_question(result_ques);
+	load_result_answer(result_answ);
 }
 
 
 const questionResultEntries = document.querySelector('#questionResult');
 const answerResultEntries = document.querySelector('#answerResult');
-function load_result_question(){	
+function load_result_question(questions){	
 	//var table=document.getElementById("questionResult");
 	var i=0;
+	questionResultEntries.innerHTML = '';
+	
+
 	while(i < questions.length){
 	//var row = table.insertRow(i).outerHTML=
+		var tag_names = [];
+		for (const tag_index of questions[i].tag_list){
+			tag_names.push(tags[tag_index].name);
+		}
 		questionResultEntries.innerHTML +=
 			"<tr>"+
 				"<td>"+questions[i].id+"</td>"+
 				"<td>"+questions[i].title+"</td>"+
 				"<td>"+questions[i].content+"</td>"+
-				"<td>"+questions[i].user_id+"</td>"+
-				"<td>"+questions[i].tag_list+"</td>"+
+				"<td>"+users[questions[i].user_id].username+"</td>"+
+				"<td>"+tag_names+"</td>"+
 				"<td>"+questions[i].is_flagged+"</td>"+
 				"<td>"+questions[i].time+"</td>"+
 			"</tr>";
@@ -94,9 +101,10 @@ function load_result_question(){
 	}
 }
 
-function load_result_answer(){	
+function load_result_answer(answers){	
 	//var table=document.getElementById("questionResult");
 	var i=0;
+	answerResultEntries.innerHTML = '';
 	while(i < answers.length){
 	//var row = table.insertRow(i).outerHTML=
 		answerResultEntries.innerHTML +=
@@ -104,7 +112,7 @@ function load_result_answer(){
 				"<td>"+answers[i].id+"</td>"+
 				"<td>"+answers[i].question_id+"</td>"+
 				"<td>"+answers[i].content+"</td>"+
-				"<td>"+answers[i].user_id+"</td>"+
+				"<td>"+users[answers[i].user_id].username+"</td>"+
 				"<td>"+answers[i].is_best+"</td>"+
 				"<td>"+answers[i].is_flagged+"</td>"+
 				"<td>"+answers[i].time+"</td>"+
