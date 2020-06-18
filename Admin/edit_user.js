@@ -81,18 +81,14 @@ function load_user_profile(user){
 
 
 const profileTable = document.querySelector('#profileTable');
-console.log(profileTable);
 profileTable.addEventListener('click', table_clicked);
 
 
 function table_clicked(e){
 	e.preventDefault();
-	console.log("h");
 	if(e.target.classList.contains('flag_user')){
-		console.log("hi");
 		flag_user(e);
 	}else if(e.target.classList.contains('edit')){
-		console.log("hi edit");
 		to_edit_form(e);
 	}else if(e.target.classList.contains('save')){
 		update_info(e);
