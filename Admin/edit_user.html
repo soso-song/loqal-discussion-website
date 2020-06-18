@@ -7,48 +7,54 @@
     <!-- <link rel="stylesheet" type="text/css" href="e2_style.css"> -->
  </head>
  <body >
- 	<form id='searchUserForm'>
- 		<input id='keyword' type="text" placeholder="search username/email">
- 		<input type="submit" value="search">
- 	</form>
+ 	<div class="headline">
+ 		Search User Profile
+ 	</div>
+ 	<div>
+	 	<form id='searchUserForm'>
+	 		<!-- <label>Search a keyword</label> -->
+	 		<input id='keyword' type="text" placeholder="search username/email">
+	 		<input id="formbtn" type="submit" value="search">
+	 	</form>
+ 	</div>
  	<div>
 
  		<div class="headline">User Proflie: </div>
-	 	<table class='postTable'>
+	 	<table class='postTable' id='profileTable'>
 	 		<tr>
 	 			<th></th>
-	 			<th><strong>Current</strong></th>
-	 			<th><strong>Edit</strong></th>
+	 			<th class='info'><strong>Current</strong></th>
+	 			<th class='info'><strong>Edit</strong></th>
 	 		</tr>
 	 		<tr>
-	 			<td><strong>Username</strong></td>
-	 			<td></td>
-	 			<td></td>
+	 			<td class='info'><strong>Username</strong></td>
+	 			<td id='username'></td>
+	 			<td id='edit_username'></td>
 	 		</tr>
 	 		<tr>
-	 		 	<td><strong>Email</strong></td>
-	 		 	<td></td>
-	 			<td></td>
+	 		 	<td class='info'><strong>Email</strong></td>
+	 		 	<td id='email'></td>
+	 			<td id='edit_email'></td>
 	 		</tr>
 	 		<tr>
-	 			<td><strong>Display name</strong></td>
-	 		 	<td></td>
-	 			<td></td>
+	 			<td class='info'><strong>Display name</strong></td>
+	 		 	<td id='disname'></td>
+	 			<td id='edit_disname'></td>
 	 		</tr>
 	 		<tr>
-	 			<td><strong>Password</strong></td>
-	 		 	<td></td>
-	 			<td></td>
+	 			<td class='info'><strong>Password</strong></td>
+	 		 	<td id='password'></td>
+	 			<td id='edit_password'></td>
 	 		</tr>
 	 		<tr>
-	 			<td><strong>Tags</strong></td>
-	 		 	<td></td>
-	 			<td></td>
+	 			<td class='info'><strong>Tags</strong></td>
+	 		 	<td id='tags'></td>
+	 			<td id='edit_tags'></td>
 	 		</tr>
 	 		<tr>
-	 			<td><strong>Status</strong></td>
-	 		 	<td></td>
-	 			<td></td>
+	 			<td class='info'><strong>Status</strong></td>
+	 		 	<td id='status'></td>
+	 			<td id='edit_status'></td>
 	 		</tr>
  	</table>
  	</div>

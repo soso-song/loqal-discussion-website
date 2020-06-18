@@ -3,7 +3,7 @@
 	margin-bottom:10px;
 }*/
 
-#searchQuestionForm input{
+#searchQuestionForm, #searchUserForm input{
 	display:block;
 	margin-bottom:20px;
 	padding: 10px 10px;
@@ -34,7 +34,6 @@
 	display:block;
 	color:#ee6261;
 	text-decoration:none;
-	margin-top: 40px;
 	background-color:transparent;
 	cursor: pointer;
 	text-align: center;
@@ -60,29 +59,46 @@ input[type="button"], input[type="submit"]{
 	//border:1px solid #ee6261;
 }
 
+.edit, .flag_user, .save{
+	color:#ee6261;
+	text-decoration:none;
+	background-color:transparent;
+	text-align: center;
+	font-size:15px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+	margin-left: 5px;
+}
+
+#editForm {
+	margin-left: 5px;
+}
 
 .formerror{
 	color:red;
 }
 
+#profileTable {
+	width: 80%;
+}
 
 table.postTable {
   width: 100%;
 }
-table.postTable td, table.postTable th {
+table.postTable td, table.postTable th, table.profileTable td, table.profileTable th {
   border: 1px solid #AAAAAA;
   padding: 3px 0px;
 }
-table.postTable tbody td {
+table.postTable tbody td, table.profileTable tbody td {
   font-size: 13px;
 }
-table.postTable tr:nth-child(even) {
+table.postTable tr:nth-child(even), table.profileTable tr:nth-child(even) {
   background: #F7F3F2;
 }
-table.postTable thead, table.postTable tr th{
+table.postTable thead, table.postTable tr th, .info{
   background: #4E4E4E;
 }
-table.postTable thead th, table.postTable tr th {
+table.postTable thead th, table.postTable tr th, .info{
   font-size: 15px;
   font-weight: bold;
   color: #FFFFFF;
@@ -99,4 +115,8 @@ table.postTable tfoot .links a{
   color: #FFFFFF;
   padding: 2px 8px;
   border-radius: 5px;
+}
+
+.info {
+	width: 20%;
 }
