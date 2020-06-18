@@ -30,7 +30,7 @@
 	margin-bottom:20px;
 }
 
-#formbtn{
+/*#formbtn{
 	display:block;
 	color:#ee6261;
 	text-decoration:none;
@@ -43,7 +43,23 @@
 	font-size:15px;
 	font-weight:normal;
 	border:1px solid #ee6261;
+}*/
+
+input[type="button"], input[type="submit"]{
+	//display:block;
+	//color:#ee6261;
+	text-decoration:none;
+	//margin-top: 40px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	//padding:8px 15px;
+	//height:38px;
+	//font-size:15px;
+	font-weight:normal;
+	//border:1px solid #ee6261;
 }
+
 
 .formerror{
 	color:red;
