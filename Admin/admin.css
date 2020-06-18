@@ -30,7 +30,7 @@
 	margin-bottom:20px;
 }
 
-#formbtn{
+/*#formbtn{
 	display:block;
 	color:#ee6261;
 	text-decoration:none;
@@ -43,7 +43,23 @@
 	font-size:15px;
 	font-weight:normal;
 	border:1px solid #ee6261;
+}*/
+
+input[type="button"], input[type="submit"]{
+	//display:block;
+	//color:#ee6261;
+	text-decoration:none;
+	//margin-top: 40px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	//padding:8px 15px;
+	//height:38px;
+	//font-size:15px;
+	font-weight:normal;
+	//border:1px solid #ee6261;
 }
+
 
 .formerror{
 	color:red;
@@ -63,10 +79,10 @@ table.postTable tbody td {
 table.postTable tr:nth-child(even) {
   background: #F7F3F2;
 }
-table.postTable thead {
+table.postTable thead, table.postTable tr th{
   background: #4E4E4E;
 }
-table.postTable thead th {
+table.postTable thead th, table.postTable tr th {
   font-size: 15px;
   font-weight: bold;
   color: #FFFFFF;
