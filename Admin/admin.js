@@ -127,14 +127,31 @@ function load_result_answer(answers){
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
-
 function load_row()
 {	
 	//var table=document.getElementById("posts");
 	var i=0;
 	while(i < questions.length){
 	//var row = table.insertRow(i).outerHTML=
-		postEntries.innerHTML += "<tr id='row"+i+"'><td id='title_row"+i+"'>"+questions[i].title+"</td><td id='content_row"+i+"'>"+questions[i].content+"</td><td>"+questions[i].user+"</td><td id='tag_row"+i+"'>"+questions[i].tag+"</td><td>"+questions[i].is_flagged+"</td><td>"+questions[i].answer.length+"</td><td>"+questions[i].time+"</td><td><input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'><input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")'><input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'></td></tr>";
+		var tag_names = [];
+		for (const tag_index of questions[i].tag_list){
+			tag_names.push(tags[tag_index].name);
+		}
+		postEntries.innerHTML += 
+			"<tr id='row"+i+"'>"+
+				"<td id='title_row"+i+"'>"+questions[i].title+"</td>"+
+				"<td id='content_row"+i+"'>"+questions[i].content+"</td>"+
+				"<td>"+users[questions[i].user_id].username+"</td>"+
+				"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
+				"<td>"+questions[i].is_flagged+"</td>"+
+				// "<td>"+questions[i].answer.length+"</td>"+
+				"<td>"+questions[i].time+"</td>"+
+				"<td>"+
+					"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
+					"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")'>"+
+					// "<input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'>"+
+				"</td>"+
+			"</tr>";
 		i++;
 	}
 }
@@ -152,6 +169,7 @@ function edit_row(no){
 	title.innerHTML="<input type='text' id='title_text"+no+"' value='"+title_data+"'>";
 	content.innerHTML="<input type='text' id='content_text"+no+"' value='"+content_data+"'>";
 	tag.innerHTML="<input type='text' id='tag_text"+no+"' value='"+tag_data+"'>";
+		
 }
 
 function save_row(no){
@@ -169,8 +187,8 @@ function save_row(no){
 
 function delete_row(no){
 	document.getElementById("row"+no+"").outerHTML="";
+	// questions.remove_index();
 }
-
 
 // function add_row()
 // {
