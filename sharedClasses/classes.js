@@ -18,7 +18,7 @@ const notices = [];
 
 class User{
 	constructor(username, email, display_name, password, 
-				tag_list, is_admin, photo_src='noPhoto.jpg', following=[], followed=[]){
+				tag_list, is_admin, photo_src='../images/noPhoto.jpg', following=[], followed=[]){
 		this.username = username;
 		this.email = email;
 		this.display_name = display_name;
@@ -98,7 +98,7 @@ tags.push(new Tag(false, 'student'));
 tags.push(new Tag(false, 'parent'));
 tags.push(new Tag(false, 'diabete'));
 
-// users(username, email, display_name, password, tag_list, is_admin, photo_src='noPhoto.jpg')
+// users(username, email, display_name, password, tag_list, is_admin, photo_src)
 users.push(new User('user', 'user@user.com','u1', 'user', [0,3], false));
 users.push(new User('user2', 'user2@user.com', 'u2', 'user2', [1,4,5], false));
 users.push(new User('admin', 'admin@admin.com', 'admin', 'admin', [0], true));

@@ -33,6 +33,9 @@ function load_user_profile(user){
 	}
 	document.querySelector('#tags').innerHTML = tag_names;
 	document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
+	// display picture
+	document.querySelector('#photo').innerHTML = "<img src='" + user.photo_src + "'>";
+	// document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
 	// show if flagged user
 	let status = 'Normal'
 	if (user.is_flagged){

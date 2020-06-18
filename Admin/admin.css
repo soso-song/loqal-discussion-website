@@ -79,7 +79,9 @@ input[type="button"], input[type="submit"]{
 }
 
 #profileTable {
+	margin: auto;
 	width: 80%;
+
 }
 
 table.postTable {
