@@ -1,4 +1,4 @@
-
+let newuser;
 function getAllQeustions(user){
     for(var i=0; i<userTags.length; i++)
     {
@@ -8,6 +8,12 @@ function getAllQeustions(user){
         newTag.innerHTML=`${user}`;
     }
 }
+console.log(users.length);
+for(newUser of users){
+    console.log("newUser");
+}
+console.log(newUser.userName);
+
 function uploadPhoto(e){
     var newP = document.getElementById('importForm');
     var newPsrc = newP.datafile.value;
@@ -19,6 +25,8 @@ function following(){
       } else {
         status.innerHTML = "follow";
       }
+      user.following.push(user);
+      user.followed.push(user);
 }
 function getAllTags(user){
     var userTags = user.tags;
@@ -35,6 +43,18 @@ function getAllTags(user){
         var newTag = row.inserCell(fit);
         newTag.innerHTML=`${currTag}`;
     }
+}
+function listAllquestions(user){
+    var question;
+    for (question of questions)
+    {
+        if (question.user_id == user.user_id)
+        {
+            document.querySelector("status").innerHTML=question.is_solved();
+            document.querySelector("content").innerHTML=question.content;
+        }
 
+    }
 
 }
+

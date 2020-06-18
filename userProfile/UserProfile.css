@@ -65,3 +65,7 @@ table{
 .mostAct tr td{
     right: 50px;
 }
+
+.questions tr th td{
+    border: 2px solid blue;
+}
