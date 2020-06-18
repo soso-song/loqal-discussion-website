@@ -1,15 +1,16 @@
-let user;
-const userEditForm = document.querySelector('#editForm');
-console.log(userEditForm);
-userEditForm.addEventListener('submit',edit);
-document.querySelector('#userName').innerHTML=user.Name;
-document.querySelector('newPassword').innerHTML=user.password;
+const user = users[2];
 
+const userEditForm = document.querySelector('#editForm');
+console.log(user.username);
+userEditForm.addEventListener('submit',edit);
+
+document.querySelector('#userName').defaultValue=user.username;
+document.querySelector('#newPassword').defaultValue=user.password;
 
 function edit(e){
     e.preventDefault();
-    const newUserName= document.querySelector('userName').value;
-	const newPassword = document.querySelector('#newBookAuthor').value;
+    const newUserName= document.querySelector('#userName').value;
+	const newPassword = document.querySelector('#newPassword').value;
     const newConfirmPassword = document.querySelector('#confirmPassword').value;
     const newPhoto = document.querySelector('#photoscr').value;
     user.Name=newUserName;
