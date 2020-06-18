@@ -4,18 +4,20 @@
         <meta charset="utf-8">
         <title>EditProfile</title>
         <link rel="stylesheet" type="text/css" href="UserProfile.css">
+        <script type="text/javascript" src="../sharedClasses/classes.js"></script>
+        <script type="text/javascript" src="EditProfile.js"></script>
     </head>
     <body>
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname"><br><br>
+        <form id='editForm'>
+        <label for="userName">Username:</label><br>
+        <input type="text" id="userName" name="userName" placeholder='new userName'><br>
         <label for="password">New Password</label><br>
-        <input type="text" id="password"lname><br><br>
-        <label for="new password">Confirm password</label><br>
-        <input type="text" id="confirm password"lname><br><br>
+        <input type="text" id="password" placeholder='new password'><br><br>
+        <label for="confirmPassword">Confirm password</label><br>
+        <input type="text" id="confirmPassword" placeholder='confirm password'><br><br>
         <label for='confirm password'>Photo</label><br>
-        <input type="text" id="photoSrc" name="lname"><br><br>
-        <input type="submit" value="Submit">
+        <input type="text" id="photoSrc" placeholder="new photo"><br><br>
+        <input type='submit' value='save'>
+        </form>
     </body>
 </html>

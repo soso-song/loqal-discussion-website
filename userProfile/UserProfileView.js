@@ -8,11 +8,11 @@ function getAllQeustions(user){
         newTag.innerHTML=`${user}`;
     }
 }
-console.log(users.length);
-for(newUser of users){
-    console.log("newUser");
-}
-console.log(newUser.userName);
+// console.log(users.length);
+// for(newUser of users){
+//     console.log("newUser");
+// }
+// console.log(newUser.userName);
 
 function uploadPhoto(e){
     var newP = document.getElementById('importForm');
