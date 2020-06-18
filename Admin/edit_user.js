@@ -7,8 +7,8 @@ singleProfile.style.display = 'none';
 const allUsers = document.querySelector('#all_users');
 for(const user of users){
 	const user_table = document.createElement("table");
-	user_table.className = 'postTable';
-	user_table.id = 'profileTable';
+	user_table.className = 'profiles';
+	user_table.id = 'profiles';
 
 	const username_row = document.createElement("tr");
 	username_row.innerHTML = "<td class='info'><strong>Username</strong></td><td>" + user.username + "</td>";
@@ -81,14 +81,18 @@ function load_user_profile(user){
 
 
 const profileTable = document.querySelector('#profileTable');
+console.log(profileTable);
 profileTable.addEventListener('click', table_clicked);
 
 
 function table_clicked(e){
 	e.preventDefault();
+	console.log("h");
 	if(e.target.classList.contains('flag_user')){
+		console.log("hi");
 		flag_user(e);
 	}else if(e.target.classList.contains('edit')){
+		console.log("hi edit");
 		to_edit_form(e);
 	}else if(e.target.classList.contains('save')){
 		update_info(e);
