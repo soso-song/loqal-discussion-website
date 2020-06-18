@@ -122,3 +122,12 @@ table.postTable tfoot .links a{
 .info {
 	width: 20%;
 }
+
+#profileTable{
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.prof_pic {
+	width: 60px;
+}

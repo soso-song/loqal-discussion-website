@@ -1,6 +1,31 @@
 // current user is global
 let user;
 
+const singleProfile = document.querySelector('#single_profile');
+singleProfile.style.display = 'none';
+
+const allUsers = document.querySelector('#all_users');
+for(const user of users){
+	const user_table = document.createElement("table");
+	user_table.className = 'postTable';
+	user_table.id = 'profileTable';
+
+	const username_row = document.createElement("tr");
+	username_row.innerHTML = "<td class='info'><strong>Username</strong></td><td>" + user.username + "</td>";
+	user_table.appendChild(username_row);
+
+	const disname_row = document.createElement("tr");
+	disname_row.innerHTML = "<td class='info'><strong>Display name</strong></td><td>" + user.display_name + "</td>";
+	user_table.appendChild(disname_row);
+
+	const photo_row = document.createElement("tr");
+	photo_row.innerHTML = "<td class='info'><strong>Photo</strong></td><td><img class='prof_pic' src='" + user.photo_src + "'></td>";
+	user_table.appendChild(photo_row);
+
+	allUsers.appendChild(user_table);
+}
+
+
 const searchUserForm = document.querySelector('#searchUserForm');
 searchUserForm.addEventListener('submit', search_user);
 
@@ -8,6 +33,10 @@ function search_user(e) {
 	e.preventDefault();
 	const keyword = searchUserForm.elements['keyword'].value;
 	let u;
+	if (keyword === ''){
+		singleProfile.style.display ='none';
+		allUsers.style.display = 'inline';
+	}
 	for(u of users){
 		if(u.username === keyword || u.email === keyword){
 			user = u;
@@ -18,6 +47,8 @@ function search_user(e) {
 }
 
 function load_user_profile(user){
+	singleProfile.style.display ='inline';
+	allUsers.style.display = 'none';
 	document.querySelector('#username').innerHTML = user.username;
 	document.querySelector('#edit_username').innerHTML = "<button class='edit'>edit</button>";
 	document.querySelector('#email').innerHTML = user.email;
@@ -34,7 +65,7 @@ function load_user_profile(user){
 	document.querySelector('#tags').innerHTML = tag_names;
 	document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
 	// display picture
-	document.querySelector('#photo').innerHTML = "<img src='" + user.photo_src + "'>";
+	document.querySelector('#photo').innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>";
 	// document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
 	// show if flagged user
 	let status = 'Normal'
