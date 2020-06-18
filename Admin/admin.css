@@ -63,10 +63,10 @@ table.postTable tbody td {
 table.postTable tr:nth-child(even) {
   background: #F7F3F2;
 }
-table.postTable thead {
+table.postTable thead, table.postTable tr th{
   background: #4E4E4E;
 }
-table.postTable thead th {
+table.postTable thead th, table.postTable tr th {
   font-size: 15px;
   font-weight: bold;
   color: #FFFFFF;
