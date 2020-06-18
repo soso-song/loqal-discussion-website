@@ -8,11 +8,18 @@ function getAllQeustions(user){
         newTag.innerHTML=`${user}`;
     }
 }
-fucntion uploadPhoto(e){
+function uploadPhoto(e){
     var newP = document.getElementById('importForm');
     var newPsrc = newP.datafile.value;
-
 }   
+function following(){
+    var status = document.getElementById("follow");
+    if (status.innerHTML === "follow") {
+        status.innerHTML = "following";
+      } else {
+        status.innerHTML = "follow";
+      }
+}
 function getAllTags(user){
     var userTags = user.tags;
     for(var i=0; i<userTags.length; i++)
