@@ -18,7 +18,7 @@ const notices = [];
 
 class User{
 	constructor(username, email, display_name, password, 
-				tag_list, is_admin, photo_src='noPhoto.jpg'){
+				tag_list, is_admin, photo_src='noPhoto.jpg', following=[], followed=[]){
 		this.username = username;
 		this.email = email;
 		this.display_name = display_name;
@@ -29,6 +29,8 @@ class User{
 		this.is_flagged = false;
 		// unique user id
 		this.id = num_users;
+		this.following = following;
+		this.followed = followed;
 		num_users++;
 	}
 
