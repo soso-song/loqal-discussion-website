@@ -71,8 +71,8 @@ function save_row(no){
 	//document.getElementById("tag_row"+no).innerHTML='';
 
 	answers[no].content = content_val;
-	answers[no].is_best = is_best_val;
-	answers[no].is_flagged = is_flag_val;
+	answers[no].is_best = (is_best_val == "true");
+	answers[no].is_flagged = (is_flag_val == "true");
 	//answers[no].tag = tag_val;
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
