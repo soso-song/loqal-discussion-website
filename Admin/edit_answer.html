@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
  	<meta charset="utf-8">
-    <title>edit_question</title>
+    <title>edit_answer</title>
     <link rel="stylesheet" type="text/css" href="../index.css">
     <link rel="stylesheet" type="text/css" href="admin.css">
     <link rel="stylesheet" type="text/css" href="sidebar.css">
@@ -11,18 +11,19 @@
  <div class="sidebar"></div>
  <body id="container" onload="load_row()" class="content">
  	<div class="headline">
- 		Question List:
+ 		Answer List:
  	</div>
  	<div>
 	 	<table class="postTable">
 	 		<thead>
 				<tr>
-					<th>title</th>
-					<th>content</th>
+					<th>id</th>
+					<th>id(Q)</th>
+					<th>id(A)</th>
 					<th>user</th>
-					<th>tag</th>
+					<th>content</th>
+					<th>is_best</th>
 					<th>is_flagged</th>
-					<th>#answer</th>
 					<th>time</th>
 				</tr>
 			</thead>
@@ -34,7 +35,7 @@
 		admin edit questions & admin edit tags
 	</div>
  	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
- 	<script type="text/javascript" src="edit_question.js"></script>
+ 	<script type="text/javascript" src="edit_answer.js"></script>
  	<script type="text/javascript" src="sidebar.js"></script>
  </body>
 </html>
