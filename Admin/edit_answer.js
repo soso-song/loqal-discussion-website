@@ -9,21 +9,22 @@ function load_row()
 {	
 	//var table=document.getElementById("posts");
 	var i=0;
-	while(i < questions.length){
+	while(i < answers.length){
 	//var row = table.insertRow(i).outerHTML=
-		var tag_names = [];
-		for (const tag_index of questions[i].tag_list){
-			tag_names.push(tags[tag_index].name);
-		}
+		// var tag_names = [];
+		// for (const tag_index of answers[i].tag_list){
+		// 	tag_names.push(tags[tag_index].name);
+		// }
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
-				"<td id='title_row"+i+"'>"+questions[i].title+"</td>"+
-				"<td id='content_row"+i+"'>"+questions[i].content+"</td>"+
-				"<td>"+users[questions[i].user_id].username+"</td>"+
-				"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
-				"<td>"+questions[i].is_flagged+"</td>"+
-				// "<td>"+questions[i].answer.length+"</td>"+
-				"<td>"+questions[i].time+"</td>"+
+				"<td>"+answers[i].id+"</td>"+
+				"<td>"+answers[i].question_id+"</td>"+
+				"<td>"+answers[i].answer_id+"</td>"+
+				"<td>"+users[answers[i].user_id].username+"</td>"+
+				"<td id='content_row"+i+"'>"+answers[i].content+"</td>"+
+				"<td id='is_best_row"+i+"'> "+answers[i].is_best+"</td>"+
+				"<td id='is_flag_row"+i+"'>"+answers[i].is_flagged+"</td>"+
+				"<td>"+answers[i].time+"</td>"+
 				"<td>"+
 					"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
 					"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
@@ -34,6 +35,23 @@ function load_row()
 	}
 }
 
+// <th>id</th>
+// <th>question_id</th>
+// <th>answer_id</th>
+// <th>user_id</th>
+// <th>content</th>
+// <th>is_best</th>
+// <th>is_flagged</th>
+// <th>time</th>
+
+// <th>id</th>
+// <th>question_id</th>
+// <th>answer_id</th>
+// <th>user_id</th>
+// <th>content</th>
+// <th>is_best</th>
+// <th>is_flagged</th>
+// <th>time</th>
 
 function edit_row(no){
 	document.getElementById("edit_button"+no).disabled = true;
