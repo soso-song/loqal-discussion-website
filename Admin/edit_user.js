@@ -142,6 +142,8 @@ function edit_tag(e){
 		}
 		html_tag += "<option value=-1>remove</option>";
 		html_tag += '</select>';
+		// html_tag += "<div class='deleteMe'>x";
+		// html_tag += '<div>';
 	}
 	tag_cell.innerHTML = "<input type='submit' value='Add Tag' onclick='add_tag()'>";
 	tag_cell.innerHTML += html_tag;
@@ -158,7 +160,10 @@ function add_tag(){
 	tag_cell.innerHTML += html_tag;
 }
 
-
+// $(".deleteMe").on("click", function(){
+// 	console.log("remove");
+//    $(this).remove(); 
+// });
 
 function save_tag(e){
 	//document.getElementById("tag_row"+no).innerHTML='';
