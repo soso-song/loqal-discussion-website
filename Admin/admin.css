@@ -50,18 +50,14 @@
 }*/
 
 input[type="button"], input[type="submit"]{
-	//display:block;
-	//color:#ee6261;
+	color:#ee6261;
 	text-decoration:none;
-	//margin-top: 40px;
 	background-color:transparent;
-	cursor: pointer;
 	text-align: center;
-	//padding:8px 15px;
-	//height:38px;
-	//font-size:15px;
+	font-size:15px;
 	font-weight:normal;
-	//border:1px solid #ee6261;
+	border:1px solid #ee6261;
+	margin-left: 5px;
 }
 
 .edit, .flag_user, .save{

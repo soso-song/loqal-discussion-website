@@ -63,7 +63,7 @@ function load_user_profile(user){
 		tag_names.push(tags[tag_index].name);
 	}
 	document.querySelector('#tags').innerHTML = tag_names;
-	document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
+	document.querySelector('#edit_tags').innerHTML = "<input type='submit' class='edit_tag_on' value='edit'>";
 	// display picture
 	document.querySelector('#photo').innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>";
 	// document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
@@ -92,6 +92,10 @@ function table_clicked(e){
 		to_edit_form(e);
 	}else if(e.target.classList.contains('save')){
 		update_info(e);
+	}else if(e.target.classList.contains('edit_tag_on')){
+		edit_tag(e);
+	}else if(e.target.classList.contains('save_tag_on')){
+		save_tag(e);
 	}else{
 		return;
 	}
@@ -115,6 +119,65 @@ function to_edit_form(e){
 	// change cell to edit form
 	e.target.parentElement.innerHTML = "<form id='editForm'><input id='new_info' type='text'><input class='save' type='submit' value='save'></form>";
 }
+
+function edit_tag(e){
+	e.preventDefault();
+	var tag_cell = document.getElementById("tags");
+	tag_cell.innerHTML = '';
+
+	var user_tags = [];
+	for (const tag_index of user.tag_list){
+		user_tags.push(tags[tag_index]);
+	}
+	// making adding tag options
+	var html_tag = '';
+	for(const curr_tag of user_tags){
+		html_tag += '<select id="html_tag">';
+		for(const tag_elem of tags){
+			if(curr_tag.id == tag_elem.id){
+				html_tag += "<option value="+tag_elem.id+" selected>"+tag_elem.name +"</option>";	
+			}else{
+				html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";	
+			}
+		}
+		html_tag += "<option value=-1>remove</option>";
+		html_tag += '</select>';
+	}
+	tag_cell.innerHTML = "<input type='submit' value='Add Tag' onclick='add_tag()'>";
+	tag_cell.innerHTML += html_tag;
+	e.target.parentElement.innerHTML = "<input type='submit' class='save_tag_on' value='save'>";
+}
+function add_tag(){
+	var tag_cell = document.getElementById("tags");
+	var html_tag = '<select id="html_tag">';
+	for(const tag_elem of tags){
+		html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";	
+	}
+	html_tag += "<option value=-1>remove</option>";
+	html_tag += '</select>';
+	tag_cell.innerHTML += html_tag;
+}
+
+
+
+function save_tag(e){
+	//document.getElementById("tag_row"+no).innerHTML='';
+	var tag_cell = document.getElementById("tags");
+	var tag_text = [];
+	var tag_id = [];
+	var i = 1;
+	while(i < tag_cell.childElementCount){
+		if(tag_cell.children[i].value != -1){
+			tag_id.push(tag_cell.children[i].value);
+			tag_text.push(tag_cell.children[i].options[tag_cell.children[i].selectedIndex].text);
+		}
+		i++;
+	}
+	tag_cell.innerHTML=tag_text;
+	user.tag_list = tag_id;
+	e.target.parentElement.innerHTML = "<input type='submit' class='edit_tag_on' value='edit'>";
+}
+
 
 profileTable.addEventListener('submit', update_info);
 
