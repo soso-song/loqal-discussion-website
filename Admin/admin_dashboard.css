@@ -1,0 +1,15 @@
+.leftDiv {
+	background-color: #efefef;
+	color: #000;
+	height: 400px;
+	width: 48%;
+	float: left;
+}
+
+.rightDiv {
+	background-color: #efefef;
+	color: #000;
+	height: 400px;
+	width: 48%;
+	float: right;
+}

@@ -6,6 +6,7 @@ let num_answers = 0;
 let num_users = 0;
 let num_tags = 0;
 let num_notices = 0;
+let num_reports = 0;
 
 
 // global arrays
@@ -14,6 +15,7 @@ const questions = [];
 const answers = [];
 const tags = [];
 const notices = [];
+const reports = [];
 
 
 class User{
@@ -90,6 +92,26 @@ class Notice{
 
 }
 
+// type allows 'u' - user, 'q' - question, 'a' - answer
+class Report{
+	constructor(type, rep_unique_id, rep_user, rep_reason){
+		this.type = type;
+		this.rep_unique_id = rep_unique_id;
+		this.rep_user = rep_user;
+		this.rep_reason = rep_reason;
+		this.time = new Date().toLocaleTimeString();
+		this.is_reviewed = false;
+		this.reviwedBy = null;
+		// unique id
+		this.id = num_reports;
+		num_reports++;
+	}
+
+}
+
+
+
+
 // tags
 tags.push(new Tag(true, 'Toronto'));
 tags.push(new Tag(true, 'DT'));
@@ -120,4 +142,9 @@ answers.push(new Answer('answer to 3rd question', 0, 2));
 
 // notice
 notices.push(new Notice('notice title', 'notice content', 2))
+
+// report
+reports.push(new Report("u", 1, 0, "posting multiple fake answers"));
+reports.push(new Report("a", 0, 0, "fake answer"));
+
 
