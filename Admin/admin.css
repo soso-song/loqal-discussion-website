@@ -20,6 +20,11 @@
 	margin-bottom:10px;
 }*/
 
+.content {
+  margin-left: 250px;
+  padding: 0px 10px;
+}
+
 .headline{
 	font-size:23px;
 	padding:30px 0px 10px 0px;
