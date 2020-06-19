@@ -1,56 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
  		<meta charset="utf-8">
-    	<title>Some question</title>
+    	<title>My Important Question</title>
 		<link rel="stylesheet" type="text/css" href="../index.css">
-    	<link rel="stylesheet" type="text/css" href="answer.css">
+		<link rel="stylesheet" type="text/css" href="answer.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" src="answer.js"></script>
 	</head>
 	
 	<body>
-		<div id="container">
-			<div id="preview">
-				<div id="ptitle">Where can I buy some avocados?</div>
-				<div id="pdesc">Please help meeeee I need some avocados during quarantine</div>
-				<div id="ptags"><a href="" class="tag">north-york</a><a href="" class="tag">toronto</a><a href="" class="tag">food</a></div>
-				<div id="pinfo">John Appleseed (@jseed)</div>
-				<div id="pdate">asked June 17, 2020 at 14:30</div>
+		<div id="wrapper">
+			<div id="navbar">
+				<a href="../index.html" id="navlogo"> </a>
+				<ul id="menubar">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Ask</a></li>
+					<li><a href="#">Profile</a></li>
+				</ul>
 			</div>
-			
-			<div>
-				<form id='answerForm'>			
-					<div class="formerror"></div>
-					<label for="myans">Reply to this question</label>
-					<textarea id="myans" name="myans" rows="4" cols="50" placeholder="Type your answer here"></textarea>
-			
-			 		<input id="formbtn" type="submit" value="Post Reply">
-			 	</form>
-			</div>
-			<div id="answers">
-				<div class="answer">
-					<div class="answertext">
-						The subtropical species needs a climate without frost and with little wind. High winds reduce the humidity, dehydrate the flowers, 
-						and affect pollination. When even a mild frost occurs, premature fruit drop may occur, although the 'Hass' cultivar can tolerate 
-						temperatures down to −1 °C. Several cold-hardy varieties are planted in the region of Gainesville, Florida, which survive temperatures 
-						as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
+			<div id="pagecontent">
+				<div id="container">
+					<div id="preview">
+						<div id="ptitle">Where can I buy some avocados?</div>
+						<div id="pdesc">Please help meeeee I need some avocados during quarantine</div>
+						<div id="ptags"><a href="" class="tag">north-york</a><a href="" class="tag">toronto</a><a href="" class="tag">food</a></div>
+						<div id="pinfo">John Appleseed (@jseed)</div>
+						<div id="pdate">asked June 17, 2020 at 14:30</div>
 					</div>
-					<div class="answerinfo">answered by Knower, June 17, 2020 at 14:30</div>
-					<!--div class="answeractions"><a class="commentreplybutt" href="#">Reply</a></div-->
+					
+					<div>
+						<form id='answerForm'>			
+							<div class="formerror"></div>
+							<label for="myans">Reply to this question</label>
+							<textarea id="myans" name="myans" rows="4" cols="50" placeholder="Type your answer here"></textarea>
+					
+							 <input id="formbtn" type="submit" value="Post Reply">
+						 </form>
+					</div>
+					<div id="answers">
+						<div class="answer">
+							<div class="answertext">
+								The subtropical species needs a climate without frost and with little wind. High winds reduce the humidity, dehydrate the flowers, 
+								and affect pollination. When even a mild frost occurs, premature fruit drop may occur, although the 'Hass' cultivar can tolerate 
+								temperatures down to −1 °C. Several cold-hardy varieties are planted in the region of Gainesville, Florida, which survive temperatures 
+								as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
+							</div>
+							<div class="answerinfo">answered by Knower, June 17, 2020 at 14:30</div>
+							<!--div class="answeractions"><a class="commentreplybutt" href="#">Reply</a></div-->
+						</div>
+		
+						<div class="answer">
+							<div class="answertext">
+								which survive temperatures 
+								as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
+							</div>
+							<div class="answerinfo">answered by Knower, June 17, 2020 at 14:30</div>
+						</div>
+					</div>
+					
+			
 				</div>
 
-				<div class="answer">
-					<div class="answertext">
-						which survive temperatures 
-						as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
-					</div>
-					<div class="answerinfo">answered by Knower, June 17, 2020 at 14:30</div>
-				</div>
 			</div>
-			
-	
 		</div>
-		
+		<div id="footer">
+			<div id="footerinfo">
+				LOQAL was developed by Behrad, Alan, Nicole and Kyle for CSC309<br><br>
+				<b>Summer 2020</b>
+			</div>
+		</div>
 	</body>
 </html>

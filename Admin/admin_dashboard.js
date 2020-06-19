@@ -1,50 +1,66 @@
-function load_rep_users(){
+load_all_reports();
+function load_all_reports(){
 	const rep_users = document.querySelector("#rep_users");
-	let rep_count = 0;
-	for (const user of users){
-		if (user.is_flagged){
-			rep_count++;
-			const block = document.createElement("div");
-			const left = document.createElement("div");
-			left.setAttribute("class", "leftDiv");
-			left.innerHTML = "<p>Reported user: " + user.username + "<\p>";
-			const right = document.createElement("div");
-			right.setAttribute("class", "rightDiv");
+	const rep_ques = document.querySelector("#rep_questions");
+	const rep_ans = document.querySelector("#rep_answers");
+	let rep_u_count = 0;
+	let rep_q_count = 0;
+	let rep_a_count = 0;
+	for (const report of reports){
+		const div = document.createElement("div");
+		div.className = 'lrDiv';
+		const left = document.createElement("div");
+		left.className = 'leftDiv';
+		const right = document.createElement("div");
+		right.className = 'rightDiv';
+		div.appendChild(left);
+		div.appendChild(right);
+
+		let type_output;
+		switch(report.type){
+			case 'u':
+				console.log('hi');
+				rep_u_count++;
+				left.innerHTML = "<p>Reported: " + users[report.rep_unique_id].username + "</p>";
+				type_output = "User"; 
+				rep_users.appendChild(div);
+				break;
+			case 'q':
+				rep_q_count++;
+				left.innerHTML = "<p>Reported: " + questions[report.rep_unique_id].title + "</p>";;
+				type_output = "Question"; 
+				rep_ques.appendChild(div);
+				break;
+			case 'a':
+				rep_a_count++;
+				left.innerHTML = "<p>Reported: " + answers[report.rep_unique_id].content + "</p>";;
+				type_output = "Answer"; 
+				rep_ans.appendChild(div);
+				break;
 		}
+		left.innerHTML += "<p>Reported by: " + users[report.rep_user].username + "</p>";
+		left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+		right.innerHTML = "<p><button class='flag_user'>View "+ type_output +"</button></p>";
+		right.innerHTML += "<p><button class='flag_user'>Flag "+ type_output +"</button></p>";
+		right.innerHTML += "<p><button class='flag_user'>Deny</button></p>";
+	}
+	if (rep_u_count === 0){
+		const div = document.createElement("div");
+		div.className = 'lrDiv';
+		rep_users.appendChild(div);
+	}
+	if (rep_q_count === 0){
+		const div = document.createElement("div");
+		div.className = 'lrDiv';
+		rep_ques.appendChild(div);
+	}
+	if (rep_a_count === 0){
+		const div = document.createElement("div");
+		div.className = 'lrDiv';
+		rep_ans.appendChild(div);
 	}
 }
 
 
 
 
-
-
-
-
-
-// current user is global
-let user;
-
-const singleProfile = document.querySelector('#single_profile');
-singleProfile.style.display = 'none';
-
-const allUsers = document.querySelector('#all_users');
-for(const user of users){
-	const user_table = document.createElement("table");
-	user_table.className = 'profiles';
-	user_table.id = 'profiles';
-
-	const username_row = document.createElement("tr");
-	username_row.innerHTML = "<td class='info'><strong>Username</strong></td><td>" + user.username + "</td>";
-	user_table.appendChild(username_row);
-
-	const disname_row = document.createElement("tr");
-	disname_row.innerHTML = "<td class='info'><strong>Display name</strong></td><td>" + user.display_name + "</td>";
-	user_table.appendChild(disname_row);
-
-	const photo_row = document.createElement("tr");
-	photo_row.innerHTML = "<td class='info'><strong>Photo</strong></td><td><img class='prof_pic' src='" + user.photo_src + "'></td>";
-	user_table.appendChild(photo_row);
-
-	allUsers.appendChild(user_table);
-}
