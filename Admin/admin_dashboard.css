@@ -1,15 +1,39 @@
 .leftDiv {
 	background-color: #efefef;
 	color: #000;
-	height: 400px;
-	width: 48%;
+	width: 50%;
+	/*height: 150px;*/
 	float: left;
+	right: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .rightDiv {
 	background-color: #efefef;
 	color: #000;
-	height: 400px;
-	width: 48%;
+	width: 50%;
+	/*height: 150px;*/
 	float: right;
+	left: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: right;
+
+}
+
+.rightDiv p {
+	margin-right: 30px;
+}
+
+.lrDiv {
+	background-color: #efefef;
+	width: 70%;
+	margin:auto;
+	height: 130px;
+	padding-bottom: 30px;
+}
+
+h3 {
+	margin-left: 40px;
 }

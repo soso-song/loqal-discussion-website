@@ -1,4 +1,6 @@
 /* Ass1 Library - JS */
+// logged in user
+let curr_user;
 
 // global id count
 let num_questions = 0;
@@ -94,11 +96,11 @@ class Notice{
 
 // type allows 'u' - user, 'q' - question, 'a' - answer
 class Report{
-	constructor(type, rep_unique_id, rep_user, rep_reason){
+	constructor(type, rep_unique_id, rep_user, reason){
 		this.type = type;
 		this.rep_unique_id = rep_unique_id;
 		this.rep_user = rep_user;
-		this.rep_reason = rep_reason;
+		this.reason = reason;
 		this.time = new Date().toLocaleTimeString();
 		this.is_reviewed = false;
 		this.reviwedBy = null;
