@@ -3,7 +3,7 @@ includeSidebar();
 function includeSidebar() {
 	const sidebar_div = document.querySelector(".sidebar");
 
-	sidebar_div.innerHTML = "<h2>Dashboard</h2>";
+	sidebar_div.innerHTML = "<h2><a href='admin_dashboard.html'>Dashboard</a></h2>";
 	create_and_add("a", "Post Notice", sidebar_div, "href", "#");
 	create_and_add("a", "Reported Users", sidebar_div, "href", "#");
 	create_and_add("a", "Reported Questions", sidebar_div, "href", "#");
