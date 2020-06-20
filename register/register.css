@@ -52,7 +52,7 @@
 #left{
 	float:left;
 	display:block;
-	width:300px;
+	width:600px;
 	background-color: white;
 	padding:20px;
 }
@@ -68,4 +68,7 @@
 
 #twocol{
 	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
 }
