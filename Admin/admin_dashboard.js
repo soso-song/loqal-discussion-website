@@ -25,7 +25,6 @@ function load_all_reports(){
 		let html_name;
 		switch(report.type){
 			case 'u':
-				console.log('hi');
 				rep_u_count++;
 				left.innerHTML = "<p>Reported: <strong>" + users[report.rep_unique_id].username + "</strong></p>";
 				type_output = "User"; 
@@ -130,10 +129,6 @@ function remove_lrdiv(curr_lrdiv){
 		parent.appendChild(div);
 	}
 }
-
-
-
-
 
 
 
