@@ -48,3 +48,27 @@
 	padding:20px;
 	margin: 0 auto;
 }
+
+a.squestion{
+	text-decoration: none;
+	font-weight: bold;
+	color:inherit;
+	font-size:18px;
+}
+
+.sinfo{
+	font-size:13px;
+	color:gray;
+}
+
+.sinfo a{
+	text-decoration: none;
+	font-weight: bold;
+	color:inherit;
+}
+
+a.sanswer{
+	text-decoration: none;
+	color:inherit;
+	font-size:15px;
+}
