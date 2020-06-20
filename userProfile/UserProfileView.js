@@ -1,4 +1,4 @@
-let newuser;
+const newuser = users[0];
 function getAllQeustions(user){
     for(var i=0; i<userTags.length; i++)
     {
@@ -25,7 +25,7 @@ function following(){
       } else {
         status.innerHTML = "follow";
       }
-      user.following.push(user);
+      user.following.push(newUser);
       user.followed.push(user);
 }
 function getAllTags(user){
