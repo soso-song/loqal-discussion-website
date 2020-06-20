@@ -22,7 +22,8 @@
 
 #profilePic{
 	width:200px;
-	border-radius: 50%;
+	margin-bottom: 20px;
+	border:1px solid #cccccc;
 }
 
 #left{
@@ -71,4 +72,47 @@ a.sanswer{
 	text-decoration: none;
 	color:inherit;
 	font-size:15px;
+}
+
+#profilestats{
+	padding:10px 0px;
+	margin:0px;
+}
+
+#profilestats li{
+	display:inline-block;
+	padding:0px;
+	width:145px;
+	height:20px;
+	font-size: 20px;
+	font-weight: bold;
+	margin:20px 0px;
+}
+#profilestats a{
+	text-decoration: none;
+	color:gray;
+}
+
+#profilestats a:hover{
+	color:black;
+}
+
+.stattitle{
+	display:block;
+	font-size:60%;
+}
+
+.tag{
+	display:inline-block;
+	color:#ffffff;
+	background-color:#ee6261;
+	margin-right:10px;
+	margin-top:10px;
+	padding:10px;
+	border-radius: 5px;
+}
+
+#mytags{
+	border-bottom: 1px solid #cccccc;
+	padding: 20px 0px;
 }
