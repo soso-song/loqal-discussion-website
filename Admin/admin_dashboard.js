@@ -49,6 +49,7 @@ function load_all_reports(){
 		left.innerHTML += "<p>Reported by: " + users[report.rep_user].username + "</p>";
 		left.innerHTML += "<p>Reason: " + report.reason + "</p>";
 		left.innerHTML += "<p>Report ID (for current implemention only):<strong>"+report.id+"</strong></p>"
+		left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
 		right.innerHTML = "<p></p>";
 		const button = document.createElement("button");
 		button.setAttribute("onclick", " location.href='" + html_name + "' ");
