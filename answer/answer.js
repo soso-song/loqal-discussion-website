@@ -19,7 +19,7 @@ $('#answerForm').submit(function(e) {
 
 	if(!hasError){
 		const newDiv = '<div class="answer"><div class="answertext">' + myanswer + '</div><div class="answerinfo">answered by Knower, June 17, 2020 at 14:30</div></div>'
-		$('#answers').append(newDiv);
+		$('#answers').prepend(newDiv);
 	}
   });
 

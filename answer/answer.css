@@ -1,18 +1,21 @@
+#answerForm{
+	margin:40px 0px;
+}
+
 #answerForm label{
 	display:block;
 	margin-bottom:10px;
+	font-size: 18px;
 }
 
 #answerForm input{
 	display:block;
-	margin-bottom:20px;
 	padding: 10px;
 	width:600px;
 }
 
 #answerForm textarea{
 	display:block;
-	margin-bottom:20px;
 	padding: 10px;
 	width:600px;
 }
@@ -29,16 +32,16 @@
 
 #preview{
 	background-color:#ffffff;
-	padding: 10px;
-	margin:20px 0px;
+	padding: 20px;
 	min-height:100px;
+	overflow: auto;
 }
 
 #answerForm #formbtn{
 	display:block;
 	color:#ee6261;
 	text-decoration:none;
-	margin-top: 40px;
+	margin-top: 20px;
 	background-color:transparent;
 	cursor: pointer;
 	text-align: center;
@@ -61,42 +64,87 @@
 	margin-right:10px;
 	margin-top:10px;
 	padding:10px;
+	border-radius: 5px;
+	font-size:12px;
 }
 
 #ptitle{
-	font-size:20px;
+	font-size:25px;
 	font-weight: bold;
-	margin-bottom:20px;
+	margin-bottom:5px;
 }
 
 #pdesc{
-	font-size:15px;
+	font-size:18px;
 }
 
 #pdate{
-	margin-top:5px;
+	margin-top:25px;
 	font-size:12px;
 	color: gray;
 }
 
+#pdate a{
+	color:inherit;
+}
+
 #pinfo{
-	margin-top:20px;
-	
+	margin-top:10px;
+	font-weight: bold;
+	text-transform: uppercase;
+	display:inline-block;
+	color:#ffffff;
+	padding:10px;
+	font-size: 10px;
+	float:left;
+}
+
+#rightside{
+	display: block;
+	float:left;
+	margin-left:20px;
 }
 
 .gray{
 	color:#aaaaaa;
 }
 
+.red{
+	background-color: red;
+}
+
+.green{
+	background-color:green;
+}
+
 .answer{
 	display:block;
 	background-color: #ffffff;
 	margin: 20px 0px;
-	padding:10px;
+	padding:20px;
+}
+
+.answertext{
+	font-size:16px;
 }
 
 .answerinfo{
-	font-size:10px;
+	font-size:12px;
 	color: gray;
 	margin-top: 10px;
+}
+
+.answerinfo a{
+	color:inherit;
+}
+
+#bestanswer{
+	border-bottom: 2px solid #cccccc;
+}
+
+#onecol{
+	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
 }
