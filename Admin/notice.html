@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Notice</title>
+    <link rel="stylesheet" type="text/css" href="admin.css">
+    <link rel="stylesheet" type="text/css" href="notice.css">
+    <link rel="stylesheet" type="text/css" href="sidebar.css">
+    
+ </head>
+ <div class="sidebar"></div>
+
+ <body class="content">
+ 	<div id='postNotice'>
+	 	<h3> Post a Notice </h3>
+	 	<div>
+	 		<form id='noticeForm'>
+	 			<div id="titleError" class="formError"></div>
+	 			<input id='noticeTitle' type='text' placeholder="Title">
+
+	 			<div id="contentError" class="formError"></div>
+	 			<textarea id='noticeContent' rows='4' cols='50' placeholder='Send an important notice...'></textarea>
+
+	 			<input id="noticeSend" type='submit' value='Send Notice'>
+	 		</form>
+	 	</div>
+	 </div>
+
+	 <div id="allNotices">
+	 	<h2>All Notices</h2>
+	 </div>
+
+ 	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
+ 	<script type="text/javascript" src="notice.js"></script>
+ 	<script type="text/javascript" src="sidebar.js"></script>
+ </body>
+</html>

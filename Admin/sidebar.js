@@ -5,7 +5,7 @@ function includeSidebar() {
 
 	sidebar_div.innerHTML = "<h1><a href='admin_dashboard.html'>Dashboard</a></h1>";
 
-	create_and_add("a", "Post Notice", sidebar_div,  "href", "#");
+	create_and_add("a", "Post Notice", sidebar_div,  "href", "notice.html");
 	const u_bookmark = document.querySelector("#rep_users");
 	create_and_add("a", "Reported Users", sidebar_div, "href", "#rep_users", u_bookmark);
 	const q_bookmark = document.querySelector("#rep_questions");
