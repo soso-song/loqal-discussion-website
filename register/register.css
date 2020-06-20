@@ -48,3 +48,25 @@
 .formerror{
 	color:red;
 }
+
+#left{
+	float:left;
+	display:block;
+	width:300px;
+	background-color: white;
+	padding:20px;
+}
+
+#right{
+	display:block;
+	background-color: white;
+	padding:20px;
+	width:300px;
+	float:left;
+	margin-left:10px;
+}
+
+#twocol{
+	overflow:auto;
+
+}
