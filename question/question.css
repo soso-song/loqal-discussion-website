@@ -19,7 +19,7 @@
 
 .headline{
 	font-size:23px;
-	padding:30px 0px 10px 0px;
+	padding:20px 0px 10px 0px;
 }
 
 .desc{
@@ -29,11 +29,10 @@
 
 #preview{
 	background-color:#ffffff;
+	border: 1px solid #cccccc;
 	padding: 10px;
-	margin-top:20px;
 	min-height:100px;
 	width:600px;
-	
 }
 
 #questionForm #formbtn{
@@ -77,4 +76,16 @@
 
 .gray{
 	color:#aaaaaa;
+}
+
+#onecol{
+	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
+}
+
+#askparent{
+	background:#ffffff;
+	padding:20px;
 }

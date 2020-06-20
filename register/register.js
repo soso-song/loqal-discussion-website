@@ -51,7 +51,7 @@ $('#loginForm').submit(function(e) {
     const username = $('#loginuser').val();
     const password = $('#loginpass').val();
 
-    if ((username !== "admin") || (password !== "behrad")) {
+    if ((username !== "admin") || (password !== "admin")) {
       $('#loginuser').prev().prev().text('Invalid Username or password');
 		hasError = true;
     }

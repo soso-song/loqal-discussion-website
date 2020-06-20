@@ -8,13 +8,111 @@
 	max-height:300px;
 	overflow-y:auto;
 	overflow-x:hidden;
-	background: #dddddd;
-	padding:10px;
+	background: #fff;
+	padding:0px;
 }
 
 .shortquestion{
 	display:block;
-	margin-bottom:2px;
+	margin-bottom:4px;
+	background-color: #eeeeee;
+	padding:20px;
+	border-radius: 5px;
+}
+
+#profilePic{
+	width:200px;
+	margin-bottom: 20px;
+	border:1px solid #cccccc;
+}
+
+#left{
+	float:left;
+	display:block;
+	width:300px;
 	background-color: white;
 	padding:20px;
+	text-align: center;
+}
+
+#right{
+	display:block;
+	background-color: white;
+	padding:20px;
+	float:left;
+	margin-left:10px;
+}
+
+#twocol{
+	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
+}
+
+a.squestion{
+	text-decoration: none;
+	font-weight: bold;
+	color:inherit;
+	font-size:18px;
+}
+
+.sinfo{
+	font-size:13px;
+	color:gray;
+}
+
+.sinfo a{
+	text-decoration: none;
+	font-weight: bold;
+	color:inherit;
+}
+
+a.sanswer{
+	text-decoration: none;
+	color:inherit;
+	font-size:15px;
+}
+
+#profilestats{
+	padding:10px 0px;
+	margin:0px;
+}
+
+#profilestats li{
+	display:inline-block;
+	padding:0px;
+	width:145px;
+	height:20px;
+	font-size: 20px;
+	font-weight: bold;
+	margin:20px 0px;
+}
+#profilestats a{
+	text-decoration: none;
+	color:gray;
+}
+
+#profilestats a:hover{
+	color:black;
+}
+
+.stattitle{
+	display:block;
+	font-size:60%;
+}
+
+.tag{
+	display:inline-block;
+	color:#ffffff;
+	background-color:#ee6261;
+	margin-right:10px;
+	margin-top:10px;
+	padding:10px;
+	border-radius: 5px;
+}
+
+#mytags{
+	border-bottom: 1px solid #cccccc;
+	padding: 20px 0px;
 }

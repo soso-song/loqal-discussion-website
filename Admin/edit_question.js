@@ -21,8 +21,9 @@ function load_row()
 				"<td id='content_row"+i+"'>"+questions[i].content+"</td>"+
 				"<td>"+users[questions[i].user_id].username+"</td>"+
 				"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
-				"<td>"+questions[i].is_flagged+"</td>"+
-				// "<td>"+questions[i].answer.length+"</td>"+
+				"<td id='is_flag_row"+i+"'>"+questions[i].is_flagged+"</td>"+
+				"<td id='is_reso_row"+i+"'>"+questions[i].is_resolved+"</td>"+
+				//"<td>"+questions[i].answer.length+"</td>"+
 				"<td>"+questions[i].time+"</td>"+
 				"<td>"+
 					"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
@@ -41,13 +42,18 @@ function edit_row(no){
 	var title=document.getElementById("title_row"+no);
 	var content=document.getElementById("content_row"+no);
 	var tag=document.getElementById("tag_row"+no);
+	var is_flag_cell=document.getElementById("is_flag_row"+no);
+	var is_reso_cell=document.getElementById("is_reso_row"+no);
 
-	var title_data=title.innerHTML;
-	var content_data=content.innerHTML;
+
+	// var title_data=title.innerHTML;
+	// var content_data=content.innerHTML;
 	//var tag_data=tag.innerHTML;
 
-	title.innerHTML="<input type='text' id='title_text"+no+"' value='"+title_data+"'>";
-	content.innerHTML="<input type='text' id='content_text"+no+"' value='"+content_data+"'>";
+	title.innerHTML="<input type='text' id='title_text"+no+"' value='"+title.innerHTML+"'>";
+	content.innerHTML="<input type='text' id='content_text"+no+"' value='"+content.innerHTML+"'>";
+	is_flag_cell.innerHTML="<input type='button' id='is_flag_select"+no+"' value='"+is_flag_cell.innerHTML+"' onclick='change_is_flag("+no+")'>";
+	is_reso_cell.innerHTML="<input type='button' id='is_reso_select"+no+"' value='"+is_reso_cell.innerHTML+"' onclick='change_is_reso("+no+")'>";
 	// get and display current tags
 	var question_tags = [];
 	for (const tag_index of questions[no].tag_list){
@@ -79,11 +85,14 @@ function edit_row(no){
 function save_row(no){
 	var title_val=document.getElementById("title_text"+no).value;
 	var content_val=document.getElementById("content_text"+no).value;
+	var is_flag_val=document.getElementById("is_flag_select"+no).value;
+	var is_reso_val=document.getElementById("is_reso_select"+no).value;
 	//var tag_val=document.getElementById("tag_text"+no);
 
 	document.getElementById("title_row"+no).innerHTML=title_val;
 	document.getElementById("content_row"+no).innerHTML=content_val;
-
+	document.getElementById("is_flag_row"+no).innerHTML=is_flag_val;
+	document.getElementById("is_reso_row"+no).innerHTML=is_reso_val;
 	//get all tag_id for current question
 
 	//document.getElementById("tag_row"+no).innerHTML='';
@@ -104,6 +113,8 @@ function save_row(no){
 
 	questions[no].title = title_val;
 	questions[no].content = content_val;
+	questions[no].is_flagged = (is_flag_val == "true");
+	questions[no].is_resolved = (is_reso_val == "true");
 	//questions[no].tag = tag_val;
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
@@ -128,3 +139,20 @@ function add_tag_row(no){
 }
 
 
+function change_is_flag(no){
+	var is_flag_button=document.getElementById("is_flag_select"+no);
+	if(is_flag_button.value == "true"){
+		is_flag_button.value = false;
+	}else{
+		is_flag_button.value = true;
+	}
+}
+
+function change_is_reso(no){
+	var is_reso_button=document.getElementById("is_reso_select"+no);
+	if(is_reso_button.value == "true"){
+		is_reso_button.value = false;
+	}else{
+		is_reso_button.value = true;
+	}
+}
