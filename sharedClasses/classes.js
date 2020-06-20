@@ -148,5 +148,4 @@ notices.push(new Notice('notice title', 'notice content', 2))
 // report
 reports.push(new Report("u", 1, 0, "posting multiple fake answers"));
 reports.push(new Report("a", 0, 0, "fake answer"));
-
-
+reports.push(new Report("a", 1, 0, "fake answer!!!!!"));
