@@ -8,13 +8,41 @@
 	max-height:300px;
 	overflow-y:auto;
 	overflow-x:hidden;
-	background: #dddddd;
-	padding:10px;
+	background: #fff;
+	padding:0px;
 }
 
 .shortquestion{
 	display:block;
-	margin-bottom:2px;
+	margin-bottom:4px;
+	background-color: #eeeeee;
+	padding:20px;
+	border-radius: 5px;
+}
+
+#profilePic{
+	width:200px;
+	border-radius: 50%;
+}
+
+#left{
+	float:left;
+	display:block;
+	width:300px;
 	background-color: white;
+	padding:20px;
+}
+
+#right{
+	display:block;
+	background-color: white;
+	padding:20px;
+	float:left;
+	margin-left:10px;
+}
+
+#twocol{
+	overflow:auto;
+	width: 1010px;
 	padding:20px;
 }
