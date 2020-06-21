@@ -1,0 +1,85 @@
+#registerForm label{
+	display:block;
+	margin-bottom:10px;
+}
+
+#registerForm input{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px 10px;
+}
+
+#loginForm input{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px 10px;
+}
+
+#loginForm label{
+	display:block;
+	margin-bottom:10px;
+}
+
+#reportPreview input{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px 10px;
+}
+
+#reportPreview label{
+	display:block;
+	margin-bottom:10px;
+}
+
+.headline{
+	font-size:23px;
+	padding:30px 0px 10px 0px;
+}
+
+.desc{
+	font-style: italic;
+	margin-bottom:20px;
+}
+
+#formbtn{
+	display:block;
+	color:#ee6261;
+	text-decoration:none;
+	margin-top: 40px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:8px 15px;
+	height:38px;
+	font-size:15px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+}
+
+.formerror{
+	color:red;
+}
+
+#left{
+	float:left;
+	display:block;
+	width:600px;
+	background-color: white;
+	padding:20px;
+}
+
+#right{
+	display:block;
+	background-color: white;
+	padding:20px;
+	width:300px;
+	float:left;
+	margin-left:10px;
+}
+
+#twocol{
+	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
+}

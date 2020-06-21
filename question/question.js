@@ -44,18 +44,31 @@ $('#questionForm').submit(function(e) {
 
 	let hasError = false;
 
-	$('#loginuser').prev().prev().text('');
+	$('#qtitle').prev().prev().text('');
+	$('#qdesc').prev().prev().text('');
+	$('#qtags').prev().prev().text('');
 
     const mytitle = $('#qtitle').val();
-    const mydesc = $('#qdesc').val();
+	const mydesc = $('#qdesc').val();
+	const mytags = $('#qtags').val();
 
-    if ((username !== "admin") || (password !== "behrad")) {
-      $('#loginuser').prev().prev().text('Invalid Username or password');
+	if (mytitle.length < 1) {
+		$('#qtitle').prev().prev().text('This field cannot be empty');
 		hasError = true;
-    }
+	}
+
+	if (mydesc.length < 1) {
+		$('#qdesc').prev().prev().text('This field cannot be empty');
+		hasError = true;
+	}
+
+	if (mytags.length < 1) {
+		$('#qtags').prev().prev().text('This field cannot be empty');
+		hasError = true;
+	}
 
 	if(!hasError){
-		window.location.href = "../index.html";
+		window.location.href = "../answer/answer.html";
 	}
   });
 

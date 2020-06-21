@@ -50,8 +50,6 @@ function edit_row(no){
 
 
 function save_row(no){
-
-	
 	var name_val=document.getElementById("name_select"+no).value;
 	var is_geo_val=document.getElementById("is_geo_select"+no).value;
 	//var tag_val=document.getElementById("tag_text"+no);
