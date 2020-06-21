@@ -31,15 +31,15 @@ function getAllTags(user){
     for(var i=0; i<userTags.length; i++)
     {
         var currTag = userTags[i];
-        var fit=0;
+        var fit=-1;
         if(tags[currTag].is_geo==true)
         {
-            fit=1;
+            fit=0;
         }
         var Ttable = document.getElementById('tagsTable');
         var row = Ttable.insertRow(-1);
-        var newTag = row.inserCell(fit);    
-        newTag.innerHTML=`${tags[currTag]}`;
+        var newTag = row.insertCell(fit);    
+        newTag.innerHTML=`${tags[currTag].name}`;
     }
 }
 listAllquestions(pageUser);
