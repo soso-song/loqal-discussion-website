@@ -1,7 +1,8 @@
 currUser = users[0];
 
 const tagsOption = document.querySelector("#tags");
-console.log(tagsOption);
+const userEditForm = document.querySelector('#askQuestion');
+userEditForm.addEventListener('submit',AskQuestion);
 loadTags();
 function loadTags(e)
 {
@@ -13,6 +14,13 @@ function loadTags(e)
         newT.text=newTagName;
         tagsOption.appendChild(newT);
     }
+}
+
+function AskQuestion(e)
+{
+    e.preventDefault();
+    var newQuestion;
+    
 }
 function loadQ(e)
 {

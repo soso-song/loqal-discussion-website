@@ -126,7 +126,7 @@ tags.push(new Tag(false, 'diabete'));
 users.push(new User('user', 'user@user.com','u1', 'user', [0,3], false));
 users.push(new User('user2', 'user2@user.com', 'u2', 'user2', [1,4,5], false));
 users.push(new User('admin', 'admin@admin.com', 'admin', 'admin', [0], true));
-
+users.push(new User('Alan', 'alan@gmail.com', 'u3', [0,2], false));
 
 // questions and answers
 questions.push(new Question('1st question title','1st qustion content', 0, [0,5]));
