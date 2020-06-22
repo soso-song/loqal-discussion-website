@@ -89,20 +89,19 @@
 }
 
 #pinfo{
-	margin-top:10px;
 	font-weight: bold;
 	text-transform: uppercase;
-	display:inline-block;
+	display:block;
 	color:#ffffff;
 	padding:10px;
 	font-size: 10px;
-	float:left;
+	float:right;
 }
 
 #rightside{
 	display: block;
 	float:left;
-	margin-left:20px;
+	width:800px;
 }
 
 .gray{

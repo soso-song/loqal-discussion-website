@@ -29,12 +29,10 @@ $(document).ready(function() {
 		for (let i = 0; i < septags.length; i++) {
 			const formattedString = septags[i].trim().replace(/\s+/g, '-').toLowerCase();
 			if(formattedString.length>0){
-				const myTag = document.createElement('a')
+				const myTag = document.createElement('span')
 				myTag.className = 'tag'
-				myTag.href = 'http://google.com';
 				myTag.appendChild(document.createTextNode(formattedString))
-				$('#ptags').append(myTag);    
-				
+				$('#ptags').append(myTag);
 			}
 		}
 	});
@@ -68,6 +66,8 @@ $('#questionForm').submit(function(e) {
 	}
 
 	if(!hasError){
+		// At this stage we will send data to backend
+		// And redirect the user to the newly created question
 		window.location.href = "../answer/answer.html";
 	}
   });
