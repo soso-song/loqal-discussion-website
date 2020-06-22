@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+ 		<meta charset="utf-8">
+		 <title>User Dashboard</title>
+		 <link rel="stylesheet" type="text/css" href="../index.css">
+		 <link rel="stylesheet" type="text/css" href="userprofile.css">
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		 <script type="text/javascript" src="userprofile.js"></script>
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<div id="navbar">
+				<a href="#" id="navlogo"> </a>
+				<ul id="menubar">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="../question/question.html">Ask</a></li>
+					<li><a href="#">Profile</a></li>
+				</ul>
+			</div>
+			<div id="pagecontent">
+					<div id="twocol">
+						<div id="left">
+							<h2>User</h2>
+							<h3>User Display Name</h3>
+							<img src="../images/noPhoto.jpg" alt="Main Profile Pic" id="profilePic">
+							<div id="mytags">
+								<h3>Tags</h3>
+								<span class="tag">north-york</span><span class="tag">toronto</span><span class="tag">food</span>
+								<span class="tag">shopping</span><span class="tag">avocado</span><span class="tag">health</span>
+							</div>
+							<div>
+								3267 best answer
+							</div>
+							
+						</div>
+						<div id="right">
+							<ul id="profilestats">
+								<li><a id="activitybutt" href="#">Activity</a></li>
+								<li><a id="followerbutt" href="#">Followers</a></li>
+								<li><a id="followingbutt" href="#">Following</a></li>
+							</ul>
+
+							<div id="useractivity">
+								<div class="userheading">Questions (233)</div>
+								<div class="listcontainter">
+									<div class="shortquestion">
+										<a class="squestion" href="../answer/answer.html">Where can I buy some avocados?</a>
+										<div class="sinfo">Asked by <a href="#">Knower</a> - June 19, 2020 - 5 Answers - Unresolved</div>
+									</div>
+	
+									<div class="shortquestion">
+										<a class="squestion" href="../answer/answer.html">Is CostCo open today? I want to buy a very expensive air purifier.</a>
+										<div class="sinfo">Asked by <a href="#">Knower</a> - June 19, 2020 - 5 Answers - Unresolved</div>
+									</div>
+								</div>
+								<div class="userheading">Answers (34)</div>
+								<div class="listcontainter">
+									<div class="shortquestion">
+										<a class="sanswer" href="../answer/answer.html">Yes, CostCo is open today and will welcome anyone with open arms. Don't forget to 
+										take your credit cards. I heard you'll need them. Take as many as you want. Please.</a>
+										<div class="sinfo">In reply to <a href="#">Is CostCo open today?</a> - June 19, 2020</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="followers" class="hideme">
+								<div class="personcontainter">
+									<div class="person">
+										<div class="personname">User Name</div>
+										<div class="personis">@user</div>
+									</div>
+									<div class="person">
+										<div class="personname">User Name 2</div>
+										<div class="personis">@user2</div>
+									</div>
+									<div class="person">
+										<div class="personname">Admin</div>
+										<div class="personis">@admin</div>
+									</div>
+									<div class="person">
+										<div class="personname">John doe</div>
+										<div class="personis">@fake</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="following"  class="hideme">
+								<div class="personcontainter">
+									<div class="person">
+										<div class="personname">Admin</div>
+										<div class="personis">@admin</div>
+									</div>
+									<div class="person">
+										<div class="personname">John doe</div>
+										<div class="personis">@fake</div>
+									</div>
+								</div>
+							</div>
+							
+
+						</div>
+					</div>
+					
+			</div>
+		</div>
+		<div id="footer">
+			<div id="footerinfo">
+				LOQAL was developed by Behrad, Alan, Nicole and Kyle for CSC309<br><br>
+				<b>Summer 2020</b>
+			</div>
+		</div>
+	</body>
+</html>
