@@ -41,8 +41,7 @@ class User{
 }
 
 class Tag{
-	constructor(is_geo, tagName){
-		this.is_geo = is_geo;						// it is a community tag if is_geo = false
+	constructor(tagName){
 		this.name = tagName;
 		this.id = num_tags;
 		num_tags++;
@@ -115,12 +114,12 @@ class Report{
 
 
 // tags
-tags.push(new Tag(true, 'Toronto'));
-tags.push(new Tag(true, 'DT'));
-tags.push(new Tag(true, 'NorthYork'));
-tags.push(new Tag(false, 'student'));
-tags.push(new Tag(false, 'parent'));
-tags.push(new Tag(false, 'diabete'));
+tags.push(new Tag('Toronto'));
+tags.push(new Tag('DT'));
+tags.push(new Tag('NorthYork'));
+tags.push(new Tag('student'));
+tags.push(new Tag('parent'));
+tags.push(new Tag('diabete'));
 
 // users(username, email, display_name, password, tag_list, is_admin, photo_src)
 users.push(new User('user', 'user@user.com','u1', 'user', [0,3], false));
