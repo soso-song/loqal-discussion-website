@@ -70,6 +70,8 @@ function save_row(no){
 
 	//document.getElementById("tag_row"+no).innerHTML='';
 
+	//below is write function to answer database
+	//edit_answer(no,content_val,(is_best_val == "true"),(is_flag_val == "true"))
 	answers[no].content = content_val;
 	answers[no].is_best = (is_best_val == "true");
 	answers[no].is_flagged = (is_flag_val == "true");

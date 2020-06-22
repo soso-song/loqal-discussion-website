@@ -19,7 +19,10 @@ if (target_type == 'u') {
 
 function submitReport(){
 	var reason = document.getElementById("reasonTextArea").value;
+	//below is add report function to report list on database
+	//add_report(new Report(target_type,target_id,user_id,reason));
 	reports.push(new Report(target_type,target_id,user_id,reason));
+	
 	alert("submitted");
 	//location.href = "../user/userdashboard.html";
 }
