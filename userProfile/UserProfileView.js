@@ -13,7 +13,8 @@ function getAllQeustions(user){
 function uploadPhoto(e){
     var newP = document.getElementById('importForm');
     var newPsrc = newP.datafile.value;
-}   
+}
+
 function following(){
     var status = document.getElementById("follow");
     if (status.innerHTML === "follow") {
@@ -23,6 +24,8 @@ function following(){
       } else 
       {
         status.innerHTML = "follow";
+        curr_user.following.pop();
+        pageUser.followed.pop();
       }
 }
 getAllTags(pageUser);
@@ -38,7 +41,7 @@ function getAllTags(user){
         }
         var Ttable = document.getElementById('tagsTable');
         var row = Ttable.insertRow(-1);
-        var newTag = row.insertCell(fit);    
+        var newTag = row.insertCell(fit);   
         newTag.innerHTML=`${tags[currTag].name}`;
     }
 }
@@ -58,4 +61,25 @@ function listAllquestions(user){
         }
     }
 }
-
+var shown = 0;
+pageUser.follower = [users[0],users[1],users[2]];
+function loadFollowInfo(e){
+    var fInfo = document.getElementById("followerinfo");
+    if (shown == 0){
+        fInfo.style.visibility = "visible";
+        shown = 1;
+        var follower;
+        for (follower of pageUser.follower)
+        {
+            var newFo = document.getElementById("followerinfotable");
+            var row = newFo.insertRow(-1);
+            var f = row.insertCell(0);
+            f.innerHTML = `${follower.username}`;
+        }
+    } else{
+        fInfo.style.visibility = "hidden";
+        var newFo = document.getElementById("followerinfotable");
+        newFo.innerHTML = `<th>Followers</th>`;
+        shown = 0;
+    }
+}

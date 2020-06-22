@@ -49,6 +49,7 @@ table{
     border: 1px solid black;
 }
 .followInfo{
+    cursor: pointer;
     margin-left: auto;
     margin-right: auto;
 }
@@ -68,4 +69,8 @@ table{
 
 .questions tr th td{
     border: 2px solid blue;
+}
+
+#followerinfo{
+    visibility: hidden;
 }

@@ -28,20 +28,25 @@
                     <td>Answers</td>
                 </tr>
                 <tr>
-                    <td><span class="followInfoNum">34</span></td>
+                    <td><span class="followInfoNum" onclick="loadFollowInfo()">34</span></td>
                     <td><span class="followInfoNum">99K</span></td>
                     <td><span class="followInfoNum">5</span></td>
                     <td><span class="followInfoNum">438</span></td>
                 </tr>
             </table>
+            <div id='followerinfo'>
+                <table id="followerinfotable">
+                    <th>Followers</th>
+                </table>
+            </div>
             <button id="follow" onclick="following()">Follow</button>
             <table id="tagsTable">
                 <th>
                     Tags
                 </th>
                 <tr>
-                    <td>Community</td>
                     <td>Geographical</td>
+                    <td>Community</td>
                 </tr>
             </table>
             <table class="mostAct">
