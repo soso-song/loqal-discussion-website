@@ -37,7 +37,7 @@ $(document).ready(function() {
     }
 
 	if(!hasError){
-		window.location.href = "../index.html";
+		window.location.href = "subscribe.html";
 	}
   });
 
