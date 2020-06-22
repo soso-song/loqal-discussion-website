@@ -57,7 +57,7 @@ $('#loginForm').submit(function(e) {
     }
 
 	if(!hasError){
-		window.location.href = "../index.html";
+		window.location.href = "../user/userdashboard.html";
 	}
   });
 
