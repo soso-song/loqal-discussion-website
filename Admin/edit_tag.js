@@ -1,7 +1,5 @@
 
 
-
-
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
@@ -57,10 +55,9 @@ function save_row(no){
 
 	document.getElementById("name_row"+no).innerHTML=name_val;
 	document.getElementById("is_geo_row"+no).innerHTML=is_geo_val;
-	//get all tag_id for current question
 
-	//document.getElementById("tag_row"+no).innerHTML='';
-
+	//below is write function to tag database
+	//edit_tag(no,name_val,is_flag_val)
 	tags[no].name = name_val;
 	tags[no].is_geo = (is_geo_val == "true");
 	// answers[no].is_flagged = is_flag_val;

@@ -1,7 +1,4 @@
 
-
-
-
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
@@ -109,8 +106,9 @@ function save_row(no){
 	}
 	tag_div.innerHTML=tag_text;
 
+	//below is write function to questions database
+	//edit_question(no,tag_id,title_val,content_val,(is_flag_val == "true"),(is_reso_val == "true"))
 	questions[no].tag_list = tag_id;
-
 	questions[no].title = title_val;
 	questions[no].content = content_val;
 	questions[no].is_flagged = (is_flag_val == "true");
@@ -118,7 +116,6 @@ function save_row(no){
 	//questions[no].tag = tag_val;
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
-
 }
 
 function delete_row(no){
