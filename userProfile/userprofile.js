@@ -56,14 +56,14 @@ function getAllQeustionsNum(){
     var answ = 0;
     for(var i=0; i<num_questions; i++)
     {
-        if (questions[i].user_id=pageUser.id)
+        if (questions[i].user_id==pageUser.id)
         {
             res++;
         }
     }
     for(var j=0; j<num_answers; j++)
     {
-        if(answers[j].user_id = pageUser.id)
+        if(answers[j].user_id == pageUser.id)
         {
             answ++;
         }
@@ -81,7 +81,7 @@ function getAllQeustions(){
     for(var i=0; i<num_questions; i++)
     {
         
-        if(questions[i].user_id = pageUser.id)
+        if(questions[i].user_id == pageUser.id)
         {
             currQuestion.push(questions[i]);
         }
@@ -100,7 +100,7 @@ function getAllQeustions(){
         let numA;
         for(a of answers)
         {
-            if(a.question_id = pageUser.id)
+            if(a.question_id == pageUser.id)
             {
                 numA++;
             }
@@ -116,10 +116,10 @@ function getAllQeustions(){
 getAllAnswer();
 function getAllAnswer(){
     var currAnswer = [];
+    
     for(var i=0; i<num_answers; i++)
     {
-        
-        if(answers[i].user_id = pageUser.id)
+        if(answers[i].user_id == pageUser.id)
         {
             currAnswer.push(answers[i]);
         }
