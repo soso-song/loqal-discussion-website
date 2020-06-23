@@ -114,9 +114,9 @@ class Report{
 
 
 // tags
-tags.push(new Tag(true,'Toronto'));
-tags.push(new Tag(true,'DT'));
-tags.push(new Tag(true,'NorthYork'));
+tags.push(new Tag(true,'toronto'));
+tags.push(new Tag(true,'dt'));
+tags.push(new Tag(true,'north-york'));
 tags.push(new Tag(false,'student'));
 tags.push(new Tag(false,'parent'));
 tags.push(new Tag(false,'diabete'));
@@ -132,6 +132,9 @@ questions.push(new Question('1st question title','1st qustion content', 0, [0,5]
 questions.push(new Question('2st question title','2st qustion content', 1, [1,4]));
 questions.push(new Question('3st question title','3st qustion content', 1, [0,3]));
 questions.push(new Question('4st question title','4st qustion content', 0, [2,3]));
+questions.push(new Question('Where can I buy some avocados?',
+'Please help me. I need some avocados during quarantine. I initially thought I would find them here but I was wrong. Now I am looking for a healthy alternative.'
+, 0, [2,3,0]));
 
 
 // answers (content, user, question_id, answer_id=-1)
