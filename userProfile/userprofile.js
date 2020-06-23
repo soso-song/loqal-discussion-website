@@ -30,10 +30,8 @@ function getAllQeustionsNum(){
             res++;
         }
     }
-    var X = document.getElementsByClassName(".userheading");
-    var X = document.getElementsByClassName("#userheading");
-    var X = document.getElementsByClassName("userheading");
-    X[0].innerHTML=`Questions ${res}`;
+    let X = document.getElementsByClassName("userheading");
+    X[0].innerHTML=`1111`;
 }
 
 function getAllQeustions(){
