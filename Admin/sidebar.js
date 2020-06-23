@@ -17,8 +17,8 @@ function includeSidebar() {
 	sidebar_div.appendChild(hr);
 	create_and_add("a", "All Users", sidebar_div, "href", "edit_user.html");
 	create_and_add("a", "All Questions", sidebar_div, "href", "edit_question.html");
-	create_and_add("a", "All Answers", sidebar_div, "href", "search_answer.html");
-	create_and_add("a", "All Tags", sidebar_div, "href", "edit_tags.html");
+	create_and_add("a", "All Answers", sidebar_div, "href", "edit_answer.html");
+	create_and_add("a", "All Tags", sidebar_div, "href", "edit_tag.html");
 
 }
 
