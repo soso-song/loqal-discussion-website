@@ -6,6 +6,7 @@ $(document).ready(function() {
 	let hasError = false;
 	
 	$('#dname').prev().prev().text('');
+	$('#uname').prev().prev().text('');
 	$('#rmail').prev().prev().text('');
 	$('#pword').prev().prev().text('');
 	$('#cpword').prev().prev().text('');
@@ -19,7 +20,19 @@ $(document).ready(function() {
     if (displayName.length < 1) {
       $('#dname').prev().prev().text('This field is required');
 		hasError = true;
-    }
+	}
+	
+	if (username.length < 1) {
+		$('#uname').prev().prev().text('This field is required');
+		hasError = true;
+	}
+
+	for (let i = 0; i < users.length; i++) {
+		if((users[i].username == username)){
+			$('#uname').prev().prev().text('Username already exists');
+			hasError = true;
+		}
+	}
 
     if (email.length < 1) {
 		$('#rmail').prev().prev().text('This field is required');
@@ -67,7 +80,7 @@ $('#loginForm').submit(function(e) {
 	}else{
 		$('#loginuser').prev().prev().text('Invalid Username or password');
 	}
-	
+
   });
 
 });
