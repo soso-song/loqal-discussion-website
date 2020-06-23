@@ -1,3 +1,5 @@
+"use strict"
+
 const rep_users = document.querySelector("#rep_users");
 const rep_ques = document.querySelector("#rep_questions");
 const rep_ans = document.querySelector("#rep_answers");

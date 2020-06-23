@@ -1,17 +1,15 @@
-
-
-
+"use strict"
 
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
 function load_row()
 {	
-	//var table=document.getElementById("posts");
-	var i=0;
+	//const table=document.getElementById("posts");
+	let i=0;
 	while(i < answers.length){
-	//var row = table.insertRow(i).outerHTML=
-		// var tag_names = [];
+	//let row = table.insertRow(i).outerHTML=
+		// const tag_names = [];
 		// for (const tag_index of answers[i].tag_list){
 		// 	tag_names.push(tags[tag_index].name);
 		// }
@@ -40,9 +38,9 @@ function edit_row(no){
 	document.getElementById("edit_button"+no).disabled = true;
 	document.getElementById("save_button"+no).disabled = false;
 	//var title=document.getElementById("title_row"+no);
-	var content_cell=document.getElementById("content_row"+no);
-	var is_best_cell=document.getElementById("is_best_row"+no);
-	var is_flag_cell=document.getElementById("is_flag_row"+no);
+	const content_cell=document.getElementById("content_row"+no);
+	const is_best_cell=document.getElementById("is_best_row"+no);
+	const is_flag_cell=document.getElementById("is_flag_row"+no);
 
 
 	//title.innerHTML="<input type='text' id='title_text"+no+"' value='"+title_data+"'>";
@@ -57,9 +55,9 @@ function edit_row(no){
 function save_row(no){
 
 	
-	var content_val=document.getElementById("content_select"+no).value;
-	var is_best_val=document.getElementById("is_best_select"+no).value;
-	var is_flag_val=document.getElementById("is_flag_select"+no).value;
+	const content_val=document.getElementById("content_select"+no).value;
+	const is_best_val=document.getElementById("is_best_select"+no).value;
+	const is_flag_val=document.getElementById("is_flag_select"+no).value;
 	//var tag_val=document.getElementById("tag_text"+no);
 
 

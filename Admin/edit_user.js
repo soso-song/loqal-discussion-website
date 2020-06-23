@@ -1,3 +1,4 @@
+"use strict"
 // current user is global
 let user;
 
@@ -141,15 +142,15 @@ function to_edit_form(e){
 
 function edit_tag(e){
 	e.preventDefault();
-	var tag_cell = document.getElementById("tags");
+	const tag_cell = document.getElementById("tags");
 	tag_cell.innerHTML = '';
 
-	var user_tags = [];
+	const user_tags = [];
 	for (const tag_index of user.tag_list){
 		user_tags.push(tags[tag_index]);
 	}
 	// making adding tag options
-	var html_tag = '';
+	let html_tag = '';
 	for(const curr_tag of user_tags){
 		html_tag += '<select id="html_tag">';
 		for(const tag_elem of tags){
@@ -169,8 +170,8 @@ function edit_tag(e){
 	e.target.parentElement.innerHTML = "<input type='submit' class='save_tag_on' value='save'>";
 }
 function add_tag(){
-	var tag_cell = document.getElementById("tags");
-	var html_tag = '<select id="html_tag">';
+	const tag_cell = document.getElementById("tags");
+	let html_tag = '<select id="html_tag">';
 	for(const tag_elem of tags){
 		html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";	
 	}
@@ -186,10 +187,10 @@ function add_tag(){
 
 function save_tag(e){
 	//document.getElementById("tag_row"+no).innerHTML='';
-	var tag_cell = document.getElementById("tags");
-	var tag_text = [];
-	var tag_id = [];
-	var i = 1;
+	const tag_cell = document.getElementById("tags");
+	const tag_text = [];
+	const tag_id = [];
+	let i = 1;
 	while(i < tag_cell.childElementCount){
 		if(tag_cell.children[i].value != -1){
 			tag_id.push(tag_cell.children[i].value);
