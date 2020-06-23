@@ -23,6 +23,7 @@ curr_user = users[0];
 basicInfo();
 function basicInfo()
 {
+    best = 0;
     bi = document.getElementById("left");
     bi.innerHTML += `<h2>${pageUser.username}</h2>
     <h3>${pageUser.display_name}</h3>
@@ -35,8 +36,15 @@ function basicInfo()
     {
         bi.innerHTML+=`<span class="tag">${t.name}</span>`
     }
+    for(a of answers)
+    {
+        if(a.is_best && a.user_id==pageUser)
+        {
+            best ++;
+        }
+    }
     bi.innerHTML+=`							<div>
-    <h3>3267 Best Answers</h3>
+    <h3>${best} Best Answers</h3>
 </div>
 
 </div>`
@@ -57,7 +65,7 @@ function getAllQeustionsNum(){
     {
         if(answers[j].user_id = pageUser.id)
         {
-            answ = 0;
+            answ++;
         }
     }
     let X = document.getElementsByClassName("userheading");
@@ -65,6 +73,7 @@ function getAllQeustionsNum(){
     let Y = document.getElementsByClassName("userheading");
     X[1].innerHTML=`Answer (${answ})`;
 }
+
 getAllQeustions();
 function getAllQeustions(){
     ansNum=0;
@@ -83,13 +92,22 @@ function getAllQeustions(){
         let currQ = currQuestion[j];
         let anw = users[currQ.user_id].username;
         let resolve ='Unresolved';
-        if (currQ.is_resolved){
-            resolve = 'resolved';
+        if (currQ.is_resolved)
+        {
+            resolve = 'Resolved';
         }
-        wanted.innerHTML+=`<div class="shortquestion">
-        <a class="squestion" href="../answer/answer.html">${currQ.content}</a>
-        <div class="sinfo">Asked by <a href="#">${anw}</a> - ${currQ.time} - 5 Answers - ${resolve}</div>
-    </div>`;
+        let numA;
+        for(a of answers)
+        {
+            if(a.question_id = pageUser.id)
+            {
+                numA++;
+            }
+        }
+            wanted.innerHTML+=`<div class="shortquestion">
+            <a class="squestion" href="../answer/answer.html">${currQ.content}</a>
+            <div class="sinfo">Asked by <a href="#">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+        </div>`;
         j++;
     }
 }
@@ -128,7 +146,7 @@ function followers()
     {
         f.innerHTML+=`<div class="person">
         <div class="personname">${follower.username}</div>
-        <div class="personis">@${follower.displayname}</div>
+        <div class="personis">@${follower.username}</div>
     </div>`;
     }
 }

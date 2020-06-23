@@ -77,6 +77,7 @@ class Answer{
 		this.is_flagged = users[user_id].is_flagged;		// in case flagged user posting answers
 		// unique id
 		this.id = num_answers;
+		this.is_best = false;
 		num_answers++;
 	}
 }
