@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="../index.css">
 		<link rel="stylesheet" type="text/css" href="answer.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script type="text/javascript" src="answer.js"></script>
+		
 	</head>
 	
 	<body>
@@ -24,10 +24,15 @@
 				<div id="onecol">
 					<div id="preview">
 						<div id="rightside">
-							<div id="ptitle">Where can I buy some avocados?</div>
-							<div id="pdesc">Please help me. I need some avocados during quarantine. I initially thought I would find them here but I was wrong. Now I'm looking for a healthy alternative.</div>
-							<div id="ptags"><span class="tag">north-york</span><span class="tag">toronto</span><span class="tag">food</span></div>
-							<div id="pdate">Asked by <a href="">John Appleseed (@jseed)</a>. June 17, 2020 at 14:30. <a href="">Report this question</a></div>	
+							<div id="ptitle"></div>
+							<div id="pdesc"></div>
+							<div id="ptags"></div>
+							<div id="pdate"></div>	
+							<div id="pbutts">
+								<a href="">Report this question</a>
+								<a href="../question/editquestion.html">Edit question</a>
+								<a href="javascript:void(0);" id="solvedbutt">Mark Solved</a>
+							</div>
 						</div>
 						<div id="pinfo" class="red">Unsolved</div>
 
@@ -42,38 +47,9 @@
 							 <input id="formbtn" type="submit" value="Post Reply">
 						 </form>
 					</div>
-					<div id="bestanswer">
-						<h2>Best Answer</h2>
-						<div class="answer">
-							<div class="answertext">
-								The subtropical species needs a climate without frost and with little wind. High winds reduce the humidity, dehydrate the flowers, 
-								and affect pollination. When even a mild frost occurs, premature fruit drop may occur, although the 'Hass' cultivar can tolerate 
-								temperatures down to −1 °C. Several cold-hardy varieties are planted in the region of Gainesville, Florida, which survive temperatures 
-								as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
-							</div>
-							<div class="answerinfo">Answered by <a href="">John Appleseed (@jseed)</a>. June 17, 2020 at 14:30. <a href="">Report this answer</a></div>
-							<!--div class="answeractions"><a class="commentreplybutt" href="#">Reply</a></div-->
-						</div>
-					</div>
+
 					<div id="answers">
-						<div class="answer">
-							<div class="answertext">
-								The subtropical species needs a climate without frost and with little wind. High winds reduce the humidity, dehydrate the flowers, 
-								and affect pollination. When even a mild frost occurs, premature fruit drop may occur, although the 'Hass' cultivar can tolerate 
-								temperatures down to −1 °C. Several cold-hardy varieties are planted in the region of Gainesville, Florida, which survive temperatures 
-								as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
-							</div>
-							<div class="answerinfo">Answered by <a href="">John Appleseed (@jseed)</a>. June 17, 2020 at 14:30. <a href="">Report this answer</a></div>
-							<!--div class="answeractions"><a class="commentreplybutt" href="#">Reply</a></div-->
-						</div>
-		
-						<div class="answer">
-							<div class="answertext">
-								which survive temperatures 
-								as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.
-							</div>
-							<div class="answerinfo">answered by Knower, June 17, 2020 at 14:30</div>
-						</div>
+						
 					</div>
 					
 			
@@ -87,5 +63,8 @@
 				<b>Summer 2020</b>
 			</div>
 		</div>
+		<script type="text/javascript" src="../sharedClasses/classes.js"></script>
+		<script type="text/javascript" src="answerparametersnormal.js"></script>
+		<script type="text/javascript" src="answer.js"></script>
 	</body>
 </html>

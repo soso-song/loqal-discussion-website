@@ -137,13 +137,52 @@
 	color:inherit;
 }
 
-#bestanswer{
-	border-bottom: 2px solid #cccccc;
-}
-
 #onecol{
 	overflow:auto;
 	width: 1000px;
 	padding:20px;
 	margin: 0 auto;
+}
+
+#isbest{
+	background-color:#caffd3;
+}
+
+#isbest a.pickbest{
+	display:none;
+}
+
+.answerbuttons{
+
+}
+
+.answerbuttons a{
+	color:#666666;
+	display:inline-block;
+	text-decoration:none;
+	margin-top: 20px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:5px;
+	font-weight:normal;
+	border:1px solid #666666;
+}
+
+a.pickbest{
+	color:#00d358;
+	border:1px solid #00d358;
+}
+
+#pbutts a{
+	color:#666666;
+	display:inline-block;
+	text-decoration:none;
+	margin-top: 20px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:5px;
+	font-weight:normal;
+	border:1px solid #666666;
 }
