@@ -111,8 +111,6 @@ class Report{
 }
 
 
-
-
 // tags
 tags.push(new Tag('Toronto'));
 tags.push(new Tag('DT'));

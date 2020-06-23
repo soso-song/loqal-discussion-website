@@ -68,7 +68,6 @@ function load_user_profile(user){
 	document.querySelector('#photo').innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>";
 	// document.querySelector('#edit_tags').innerHTML = "<button class='edit'>edit</button>";
 	// show if flagged user
-	let status = 'Normal'
 	if (user.is_flagged){
 		document.querySelector('#status').innerHTML = "Flagged";
 		document.querySelector('#edit_status').innerHTML = "<button class='flag_user'>Unflag</button>";
@@ -76,7 +75,13 @@ function load_user_profile(user){
 		document.querySelector('#status').innerHTML = "Normal";
 		document.querySelector('#edit_status').innerHTML = "<button class='flag_user'>Flag</button>";
 	}
-	
+	if (user.is_admin){
+		document.querySelector('#account_type').innerHTML = "Admin";
+		document.querySelector('#edit_type').innerHTML = "<button class='make_admin'>Remove Admin</button>";
+	}else{
+		document.querySelector('#account_type').innerHTML = "Regular user";
+		document.querySelector('#edit_type').innerHTML = "<button class='make_admin'>Make admin</button>";
+	}
 }
 
 
@@ -88,6 +93,8 @@ function table_clicked(e){
 	e.preventDefault();
 	if(e.target.classList.contains('flag_user')){
 		flag_user(e);
+	}else if (e.target.classList.contains('make_admin')){
+		make_admin(e);
 	}else if(e.target.classList.contains('edit')){
 		to_edit_form(e);
 	}else if(e.target.classList.contains('save')){
@@ -110,6 +117,18 @@ function flag_user(e){
 		user.is_flagged = false;
 		document.querySelector('#status').innerHTML = "Normal";
 		document.querySelector('#edit_status').innerHTML = "<button class='flag_user'>Flag</button>";
+	}
+}
+
+function make_admin(e){
+	if (!user.is_admin){
+		user.is_admin = true;
+		document.querySelector('#account_type').innerHTML = "Admin";
+		document.querySelector('#edit_type').innerHTML = "<button class='make_admin'>Remove Admin</button>";
+	} else{
+		user.is_admin = false;
+		document.querySelector('#account_type').innerHTML = "Regular user";
+		document.querySelector('#edit_type').innerHTML = "<button class='make_admin'>Make Admin</button>";
 	}
 }
 
