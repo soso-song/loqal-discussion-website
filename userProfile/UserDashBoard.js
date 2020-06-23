@@ -86,7 +86,7 @@ function getAllQeustions(){
             currQuestion.push(questions[i]);
         }
     }
-    let wanted = document.getElementsByClassName("listcontainter")[0];
+    let wanted = document.getElementsByClassName("listcontainter")[1];
     let j=0;
     while(j<2 && j<currQuestion.length)
     {
@@ -125,7 +125,7 @@ function getAllAnswer(){
         }
     }
     
-    let wanted = document.getElementsByClassName("listcontainter")[1];
+    let wanted = document.getElementsByClassName("listcontainter")[2];
     let j=0;
     while(j<2 && j<currAnswer.length)
     {
@@ -139,31 +139,31 @@ function getAllAnswer(){
     }
 }
 pageUser.followed = [users[0],users[1],users[2]];
-followers();
-function followers()
-{
-    let f = document.getElementsByClassName("personcontainter")[0];
-    var follower;
-    for (follower of pageUser.followed)
-    {
-        f.innerHTML+=`<div class="person">
-        <div class="personname">${follower.username}</div>
-        <div class="personis">@${follower.username}</div>
-    </div>`;
-    }
-}
+// followers();
+// function followers()
+// {
+//     let f = document.getElementsByClassName("personcontainter")[0];
+//     var follower;
+//     for (follower of pageUser.followed)
+//     {
+//         f.innerHTML+=`<div class="person">
+//         <div class="personname">${follower.username}</div>
+//         <div class="personis">@${follower.username}</div>
+//     </div>`;
+//     }
+// }
 
-pageUser.following = [users[0],users[1],users[2]];
-following();
-function following()
-{
-    let f = document.getElementsByClassName("personcontainter")[1];
-    var followin;
-    for (followin of pageUser.following)
-    {
-        f.innerHTML+=`<div class="person">
-        <div class="personname">${followin.username}</div>
-        <div class="personis">@${followin.displayname}</div>
-    </div>`;
-    }
-}
+// pageUser.following = [users[0],users[1],users[2]];
+// following();
+// function following()
+// {
+//     let f = document.getElementsByClassName("personcontainter")[1];
+//     var followin;
+//     for (followin of pageUser.following)
+//     {
+//         f.innerHTML+=`<div class="person">
+//         <div class="personname">${followin.username}</div>
+//         <div class="personis">@${followin.displayname}</div>
+//     </div>`;
+//     }
+// }

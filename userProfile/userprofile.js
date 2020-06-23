@@ -88,7 +88,7 @@ function getAllQeustions(){
     }
     let wanted = document.getElementsByClassName("listcontainter")[0];
     let j=0;
-    while(j<2 && j<currQuestion.length)
+    while(j<currQuestion.length)
     {
         let currQ = currQuestion[j];
         let anw = users[currQ.user_id].username;
@@ -127,7 +127,7 @@ function getAllAnswer(){
     
     let wanted = document.getElementsByClassName("listcontainter")[1];
     let j=0;
-    while(j<2 && j<currAnswer.length)
+    while(j<currAnswer.length)
     {
         let currA = currAnswer[j];
         let Qc = questions[currA.question_id].content;
@@ -163,7 +163,7 @@ function following()
     {
         f.innerHTML+=`<div class="person">
         <div class="personname">${followin.username}</div>
-        <div class="personis">@${followin.displayname}</div>
+        <div class="personis">@${followin.username}</div>
     </div>`;
     }
 }
