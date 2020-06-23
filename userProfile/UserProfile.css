@@ -73,4 +73,5 @@ table{
 
 #followerinfo{
     visibility: hidden;
+    margin-left: auto;
 }
