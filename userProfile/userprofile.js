@@ -18,7 +18,7 @@ $(document).ready(function() {
 	});
 });
 
-const pageUser = users[2];
+const pageUser = users[1];
 curr_user = users[0];
 basicInfo();
 function basicInfo()
@@ -77,9 +77,10 @@ function getAllQeustionsNum(){
 getAllQeustions();
 function getAllQeustions(){
     ansNum=0;
+    var currQuestion = [];
     for(var i=0; i<num_questions; i++)
     {
-        var currQuestion = [];
+        
         if(questions[i].user_id = pageUser.id)
         {
             currQuestion.push(questions[i]);
@@ -104,7 +105,7 @@ function getAllQeustions(){
                 numA++;
             }
         }
-            wanted.innerHTML+=`<div class="shortquestion">
+        wanted.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html">${currQ.content}</a>
             <div class="sinfo">Asked by <a href="#">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
@@ -114,9 +115,10 @@ function getAllQeustions(){
 
 getAllAnswer();
 function getAllAnswer(){
+    var currAnswer = [];
     for(var i=0; i<num_answers; i++)
     {
-        var currAnswer = [];
+        
         if(answers[i].user_id = pageUser.id)
         {
             currAnswer.push(answers[i]);
