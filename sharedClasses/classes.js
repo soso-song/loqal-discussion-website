@@ -74,7 +74,7 @@ class Answer{
 		this.question_id = question_id;
 		this.answer_id = answer_id;				// -1 if this is an answer to answer
 		this.time = new Date().toLocaleTimeString();
-		this.is_flagged = users[user_id].is_flagged;			// in case flagged user posting answers
+		this.is_flagged = users[user_id].is_flagged;		// in case flagged user posting answers
 		// unique id
 		this.id = num_answers;
 		num_answers++;
