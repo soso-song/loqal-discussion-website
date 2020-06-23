@@ -34,7 +34,7 @@ function basicInfo()
     var t;
     for(t of pageUser.tag_list)
     {
-        bi.innerHTML+=`<span class="tag">${t.name}</span>`
+        bi.innerHTML+=`<span class="tag">${tags[t].name}</span>`
     }
     for(a of answers)
     {
