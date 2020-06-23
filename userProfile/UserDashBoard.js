@@ -31,7 +31,7 @@ function basicInfo()
     <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3>`
-    var t;
+    let t;
     for(t of pageUser.tag_list)
     {
         bi.innerHTML+=`<span class="tag">${tags[t].name}</span>`
@@ -59,16 +59,16 @@ function getNotice()
 
 getAllQeustionsNum();
 function getAllQeustionsNum(){
-    var res = 0;
-    var answ = 0;   
-    for(var i=0; i<num_questions; i++)
+    let res = 0;
+    let answ = 0;   
+    for(let i=0; i<num_questions; i++)
     {
         if (questions[i].user_id==pageUser.id)
         {
             res++;
         }
     }
-    for(var j=0; j<num_answers; j++)
+    for(let j=0; j<num_answers; j++)
     {
         if(answers[j].user_id == pageUser.id)
         {
@@ -114,8 +114,8 @@ function getAllQ()
 getUserAllQeustions();
 function getUserAllQeustions(){
     ansNum = 0;
-    var currQuestion = [];
-    for(var i=0; i<num_questions; i++)
+    let currQuestion = [];
+    for(let i=0; i<num_questions; i++)
     {
         
         if(questions[i].user_id == pageUser.id)
@@ -152,8 +152,8 @@ function getUserAllQeustions(){
 
 getAllAnswer();
 function getAllAnswer(){
-    var currAnswer = [];
-    for(var i=0; i<num_answers; i++)
+    let currAnswer = [];
+    for(let i=0; i<num_answers; i++)
     {
         
         if(answers[i].user_id == pageUser.id)
@@ -179,7 +179,7 @@ function getAllAnswer(){
 // function followers()
 // {
 //     let f = document.getElementsByClassName("personcontainter")[0];
-//     var follower;
+//     let follower;
 //     for (follower of pageUser.followed)
 //     {
 //         f.innerHTML+=`<div class="person">
@@ -194,7 +194,7 @@ function getAllAnswer(){
 // function following()
 // {
 //     let f = document.getElementsByClassName("personcontainter")[1];
-//     var followin;
+//     let followin;
 //     for (followin of pageUser.following)
 //     {
 //         f.innerHTML+=`<div class="person">

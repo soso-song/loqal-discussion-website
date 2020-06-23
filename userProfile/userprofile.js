@@ -31,7 +31,7 @@ function basicInfo()
     <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3>`
-    var t;
+    let t;
     for(t of pageUser.tag_list)
     {
         bi.innerHTML+=`<span class="tag">${tags[t].name}</span>`
@@ -52,16 +52,16 @@ function basicInfo()
 
 getAllQeustionsNum();
 function getAllQeustionsNum(){
-    var res = 0;
-    var answ = 0;
-    for(var i=0; i<num_questions; i++)
+    let res = 0;
+    let answ = 0;
+    for(let i=0; i<num_questions; i++)
     {
         if (questions[i].user_id==pageUser.id)
         {
             res++;
         }
     }
-    for(var j=0; j<num_answers; j++)
+    for(let j=0; j<num_answers; j++)
     {
         if(answers[j].user_id == pageUser.id)
         {
@@ -77,8 +77,8 @@ function getAllQeustionsNum(){
 getAllQeustions();
 function getAllQeustions(){
     ansNum=0;
-    var currQuestion = [];
-    for(var i=0; i<num_questions; i++)
+    let currQuestion = [];
+    for(let i=0; i<num_questions; i++)
     {
         
         if(questions[i].user_id == pageUser.id)
@@ -115,9 +115,9 @@ function getAllQeustions(){
 
 getAllAnswer();
 function getAllAnswer(){
-    var currAnswer = [];
+    let currAnswer = [];
     
-    for(var i=0; i<num_answers; i++)
+    for(let i=0; i<num_answers; i++)
     {
         if(answers[i].user_id == pageUser.id)
         {
@@ -143,7 +143,7 @@ followers();
 function followers()
 {
     let f = document.getElementsByClassName("personcontainter")[0];
-    var follower;
+    let follower;
     for (follower of pageUser.followed)
     {
         f.innerHTML+=`<div class="person">
@@ -158,7 +158,7 @@ following();
 function following()
 {
     let f = document.getElementsByClassName("personcontainter")[1];
-    var followin;
+    let followin;
     for (followin of pageUser.following)
     {
         f.innerHTML+=`<div class="person">
@@ -168,12 +168,12 @@ function following()
     }
 }
 // function uploadPhoto(e){
-//     var newP = document.getElementById('importForm');
-//     var newPsrc = newP.datafile.value;
+//     let newP = document.getElementById('importForm');
+//     let newPsrc = newP.datafile.value;
 // }
 
 // function following(){
-//     var status = document.getElementById("follow");
+//     let status = document.getElementById("follow");
 //     if (status.innerHTML === "follow") {
 //         curr_user.following.push(pageUser);
 //         pageUser.followed.push(curr_user);
@@ -187,55 +187,55 @@ function following()
 // }
 // getAllTags(pageUser);
 // function getAllTags(user){
-//     var userTags = user.tag_list;
-//     for(var i=0; i<userTags.length; i++)
+//     let userTags = user.tag_list;
+//     for(let i=0; i<userTags.length; i++)
 //     {
-//         var currTag = userTags[i];
-//         var fit=-1;
+//         let currTag = userTags[i];
+//         let fit=-1;
 //         if(tags[currTag].is_geo==true)
 //         {
 //             fit=0;
 //         }
-//         var Ttable = document.getElementById('tagsTable');
-//         var row = Ttable.insertRow(-1);
-//         var newTag = row.insertCell(fit);   
+//         let Ttable = document.getElementById('tagsTable');
+//         let row = Ttable.insertRow(-1);
+//         let newTag = row.insertCell(fit);   
 //         newTag.innerHTML=`${tags[currTag].name}`;
 //     }
 // }
 // listAllquestions(pageUser);
 // function listAllquestions(user){
-//     var question;
+//     let question;
 //     for (question of questions)
 //     {
 //         if (question.user_id == user.user_id)
 //         {
-//             var newQ = document.getElementById("questions").innerHTML=question.is_solved();
-//             var newR = newQ.insertRow(-1);
-//             var newStatus = newR.insertCell(0);
-//             var newContent = newR.insertCell(1);
+//             let newQ = document.getElementById("questions").innerHTML=question.is_solved();
+//             let newR = newQ.insertRow(-1);
+//             let newStatus = newR.insertCell(0);
+//             let newContent = newR.insertCell(1);
 //             newStatus.innerHTML = `${question.content}`;
 //             newContent.innerHTML = `${question.is_solved}`;
 //         }
 //     }
 // }
-// var shown = 0;
+// let shown = 0;
 // pageUser.follower = [users[0],users[1],users[2]];
 // function loadFollowInfo(e){
-//     var fInfo = document.getElementById("followerinfo");
+//     let fInfo = document.getElementById("followerinfo");
 //     if (shown == 0){
 //         fInfo.style.visibility = "visible";
 //         shown = 1;
-//         var follower;
+//         let follower;
 //         for (follower of pageUser.follower)
 //         {
-//             var newFo = document.getElementById("followerinfotable");
-//             var row = newFo.insertRow(-1);
-//             var f = row.insertCell(0);
+//             let newFo = document.getElementById("followerinfotable");
+//             let row = newFo.insertRow(-1);
+//             let f = row.insertCell(0);
 //             f.innerHTML = `${follower.username}`;
 //         }
 //     } else{
 //         fInfo.style.visibility = "hidden";
-//         var newFo = document.getElementById("followerinfotable");
+//         let newFo = document.getElementById("followerinfotable");
 //         newFo.innerHTML = `<th>Followers</th>`;
 //         shown = 0;
 //     }
