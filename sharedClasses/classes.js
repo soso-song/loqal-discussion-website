@@ -142,6 +142,9 @@ answers.push(new Answer('answer to 1st question', 1, 0));
 answers.push(new Answer('answer to 1st answer in 1st quetion', 0, 0, 0));
 answers.push(new Answer('answer to 2nd question', 0, 1));
 answers.push(new Answer('answer to 3rd question', 0, 2));
+answers.push(new Answer('The subtropical species needs a climate without frost and with little wind. High winds reduce the humidity, dehydrate the flowers, and affect pollination. When even a mild frost occurs, premature fruit drop may occur, although the cultivar can tolerate temperatures down to −1 °C. Several cold-hardy varieties are planted in the region of Gainesville, Florida, which survive temperatures as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.'
+, 1, 3));
+answers.push(new Answer('Another answer to 4th question', 2, 3));
 
 
 // notice
