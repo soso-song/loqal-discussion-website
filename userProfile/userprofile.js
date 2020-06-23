@@ -100,7 +100,7 @@ function getAllQeustions(){
         let numA;
         for(a of answers)
         {
-            if(a.question_id == pageUser.id)
+            if(a.question_id == currQ.id)
             {
                 numA++;
             }
