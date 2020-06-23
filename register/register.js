@@ -44,21 +44,30 @@ $(document).ready(function() {
 $('#loginForm').submit(function(e) {
     e.preventDefault();
 
-	let hasError = false;
+	let hasError = true;
 
 	$('#loginuser').prev().prev().text('');
 
     const username = $('#loginuser').val();
     const password = $('#loginpass').val();
 
-    if ((username !== "admin") || (password !== "admin")) {
+    /*if ((username !== "admin") || (password !== "admin")) {
       $('#loginuser').prev().prev().text('Invalid Username or password');
 		hasError = true;
-    }
+	}*/
+	
+	for (let i = 0; i < users.length; i++) {
+		if((users[i].username == username) && (users[i].password == password)){
+			hasError = false;
+		}
+	}
 
 	if(!hasError){
 		window.location.href = "../user/userdashboard.html";
+	}else{
+		$('#loginuser').prev().prev().text('Invalid Username or password');
 	}
+	
   });
 
 });
