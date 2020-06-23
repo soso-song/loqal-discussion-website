@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	
-	$('#qtitle').on('input', function() {
-		const titleString = $('#qtitle').val();
+
+	function previewTitle() {
+        const titleString = $('#qtitle').val();
 		if(titleString.length<1){
 			$('#ptitle').text("Title");
 			$('#ptitle').addClass("gray");
@@ -9,10 +9,10 @@ $(document).ready(function() {
 			$('#ptitle').text(titleString);
 			$('#ptitle').removeClass("gray");
 		}
-	});
-	
-	$('#qdesc').on('input', function() {
-		const descString = $('#qdesc').val();
+	}
+
+	function previewDesc() {
+        const descString = $('#qdesc').val();
 		if(descString.length<1){
 			$('#pdesc').text("Description");
 			$('#pdesc').addClass("gray");
@@ -20,10 +20,10 @@ $(document).ready(function() {
 			$('#pdesc').text(descString);
 			$('#pdesc').removeClass("gray");	
 		}
-	});
-	
-	$('#qtags').on('input', function() {
-		$('#ptags').empty();
+	}
+
+	function previewTags() {
+        $('#ptags').empty();
 		const alltags = $('#qtags').val();
 		const septags = alltags.split(',');
 		for (let i = 0; i < septags.length; i++) {
@@ -35,6 +35,25 @@ $(document).ready(function() {
 				$('#ptags').append(myTag);
 			}
 		}
+	}
+	
+	// Setting initial values
+	previewTitle();
+	previewDesc();
+	previewTags();
+
+	// Setting values on change
+	
+	$('#qtitle').on('input', function() {
+		previewTitle();
+	});
+	
+	$('#qdesc').on('input', function() {
+		previewDesc();
+	});
+	
+	$('#qtags').on('input', function() {
+		previewTags();
 	});
 
 $('#questionForm').submit(function(e) {

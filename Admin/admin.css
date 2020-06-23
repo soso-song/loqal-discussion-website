@@ -60,7 +60,7 @@ input[type="button"], input[type="submit"]{
 	margin-left: 5px;
 }
 
-.edit, .flag_user, .save{
+.edit, .flag_user, .make_admin, .save{
 	color:#ee6261;
 	text-decoration:none;
 	background-color:transparent;
