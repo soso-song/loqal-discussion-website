@@ -14,46 +14,23 @@
  	<div>
 	 	<form id='searchQuestionForm'>
 	 		<!-- <label>Search a keyword</label> -->
-	 		<input id='keyword' type="text" placeholder="search_question: keyword">
+	 		<input id='keyword' type="text" placeholder="example: 'question' or '1st'">
 	 		<input type="submit" value="search">
 	 	</form>
  	</div>
- 	<div class="headline">Question Results</div>
-	<table class="postTable">
- 		<thead>
-			<tr>
-				<th>id(Q)</th>
-				<th>title</th>
-				<th>content</th>
-				<th>user</th>
-				<th>tag</th>
-				<th>is_flagged</th>
-				<th>time</th>
-			</tr>
-		</thead>
-		<tbody id=questionResult>
-			
- 		</tbody>
- 	</table>
- 	<div class="headline">Answer Results</div>
- 	<table class="postTable">
-		<thead>
-			<tr>
-				<th>id(A)</th>
-				<th>id(Q)</th>
-				<th>content</th>
-				<th>user</th>
-				<th>is_best</th>
-				<th>is_flagged</th>
-				<th>time</th>
-			</tr>
-		</thead>
-		<tbody id=answerResult>
-			
- 		</tbody>
- 	</table>
- 	<div class="desc">
-		keyword include in title or content column
+
+ 	<div id="left">
+	 	<div class="headline">Question Results</div>
+	 	<div id="questionResult" class="listcontainter">
+	 	</div>
+
+	 	<div class="headline">Answer Results</div>
+	 	<div id="answerResult" class="listcontainter">
+	 	</div>
+
+	 	<div class="desc">
+			keyword include in title or content
+		</div>
 	</div>
 
  	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
