@@ -148,7 +148,7 @@ answers.push(new Answer('Another answer to 5th question', 2, 4));
 
 
 // notice
-notices.push(new Notice('notice title', 'notice content', 2))
+notices.push(new Notice('Washing Hands', 'Do not forget to wash your hands everyday with soap and water.', 2))
 
 // report
 reports.push(new Report("u", 1, 0, "posting multiple fake answers"));
