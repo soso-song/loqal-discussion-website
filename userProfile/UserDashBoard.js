@@ -21,30 +21,28 @@ $(document).ready(function() {
 pageUser = users[1];
 curr_user = users[0];
 basicInfo();
+
 function basicInfo()
 {
-    best = 0;
-    bi = document.getElementById("left");
-    bi.innerHTML += `<h2>${pageUser.username}</h2>
-    <h3>${pageUser.display_name}</h3>
-    <h4>@${pageUser.username}</h4>
-    <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
-    <div id="mytags">
-    <h3>Tags</h3>`
+
+    let mytags = ''
     let t;
     for(t of pageUser.tag_list)
     {
-        bi.innerHTML+=`<span class="tag">${tags[t].name}</span>`
+        mytags+=`<span class="tag">${tags[t].name}</span>`
     }
-    for(a of answers)
-    {
-        if(a.is_best && a.user_id==pageUser)
-        {
-            best ++;
-        }
-    }
-    bi.innerHTML+=`<div><h3>${best} Best Answers</h3>`;
+    
+    let myhtml = `<h2> Welcome Back ${pageUser.display_name}</h2>
+    <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
+    <div id="mytags">
+    <h3>Tags</h3> ${mytags}</div>							<div>
+    </div>
+
+    </div>`
+
+    $('#left').prepend(myhtml);
 }
+
 getNotice();
 function getNotice()
 {
