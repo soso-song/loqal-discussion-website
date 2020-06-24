@@ -132,7 +132,18 @@ function add_tag_row(no){
 	}
 	html_tag += "<option value=-1>remove</option>";
 	html_tag += '</select>';
+	// save the index of each assigned option
+	let options = tag.children;
+	let selected_index = []
+	for (let i = 1; i < options.length; i++) {
+	  selected_index.push(options[i].selectedIndex);
+	}
+	// add new variable
 	tag.innerHTML += html_tag;
+	// re-select selected options
+	for (let i = 1; i < options.length-1; i++) {
+	  options[i].selectedIndex = selected_index[i-1];
+	}
 }
 
 
