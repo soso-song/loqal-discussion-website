@@ -86,7 +86,7 @@ function getAllQ()
     let wanted = document.getElementsByClassName("listcontainter")[0];
     for(q of questions)
     {
-        let numA;
+        let numA = 0;
         for(a of answers)
         {
             if(a.question_id == q.id)
@@ -132,7 +132,7 @@ function getUserAllQeustions(){
         {
             resolve = 'Resolved';
         }
-        let numA;
+        let numA = 0;
         for(a of answers)
         {
             if(a.question_id == currQ.id)
