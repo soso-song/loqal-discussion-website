@@ -1,3 +1,6 @@
+const pageUser = users[1];
+curr_user = users[0];
+
 $(document).ready(function() {
     $("#activitybutt").click(function(){
         $('#useractivity').removeClass("hideme");
@@ -15,11 +18,26 @@ $(document).ready(function() {
         $('#useractivity').addClass("hideme");
         $('#followers').addClass("hideme");
         $('#following').removeClass("hideme");
+    });
+
+    //hides follow button if user profile and logged in user are the same
+    if(pageUser.username == curr_user.username){
+        $('#followUnfollow').css("display", "none");
+    }else{
+        $('#followUnfollow').css("display", "block");
+    }
+    
+    $("#followUnfollow").click(function(){
+		const currentState = $('#followUnfollow').text();
+		if(currentState === 'Follow'){
+			$('#followUnfollow').text('Unfollow');
+		}else if(currentState === 'Unfollow'){
+			$('#followUnfollow').text('Follow');
+		}
+		//Send data to server to follow/unfollow user
 	});
 });
 
-const pageUser = users[1];
-curr_user = users[0];
 basicInfo();
 
 function basicInfo()
