@@ -119,8 +119,12 @@ table.postTable tfoot .links a{
 	margin-top: 20px;
 }
 
-.prof_pic {
-	width: 70px;
+#single_profile .prof_pic {
+	width: 200px;
+}
+
+#all_users .prof_pic {
+	width: 80px;
 }
 
 #all_users .info{
@@ -128,9 +132,15 @@ table.postTable tfoot .links a{
 }
 
 #profileTable {
-	width: 60%;
+	width: 400px;
 }
 
 #save_bnt {
 	padding-left: 45%;
+	margin-top: 30px;
+}
+
+
+#single_profile .info{
+	padding-left: 15px;
 }

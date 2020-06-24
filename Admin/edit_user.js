@@ -10,6 +10,7 @@ noUser.style.display = 'none';
 
 const editForm = document.querySelector("#editForm");
 editForm.addEventListener('submit', save_all);
+editForm.addEventListener('change', update_photo);
 
 const searchUserForm = document.querySelector('#searchUserForm');
 searchUserForm.addEventListener('submit', search_user);
@@ -99,7 +100,8 @@ function load_user_profile(user){
 	tag_cell.innerHTML += html_tag;
 
 	// display picture
-	document.querySelector('#photo').innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>";
+	const photo = document.querySelector('#photo');
+	photo.innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>" + photo.innerHTML;
 
 	// show if flagged user
 	let flag_html;
@@ -166,4 +168,19 @@ function save_all(e){
 	}
 }
 
+
+function update_photo(e){
+	const photo_in = e.target;
+	if(photo_in.files && photo_in.files[0]){
+		var reader = new FileReader();
+		let ee;
+       	reader.onload = function (ee) {
+            $('.prof_pic').attr('src', ee.target.result)
+                };
+
+        reader.readAsDataURL(photo_in.files[0]);
+
+	}
+		
+}
 
