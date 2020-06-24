@@ -25,16 +25,13 @@ function basicInfo()
 {
     best = 0;
     bi = document.getElementById("left");
-    bi.innerHTML += `<h2>${pageUser.username}</h2>
-    <h3>${pageUser.display_name}</h3>
-    <h4>@${pageUser.username}</h4>
-    <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
-    <div id="mytags">
-    <h3>Tags</h3>`
+    bi.innerHTML
+
+    let mytags = ''
     let t;
     for(t of pageUser.tag_list)
     {
-        bi.innerHTML+=`<span class="tag">${tags[t].name}</span>`
+        mytags+=`<span class="tag">${tags[t].name}</span>`
     }
     for(a of answers)
     {
@@ -43,11 +40,18 @@ function basicInfo()
             best ++;
         }
     }
-    bi.innerHTML+=`							<div>
+    
+    let myhtml = `<h2>${pageUser.username}</h2>
+    <h3>${pageUser.display_name}</h3>
+    <h4>@${pageUser.username}</h4>
+    <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
+    <div id="mytags">
+    <h3>Tags</h3> ${mytags}</div>							<div>
     <h3>${best} Best Answers</h3>
-</div>
+    </div>
 
-</div>`
+    </div>`
+    bi.innerHTML+= myhtml;
 }
 
 getAllQeustionsNum();
