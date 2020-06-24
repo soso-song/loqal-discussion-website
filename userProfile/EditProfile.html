@@ -3,28 +3,67 @@
     <head>
         <meta charset="utf-8">
         <title>EditProfile</title>
-        <link rel="stylesheet" type="text/css" href="UserProfile.css">
-        <link rel="stylesheet" type="text/css" href="../Admin/admin.css.css">
+        <link rel="stylesheet" type="text/css" href="EditProfile.css">
+        <link rel="stylesheet" type="text/css" href="../index.css">
     <body>
-        <button id="headLogo"> 
-            <a href="../index.html" target="_blank">
-            <img src="../images/logo.png">
-            </a>
-        </button> 
-        <form id = "editForm">
-            <label for="userName">Username:</label><br>
-            <input type="text" id="userName" name="userName" placeholder='new userName'><br>
-            <label for="password">New Password</label><br>
-            <input type="text" id="newPassword" name="newPassword" placeholder='new password'><br><br>
-            <label for="confirmPassword">Confirm password</label><br>
-            <input type="text" id="confirmPassword" placeholder='confirm password'><br><br>
-            <label for='confirm password'>Photo</label><br>
-            <input type="file" id="photoSrc" placeholder="new photo"><br><br>
-            <label for="description">Description</label><br><br>
-            <input type="text" id="description" placeholder="Introduce yourself here"><br><br>
-            <input type='submit' value='save'><br><br>
-        </form>
+        <div id="wrapper">
+            <div id="navbar">
+                <a href="#" id="navlogo"> </a>
+                <ul id="menubar">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Ask</a></li>
+                    <li><a href="#">Profile</a></li>
+                </ul>
+            </div>
+            <div id="pagecontent">
+                <div class="headline">
+                    Edit Profile
+                </div>
+                <div class='center'>
+                    <img id="prof_pic">
+                </div>
+                <div id='editDiv'>
+                    <form id="editForm">
+                        <div class='center'>
+                            <input type="file" id="photoSrc" accept='image/*' placeholder="update photo">
+                        </div>
+                        <ul>
+                            <li>
+                                <label for="userName">Username:</label>
+                                <input type="text" id="userName" name="userName">
+                            </li>
+                            <li>
+                                <label for="displayName">Display Name:</label>
+                                <input type="text" id="displayName" name="displayName">
+                            </li>
+                            <li>
+                                <label for="email">Email:</label>
+                                <input type="text" id="email" name="email">
+                            </li>
+                            <li>
+                                <label for="password">Password:</label>
+                                <input type="text" id="password" name="password">
+                            </li>
+                            <label for="tags">Tags:</label>
+                            <div id="tags">
+                            </div>
+                            <br>
+                            <li>
+                                <label for="status">Status:</label>
+                                <input type="text" id="status" name="status" value="Normal" disabled>
+                            </li>
+                            <li>
+                                <label for="acct_type">Account Type:</label>
+                                <input type="text" id="acct_type" name="acct_type" value="Regular User" disabled>
+                            </li>
+                        </ul>
+                        <input class='save' id="formbtn" type='submit' value='save'><br>
+                    </form>
+                </div>
+            </div>
+        </div>
     <script type="text/javascript" src="../sharedClasses/classes.js"></script>
     <script type="text/javascript" src="EditProfile.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body> 
 </html>
