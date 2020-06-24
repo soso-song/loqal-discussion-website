@@ -48,10 +48,12 @@ function getNotice()
 {
     let curr = notices[notices.length-1];
     let currN = document.getElementsByClassName("userheading")[0];
-    currN.innerHTML=`<div id="notification">
+    let myhtml =`
     <div id="noticetitle">${curr.title}</div>
     <div id="noticedesc">${curr.content}</div>
-    <div id="noticedate">Posted on ${curr.time}, 2020</div></div>`
+    <div id="noticedate">Posted on ${curr.time}, 2020</div>`
+
+    $('#notification').prepend(myhtml);
 }
 
 getAllQeustionsNum();
