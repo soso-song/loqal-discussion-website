@@ -25,6 +25,12 @@
 	margin-bottom:20px;
 }
 
+#maintable {
+	margin: auto;
+	width: 700px;
+	background-color: #efefef;
+	padding-bottom: 50px;
+}
 /*#formbtn{
 	display:block;
 	color:#ee6261;
@@ -78,6 +84,9 @@ input[type="button"], input[type="submit"]{
 
 }
 
+/*table {
+	table-layout: fixed;
+}*/
 table.postTable {
   width: 100%;
 }
@@ -143,4 +152,9 @@ table.postTable tfoot .links a{
 
 #single_profile .info{
 	padding-left: 15px;
+}
+
+textarea {
+    resize: vertical;
+    height: 40px;
 }

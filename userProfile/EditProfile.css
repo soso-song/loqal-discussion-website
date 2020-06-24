@@ -1,0 +1,91 @@
+#editDiv {
+	width: 95%;
+	margin: auto;
+	padding-left: 30px;
+}
+
+
+#editForm label{
+	display:block;
+	margin-bottom:10px;
+}
+
+#editForm input[type='text']{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px 10px;
+}
+
+#editForm select{
+	margin: 10px 10px 10px;
+}
+
+#tags {
+	background-color: #eeeeee;
+	padding: 10px 10px 10px 10px;
+	width: 90%;
+}
+
+
+.headline {
+	font-size:23px;
+	padding:30px 0px 10px 0px;
+}
+
+.center, .save{
+	width: 200px;
+	margin: auto;
+}
+
+#prof_pic {
+	width: 200px;
+}
+
+.desc{
+	font-style: italic;
+	margin-bottom:20px;
+}
+
+#editForm input[type='submit']{
+	display:block;
+	color:#ee6261;
+	text-decoration:none;
+	margin-top: 40px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:8px 15px;
+	height:38px;
+	font-size:15px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+}
+
+#editForm input[type='text']{
+	width: 80%;
+}
+
+.formerror{
+	color:red;
+}
+
+#pagecontent {
+	display:block;
+	width: 70%;
+	background-color: white;
+	padding:20px;
+	margin: 40px auto;
+}
+
+
+#editForm ul {
+    width: 80%;
+    padding: 10px 0px 0px 0px;
+   	margin: auto;
+}
+
+#editForm ul li {
+    width: 49%;
+    display: inline-block;
+}
+
