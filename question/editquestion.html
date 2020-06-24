@@ -3,11 +3,11 @@
 
 	<head>
  		<meta charset="utf-8">
-    	<title>Post a Question</title>
+    	<title>Edit your Question</title>
 		<link rel="stylesheet" type="text/css" href="../index.css">
 		<link rel="stylesheet" type="text/css" href="question.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script type="text/javascript" src="question.js"></script>
+		<script type="text/javascript" src="editquestion.js"></script>
 	</head>
 	
 	<body>
@@ -30,15 +30,15 @@
 							<form id='questionForm'>
 								<div class="formerror"></div>
 								<label for="qtitle">Title</label>
-								 <input id='qtitle' name="qtitle" type="text" placeholder="Title" value="Where can I buy some avocados?">
+								 <input id='qtitle' name="qtitle" type="text" placeholder="Title" value="">
 						
 								<div class="formerror"></div>
 								<label for="qdesc">Description</label>
-								<textarea id="qdesc" name="qdesc" rows="4" cols="50" placeholder="Type your question here">Please help me. I need some avocados during quarantine. I initially thought I would find them here but I was wrong. Now I'm looking for a healthy alternative.</textarea>
+								<textarea id="qdesc" name="qdesc" rows="4" cols="50" placeholder="Type your question here"></textarea>
 											
 								<div class="formerror"></div>
 								<label for="qtags">Tags</label>
-								 <input id='qtags' name="qtags" type="text" placeholder="Type a comma-separated list of tags" value="north-york,toronto,food">
+								 <input id='qtags' name="qtags" type="text" placeholder="Type a comma-separated list of tags" value="">
 						
 								<div class="headline">
 									Preview
@@ -62,5 +62,6 @@
 				<b>Summer 2020</b>
 			</div>
 		</div>
+		<script type="text/javascript" src="../sharedClasses/classes.js"></script>
 	</body>
 </html>
