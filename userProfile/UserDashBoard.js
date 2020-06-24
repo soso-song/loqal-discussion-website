@@ -106,7 +106,7 @@ function getAllQ()
         }
         wanted.innerHTML+=`<div class="shortquestion">
         <a class="squestion" href="../answer/answer.html">${q.content}</a>
-        <div class="sinfo">Asked by <a href="#">Knower</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
+        <div class="sinfo">Asked by <a href="#">${users[q.user_id].display_name}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
         </div>`;
     }
 }
