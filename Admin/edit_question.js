@@ -14,8 +14,8 @@ function load_row()
 		}
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
-				"<td id='title_row"+i+"'>"+questions[i].title+"</td>"+
-				"<td id='content_row"+i+"'>"+questions[i].content+"</td>"+
+				"<td id='title_row"+i+"'><textarea id='title_text"+i+"' disabled>"+questions[i].title+"</textarea></td>"+
+				"<td id='content_row"+i+"'><textarea id='content_text"+i+"' disabled>"+questions[i].content+"</textarea></td>"+
 				"<td>"+users[questions[i].user_id].username+"</td>"+
 				"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
 				"<td id='is_flag_row"+i+"'>"+questions[i].is_flagged+"</td>"+
@@ -36,8 +36,8 @@ function load_row()
 function edit_row(no){
 	document.getElementById("edit_button"+no).disabled = true;
 	document.getElementById("save_button"+no).disabled = false;
-	const title=document.getElementById("title_row"+no);
-	const content=document.getElementById("content_row"+no);
+	const title=document.getElementById("title_row"+no).firstChild;
+	const content=document.getElementById("content_row"+no).firstChild;
 	const tag=document.getElementById("tag_row"+no);
 	const is_flag_cell=document.getElementById("is_flag_row"+no);
 	const is_reso_cell=document.getElementById("is_reso_row"+no);
@@ -46,9 +46,10 @@ function edit_row(no){
 	// const title_data=title.innerHTML;
 	// const content_data=content.innerHTML;
 	//const tag_data=tag.innerHTML;
-
-	title.innerHTML="<input type='text' id='title_text"+no+"' value='"+title.innerHTML+"'>";
-	content.innerHTML="<input type='text' id='content_text"+no+"' value='"+content.innerHTML+"'>";
+	title.disabled = false;
+	content.disabled = false;
+	// title.innerHTML="<textarea id='title_text"+no+"'>"+title.innerHTML+"</textarea>";
+	// content.innerHTML="<textarea id='content_text"+no+"'>"+content.innerHTML+"</textarea>";
 	is_flag_cell.innerHTML="<input type='button' id='is_flag_select"+no+"' value='"+is_flag_cell.innerHTML+"' onclick='change_is_flag("+no+")'>";
 	is_reso_cell.innerHTML="<input type='button' id='is_reso_select"+no+"' value='"+is_reso_cell.innerHTML+"' onclick='change_is_reso("+no+")'>";
 	// get and display current tags
@@ -86,8 +87,8 @@ function save_row(no){
 	const is_reso_val=document.getElementById("is_reso_select"+no).value;
 	//const tag_val=document.getElementById("tag_text"+no);
 
-	document.getElementById("title_row"+no).innerHTML=title_val;
-	document.getElementById("content_row"+no).innerHTML=content_val;
+	document.getElementById("title_text"+no).disabled = true;
+	document.getElementById("content_text"+no).disabled = true;
 	document.getElementById("is_flag_row"+no).innerHTML=is_flag_val;
 	document.getElementById("is_reso_row"+no).innerHTML=is_reso_val;
 	//get all tag_id for current question

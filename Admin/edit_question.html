@@ -9,31 +9,33 @@
     <!-- <link rel="stylesheet" type="text/css" href="e2_style.css"> -->
  </head>
  <div class="sidebar"></div>
- <body id="container" onload="load_row()" class="content">
- 	<div class="headline">
- 		Question List:
- 	</div>
- 	<div>
-	 	<table class="postTable">
-	 		<thead>
-				<tr>
-					<th>title</th>
-					<th>content</th>
-					<th>user</th>
-					<th>tag</th>
-					<th>is_flagged</th>
-					<th>is_resolved</th>
-					<!-- <th>#answer</th> -->
-					<th>time</th>
-					<th>edit</th>
-				</tr>
-			</thead>
-			<tbody id=posts>
-	 		</tbody>
-	 	</table>
- 	</div>
- 	<div class="desc">
-		admin edit questions(quick edit)
+ <body id="container" class="content" onload="load_row()" >
+ 	<div id='maintable'>
+	 	<div class="headline">
+	 		Question List:
+	 	</div>
+	 	<div>
+		 	<table class="postTable">
+		 		<thead>
+					<tr>
+						<th>title</th>
+						<th>content</th>
+						<th>user</th>
+						<th>tag</th>
+						<th>is_flagged</th>
+						<th>is_resolved</th>
+						<!-- <th>#answer</th> -->
+						<th>time</th>
+						<th>edit</th>
+					</tr>
+				</thead>
+				<tbody id=posts>
+		 		</tbody>
+		 	</table>
+	 	</div>
+	 	<div class="desc">
+			admin edit questions(quick edit)
+		</div>
 	</div>
  	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
  	<script type="text/javascript" src="edit_question.js"></script>
