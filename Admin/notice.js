@@ -1,3 +1,4 @@
+"use strict"
 const allNotices = document.querySelector("#allNotices");
 show_all();
 function show_all(){

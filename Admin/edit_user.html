@@ -25,53 +25,54 @@
  	</div>
  	<div id='single_profile'>
  		<div class="headline">User Proflie </div>
-	 	<table class='postTable' id='profileTable'>
-	 		<tr>
-	 			<th></th>
-	 			<th class='info'><strong>Current</strong></th>
-	 			<th class='info'><strong>Edit</strong></th>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Username</strong></td>
-	 			<td id='username'></td>
-	 			<td id='edit_username'></td>
-	 		</tr>
-	 		<tr>
-	 		 	<td class='info'><strong>Email</strong></td>
-	 		 	<td id='email'></td>
-	 			<td id='edit_email'></td>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Display name</strong></td>
-	 		 	<td id='disname'></td>
-	 			<td id='edit_disname'></td>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Password</strong></td>
-	 		 	<td id='password'></td>
-	 			<td id='edit_password'></td>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Tags</strong></td>
-	 		 	<td id='tags'></td>
-	 			<td id='edit_tags'></td>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Photo</strong></td>
-	 		 	<td id='photo'></td>
-	 			<td id='edit_photo'></td>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Status</strong></td>
-	 		 	<td id='status'></td>
-	 			<td id='edit_status'></td>
-	 		</tr>
-	 		<tr>
-	 			<td class='info'><strong>Account type</strong></td>
-	 		 	<td id='account_type'></td>
-	 			<td id='edit_type'></td>
-	 		</tr>
- 	</table>
+ 		<form id='editForm'>
+	 		<table class='postTable' id='profileTable'>
+		 		<tr>
+		 			<th></th>
+		 			<th class='info'><strong>Current</strong></th>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Username</strong></td>
+		 			<td id="username"><input type="text" id="in_username"></td>
+		 		</tr>
+		 		<tr>
+		 		 	<td class='info'><strong>Email</strong></td>
+		 		 	<td id="email"><input type="text" id="in_email"></td>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Display name</strong></td>
+		 		 	<td id="disname"><input type="text" id="in_disname"></td>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Password</strong></td>
+		 		 	<td id="password"><input type="text" id="in_password"></td>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Tags</strong></td>
+		 		 	<td id="tags"> </td>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Photo</strong></td>
+		 		 	<td id="photo"> </td>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Status</strong></td>
+		 		 	<td id="status"><input type="text" id="in_status"></td>
+		 		</tr>
+		 		<tr>
+		 			<td class='info'><strong>Account type</strong></td>
+		 		 	<td id="account_type"></td>
+		 		</tr>
+
+ 			</table>
+ 			<div id='save_bnt'>
+ 				<input class='save' type='submit' value='save'>
+ 			</div>
+	 	</form>
+
+ 	</div>
+ 	<div id='no_user'>
+ 		<a class="headline">No user found</a>
  	</div>
  	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
  	<script type="text/javascript" src="edit_user.js"></script>
