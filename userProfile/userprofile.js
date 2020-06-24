@@ -21,11 +21,10 @@ $(document).ready(function() {
 const pageUser = users[1];
 curr_user = users[0];
 basicInfo();
+
 function basicInfo()
 {
     best = 0;
-    bi = document.getElementById("left");
-    bi.innerHTML
 
     let mytags = ''
     let t;
@@ -33,6 +32,7 @@ function basicInfo()
     {
         mytags+=`<span class="tag">${tags[t].name}</span>`
     }
+
     for(a of answers)
     {
         if(a.is_best && a.user_id==pageUser)
@@ -51,10 +51,12 @@ function basicInfo()
     </div>
 
     </div>`
-    bi.innerHTML+= myhtml;
+
+    $('#left').prepend(myhtml);
 }
 
 getAllQeustionsNum();
+
 function getAllQeustionsNum(){
     let res = 0;
     let answ = 0;
@@ -101,7 +103,8 @@ function getAllQeustions(){
         {
             resolve = 'Resolved';
         }
-        let numA;
+        
+        let numA = 0;
         for(a of answers)
         {
             if(a.question_id == currQ.id)
@@ -157,7 +160,7 @@ function followers()
     }
 }
 
-pageUser.following = [users[0],users[1],users[2]];
+pageUser.following = [users[3],users[2]];
 following();
 function following()
 {
@@ -171,6 +174,7 @@ function following()
     </div>`;
     }
 }
+
 let shown = 0;
 function loadFollowInfo(e){
     var fInfo = document.getElementById("followUnfollow");
