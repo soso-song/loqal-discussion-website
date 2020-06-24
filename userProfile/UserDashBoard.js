@@ -44,7 +44,6 @@ function basicInfo()
         }
     }
     bi.innerHTML+=`<div><h3>${best} Best Answers</h3>`;
-
 }
 getNotice();
 function getNotice()
@@ -82,7 +81,6 @@ function getAllQeustionsNum(){
 }
 
 getAllQ();
-
 function getAllQ()
 {
     let wanted = document.getElementsByClassName("listcontainter")[0];
@@ -97,7 +95,7 @@ function getAllQ()
             }
         }
         let resolve ='Unresolved';
-        if (q.is_resolved)
+        if (q.is_resolved == true)
         {
             resolve = 'Resolved';
         }
@@ -166,7 +164,7 @@ function getAllAnswer(){
     while(j<currAnswer.length)
     {
         let currA = currAnswer[j];
-        let Qc = questions[currA.question_id].content;
+        let Qc = questions[currA.question_id].title;
         wanted.innerHTML+=`	<div class="shortquestion">
         <a class="sanswer" href="../answer/answer.html">${currA.content}</a>
         <div class="sinfo">In reply to <a href="#">${Qc}</a> - ${currA.time}</div>

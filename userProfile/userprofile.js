@@ -93,7 +93,7 @@ function getAllQeustions(){
         let currQ = currQuestion[j];
         let anw = users[currQ.user_id].username;
         let resolve ='Unresolved';
-        if (currQ.is_resolved)
+        if (currQ.is_resolved==true)
         {
             resolve = 'Resolved';
         }
@@ -130,7 +130,7 @@ function getAllAnswer(){
     while(j<currAnswer.length)
     {
         let currA = currAnswer[j];
-        let Qc = questions[currA.question_id].content;
+        let Qc = questions[currA.question_id].title;
         wanted.innerHTML+=`	<div class="shortquestion">
         <a class="sanswer" href="../answer/answer.html">${currA.content}</a>
         <div class="sinfo">In reply to <a href="#">${Qc}</a> - ${currA.time}</div>
@@ -165,6 +165,41 @@ function following()
         <div class="personname">${followin.username}</div>
         <div class="personis">@${followin.username}</div>
     </div>`;
+    }
+}
+let shown = 0;
+function loadFollowInfo(e){
+    var fInfo = document.getElementById("followUnfollow");
+    if (shown == 0){
+        fInfo.innerHTML = `Unfollow`;
+        pageUser.followed.push(curr_user);
+        curr_user.following.push(pageUser);
+        shown = 1;
+    } else{
+        fInfo.innerHTML = `Follow`;
+        let remove1 = 0;
+        let remove2 = 0;
+        let l = 0;
+        let k = 0;
+        while(k<pageUser.followed.length)
+        {
+            if(pageUser.followed[k].user_id == curr_user.user_id)
+            {
+                reomve1 = k;
+            }
+            k++;
+        }
+        while(l<curr_user.following.length)
+        {
+            if(curr_user.following[l].user_id == pageUser.user_id)
+            {
+                reomve1 = l;
+            }
+            l++;
+        }
+        pageUser.followed.splice(remove1,1);
+        curr_user.following.splice(remove2,1);
+        shown = 0;
     }
 }
 // function uploadPhoto(e){
