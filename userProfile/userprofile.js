@@ -1,6 +1,9 @@
 const pageUser = users[1];
 curr_user = users[0];
 
+pageUser.followers = [users[0],users[1],users[2]];
+pageUser.following = [users[3],users[2]];
+
 $(document).ready(function() {
     $("#activitybutt").click(function(){
         $('#useractivity').removeClass("hideme");
@@ -26,13 +29,29 @@ $(document).ready(function() {
     }else{
         $('#followUnfollow').css("display", "block");
     }
+
+    //sets initial state for follower button
+    for(let i=0; i<pageUser.followers.length; i++)
+    {
+        if (pageUser.followers[i]==curr_user)
+        {
+            $('#followUnfollow').text('Unfollow');
+        }
+    }
     
     $("#followUnfollow").click(function(){
 		const currentState = $('#followUnfollow').text();
 		if(currentState === 'Follow'){
-			$('#followUnfollow').text('Unfollow');
+            $('#followUnfollow').text('Unfollow');
+            pageUser.followers.push(curr_user);
+            fillfollowers(); 
 		}else if(currentState === 'Unfollow'){
-			$('#followUnfollow').text('Follow');
+            const currentuser = pageUser.followers.indexOf(curr_user);
+            if(currentuser>-1){
+                $('#followUnfollow').text('Follow');
+                pageUser.followers.splice(currentuser, 1);
+                fillfollowers();    
+            }
 		}
 		//Send data to server to follow/unfollow user
 	});
@@ -163,42 +182,46 @@ function getAllAnswer(){
         j++;
     }
 }
-pageUser.followed = [users[0],users[1],users[2]];
-followers();
-function followers()
+
+
+fillfollowers();
+function fillfollowers()
 {
     let f = document.getElementsByClassName("personcontainter")[0];
     let follower;
-    for (follower of pageUser.followed)
+    let result = '';
+    for (follower of pageUser.followers)
     {
-        f.innerHTML+=`<div class="person">
+        result+=`<div class="person">
         <div class="personname">${follower.username}</div>
         <div class="personis">@${follower.username}</div>
     </div>`;
     }
+    f.innerHTML = result;
 }
 
-pageUser.following = [users[3],users[2]];
 following();
 function following()
 {
     let f = document.getElementsByClassName("personcontainter")[1];
     let followin;
+    let result = '';
     for (followin of pageUser.following)
     {
-        f.innerHTML+=`<div class="person">
+        result+=`<div class="person">
         <div class="personname">${followin.username}</div>
         <div class="personis">@${followin.username}</div>
     </div>`;
     }
+    f.innerHTML = result;
 }
-
+/*
 let shown = 0;
 function loadFollowInfo(e){
     var fInfo = document.getElementById("followUnfollow");
     if (shown == 0){
         fInfo.innerHTML = `Unfollow`;
-        pageUser.followed.push(curr_user);
+        pageUser.followers.push(curr_user);
         curr_user.following.push(pageUser);
         shown = 1;
     } else{
@@ -207,9 +230,9 @@ function loadFollowInfo(e){
         let remove2 = 0;
         let l = 0;
         let k = 0;
-        while(k<pageUser.followed.length)
+        while(k<pageUser.followers.length)
         {
-            if(pageUser.followed[k].user_id == curr_user.user_id)
+            if(pageUser.followers[k].user_id == curr_user.user_id)
             {
                 reomve1 = k;
             }
@@ -223,11 +246,12 @@ function loadFollowInfo(e){
             }
             l++;
         }
-        pageUser.followed.splice(remove1,1);
+        pageUser.followers.splice(remove1,1);
         curr_user.following.splice(remove2,1);
         shown = 0;
     }
 }
+*/
 // function uploadPhoto(e){
 //     let newP = document.getElementById('importForm');
 //     let newPsrc = newP.datafile.value;
@@ -237,13 +261,13 @@ function loadFollowInfo(e){
 //     let status = document.getElementById("follow");
 //     if (status.innerHTML === "follow") {
 //         curr_user.following.push(pageUser);
-//         pageUser.followed.push(curr_user);
+//         pageUser.followers.push(curr_user);
 //         status.innerHTML = "following";
 //       } else 
 //       {
 //         status.innerHTML = "follow";
 //         curr_user.following.pop();
-//         pageUser.followed.pop();
+//         pageUser.followers.pop();
 //       }
 // }
 // getAllTags(pageUser);
