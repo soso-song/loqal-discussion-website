@@ -123,14 +123,25 @@ function load_user_profile(user){
 }
 
 function add_tag(){
-	const tag_cell = document.getElementById("tags");
-	let html_tag = '<select class="html_tag">';
+	const tag=document.getElementById("tags");
+	let html_tag = '<select id="html_tag">';
 	for(const tag_elem of tags){
 		html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";	
 	}
 	html_tag += "<option value=-1>remove</option>";
 	html_tag += '</select>';
-	tag_cell.innerHTML += html_tag;
+	// save the index of each assigned option
+	let options = tag.children;
+	let selected_index = []
+	for (let i = 1; i < options.length; i++) {
+	  selected_index.push(options[i].selectedIndex);
+	}
+	// add new variable
+	tag.innerHTML += html_tag;
+	// re-select selected options
+	for (let i = 1; i < options.length-1; i++) {
+	  options[i].selectedIndex = selected_index[i-1];
+	}
 }
 
 
