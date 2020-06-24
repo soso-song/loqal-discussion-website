@@ -1,3 +1,6 @@
+pageUser = users[1];
+basicInfo();
+
 $(document).ready(function() {
     $("#activitybutt").click(function(){
         $('#useractivity').removeClass("hideme");
@@ -15,12 +18,14 @@ $(document).ready(function() {
         $('#useractivity').addClass("hideme");
         $('#followers').addClass("hideme");
         $('#following').removeClass("hideme");
-	});
+    });
+    
+    if(pageUser.is_admin){
+        $('#adminbutt').css("display", "block");
+    }else{
+        $('#adminbutt').css("display", "none");
+    }
 });
-
-pageUser = users[1];
-curr_user = users[0];
-basicInfo();
 
 function basicInfo()
 {
