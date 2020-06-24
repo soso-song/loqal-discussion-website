@@ -83,3 +83,7 @@
 	padding:20px;
 	margin: 0 auto;
 }
+
+#reasonAreaError{
+	color:red;
+}

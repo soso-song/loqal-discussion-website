@@ -23,14 +23,15 @@
 	"."
 	);
 
-	let extrabutt = '<a href="">Report this question</a>';
+	let extrabutt = "<a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser+"&back_url="+window.location.href+"'>Report this question</a>";
 	if(currentuser == myquestion.user_id){
 		extrabutt += ' <a href="../question/editquestion.html">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">Mark Solved</a>'
 	}
 	$('#pbutts').html(extrabutt);
-
+	
 	for (let i = 0; i < answers.length; i++) {
 		if(answers[i].question_id == myquestionid){
+			let report_answer_btn_url = "../report/report.html?type=a&target_id="+answers[i].id+"&user_id="+currentuser+"&back_url="+window.location.href;
 			let oneanswer = '<div class="answer"><div class="answertext">'
 			+
 			answers[i].content
@@ -39,9 +40,9 @@
 			;
 
 			if(currentuser == answers[i].user_id){
-				oneanswer += '<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/editanswer.html">Edit Answer</a>'
+				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/editanswer.html'>Edit Answer</a>";
 			} else{
-				oneanswer += '<div class="answerbuttons"> <a href="">Report this answer</a>'
+				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
 			}
 
 			if(currentuser == myquestion.user_id){
