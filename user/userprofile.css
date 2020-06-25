@@ -173,3 +173,17 @@ a.sanswer{
 	background: #fff;
 	padding:0px;
 }
+
+#followUnfollow{
+	display:block;
+	color:#ee6261;
+	text-decoration:none;
+	margin-top: 20px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:10px;
+	font-size:18px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+}
