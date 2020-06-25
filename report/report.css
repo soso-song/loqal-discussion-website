@@ -87,3 +87,8 @@
 #reasonAreaError{
 	color:red;
 }
+
+#submitBtn{
+	float:left;
+	margin-right: 20px;
+}

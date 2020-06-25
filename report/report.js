@@ -1,8 +1,8 @@
 const params = new URLSearchParams(window.location.search)
-var target_type = params.get('type');
-var target_id = params.get('target_id');
-var user_id = params.get('user_id');
-var back_url = params.get('back_url');
+let target_type = params.get('type');
+let target_id = params.get('target_id');
+let user_id = params.get('user_id');
+let back_url = params.get('back_url');
 // <a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser+"'>Report this question</a>
 // above variables should be passed and get when user cleck report button
 
@@ -11,8 +11,8 @@ document.getElementById("targetType").value = target_type;
 document.getElementById("targetId").value = target_id;
 document.getElementById("user").value = user_id;
 
-var head_line = document.getElementById("reportHeadline");
-var type;
+let head_line = document.getElementById("reportHeadline");
+let type;
 if (target_type == 'u') {
 	type = "user";
 	head_line.innerHTML = "Report an User";
@@ -25,7 +25,7 @@ if (target_type == 'u') {
 }
 
 function submitReport(){
-	var reason = document.getElementById("reasonTextArea").value;
+	let reason = document.getElementById("reasonTextArea").value;
 	//below is add report function to report list on database
 	//add_report(new Report(target_type,target_id,user_id,reason));
 	if (reason.length < 15){
@@ -33,13 +33,20 @@ function submitReport(){
 		document.getElementById("reasonAreaError").innerHTML = 'tell us more about this ' + type + " (length:" + reason.length + "<15)";
 	}else{
 		reports.push(new Report(target_type,target_id,user_id,reason));
-		if(!back_url){
-			alert("error, report btn didn't pass url param to this page to redirect back");
-		}else{
-			alert("report submitted, redirect back");
-			location.href = back_url;
-		}
-		
+		goBackUrl();
+	}
+	if(!back_url){
+		alert("error, report btn didn't pass url param to this page to redirect back");
+	}else{
+		alert("report submitted, redirect back");
+		location.href = back_url;
 	}
 }
 
+function goBackUrl(){
+	if(!back_url){
+		alert("error, report btn didn't pass url param to this page to redirect back");
+	}else{
+		location.href = back_url;
+	}
+}

@@ -25,9 +25,12 @@
 								<label>Complaints</label>
 								<div id="reasonAreaError"></div>
 								 <textarea id='reasonTextArea' rows="15" cols="50" placeholder="the reason is ..." oninput="reason.value = reasonTextArea.value; return true;"></textarea>
-
-								 <input id="submitReportbtn" type="button" value="Submit" onclick="submitReport()">
+								<div>
+								 <input id="submitBtn" type="button" value="Submit" onclick="submitReport()">
+								 <input type="button" value="Back" onclick="goBackUrl()">
+								</div>
 							 </form>
+
 						</div>
 					</div>
 					<div id="right">
