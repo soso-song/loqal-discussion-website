@@ -103,8 +103,8 @@
 }
 
 #introtext{
-	padding-top:220px;
-	font-size: 25px;
+	padding-top:170px;
+	font-size: 15px;
 	text-transform: uppercase;
 	letter-spacing: 3px;
 }
@@ -135,5 +135,20 @@ font-weight: bold;
 	font-size: 18px;
 	width:600px;
 	margin:0 auto;
-	text-align: justify;
+	text-align: left;
+}
+
+#welcomered{
+	padding:100px;
+	text-align: center;
+	background-color:#ee6261;
+	font-size: 35px;
+	letter-spacing: 3px;
+	color: #ffffff;
+}
+
+#sitemap a{
+	color:black;
+	font-weight: bold;
+	text-decoration: none;
 }
