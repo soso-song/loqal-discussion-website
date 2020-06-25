@@ -96,6 +96,7 @@ function edit(e){
     user.tag_list = tag_ids;
 
     window.alert("Your profile has been changed");
+    window.location.href = "userprofile.html";
 }
 
 function update_photo(e){
