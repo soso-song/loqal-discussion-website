@@ -69,14 +69,6 @@
 	color:red;
 }
 
-#pagecontent {
-	display:block;
-	width: 70%;
-	background-color: white;
-	padding:20px;
-	margin: 40px auto;
-}
-
 
 #editForm ul {
     width: 80%;
@@ -89,3 +81,14 @@
     display: inline-block;
 }
 
+#onecol{
+	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
+}
+
+#editparent{
+	background:#ffffff;
+	padding:20px;
+}

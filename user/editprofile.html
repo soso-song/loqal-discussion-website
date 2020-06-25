@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>EditProfile</title>
+        <title>Edit Profile</title>
         <link rel="stylesheet" type="text/css" href="editprofile.css">
         <link rel="stylesheet" type="text/css" href="../index.css">
     <body>
@@ -16,52 +16,62 @@
                 </ul>
             </div>
             <div id="pagecontent">
-                <div class="headline">
-                    Edit Profile
-                </div>
-                <div class='center'>
-                    <img id="prof_pic">
-                </div>
-                <div id='editDiv'>
-                    <form id="editForm">
-                        <div class='center'>
-                            <input type="file" id="photoSrc" accept='image/*' placeholder="update photo">
+                <div id="onecol">
+                    <div id="editparent">
+                        <div class="headline">
+                            Edit Profile
                         </div>
-                        <ul>
-                            <li>
-                                <label for="userName">Username:</label>
-                                <input type="text" id="userName" name="userName">
-                            </li>
-                            <li>
-                                <label for="displayName">Display Name:</label>
-                                <input type="text" id="displayName" name="displayName">
-                            </li>
-                            <li>
-                                <label for="email">Email:</label>
-                                <input type="text" id="email" name="email">
-                            </li>
-                            <li>
-                                <label for="password">Password:</label>
-                                <input type="text" id="password" name="password">
-                            </li>
-                            <label for="tags">Tags:</label>
-                            <div id="tags">
-                            </div>
-                            <br>
-                            <li>
-                                <label for="status">Status:</label>
-                                <input type="text" id="status" name="status" value="Normal" disabled>
-                            </li>
-                            <li>
-                                <label for="acct_type">Account Type:</label>
-                                <input type="text" id="acct_type" name="acct_type" value="Regular User" disabled>
-                            </li>
-                        </ul>
-                        <input class='save' id="formbtn" type='submit' value='save'><br>
-                    </form>
+                        <div class='center'>
+                            <img id="prof_pic">
+                        </div>
+                        <div id='editDiv'>
+                            <form id="editForm">
+                                <div class='center'>
+                                    <input type="file" id="photoSrc" accept='image/*' placeholder="update photo">
+                                </div>
+                                <ul>
+                                    <li>
+                                        <label for="userName">Username:</label>
+                                        <input type="text" id="userName" name="userName">
+                                    </li>
+                                    <li>
+                                        <label for="displayName">Display Name:</label>
+                                        <input type="text" id="displayName" name="displayName">
+                                    </li>
+                                    <li>
+                                        <label for="email">Email:</label>
+                                        <input type="text" id="email" name="email">
+                                    </li>
+                                    <li>
+                                        <label for="password">Password:</label>
+                                        <input type="text" id="password" name="password">
+                                    </li>
+                                    <label for="tags">Tags:</label>
+                                    <div id="tags">
+                                    </div>
+                                    <br>
+                                    <li>
+                                        <label for="status">Status:</label>
+                                        <input type="text" id="status" name="status" value="Normal" disabled>
+                                    </li>
+                                    <li>
+                                        <label for="acct_type">Account Type:</label>
+                                        <input type="text" id="acct_type" name="acct_type" value="Regular User" disabled>
+                                    </li>
+                                </ul>
+                                <input class='save' id="formbtn" type='submit' value='save'><br>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div id="footer">
+			<div id="footerinfo">
+				LOQAL was developed by Behrad, Alan, Nicole and Kyle for CSC309<br><br>
+				<b>Summer 2020</b>
+			</div>
+		</div>
     <script type="text/javascript" src="../sharedClasses/classes.js"></script>
     <script type="text/javascript" src="editprofile.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
