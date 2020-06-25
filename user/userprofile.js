@@ -1,5 +1,11 @@
-const pageUser = users[1];
+let pageUser = users[1];
 curr_user = users[0];
+
+const params = new URLSearchParams(window.location.search)
+let user_id = params.get('user_id');
+if (user_id != null){
+    pageUser = users[user_id];
+}
 
 pageUser.followers = [users[0],users[1],users[2]];
 pageUser.following = [users[3],users[2]];

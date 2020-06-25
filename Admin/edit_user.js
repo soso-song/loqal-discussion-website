@@ -1,6 +1,10 @@
 "use strict"
 // current user is global
 let user;
+const params = new URLSearchParams(window.location.search)
+let user_id = params.get('edit_for');
+
+
 
 const singleProfile = document.querySelector('#single_profile');
 const allUsers = document.querySelector('#all_users');
@@ -15,9 +19,15 @@ editForm.addEventListener('change', update_photo);
 const searchUserForm = document.querySelector('#searchUserForm');
 searchUserForm.addEventListener('submit', search_user);
 
-load_all_users();
+if (user_id == null){
+	load_all_users();
+}else{
+	user = users[user_id];
+	load_user_profile(user);
+}
 
 function load_all_users(){
+
 	for(const user of users){
 		const user_table = document.createElement("table");
 		user_table.className = 'profiles';
@@ -42,7 +52,9 @@ function load_all_users(){
 
 function search_user(e) {
 	e.preventDefault();
+
 	const keyword = searchUserForm.elements['keyword'].value;
+	console.log(keyword);
 	let u;
 	if (keyword === ''){
 		singleProfile.style.display ='none';
@@ -70,6 +82,11 @@ function load_user_profile(user){
 	singleProfile.style.display ='inline';
 	allUsers.style.display = 'none';
 	noUser.style.display = 'none';
+
+	const see_profile_btn = document.querySelector("#see_profile");
+	const html = "../user/userprofile.html?user_id=" + user.id;
+	see_profile_btn.setAttribute("onclick", " location.href='" + html + "' ");
+
 	document.querySelector('#in_username').value = user.username;
 	document.querySelector('#in_email').value = user.email;
 	document.querySelector('#in_disname').value = user.display_name;
