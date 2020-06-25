@@ -30,7 +30,7 @@ function load_all_reports(){
 				rep_u_count++;
 				left.innerHTML = "<p>Reported: <strong>" + users[report.rep_unique_id].username + "</strong></p>";
 				type_output = "User"; 
-				html_name = "edit_user.html";
+				html_name = "edit_user.html?edit_for=" + report.rep_unique_id;
 				rep_users.appendChild(div);
 				break;
 			case 'q':
@@ -44,7 +44,7 @@ function load_all_reports(){
 				rep_a_count++;
 				left.innerHTML = "<p>Reported: <strong>" + answers[report.rep_unique_id].content + "</strong></p>";;
 				type_output = "Answer";
-				html_name = "#";
+				html_name = "../answer/answer.html";
 				rep_ans.appendChild(div);
 				break;
 		}

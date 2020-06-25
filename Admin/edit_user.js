@@ -1,6 +1,10 @@
 "use strict"
 // current user is global
 let user;
+const params = new URLSearchParams(window.location.search)
+let user_id = params.get('edit_for');
+
+
 
 const singleProfile = document.querySelector('#single_profile');
 const allUsers = document.querySelector('#all_users');
@@ -15,9 +19,15 @@ editForm.addEventListener('change', update_photo);
 const searchUserForm = document.querySelector('#searchUserForm');
 searchUserForm.addEventListener('submit', search_user);
 
-load_all_users();
+if (user_id == null){
+	load_all_users();
+}else{
+	user = users[user_id];
+	load_user_profile(user);
+}
 
 function load_all_users(){
+
 	for(const user of users){
 		const user_table = document.createElement("table");
 		user_table.className = 'profiles';
@@ -42,6 +52,7 @@ function load_all_users(){
 
 function search_user(e) {
 	e.preventDefault();
+
 	const keyword = searchUserForm.elements['keyword'].value;
 	let u;
 	if (keyword === ''){
@@ -70,6 +81,11 @@ function load_user_profile(user){
 	singleProfile.style.display ='inline';
 	allUsers.style.display = 'none';
 	noUser.style.display = 'none';
+
+	const see_profile_btn = document.querySelector("#see_profile");
+	const html = "../user/userprofile.html?user_id=" + user.id;
+	see_profile_btn.setAttribute("onclick", " location.href='" + html + "' ");
+
 	document.querySelector('#in_username').value = user.username;
 	document.querySelector('#in_email').value = user.email;
 	document.querySelector('#in_disname').value = user.display_name;
@@ -100,8 +116,8 @@ function load_user_profile(user){
 	tag_cell.innerHTML += html_tag;
 
 	// display picture
-	const photo = document.querySelector('#photo');
-	photo.innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>" + photo.innerHTML;
+	const photo = document.querySelector('#single_photo');
+	photo.setAttribute("src", user.photo_src);
 
 	// show if flagged user
 	let flag_html;
@@ -149,7 +165,6 @@ function save_all(e){
 	e.preventDefault();
 	
 	user.username = document.querySelector("#in_username").value;
-	console.log(document.querySelector("#in_username").value);
 	user.email = document.querySelector("#in_email").value;
 	user.display_name = document.querySelector("#in_disname").value;
 	user.password = document.querySelector("#in_password").value;
@@ -186,7 +201,7 @@ function update_photo(e){
 		var reader = new FileReader();
 		let ee;
        	reader.onload = function (ee) {
-            $('.prof_pic').attr('src', ee.target.result)
+            $('#single_photo').attr('src', ee.target.result)
                 };
 
         reader.readAsDataURL(photo_in.files[0]);
