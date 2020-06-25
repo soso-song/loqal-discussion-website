@@ -33,8 +33,13 @@ function submitReport(){
 		document.getElementById("reasonAreaError").innerHTML = 'tell us more about this ' + type + " (length:" + reason.length + "<15)";
 	}else{
 		reports.push(new Report(target_type,target_id,user_id,reason));
-		alert("report submitted, redirect back");
-		location.href = back_url;
+		if(!back_url){
+			alert("error, report btn didn't pass url param to this page to redirect back");
+		}else{
+			alert("report submitted, redirect back");
+			location.href = back_url;
+		}
+		
 	}
 }
 
