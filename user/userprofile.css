@@ -187,3 +187,17 @@ a.sanswer{
 	font-weight:normal;
 	border:1px solid #ee6261;
 }
+
+#reportuser{
+	display:block;
+	color:gray;
+	text-decoration:none;
+	margin-top: 10px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:10px;
+	font-size:13px;
+	font-weight:normal;
+	border:1px solid gray;
+}
