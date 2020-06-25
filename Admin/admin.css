@@ -58,11 +58,11 @@ input[type="button"], input[type="submit"]{
 	margin-left: 5px;
 }
 
-.edit, .flag_user, .make_admin{
+#see_profile{
 	color:#ee6261;
 	text-decoration:none;
 	background-color:transparent;
-	text-align: center;
+	text-align: right;
 	font-size:15px;
 	font-weight:normal;
 	border:1px solid #ee6261;

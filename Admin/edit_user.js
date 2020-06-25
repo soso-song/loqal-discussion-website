@@ -54,7 +54,6 @@ function search_user(e) {
 	e.preventDefault();
 
 	const keyword = searchUserForm.elements['keyword'].value;
-	console.log(keyword);
 	let u;
 	if (keyword === ''){
 		singleProfile.style.display ='none';
@@ -117,8 +116,8 @@ function load_user_profile(user){
 	tag_cell.innerHTML += html_tag;
 
 	// display picture
-	const photo = document.querySelector('#photo');
-	photo.innerHTML = "<img  class='prof_pic'  src='" + user.photo_src + "'>" + photo.innerHTML;
+	const photo = document.querySelector('#single_photo');
+	photo.setAttribute("src", user.photo_src);
 
 	// show if flagged user
 	let flag_html;
@@ -166,7 +165,6 @@ function save_all(e){
 	e.preventDefault();
 	
 	user.username = document.querySelector("#in_username").value;
-	console.log(document.querySelector("#in_username").value);
 	user.email = document.querySelector("#in_email").value;
 	user.display_name = document.querySelector("#in_disname").value;
 	user.password = document.querySelector("#in_password").value;
@@ -203,7 +201,7 @@ function update_photo(e){
 		var reader = new FileReader();
 		let ee;
        	reader.onload = function (ee) {
-            $('.prof_pic').attr('src', ee.target.result)
+            $('#single_photo').attr('src', ee.target.result)
                 };
 
         reader.readAsDataURL(photo_in.files[0]);
