@@ -11,6 +11,7 @@ if (user_id != null){
 pageUser.followers = [users[0],users[1],users[2]];
 pageUser.following = [users[3],users[2]];
 
+document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser.id+"&user_id="+curr_user.id+"&back_url="+window.location.href;
 $(document).ready(function() {
     $("#activitybutt").click(function(){
         $('#useractivity').removeClass("hideme");
