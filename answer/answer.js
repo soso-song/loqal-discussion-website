@@ -1,3 +1,16 @@
+//Getting the main question from database
+let myquestionid = 4;
+let currentuser = curr_user.id;
+let myquestion = questions[myquestionid];
+	
+// check if there is question id
+const params = new URLSearchParams(window.location.search)
+let urlquestionid = params.get('question_id');
+if (urlquestionid != null){
+	myquestionid = urlquestionid;
+	myquestion = questions[myquestionid];
+}
+
 
 	$('#ptitle').text(myquestion.title);
 	$('#pdesc').text(myquestion.content);
