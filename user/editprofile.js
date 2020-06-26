@@ -1,5 +1,6 @@
 "use strict"
-const user = users[2];
+//const user = users[2];
+const user = curr_user;
 
 const userEditForm = document.querySelector('#editForm');
 userEditForm.addEventListener('submit',edit);

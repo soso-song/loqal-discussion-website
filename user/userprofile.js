@@ -1,5 +1,5 @@
-let pageUser = users[1];
-curr_user = users[0];
+let pageUser = curr_user;
+//curr_user = users[0];
 
 // check if there is input user id
 const params = new URLSearchParams(window.location.search)

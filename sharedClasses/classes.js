@@ -1,6 +1,4 @@
 /* Ass1 Library - JS */
-// logged in user
-let curr_user;
 
 // global id count
 let num_questions = 0;
@@ -154,3 +152,11 @@ notices.push(new Notice('Washing Hands', 'Do not forget to wash your hands every
 reports.push(new Report("u", 1, 0, "posting multiple fake answers"));
 reports.push(new Report("a", 0, 0, "fake answer"));
 reports.push(new Report("a", 1, 0, "fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!"));
+
+// logged in user
+let curr_user;
+
+//Regular user
+curr_user = users[0];
+//Admin user
+//curr_user = users[2];
