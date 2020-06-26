@@ -1,8 +1,16 @@
 $(document).ready(function() {
 
 	//Getting the question from database
-	const myquestionid = 4;
-	const myquestion = questions[myquestionid];
+	let myquestionid = 4;
+	let myquestion = questions[myquestionid];
+
+	//Getting the question id from parameter if available
+	const params = new URLSearchParams(window.location.search)
+	let urlquestionid = params.get('question_id');
+	if (urlquestionid != null){
+		myquestionid = urlquestionid;
+		myquestion = questions[myquestionid];
+	}
 
 	$('#qtitle').val(myquestion.title);
 	$('#qdesc').val(myquestion.content);

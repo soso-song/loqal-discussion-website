@@ -38,7 +38,7 @@ if (urlquestionid != null){
 
 	let extrabutt = "<a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser+"&back_url="+window.location.href+"'>Report this question</a>";
 	if(currentuser == myquestion.user_id){
-		extrabutt += ' <a href="../question/editquestion.html">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">Mark Solved</a>'
+		extrabutt += ` <a href="../question/editquestion.html?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">Mark Solved</a>`
 	}
 	$('#pbutts').html(extrabutt);
 	
