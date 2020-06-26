@@ -27,6 +27,7 @@ html, body {
 	background-image: url('./images/logo.png');
 	margin-top:20px;
 	margin-left:20px;
+	float:left;
 }
 
 #menubar{
@@ -76,3 +77,36 @@ html, body {
 	padding:40px;
 }
 
+#searchparent{
+	display: block;
+	float:right;
+	padding:20px;
+	margin:0px;
+}
+
+#searchinput{
+	display:block;
+	padding:0px 15px;
+	height:40px;
+	margin:10px;
+	font-size: 14px;
+	margin-right:10px;
+	float:left;
+	border:1px solid #cccccc;
+}
+
+#searchbutton{
+	display:block;
+	color:#ee6261;
+	text-decoration:none;
+	margin-top: 10px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:10px 15px;
+	height:40px;
+	font-size:15px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+	float:left;
+}
