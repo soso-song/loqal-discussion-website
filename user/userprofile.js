@@ -184,8 +184,8 @@ function getAllAnswer(){
         let currA = currAnswer[j];
         let Qc = questions[currA.question_id].title;
         wanted.innerHTML+=`	<div class="shortquestion">
-        <a class="sanswer" href="../answer/answer.html">${currA.content}</a>
-        <div class="sinfo">In reply to <a href="#">${Qc}</a> - ${currA.time}</div>
+        <a class="sanswer" href="../answer/answer.html?question_id=${currA.question_id}">${currA.content}</a>
+        <div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${currA.question_id}">${Qc}</a> - ${currA.time}</div>
     </div>`;
         j++;
     }

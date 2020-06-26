@@ -127,22 +127,22 @@ users.push(new User('alan', 'alan@gmail.com', 'Alan T', 'alan', [0,2], false));
 
 // questions and answers
 questions.push(new Question('1st question title','1st qustion content', 0, [0,5]));
-questions.push(new Question('2st question title','2st qustion content', 1, [1,4]));
-questions.push(new Question('3st question title','3st qustion content', 1, [0,3]));
-questions.push(new Question('4st question title','4st qustion content', 0, [2,3]));
+questions.push(new Question('2nd question title','2nd qustion content', 1, [1,4]));
+questions.push(new Question('3rd question title','3rd qustion content', 1, [0,3]));
+questions.push(new Question('4th question title','4th qustion content', 0, [2,3]));
 questions.push(new Question('Where can I buy some avocados?',
 'Please help me. I need some avocados during quarantine. I initially thought I would find them here but I was wrong. Now I am looking for a healthy alternative.'
 , 0, [2,3,0]));
 
 
 // answers (content, user, question_id, answer_id=-1)
-answers.push(new Answer('answer to 1st question', 1, 0));
-answers.push(new Answer('answer to 1st answer in 1st quetion', 0, 0, 0));
-answers.push(new Answer('answer to 2nd question', 0, 1));
-answers.push(new Answer('answer to 3rd question', 0, 1));
+answers.push(new Answer('Answer to 1st question', 1, 0));
+//answers.push(new Answer('Answer to 1st answer in 1st quetion', 0, 0, 0));
+answers.push(new Answer('Answer to 2nd question', 0, 1));
+answers.push(new Answer('Another answer to 2nd question', 0, 1));
 answers.push(new Answer('The subtropical species needs a climate without frost and with little wind. High winds reduce the humidity, dehydrate the flowers, and affect pollination. When even a mild frost occurs, premature fruit drop may occur, although the cultivar can tolerate temperatures down to −1 °C. Several cold-hardy varieties are planted in the region of Gainesville, Florida, which survive temperatures as low as −6.5 °C (20 °F) with only minor leaf damage. The trees also need well-aerated soils, ideally more than 1 m deep.'
 , 1, 4));
-answers.push(new Answer('Another answer to 5th question', 2, 4));
+answers.push(new Answer('Another answer to Avocado question', 2, 4));
 
 
 // notice
