@@ -53,7 +53,7 @@ if (urlquestionid != null){
 			;
 
 			if(currentuser == answers[i].user_id){
-				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/editanswer.html'>Edit Answer</a>";
+				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/editanswer.html?answer_id="+answers[i].id+"'>Edit Answer</a>";
 			} else{
 				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
 			}
