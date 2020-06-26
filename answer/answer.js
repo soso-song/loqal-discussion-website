@@ -8,7 +8,7 @@
 	}
 
 	//<div id="pdate">Asked by <a href="">John Appleseed (@jseed)</a>. June 17, 2020 at 14:30.</div>
-	$('#pdate').html('Asked by <a href="../user/userprofile.html">'
+	$('#pdate').html('Asked by <a href="../user/userprofile.html?user_id='+myquestion.user_id+ '">'
 	+
 	users[myquestion.user_id].display_name
 	+
@@ -36,7 +36,7 @@
 			+
 			answers[i].content
 			+
-			'</div><div class="answerinfo">Answered by <a href="../user/userprofile.html">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
+			'</div><div class="answerinfo">Answered by <a href="../user/userprofile.html?user_id='+answers[i].user_id+'">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
 			;
 
 			if(currentuser == answers[i].user_id){
@@ -99,7 +99,7 @@ $('#answerForm').submit(function(e) {
 		+
 		myanswer
 		+
-		'</div><div class="answerinfo">Answered by <a href="../user/userprofile.html">' + users[currentuser].display_name + ' (@' + users[currentuser].username + ')</a>. ' +'Just now'+'. </div>'
+		'</div><div class="answerinfo">Answered by <a href="../user/userprofile.html?user_id='+currentuser+'">' + users[currentuser].display_name + ' (@' + users[currentuser].username + ')</a>. ' +'Just now'+'. </div>'
 		+
 		'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/editanswer.html">Edit Answer</a>'
 		;
