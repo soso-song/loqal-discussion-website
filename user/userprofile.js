@@ -158,8 +158,8 @@ function getAllQeustions(){
             }
         }
         wanted.innerHTML+=`<div class="shortquestion">
-            <a class="squestion" href="../answer/answer.html">${currQ.content}</a>
-            <div class="sinfo">Asked by <a href="#">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+            <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
+            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
         j++;
     }

@@ -107,7 +107,7 @@ function getAllQ()
             resolve = 'Resolved';
         }
         wanted.innerHTML+=`<div class="shortquestion">
-        <a class="squestion" href="../answer/answer.html">${q.content}</a>
+        <a class="squestion" href="../answer/answer.html?question_id=${q.id}">${q.title}</a>
         <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${q.user_id}">${users[q.user_id].display_name}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
         </div>`;
     }
@@ -148,7 +148,7 @@ function getUserAllQeustions(){
             }
         }
         wanted.innerHTML+=`<div class="shortquestion">
-            <a class="squestion" href="../answer/answer.html">${currQ.content}</a>
+            <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
             <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
         j++;
@@ -173,8 +173,8 @@ function getAllAnswer(){
         let currA = currAnswer[j];
         let Qc = questions[currA.question_id].title;
         wanted.innerHTML+=`	<div class="shortquestion">
-        <a class="sanswer" href="../answer/answer.html">${currA.content}</a>
-        <div class="sinfo">In reply to <a href="#">${Qc}</a> - ${currA.time}</div>
+        <a class="sanswer" href="../answer/answer.html?question_id=${currA.question_id}">${currA.content}</a>
+        <div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${currA.question_id}">${Qc}</a> - ${currA.time}</div>
     </div>`;
         j++;
     }
