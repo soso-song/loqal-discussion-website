@@ -21,4 +21,5 @@ Code Example
 This is an example of create an admin user.
 
 How to use?
-
+Start from index.html. Click on "get started" in the bottom, then use any user name and password stored in 
+sharedClasses\classes.js to login. So user will be able to see their user profile, by clicking on user dashboard, they will be able to see the newest questions and questions related to them.
