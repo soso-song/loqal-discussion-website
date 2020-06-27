@@ -60,6 +60,10 @@ function load_result_question(questions){
 
 		i++;
 	}
+
+	if(questions.length == 0){
+		questionResultEntries.innerHTML+="No results were found. Try searching for 'q' for demo purposes.";
+	}
 }
 
 function load_result_answer(answers){	
@@ -71,6 +75,10 @@ function load_result_answer(answers){
 			<div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${answers[i].question_id}">${questions[answers[i].question_id].title}</a> - ${answers[i].time}</div>
 		</div>`;
 		i++;
+	}
+
+	if(answers.length == 0){
+		answerResultEntries.innerHTML+="No results were found. Try searching for 'q' for demo purposes.";
 	}
 }
 
