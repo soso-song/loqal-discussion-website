@@ -20,14 +20,14 @@
 	margin-bottom:20px;
 }
 
-#maintable #postNotice{
+#maintable, #postNotice{
 	margin: auto;
 	width: 700px;
 	background-color: #efefef;
 	padding-bottom: 50px;
 }
 
-input[type="button"], input[type="submit"] button{
+input[type="button"], input[type="submit"], button{
 	color:#ee6261;
 	text-decoration:none;
 	background-color:transparent;
@@ -90,7 +90,7 @@ table.postTable thead th, table.postTable tr th, .info{
 table.postTable tfoot td {
   font-size: 14px;
 }
-table.postTable tfoot .links .sign_notice{
+table.postTable tfoot .links, .sign_notice{
   text-align: right;
 }
 table.postTable tfoot .links a{
@@ -146,8 +146,8 @@ textarea {
     display: block;
 }
 
-.cellBlock .lrDiv{
-	//background-color: #efefef;
+.cellBlock, .lrDiv{
+	background-color: #efefef;
 	width: 70%;
 	margin:auto;
 	height: 40px;
