@@ -30,22 +30,23 @@ function submitReport(){
 	//add_report(new Report(target_type,target_id,user_id,reason));
 	if (reason.length < 15){
 		// alert("submitted");
-		document.getElementById("reasonAreaError").innerHTML = 'tell us more about this ' + type + " (length:" + reason.length + "<15)";
+		document.getElementById("reasonAreaError").innerHTML = 'Tell us more about this ' + type + " (length:" + reason.length + "<15)";
 	}else{
 		reports.push(new Report(target_type,target_id,user_id,reason));
 		goBackUrl();
-	}
-	if(!back_url){
-		alert("error, report btn didn't pass url param to this page to redirect back");
-	}else{
-		alert("report submitted, redirect back");
-		location.href = back_url;
+
+		if(!back_url){
+			alert("Error: Report button didn't pass url param to this page to redirect back");
+		}else{
+			alert("Report successfully submitted. Redirecting back.");
+			location.href = back_url;
+		}
 	}
 }
 
 function goBackUrl(){
 	if(!back_url){
-		alert("error, report btn didn't pass url param to this page to redirect back");
+		alert("Error: Report button didn't pass url param to this page to redirect back");
 	}else{
 		location.href = back_url;
 	}

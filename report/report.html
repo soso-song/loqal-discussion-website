@@ -3,63 +3,81 @@
 
 	<head>
  		<meta charset="utf-8">
-		 <title>Register</title>
+		 <title>Report</title>
 		 <link rel="stylesheet" type="text/css" href="../index.css">
 		 <link rel="stylesheet" type="text/css" href="report.css">
-		 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-		 
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		 <script type="text/javascript" src="../index.js"></script>
 	</head>
 	
 	<body>
+		<div id="wrapper">
+			<div id="navbar">
+				<a href="../index.html" id="navlogo"> </a>
+				
+				<ul id="menubar">
+					<li><a href="../user/userdashboard.html">Dashboard</a></li>
+					<li><a href="../question/question.html">Ask</a></li>
+					<li><a href="../user/userprofile.html">Profile</a></li>
+				</ul>
 
-<!-- 		<div id="wrapper"> -->
-		<div id="pagecontent">
-				<div id="twocol">
-					<div id="left">
-						<div id="reportHeadline" class="headline">
-							Report a TypeError
-						</div>
-						<div>
-							<form id='registerForm'>
-								<!-- <div class="formerror"></div> -->
-								<label>Complaints</label>
-								<div id="reasonAreaError"></div>
-								 <textarea id='reasonTextArea' rows="15" cols="50" placeholder="the reason is ..." oninput="reason.value = reasonTextArea.value; return true;"></textarea>
-								<div>
-								 <input id="submitBtn" type="button" value="Submit" onclick="submitReport()">
-								 <input type="button" value="Back" onclick="goBackUrl()">
-								</div>
-							 </form>
-
-						</div>
-					</div>
-					<div id="right">
-						<div class="headline">
-							Preview
-						</div>
-						<div id='reportPreview'>	
-							<label>target_type</label>
-							<input id='targetType' value='typeError' disabled>
-							<label>target_id</label>
-							<input id='targetId' value='idError' disabled>
-							<label>user</label>
-							<input id='user' value='userError' disabled>
-							<label>reason</label>
-							<textarea id='reason' value='reasonError' rows="4" cols="24" disabled></textarea>
-						</div>
-						<div class="desc">
-							information recorded so far, this block can be remove from html after implementation finished
-						</div>
-					</div>
+				<div id="searchparent">
+					<form id='searchForm'>
+						 <input id='searchinput' name="searchinput" type="text" placeholder="Search...">
+						 <input id="searchbutton" type="submit" value="Search">
+					</form>
 				</div>
+			</div>
+			<div id="pagecontent">
+					<div id="twocol">
+						<div id="left">
+							<div id="reportHeadline" class="headline">
+								Report a TypeError
+							</div>
+							<div>
+								<form id='registerForm'>
+									<!-- <div class="formerror"></div> -->
+									<label>Complaints</label>
+									<div id="reasonAreaError"></div>
+									 <textarea id='reasonTextArea' rows="15" cols="50" placeholder="the reason is ..." oninput="reason.value = reasonTextArea.value; return true;"></textarea>
+									<div>
+									 <input id="submitBtn" type="button" value="Submit" onclick="submitReport()">
+									 <input type="button" value="Back" onclick="goBackUrl()">
+									</div>
+								 </form>
+	
+							</div>
+						</div>
+						<div id="right">
+							<div class="headline">
+								Preview
+							</div>
+							<div id='reportPreview'>	
+								<label>target_type</label>
+								<input id='targetType' value='typeError' disabled>
+								<label>target_id</label>
+								<input id='targetId' value='idError' disabled>
+								<label>user</label>
+								<input id='user' value='userError' disabled>
+								<label>reason</label>
+								<textarea id='reason' value='reasonError' rows="4" cols="24" disabled></textarea>
+							</div>
+							<div class="desc">
+								information recorded so far, this block can be remove from html after implementation finished
+							</div>
+						</div>
+					</div>
+					
+			</div>
 		</div>
-		<!-- </div> -->
-		<!-- <div id="footer">
+		<div id="footer">
 			<div id="footerinfo">
 				LOQAL was developed by Behrad, Alan, Nicole and Kyle for CSC309<br><br>
 				<b>Summer 2020</b>
 			</div>
-		</div> -->
+		</div>
+
+
 		<script type="text/javascript" src="../sharedClasses/classes.js"></script>
 		<script type="text/javascript" src="report.js"></script>
 	</body>
