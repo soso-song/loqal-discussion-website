@@ -52,11 +52,11 @@ function load_result_question(questions){
 		if(questions[i].is_resolved){
 			is_resolved = "Resolved";
 		}
-		questionResultEntries.innerHTML +=
-			"<div class='shortquestion'>"+
-				"<a class='squestion' href='../answer/answer.html'>"+questions[i].title+"</a>"+
-				"<div class='sinfo'>Asked by <a href='#''>"+users[questions[i].user_id].username+"</a> - "+questions[i].time+" - "+question_answer_nums+" Answers - "+is_resolved+"</div>"+
-			"</div>";
+
+		questionResultEntries.innerHTML+=`<div class="shortquestion">
+            <a class="squestion" href="../answer/answer.html?question_id=${questions[i].id}">${questions[i].title}</a>
+            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${questions[i].user_id}">${users[questions[i].user_id].username}</a> - ${questions[i].time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
+        </div>`;
 
 		i++;
 	}
@@ -66,11 +66,10 @@ function load_result_answer(answers){
 	var i=0;
 	answerResultEntries.innerHTML = '';
 	while(i < answers.length){
-		answerResultEntries.innerHTML +=
-			"<div class='shortquestion'>"+
-				"<a class='sanswer' href='../answer/answer.html'>"+answers[i].content+"</a>"+
-				"<div class='sinfo'>In reply to <a href='#'>"+questions[answers[i].question_id].title+"</a> - "+questions[i].time+"</div>"+
-			"</div>"
+		answerResultEntries.innerHTML+=`	<div class="shortquestion">
+			<a class="sanswer" href="../answer/answer.html?question_id=${answers[i].question_id}">${answers[i].content}</a>
+			<div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${answers[i].question_id}">${questions[answers[i].question_id].title}</a> - ${answers[i].time}</div>
+		</div>`;
 		i++;
 	}
 }
