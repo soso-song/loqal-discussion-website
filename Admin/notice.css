@@ -1,9 +1,9 @@
-#postNotice {
+/*#postNotice {
 	margin: auto;
 	width: 700px;
 	background-color: #efefef;
 	padding-bottom: 50px;
-}
+}*/
 
 #allNotices {
 	margin: auto;
@@ -37,9 +37,9 @@
 }
 
 
-.sign_notice {
+/*.sign_notice {
 	text-align: right;
-}
+}*/
 
 .post_time{
 	margin-top:5px;

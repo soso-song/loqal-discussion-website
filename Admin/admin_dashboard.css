@@ -28,21 +28,21 @@
 	margin-right: 30px;
 }
 
-.lrDiv {
+/*.lrDiv {
 	background-color: #efefef;
 	width: 70%;
 	margin:auto;
 	height: 40px;
 	padding-bottom: 30px;
 	margin-bottom: 30px;
-}
+}*/
 
 h3 {
 	margin-left: 40px;
 }
 
 
-button {
+/*button {
 	color:#ee6261;
 	text-decoration:none;
 	background-color:transparent;
@@ -51,7 +51,7 @@ button {
 	font-weight:normal;
 	border:1px solid #ee6261;
 	margin-left: 5px;
-}
+}*/
 
 .leftDiv p {
 	margin-left: 10px;
