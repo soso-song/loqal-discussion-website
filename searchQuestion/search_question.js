@@ -3,25 +3,21 @@ let search_key = params.get('search_key');
 // above variables should be passed and get when user cleck search button
 
 // init:
-const searchQuestionForm = document.querySelector('#searchQuestionForm');
 const questionResultEntries = document.querySelector('#questionResult');
 const answerResultEntries = document.querySelector('#answerResult');
-// if url para not null or ""
-if(!!search_key) {
-	searchQuestionForm.elements['keyword'].value = search_key;
+
+if ((search_key != null)&&(search_key != '')){
 	search_questions();
 }
 
 // code below is for normal page user
 function search_questions() {
-	//e.preventDefault();
-	const keyword = searchQuestionForm.elements['keyword'].value;
+	const keyword = search_key;
 	result_ques = [];
 	result_answ = [];
 	for(curr_que of questions){
 		if(curr_que.title.includes(keyword) || curr_que.content.includes(keyword)){
 			result_ques.push(curr_que);
-			//console.log(curr_que);
 		}
 	}
 	for(curr_ans of answers){
@@ -29,12 +25,7 @@ function search_questions() {
 			result_answ.push(curr_ans)
 		}
 	}
-	console.log('ques_result:');
-	console.log(result_ques);
-	console.log('answ_result:');
-	console.log( result_answ);
-	// document.write(result_post);
-	// document.write(result_answ);
+
 	load_result_question(result_ques);
 	load_result_answer(result_answ);
 }
@@ -42,13 +33,10 @@ function search_questions() {
 
 
 function load_result_question(questions){	
-	//var table=document.getElementById("questionResult");
 	var i=0;
 	questionResultEntries.innerHTML = '';
-	
 
 	while(i < questions.length){
-	//var row = table.insertRow(i).outerHTML=
 		var tag_names = [];
 		for (const tag_index of questions[i].tag_list){
 			tag_names.push(tags[tag_index].name);
@@ -70,39 +58,19 @@ function load_result_question(questions){
 				"<div class='sinfo'>Asked by <a href='#''>"+users[questions[i].user_id].username+"</a> - "+questions[i].time+" - "+question_answer_nums+" Answers - "+is_resolved+"</div>"+
 			"</div>";
 
-			// "<tr>"+
-			// 	"<td>"+questions[i].id+"</td>"+
-			// 	"<td>"+questions[i].title+"</td>"+
-			// 	"<td>"+questions[i].content+"</td>"+
-			// 	"<td>"+users[questions[i].user_id].username+"</td>"+
-			// 	"<td>"+tag_names+"</td>"+
-			// 	"<td>"+questions[i].is_flagged+"</td>"+
-			// 	"<td>"+questions[i].time+"</td>"+
-			// "</tr>";
 		i++;
 	}
 }
 
 function load_result_answer(answers){	
-	//var table=document.getElementById("questionResult");
 	var i=0;
 	answerResultEntries.innerHTML = '';
 	while(i < answers.length){
-	//var row = table.insertRow(i).outerHTML=
 		answerResultEntries.innerHTML +=
 			"<div class='shortquestion'>"+
 				"<a class='sanswer' href='../answer/answer.html'>"+answers[i].content+"</a>"+
 				"<div class='sinfo'>In reply to <a href='#'>"+questions[answers[i].question_id].title+"</a> - "+questions[i].time+"</div>"+
 			"</div>"
-			// "<tr>"+
-			// 	"<td>"+answers[i].id+"</td>"+
-			// 	"<td>"+answers[i].question_id+"</td>"+
-			// 	"<td>"+answers[i].content+"</td>"+
-			// 	"<td>"+users[answers[i].user_id].username+"</td>"+
-			// 	"<td>"+answers[i].is_best+"</td>"+
-			// 	"<td>"+answers[i].is_flagged+"</td>"+
-			// 	"<td>"+answers[i].time+"</td>"+
-			// "</tr>";
 		i++;
 	}
 }
