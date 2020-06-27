@@ -1,13 +1,21 @@
+const params = new URLSearchParams(window.location.search)
+let search_key = params.get('search_key');
+// above variables should be passed and get when user cleck search button
 
-
+// init:
 const searchQuestionForm = document.querySelector('#searchQuestionForm');
-searchQuestionForm.addEventListener('submit', search_questions);
+const questionResultEntries = document.querySelector('#questionResult');
+const answerResultEntries = document.querySelector('#answerResult');
+// if url para not null or ""
+if(!!search_key) {
+	searchQuestionForm.elements['keyword'].value = search_key;
+	search_questions();
+}
 
-function search_questions(e) {
-	e.preventDefault();
+// code below is for normal page user
+function search_questions() {
+	//e.preventDefault();
 	const keyword = searchQuestionForm.elements['keyword'].value;
-	// console.log(searchQuestionForm.elements['keyword']);
-	// console.log(keyword);
 	result_ques = [];
 	result_answ = [];
 	for(curr_que of questions){
@@ -32,8 +40,7 @@ function search_questions(e) {
 }
 
 
-const questionResultEntries = document.querySelector('#questionResult');
-const answerResultEntries = document.querySelector('#answerResult');
+
 function load_result_question(questions){	
 	//var table=document.getElementById("questionResult");
 	var i=0;
