@@ -28,7 +28,7 @@ cd team11
 index.html
 ```
 
-Start from index.html. Click on "get started" in the bottom, then user either one of the following accounts to log in.
+Start from index.html. Click on "get started" in the bottom, then register or use either one of the following accounts to log in.
 
 | Username | Password |
 | ------------- | ------------- |
@@ -41,11 +41,11 @@ So a user will be able to see their user profile, by clicking on user dashboard,
 
 
 
-However, the current application is hardcoded to log in as the first account called “user” which has no access to the admin dashboard. To log in as admin, open /sharedClasses/classes.js and go to the bottom to change current user to admin:
+However, the current application is hardcoded to log in as the first account called "user" which has no access to the admin dashboard. To log in as admin, open /sharedClasses/classes.js and go to the bottom to change current user to admin:
 ```javascript
 //Regular user
 // curr_user = users[0];
 //Admin user
 curr_user = users[2];
 ```
-Now when you open user/userdashboard.html, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
+Now when you open user/userdashboard.html, you will see an additional button called "Admin Dashboard" which shall lead you to a different dashboard only for admin users.
