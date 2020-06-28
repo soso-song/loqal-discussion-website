@@ -1,20 +1,13 @@
-#questionForm label{
+#tagForm label{
 	display:block;
 	margin-bottom:10px;
 }
 
-#questionForm input{
-	display:block;
+#tagForm input{
+	display:inline-block;
 	margin-bottom:20px;
 	padding: 10px;
-	width:600px;
-}
-
-#questionForm textarea{
-	display:block;
-	margin-bottom:20px;
-	padding: 10px;
-	width:600px;
+	width:400px;
 }
 
 .headline{
@@ -35,11 +28,11 @@
 	width:600px;
 }
 
-#questionForm #formbtn{
-	display:block;
+#tagForm #formbtn{
+	display:inline-block;
 	color:#ee6261;
 	text-decoration:none;
-	margin-top: 40px;
+	margin-top: 0px;
 	background-color:transparent;
 	cursor: pointer;
 	text-align: center;

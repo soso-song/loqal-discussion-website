@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="../index.css">
 		<link rel="stylesheet" type="text/css" href="subscribe.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script type="text/javascript" src="subscribe.js"></script>
+		<script type="text/javascript" src="../index.js"></script>
 	</head>
 	
 	<body>
@@ -15,15 +15,43 @@
 			<div id="navbar">
 				<a href="../index.html" id="navlogo"> </a>
 				
+				<ul id="menubar">
+					<li><a href="../user/userdashboard.html">Dashboard</a></li>
+					<li><a href="../question/question.html">Ask</a></li>
+					<li><a href="../user/userprofile.html">Profile</a></li>
+				</ul>
+
+				<div id="searchparent">
+					<form id='searchForm'>
+						 <input id='searchinput' name="searchinput" type="text" placeholder="Search...">
+						 <input id="searchbutton" type="submit" value="Search">
+					</form>
+				</div>
 			</div>
 			<div id="pagecontent">
 				<div id="onecol">
 					<div id="askparent">
 						<div class="headline">
-							Please choose some tags to follow
+							Some of the popular tags
 						</div>
-						<div id="alltags">							
+						<div id="alltags">					
 						</div>
+
+						<div class="headline">
+							Your current tags
+						</div>
+						<div id="currenttags">							
+						</div>
+						
+						<div class="headline">
+							Add a custom tag
+						</div>
+						<form id='tagForm'>
+							<div class="formerror"></div>
+							 <input id='newtag' name="newtag" type="text" placeholder="Title">
+					
+							 <input id="formbtn" type="submit" value="Add Tag">
+						 </form>
 						<a id="continue" href="../user/userdashboard.html">Save and continue</a>
 					</div>			
 				</div>
@@ -36,5 +64,6 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="../sharedClasses/classes.js"></script>
+		<script type="text/javascript" src="subscribe.js"></script>
 	</body>
 </html>

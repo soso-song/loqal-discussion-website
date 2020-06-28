@@ -1,4 +1,4 @@
-pageUser = curr_user;
+let pageUser = curr_user;
 basicInfo();
 
 $(document).ready(function() {
