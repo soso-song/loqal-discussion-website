@@ -21,14 +21,17 @@ From the index.html, users can register and login to the site. For standard user
 This is an example of creating an admin user.
 
 ## How to use?
+#### Starting the application
 Clone locally:
 ```shell
 git clone https://github.com/csc309-summer-2020/team11.git
 cd team11
 index.html
 ```
-
-Start from index.html. Click on "get started" in the bottom, then register or use either one of the following accounts to log in.
+#### Create an account or log in
+* Start from index.html. Click on "get started" in the bottom. 
+* Register by entering all required fields in the left block and press the “Register” button, this will lead you to a page showing some popular tags that you could subscribe to.
+* OR use either one of the following accounts to log in.
 
 | Username | Password |
 | ------------- | ------------- |
@@ -37,17 +40,44 @@ Start from index.html. Click on "get started" in the bottom, then register or us
 | admin  | admin  |
 | alan  | alan  |
 
-So a user will be able to see their user profile, by clicking on user dashboard, they will be able to see the newest questions and questions related to them.
 
+#### Register
+*A user will be able to login and register in this page
 
+#### User Dashboard
+* A user will be able to see their user profile, by clicking on the user dashboard
+* A user will be able to see the newest questions and questions related to them.
+* A user will be able to see the notification from admins via the userdashoard.
 
-However, the current application is hardcoded to log in as the first account called “user” which has no access to the admin dashboard. To log in as admin, open /sharedClasses/classes.js and go to the bottom to change current user to admin:
+#### User Profile
+* A user will be able to follow and followed by user profile
+* A user will be able see the followers and followings in user profile
+* A user will be able see the related question
+
+### Edit User
+* A user will be able to change their basic information via this page
+
+#### Admin Dashboard
+Current application is hardcoded to log in as the first account called “user” which has no access to the admin dashboard. To log in as admin, open /sharedClasses/classes.js and go to the bottom to change current user to admin:
 ```javascript
 //Regular user
 // curr_user = users[0];
 //Admin user
 curr_user = users[2];
 ```
+
+
 Now when you open user/userdashboard.html, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
 
+### Subscribe
+* User will be able to subscribe tags or add tags in this page
 
+#### Questions
+*For each question will contain a title, a description and some related tags. When you go to editquestion.html, Fill the information that corresponds to the Blank and the user will be able to preview their question in the below.  
+*Similar to twitter, in our website we separate tags by “,”.
+
+### Report
+* Users will be able to report questions via this page.
+
+#### Answers
+For the part of answers, click on reply to post to answer the question you want to answer. At the same page, you also can report an answer which is not appropriate and adire the answer you appreciate.
