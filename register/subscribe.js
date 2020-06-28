@@ -1,5 +1,8 @@
 let pageUser = curr_user;
 
+const params = new URLSearchParams(window.location.search)
+let back_url = params.get('back_url');
+
 $(document).ready(function() {
 	
 	for (let i = 0; i < tags.length; i++) {
@@ -21,6 +24,23 @@ $(document).ready(function() {
 		}else{
 			$(this).find( "span" ).text("Follow");
 			// Add new tag to user by sending a post request to backend
+		}
+	});
+
+	$('body').on('click', '#continue', function () {
+		const myVal = $(this).find( "span" ).text();
+		if(myVal === "Follow"){
+			$(this).find( "span" ).text("Unfollow");
+			// Remove this tag from user by sending a post request to backend
+		}else{
+			$(this).find( "span" ).text("Follow");
+			// Add new tag to user by sending a post request to backend
+		}
+
+		if(!back_url){
+			location.href = "../user/userdashboard.html";
+		}else{
+			location.href = back_url;
 		}
 	});
 
