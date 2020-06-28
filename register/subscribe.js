@@ -33,15 +33,16 @@ $(document).ready(function() {
 		$('#newtag').prev().text('');
 
 		const newTagVal = $('#newtag').val();
+		const formattedString = newTagVal.trim().replace(/\s+/g, '-').toLowerCase();
 
-		if (newTagVal.length < 1) {
+		if (formattedString.length < 1) {
 			$('#newtag').prev().text('This field cannot be empty');
 			hasError = true;
 		}
 
 		if(!hasError){
 			// At this stage we will send data to backend to add tag to user and will get the tag id from back-end
-			let newTag = `<a href="javascript:void(0);" class="interactivetag">${newTagVal}<span class="tagside">Unfollow</span></a>`
+			let newTag = `<a href="javascript:void(0);" class="interactivetag">${formattedString}<span class="tagside">Unfollow</span></a>`
 			$('#currenttags').prepend(newTag);
 		}
   	});
