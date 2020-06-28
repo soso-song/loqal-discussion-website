@@ -5,6 +5,7 @@
         <title>Edit Profile</title>
         <link rel="stylesheet" type="text/css" href="../index.css">
         <link rel="stylesheet" type="text/css" href="editprofile.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript" src="../index.js"></script>
     <body>
         <div id="wrapper">
@@ -55,9 +56,10 @@
                                         <label for="password">Password:</label>
                                         <input type="text" id="password" name="password">
                                     </li>
-                                    <label for="tags">Tags:</label>
+                                    <!--label for="tags">Tags:</label>
                                     <div id="tags">
-                                    </div>
+                                    </div-->
+                                    <a id="editTagButt" href="../register/subscribe.html">Edit Your Tags</a>
                                     <br>
                                     <li>
                                         <label for="status">Status:</label>
@@ -68,7 +70,7 @@
                                         <input type="text" id="acct_type" name="acct_type" value="Regular User" disabled>
                                     </li>
                                 </ul>
-                                <input class='save' id="formbtn" type='submit' value='Save'><br>
+                                <input class='save' id="formbtn" type='submit' value='Save Changes'><br>
                             </form>
                         </div>
                     </div>
@@ -81,7 +83,6 @@
 				<b>Summer 2020</b>
 			</div>
         </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="../sharedClasses/classes.js"></script>
     <script type="text/javascript" src="editprofile.js"></script>
     </body> 

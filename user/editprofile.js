@@ -15,6 +15,7 @@ function load_profile(user){
     document.querySelector('#password').value = user.password;
 
     // display multiple tags
+    /*
     const tag_cell = document.getElementById("tags");
     tag_cell.innerHTML = '';
     const user_tags = [];
@@ -37,6 +38,7 @@ function load_profile(user){
     }
     tag_cell.innerHTML = html_tag;
     tag_cell.innerHTML += "<input id='tagbtn' type='submit' value='Add Tag' onclick='add_tag()'>";;
+    */
 
     // display picture
     const photo = document.querySelector('#prof_pic');
@@ -53,6 +55,7 @@ function load_profile(user){
     }
 }
 
+/*
 function add_tag(){
     const tag=document.getElementById("tags");
     let html_tag = '<select class="html_tag">';
@@ -74,6 +77,7 @@ function add_tag(){
         options[i].selectedIndex = selected_index[i-1];
     }
 }
+*/
 
 
 function edit(e){
@@ -84,6 +88,7 @@ function edit(e){
 	user.password = document.querySelector('#password').value;
     user.email = document.querySelector('#email').value;
 
+    /*
     // save tags
     const tags = document.querySelectorAll(".html_tag");
     const tag_ids = [];
@@ -95,6 +100,7 @@ function edit(e){
         }
     }
     user.tag_list = tag_ids;
+    */
 
     window.alert("Your profile has been changed");
     window.location.href = "userprofile.html";

@@ -92,3 +92,17 @@
 	background:#ffffff;
 	padding:20px;
 }
+
+#editTagButt{
+	display:inline-block;
+	color:#ee6261;
+	text-decoration:none;
+	margin: 10px 0px 40px 0px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:8px 15px;
+	font-size:13px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+}
