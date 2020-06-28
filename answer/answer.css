@@ -20,16 +20,6 @@
 	width:600px;
 }
 
-.headline{
-	font-size:23px;
-	padding:30px 0px 10px 0px;
-}
-
-.desc{
-	font-style: italic;
-	margin-bottom:20px;
-}
-
 #preview{
 	background-color:#ffffff;
 	padding: 20px;
@@ -150,10 +140,6 @@
 
 #isbest a.pickbest{
 	display:none;
-}
-
-.answerbuttons{
-
 }
 
 .answerbuttons a{
