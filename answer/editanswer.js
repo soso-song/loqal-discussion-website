@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 	$('#qdesc').val(answers[whichAnswer].content);
 
-$('#questionForm').submit(function(e) {
+$('#answerForm').submit(function(e) {
     e.preventDefault();
 
 	let hasError = false;

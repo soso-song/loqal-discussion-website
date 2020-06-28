@@ -1,16 +1,16 @@
-#questionForm label{
+#answerForm label{
 	display:block;
 	margin-bottom:10px;
 }
 
-#questionForm input{
+#answerForm input{
 	display:block;
 	margin-bottom:20px;
 	padding: 10px;
 	width:600px;
 }
 
-#questionForm textarea{
+#answerForm textarea{
 	display:block;
 	margin-bottom:20px;
 	padding: 10px;
@@ -23,20 +23,7 @@
 	padding:20px 0px 10px 0px;
 }
 
-.desc{
-	font-style: italic;
-	margin-bottom:20px;
-}
-
-#preview{
-	background-color:#ffffff;
-	border: 1px solid #cccccc;
-	padding: 10px;
-	min-height:100px;
-	width:600px;
-}
-
-#questionForm #formbtn{
+#answerForm #formbtn{
 	display:block;
 	color:#ee6261;
 	text-decoration:none;
@@ -54,29 +41,6 @@
 
 .formerror{
 	color:red;
-}
-
-.tag{
-	display:inline-block;
-	color:#ffffff;
-	background-color:#ee6261;
-	margin-right:10px;
-	margin-top:10px;
-	padding:10px;
-}
-
-#ptitle{
-	font-size:20px;
-	font-weight: bold;
-	margin-bottom:20px;
-}
-
-#pdesc{
-	font-size:15px;
-}
-
-.gray{
-	color:#aaaaaa;
 }
 
 #onecol{
