@@ -82,9 +82,23 @@ function edit_row(no){
 
 function save_row(no){
 	const title_val=document.getElementById("title_text"+no).value;
+	if (title_val.length < 1){
+		window.alert('Question title can not be empty!');
+		return;
+	} else if (title_val.length > 80){
+		window.alert('Question title can not more than 80 characters!');
+		return;
+	}
+
 	const content_val=document.getElementById("content_text"+no).value;
+	if (content_val.length < 1){
+		window.alert('Question content can not be empty!');
+		return;
+	}
+
 	const is_flag_val=document.getElementById("is_flag_select"+no).value;
 	const is_reso_val=document.getElementById("is_reso_select"+no).value;
+
 
 	//get all tag_id for current question
 	const tag_div = document.getElementById("tag_row"+no);
