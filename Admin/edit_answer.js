@@ -54,9 +54,11 @@ function edit_row(no){
 
 
 function save_row(no){
-
-	
 	const content_val=document.getElementById("content_text"+no).value;
+	if (content_val.length < 1){
+		window.alert("Answer can not be empty!");
+		return;
+	}
 	const is_best_val=document.getElementById("is_best_select"+no).value;
 	const is_flag_val=document.getElementById("is_flag_select"+no).value;
 	//var tag_val=document.getElementById("tag_text"+no);
