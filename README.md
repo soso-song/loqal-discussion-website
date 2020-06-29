@@ -50,14 +50,14 @@ index.html
 * Users will be able to see their recently posted questions and answers 
 
 #### User Profile
-* A user will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button on other's profile page
-* A user will be able see the followers and followings in user profile
-* A user will be able see the questions and answer posted by him/her-self
+* Users will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button on other's profile page
+* Users will be able see the followers and followings in their user profile
+* Users will be able see the questions and answer posted by themselves
 
 #### Edit User
-* A user will be able to change their basic information by clicking into the "Edit Profile" button on their dashboard
-* A user could edit their username, display name, email, password, tags, and profile photo
-* A user could see their status (normal or flagged), and account type (admin or regular user), but they can not edit it
+* Users will be able to change their basic information by clicking into the "Edit Profile" button on their dashboard
+* Users could edit their username, display name, email, password, tags, and profile photo
+* Users could see their status (normal or flagged), and account type (admin or regular user), but they can not edit it
 * Clicking on "Edit Your Tags" will direct to a page where you can follow some popular tags, unfollow current tags, or add a custom tag
 
 
