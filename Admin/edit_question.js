@@ -85,9 +85,6 @@ function save_row(no){
 	if (title_val.length < 1){
 		window.alert('Question title can not be empty!');
 		return;
-	} else if (title_val.length > 80){
-		window.alert('Question title can not more than 80 characters!');
-		return;
 	}
 
 	const content_val=document.getElementById("content_text"+no).value;
