@@ -70,7 +70,7 @@ index.html
 For the part of answers, click on reply to post to answer the question you want to answer. At the same page, you also can report an answer which is not appropriate and adire the answer you appreciate.
 
 ### For Admin users
-Current application is hardcoded to log in as the first account called “user” which has no access to the admin dashboard. To log in as admin, open /sharedClasses/classes.js and go to the bottom to change current user to admin:
+Current application is hardcoded to log in as the first account called “user” which has no access to the admin dashboard. If you are opening pages through local files, you will need to open /sharedClasses/classes.js and go to the bottom to change current user to admin:
 ```javascript
 //Regular user
 // curr_user = users[0];
@@ -78,6 +78,7 @@ Current application is hardcoded to log in as the first account called “user�
 curr_user = users[2];
 ```
 Now when you open user/userdashboard.html, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
+ALSO, you can simply go back to the log in page and log in with username "admin" and password "admin".
 
 #### Admin Dashboard
 * View all reported users
@@ -89,7 +90,11 @@ Now when you open user/userdashboard.html, you will see an additional button cal
 * View all reported answers
   * Click to jump to question page at answer
   * Flag answer or deny report
-* Sidebar directing to bookmarks at list of reported users, list of reported questions, and list of reported answers. Also could direct to new pages of posting new notices, viewing all users, questions, answers or tags.
+* Admin's sidebar
+ * Option to go back to admin's dashboard
+ * Option to go back to the regular dashboard
+ * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers
+ * Options to direct to new pages for posting new notices, viewing all users, questions, answers or tags
 
 #### Post Notice
 * An admin user could post important notices that are to be pinned at top of regular user's dashboard
