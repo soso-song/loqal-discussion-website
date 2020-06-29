@@ -1,4 +1,4 @@
-#editDiv {
+#editDiv { 
 	width: 95%;
 	margin: auto;
 	padding-left: 30px;
@@ -20,13 +20,6 @@
 	margin: 10px 10px 10px;
 }
 
-#tags {
-	background-color: #eeeeee;
-	padding: 10px 10px 10px 10px;
-	width: 90%;
-}
-
-
 .headline {
 	font-size:23px;
 	padding:20px 0px 10px 0px;
@@ -39,11 +32,6 @@
 
 #prof_pic {
 	width: 200px;
-}
-
-.desc{
-	font-style: italic;
-	margin-bottom:20px;
 }
 
 #editForm input[type='submit']{
@@ -68,7 +56,6 @@
 .formerror{
 	color:red;
 }
-
 
 #editForm ul {
     width: 80%;
