@@ -37,14 +37,14 @@ function load_all_reports(){
 				rep_q_count++;
 				left.innerHTML = "<p>Reported: <strong>" + questions[report.rep_unique_id].title + "</strong></p>";;
 				type_output = "Question"; 
-				html_name = "#";
+				html_name = "../answer/answer.html?question_id=" + report.rep_unique_id;
 				rep_ques.appendChild(div);
 				break;
 			case 'a':
 				rep_a_count++;
 				left.innerHTML = "<p>Reported: <strong>" + answers[report.rep_unique_id].content + "</strong></p>";;
 				type_output = "Answer";
-				html_name = "../answer/answer.html";
+				html_name = "../answer/answer.html?question_id=" + answers[report.rep_unique_id].question_id;
 				rep_ans.appendChild(div);
 				break;
 		}

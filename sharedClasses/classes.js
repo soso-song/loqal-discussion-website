@@ -149,6 +149,7 @@ notices.push(new Notice('Washing Hands', 'Do not forget to wash your hands every
 
 // report
 reports.push(new Report("u", 1, 0, "posting multiple fake answers"));
+reports.push(new Report("q", 1, 0, "hhhhh"));
 reports.push(new Report("a", 0, 0, "fake answer"));
 reports.push(new Report("a", 1, 0, "fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!fake answer!!!!!"));
 
