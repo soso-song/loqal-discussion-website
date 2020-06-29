@@ -242,13 +242,14 @@ function save_all(e){
 	}else{
 		user.is_admin = false;
 	}
+	window.alert("Changed saved.");
 }
 
 
 function update_photo(e){
 	const photo_in = e.target;
 	if(photo_in.files && photo_in.files[0]){
-		var reader = new FileReader();
+		const reader = new FileReader();
 		let ee;
        	reader.onload = function (ee) {
             $('#single_photo').attr('src', ee.target.result)
