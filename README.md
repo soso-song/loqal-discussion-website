@@ -44,30 +44,44 @@ index.html
 
 
 #### User Dashboard
-* A user will be able to see their user profile, by clicking on the user dashboard
-* A user will be able to see the newest questions and questions related to them.
-* A user will be able to see the notification from admins via the userdashoard.
+* Users will be able to see their user profile, by clicking on "Your Porfile" button in the user dashboard
+* Users user will be able to see the newest questions and questions related to them
+* Users will be able to see the notification from admins via their user dashoard
+* Users will be able to see their recently posted questions and answers 
 
 #### User Profile
-* A user will be able to follow and followed by user profile
+* A user will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button on other's profile page
 * A user will be able see the followers and followings in user profile
-* A user will be able see the related question
+* A user will be able see the questions and answer posted by him/her-self
 
 #### Edit User
-* A user will be able to change their basic information via this page
+* A user will be able to change their basic information by clicking into the "Edit Profile" button on their dashboard
+* A user could edit their username, display name, email, password, tags, and profile photo
+* A user could see their status (normal or flagged), and account type (admin or regular user), but they can not edit it
+* Clicking on "Edit Your Tags" will direct to a page where you can follow some popular tags, unfollow current tags, or add a custom tag
 
-#### Subscribe
-* User will be able to subscribe tags or add tags in this page
 
 #### Questions
-* Each question contains a title, a description and some related tags. When you go to editquestion.html, Fill the information that corresponds to the Blank and the user will be able to preview their question in the below.  
-*Similar to twitter, in our website we separate tags by “,”.
-
-#### Report
-* Users will be able to report questions via this page.
+* Post a new question by clicking on "Ask a New Question" button on user dashboard
+* Each question contains a title, a description and some related tags
+* Fill the information that corresponds to the Blank and the user will be able to preview their question at the bottom
+* Similar to twitter, tags are seperated by “,”
+* Submitting a question will redirect to a new individual question page which will show this question, and all the answers to this question
 
 #### Answers
-For the part of answers, click on reply to post to answer the question you want to answer. At the same page, you also can report an answer which is not appropriate and adire the answer you appreciate.
+* A user could reply to questions by clicking into the question page
+* Type into the text area, and clicking "Post Reply" will submit your answer
+* A posted answer will be shown below with most recent answers on the top
+* Every answer is shown with the answer's content, the user who posted the answer, and the time posted
+* Edit the answers by clicking on the "Edit Answer" button which is shown only if the answer is posted by current user
+
+#### Report
+* Buttons for reporting a question or an answer is provided in the individual question page
+* Buttons for reporting a user is provided in user's profile page
+* Clicking on the report button will direct to a page for giving a reason of reporting this user, question, or answer
+* Will be redirected back to previous page after submitting the report
+
+
 
 ### For Admin users
 Current application is hardcoded to log in as the first account called “user” which has no access to the admin dashboard. If you are opening pages through local files, you will need to open /sharedClasses/classes.js and go to the bottom to change current user to admin:
