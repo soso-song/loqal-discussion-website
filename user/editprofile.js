@@ -1,5 +1,4 @@
 "use strict"
-//const user = users[2];
 const user = curr_user;
 
 const userEditForm = document.querySelector('#editForm');
@@ -13,32 +12,6 @@ function load_profile(user){
     document.querySelector('#displayName').value = user.display_name;
     document.querySelector('#email').value = user.email;
     document.querySelector('#password').value = user.password;
-
-    // display multiple tags
-    /*
-    const tag_cell = document.getElementById("tags");
-    tag_cell.innerHTML = '';
-    const user_tags = [];
-    for (const tag_index of user.tag_list){
-        user_tags.push(tags[tag_index]);
-    }
-    // making adding tag options
-    let html_tag = '';
-    for(const curr_tag of user_tags){
-        html_tag += '<select class="html_tag">';
-        for(const tag_elem of tags){
-            if(curr_tag.id == tag_elem.id){
-                html_tag += "<option value="+tag_elem.id+" selected>"+tag_elem.name +"</option>";   
-            }else{
-                html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";    
-            }
-        }
-        html_tag += "<option value=-1>remove</option>";
-        html_tag += '</select>';
-    }
-    tag_cell.innerHTML = html_tag;
-    tag_cell.innerHTML += "<input id='tagbtn' type='submit' value='Add Tag' onclick='add_tag()'>";;
-    */
 
     // display picture
     const photo = document.querySelector('#prof_pic');
@@ -55,55 +28,55 @@ function load_profile(user){
     }
 }
 
-/*
-function add_tag(){
-    const tag=document.getElementById("tags");
-    let html_tag = '<select class="html_tag">';
-    for(const tag_elem of tags){
-        html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>"; 
-    }
-    html_tag += "<option value=-1>remove</option>";
-    html_tag += '</select>';
-    // save the index of each assigned option
-    let options = tag.children;
-    let selected_index = []
-    for (let i = 1; i < options.length; i++) {
-        selected_index.push(options[i].selectedIndex);
-    }
-    // add new variable
-    tag.innerHTML = html_tag + tag.innerHTML;
-    // re-select selected options
-    for (let i = 1; i < options.length-1; i++) {
-        options[i].selectedIndex = selected_index[i-1];
-    }
-}
-*/
-
-
 function edit(e){
     e.preventDefault();
     
-    user.username = document.querySelector('#userName').value;
-    user.display_name = document.querySelector('#displayName').value;
-	user.password = document.querySelector('#password').value;
-    user.email = document.querySelector('#email').value;
+    let hasError = false;
+    let errMessage = '';
 
-    /*
-    // save tags
-    const tags = document.querySelectorAll(".html_tag");
-    const tag_ids = [];
-    for (const tag of tags){
-        if (tag.value != -1){
-            tag_ids.push(tag.value);
-        }else{
-            tag.parentElement.removeChild(tag);
+    const new_username = document.querySelector('#userName').value;
+    const new_display_name = document.querySelector('#displayName').value;
+	const new_password = document.querySelector('#password').value;
+    const new_email = document.querySelector('#email').value;
+
+    if (new_username.length < 1) {
+        errMessage = 'Username cannot be empty';
+        hasError = true;
+    }else{
+        for (let i = 0; i < users.length; i++) {
+            if((users[i].username == new_username) && (curr_user.id != users[i].id)){
+                errMessage = 'Username already taken';
+                hasError = true;
+            }
         }
     }
-    user.tag_list = tag_ids;
-    */
 
-    window.alert("Your profile has been changed");
-    window.location.href = "userprofile.html";
+    if (new_display_name.length < 1) {
+        errMessage = 'Display Name cannot be empty';
+        hasError = true;
+    }
+
+    if (new_password.length < 1) {
+        errMessage = 'Password cannot be empty';
+        hasError = true;
+    }
+
+    if (new_email.length < 1) {
+        errMessage = 'E-mail cannot be empty';
+        hasError = true;
+    }
+
+    if(!hasError){
+        user.username = new_username;
+        user.display_name = new_display_name;
+        user.password = new_password;
+        user.email = new_email;
+
+        window.alert("Your profile has been changed");
+        window.location.href = "userprofile.html";
+	}else{
+        window.alert(errMessage);
+    }
 }
 
 function update_photo(e){
