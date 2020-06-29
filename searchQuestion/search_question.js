@@ -33,22 +33,22 @@ function search_questions() {
 
 
 function load_result_question(questions){	
-	var i=0;
+	let i=0;
 	questionResultEntries.innerHTML = '';
 
 	while(i < questions.length){
-		var tag_names = [];
+		let tag_names = [];
 		for (const tag_index of questions[i].tag_list){
 			tag_names.push(tags[tag_index].name);
 		}
-		var question_answer_nums = 0;
+		let question_answer_nums = 0;
 		for (const ans of answers){
 			if (ans.question_id == questions[i].id){
 				question_answer_nums += 1;
 			}
 		}
 
-		var is_resolved = "Unresolved";
+		let is_resolved = "Unresolved";
 		if(questions[i].is_resolved){
 			is_resolved = "Resolved";
 		}
@@ -67,7 +67,7 @@ function load_result_question(questions){
 }
 
 function load_result_answer(answers){	
-	var i=0;
+	let i=0;
 	answerResultEntries.innerHTML = '';
 	while(i < answers.length){
 		answerResultEntries.innerHTML+=`	<div class="shortquestion">

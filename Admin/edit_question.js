@@ -85,31 +85,38 @@ function save_row(no){
 	const content_val=document.getElementById("content_text"+no).value;
 	const is_flag_val=document.getElementById("is_flag_select"+no).value;
 	const is_reso_val=document.getElementById("is_reso_select"+no).value;
-	//const tag_val=document.getElementById("tag_text"+no);
 
+	//get all tag_id for current question
+	const tag_div = document.getElementById("tag_row"+no);
+	const tag_text = new Set();
+	const tag_id = new Set();
+
+	let i = 1;
+	while(i < tag_div.childElementCount){
+		if(tag_div.children[i].value != -1){
+			tag_id.add(parseInt(tag_div.children[i].value));
+			tag_text.add(tag_div.children[i].options[tag_div.children[i].selectedIndex].text);
+		}
+		i++;
+	}
+	// this if statement checks the tag is not empty
+	if(tag_id.size == 0){
+		console.log("no change due to tag list is empty");
+		alert("no change due to tag list is empty, question index: " + no);
+		return;
+	}
+	// above are get value part
+	// below are set value part
+	//set html values
+	tag_div.innerHTML= Array.from(tag_text);
 	document.getElementById("title_text"+no).disabled = true;
 	document.getElementById("content_text"+no).disabled = true;
 	document.getElementById("is_flag_row"+no).innerHTML=is_flag_val;
 	document.getElementById("is_reso_row"+no).innerHTML=is_reso_val;
-	//get all tag_id for current question
-
-	//document.getElementById("tag_row"+no).innerHTML='';
-	const tag_div = document.getElementById("tag_row"+no);
-	const tag_text = [];
-	const tag_id = [];
-	let i = 1;
-	while(i < tag_div.childElementCount){
-		if(tag_div.children[i].value != -1){
-			tag_id.push(tag_div.children[i].value);
-			tag_text.push(tag_div.children[i].options[tag_div.children[i].selectedIndex].text);
-		}
-		i++;
-	}
-	tag_div.innerHTML=tag_text;
 
 	//below is write function to questions database
 	//edit_question(no,tag_id,title_val,content_val,(is_flag_val == "true"),(is_reso_val == "true"))
-	questions[no].tag_list = tag_id;
+	questions[no].tag_list = Array.from(tag_id);
 	questions[no].title = title_val;
 	questions[no].content = content_val;
 	questions[no].is_flagged = (is_flag_val == "true");

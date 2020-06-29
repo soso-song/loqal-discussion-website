@@ -87,7 +87,7 @@ function delete_row(no){
 
 
 function change_is_best(no){
-	var is_flag_button=document.getElementById("is_best_select"+no);
+	let is_flag_button=document.getElementById("is_best_select"+no);
 	if(is_flag_button.value == "true"){
 		is_flag_button.value = false;
 	}else{
@@ -95,7 +95,7 @@ function change_is_best(no){
 	}
 }
 function change_is_flag(no){
-	var is_flag_button=document.getElementById("is_flag_select"+no);
+	let is_flag_button=document.getElementById("is_flag_select"+no);
 	if(is_flag_button.value == "true"){
 		is_flag_button.value = false;
 	}else{
