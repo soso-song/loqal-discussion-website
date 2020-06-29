@@ -38,6 +38,10 @@ input[type="button"], input[type="submit"], button{
 	margin-left: 5px;
 }
 
+#profileTable input[type='text'], select {
+	margin: 5px 5px 5px;
+}
+
 #see_profile{
 	color:#ee6261;
 	text-decoration:none;
@@ -56,6 +60,7 @@ input[type="button"], input[type="submit"], button{
 
 .formerror{
 	color:red;
+	margin-left: 5px;
 }
 
 #profileTable, #profiles{
@@ -130,7 +135,7 @@ table.postTable tfoot .links a{
 
 
 #single_profile .info{
-	padding-left: 15px;
+	padding-left: 3px;
 }
 
 textarea {

@@ -163,11 +163,61 @@ function add_tag(){
 
 function save_all(e){
 	e.preventDefault();
+
+	const new_username = document.querySelector("#in_username").value;
+	const new_email = document.querySelector("#in_email").value;
+	const new_disname = document.querySelector("#in_disname").value;
+	const new_password = document.querySelector("#in_password").value;
+
+	let hasError = false;
+	const username_error = document.querySelector('#username_error')
+	if(new_username.length < 1){
+		username_error.innerHTML = 'Username cannot be empty';
+		hasError = true;
+	} else {
+		for (let i = 0; i < users.length; i++) {
+            if((users[i].username === new_username) && (user.id != users[i].id)){
+                username_error.innerHTML = 'Username already taken';
+                hasError = true;
+                break;
+            } else {
+            	username_error.innerHTML = '';
+            }
+        }
+	}
+
+	const disname_error = document.querySelector('#disname_error');
+	if (new_disname.length < 1) {
+        disname_error.innerHTML = 'Display Name cannot be empty';
+        hasError = true;
+    } else{
+    	disname_error.innerHTML = '';
+    }
+
+    const password_error = document.querySelector('#password_error');
+    if (new_password.length < 1) {
+        password_error.innerHTML = 'Password cannot be empty';
+        hasError = true;
+    } else{
+    	password_error.innerHTML = '';
+    }
+
+    const email_error = document.querySelector('#email_error');
+    if (new_email.length < 1) {
+        email_error.innerHTML = 'E-mail cannot be empty';
+        hasError = true;
+    } else {
+    	email_error.innerHTML = '';
+    }
+
+    if (hasError){
+    	return;
+    } 
 	
-	user.username = document.querySelector("#in_username").value;
-	user.email = document.querySelector("#in_email").value;
-	user.display_name = document.querySelector("#in_disname").value;
-	user.password = document.querySelector("#in_password").value;
+	user.username = new_username;
+	user.email = new_email;
+	user.display_name = new_disname;
+	user.password = new_password
 	// save tags
 	const tags = document.querySelectorAll(".html_tag");
 	const tag_ids = [];

@@ -39,8 +39,7 @@ class User{
 }
 
 class Tag{
-	constructor(is_geo,tagName){
-		this.is_geo = is_geo;
+	constructor(tagName){
 		this.name = tagName;
 		this.id = num_tags;
 		num_tags++;
@@ -112,12 +111,12 @@ class Report{
 
 
 // tags
-tags.push(new Tag(true,'toronto'));
-tags.push(new Tag(true,'dt'));
-tags.push(new Tag(true,'north-york'));
-tags.push(new Tag(false,'student'));
-tags.push(new Tag(false,'parent'));
-tags.push(new Tag(false,'diabete'));
+tags.push(new Tag('toronto'));
+tags.push(new Tag('dt'));
+tags.push(new Tag('north-york'));
+tags.push(new Tag('student'));
+tags.push(new Tag('parent'));
+tags.push(new Tag('diabete'));
 
 // users(username, email, display_name, password, tag_list, is_admin, photo_src)
 users.push(new User('user', 'user@user.com','First User', 'user', [0,3], false));
@@ -157,6 +156,6 @@ reports.push(new Report("a", 1, 0, "fake answer!!!!!fake answer!!!!!fake answer!
 let curr_user;
 
 //Regular user
-curr_user = users[0];
+// curr_user = users[0];
 //Admin user
-//curr_user = users[2];
+curr_user = users[2];
