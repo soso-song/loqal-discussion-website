@@ -15,11 +15,6 @@
 	padding:20px 0px 10px 0px;
 }
 
-.desc{
-	font-style: italic;
-	margin-bottom:20px;
-}
-
 #preview{
 	background-color:#ffffff;
 	border: 1px solid #cccccc;
@@ -57,16 +52,6 @@
 	padding:10px;
 }
 
-#ptitle{
-	font-size:20px;
-	font-weight: bold;
-	margin-bottom:20px;
-}
-
-#pdesc{
-	font-size:15px;
-}
-
 .gray{
 	color:#aaaaaa;
 }
@@ -78,7 +63,7 @@
 	margin: 0 auto;
 }
 
-#askparent{
+#subparent{
 	background:#ffffff;
 	padding:20px;
 }
@@ -103,7 +88,7 @@ a.interactivetag{
 	background-color:#ffcaca;
 	margin-left:10px;
 	padding:10px;
-}
+} 
 
 #continue{
 	display:inline-block;
