@@ -119,38 +119,6 @@ a.sanswer{
 	padding: 20px 0px;
 }
 
-#askbig{
-	display:block;
-	color:#ee6261;
-	text-decoration:none;
-	margin-top: 40px;
-	background-color:transparent;
-	cursor: pointer;
-	text-align: center;
-	padding:15px 15px;
-	font-size:25px;
-	font-weight:normal;
-	border:1px solid #ee6261;
-}
-
-#notification{
-	background-color: bisque;
-	padding:20px;
-}
-
-#noticetitle{
-	font-size: 18px;
-	font-weight: bold;
-}
-
-#noticedesc{
-	font-size: 18px;
-}
-
-#noticedate{
-	margin-top:5px;
-}
-
 .person{
 	display:block;
 	margin-bottom:4px;
