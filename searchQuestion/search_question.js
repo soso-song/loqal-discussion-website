@@ -1,3 +1,5 @@
+"use strict"
+
 const params = new URLSearchParams(window.location.search)
 let search_key = params.get('search_key');
 // above variables should be passed and get when user cleck search button
@@ -13,14 +15,16 @@ if ((search_key != null)&&(search_key != '')){
 // code below is for normal page user
 function search_questions() {
 	const keyword = search_key;
-	result_ques = [];
-	result_answ = [];
-	for(curr_que of questions){
+	let result_ques = [];
+	let result_answ = [];
+
+	//This simple way of searching would later be implemented in backend
+	for(let curr_que of questions){
 		if(curr_que.title.includes(keyword) || curr_que.content.includes(keyword)){
 			result_ques.push(curr_que);
 		}
 	}
-	for(curr_ans of answers){
+	for(let curr_ans of answers){
 		if(curr_ans.content.includes(keyword)){
 			result_answ.push(curr_ans)
 		}
@@ -29,7 +33,6 @@ function search_questions() {
 	load_result_question(result_ques);
 	load_result_answer(result_answ);
 }
-
 
 
 function load_result_question(questions){	
