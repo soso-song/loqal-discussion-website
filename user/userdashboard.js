@@ -1,5 +1,6 @@
+"use strict"
+
 let pageUser = curr_user;
-basicInfo();
 
 $(document).ready(function() {
     $("#activitybutt").click(function(){
@@ -22,9 +23,15 @@ $(document).ready(function() {
     
 });
 
-function basicInfo()
-{
+basicInfo();
+getNotice();
+getAllQandACount();
+getAllQ();
+getAllQUser();
+getAllAnswer();
 
+// Loads left hand side information about the user
+function basicInfo(){
     let mytags = ''
     let t;
     for(t of pageUser.tag_list)
@@ -35,9 +42,7 @@ function basicInfo()
     let myhtml = `<h2> Welcome Back ${pageUser.display_name}</h2>
     <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
-    <h3>Tags</h3> ${mytags}</div>							<div>
-    </div>
-
+    <h3>Tags</h3>${mytags}</div>
     </div>`
 
     myhtml += `<a class="sidebutton" href="../user/userprofile.html?user_id=${curr_user.id}">Your Profile</a>`
@@ -50,11 +55,9 @@ function basicInfo()
     $('#left').prepend(myhtml);
 }
 
-getNotice();
-function getNotice()
-{
+// Loads the latest notification
+function getNotice(){
     let curr = notices[notices.length-1];
-    let currN = document.getElementsByClassName("userheading")[0];
     let myhtml =`
     <div id="noticetitle">${curr.title}</div>
     <div id="noticedesc">${curr.content}</div>
@@ -63,38 +66,41 @@ function getNotice()
     $('#notification').prepend(myhtml);
 }
 
-getAllQeustionsNum();
-function getAllQeustionsNum(){
-    let res = 0;
-    let answ = 0;   
+// Gets the number of questions and answers of this user
+function getAllQandACount(){
+    let qNum = 0;
+    let aNum = 0;   
+
     for(let i=0; i<num_questions; i++)
     {
         if (questions[i].user_id==pageUser.id)
         {
-            res++;
+            qNum++;
         }
     }
+
     for(let j=0; j<num_answers; j++)
     {
         if(answers[j].user_id == pageUser.id)
         {
-            answ++;
+            aNum++;
         }
     }
-    let X = document.getElementsByClassName("userheading");
-    X[2].innerHTML=`Your Recent Questions (${res})`;
+
+    let headings = document.getElementsByClassName("userheading");
+    headings[2].innerHTML=`Your Recent Questions (${qNum})`;
     let Y = document.getElementsByClassName("userheading");
-    X[3].innerHTML=`Your Recent Answers (${answ})`;
+    headings[3].innerHTML=`Your Recent Answers (${aNum})`;
 }
 
-getAllQ();
-function getAllQ()
-{
+// Displays the list of all questions
+// This would be later populated by questions related to user from backend
+function getAllQ(){
     let wanted = document.getElementsByClassName("listcontainter")[0];
-    for(q of questions)
+    for(let q of questions)
     {
         let numA = 0;
-        for(a of answers)
+        for(let a of answers)
         {
             if(a.question_id == q.id)
             {
@@ -113,34 +119,32 @@ function getAllQ()
     }
 }
 
-
-
-
-getUserAllQeustions();
-function getUserAllQeustions(){
-    ansNum = 0;
+// Displays all questions asked by user
+function getAllQUser(){
     let currQuestion = [];
+
     for(let i=0; i<num_questions; i++)
     {
-        
         if(questions[i].user_id == pageUser.id)
         {
             currQuestion.push(questions[i]);
         }
     }
+
     let wanted = document.getElementsByClassName("listcontainter")[1];
     let j=0;
     while(j<currQuestion.length)
     {
         let currQ = currQuestion[j];
-        let anw = users[currQ.user_id].username;
+
         let resolve ='Unresolved';
         if (currQ.is_resolved)
         {
             resolve = 'Resolved';
         }
+
         let numA = 0;
-        for(a of answers)
+        for(let a of answers)
         {
             if(a.question_id == currQ.id)
             {
@@ -149,18 +153,17 @@ function getUserAllQeustions(){
         }
         wanted.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
-            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
         j++;
     }
 }
 
-getAllAnswer();
+// Displays all answers answered by user
 function getAllAnswer(){
     let currAnswer = [];
     for(let i=0; i<num_answers; i++)
     {
-        
         if(answers[i].user_id == pageUser.id)
         {
             currAnswer.push(answers[i]);
