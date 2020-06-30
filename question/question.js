@@ -1,3 +1,5 @@
+"use strict"
+
 $(document).ready(function() {
 
 	function previewTitle() {
@@ -43,7 +45,6 @@ $(document).ready(function() {
 	previewTags();
 
 	// Setting values on change
-	
 	$('#qtitle').on('input', function() {
 		previewTitle();
 	});
@@ -56,39 +57,39 @@ $(document).ready(function() {
 		previewTags();
 	});
 
-$('#questionForm').submit(function(e) {
-    e.preventDefault();
+	$('#questionForm').submit(function(e) {
+		e.preventDefault();
 
-	let hasError = false;
+		let hasError = false;
 
-	$('#qtitle').prev().prev().text('');
-	$('#qdesc').prev().prev().text('');
-	$('#qtags').prev().prev().text('');
+		$('#qtitle').prev().prev().text('');
+		$('#qdesc').prev().prev().text('');
+		$('#qtags').prev().prev().text('');
 
-    const mytitle = $('#qtitle').val();
-	const mydesc = $('#qdesc').val();
-	const mytags = $('#qtags').val();
+		const mytitle = $('#qtitle').val();
+		const mydesc = $('#qdesc').val();
+		const mytags = $('#qtags').val();
 
-	if (mytitle.length < 1) {
-		$('#qtitle').prev().prev().text('This field cannot be empty');
-		hasError = true;
-	}
+		if (mytitle.length < 1) {
+			$('#qtitle').prev().prev().text('This field cannot be empty');
+			hasError = true;
+		}
 
-	if (mydesc.length < 1) {
-		$('#qdesc').prev().prev().text('This field cannot be empty');
-		hasError = true;
-	}
+		if (mydesc.length < 1) {
+			$('#qdesc').prev().prev().text('This field cannot be empty');
+			hasError = true;
+		}
 
-	if (mytags.length < 1) {
-		$('#qtags').prev().prev().text('This field cannot be empty');
-		hasError = true;
-	}
+		if (mytags.length < 1) {
+			$('#qtags').prev().prev().text('This field cannot be empty');
+			hasError = true;
+		}
 
-	if(!hasError){
-		// At this stage we will send data to backend
-		// And redirect the user to the newly created question
-		window.location.href = "../answer/answer.html";
-	}
-  });
+		if(!hasError){
+			// At this stage we will send data to backend
+			// And redirect the user to the newly created question
+			window.location.href = "../answer/answer.html";
+		}
+	});
 
 });
