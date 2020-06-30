@@ -1,5 +1,6 @@
-$(document).ready(function() {
+"use strict"
 
+$(document).ready(function() {
 	let whichAnswer = 4;
 	let whichQustion = answers[whichAnswer].question_id;
 
@@ -11,27 +12,28 @@ $(document).ready(function() {
 		whichQustion = answers[whichAnswer].question_id;
 	}
 
+	// Populating the field with the current answer
 	$('#qdesc').val(answers[whichAnswer].content);
 
-$('#answerForm').submit(function(e) {
-    e.preventDefault();
+	$('#answerForm').submit(function(e) {
+		e.preventDefault();
 
-	let hasError = false;
+		let hasError = false;
 
-	$('#qdesc').prev().prev().text('');
+		$('#qdesc').prev().prev().text('');
 
-	const mydesc = $('#qdesc').val();
+		const mydesc = $('#qdesc').val();
 
-	if (mydesc.length < 1) {
-		$('#qdesc').prev().prev().text('This field cannot be empty');
-		hasError = true;
-	}
+		if (mydesc.length < 1) {
+			$('#qdesc').prev().prev().text('This field cannot be empty');
+			hasError = true;
+		}
 
-	if(!hasError){
-		// At this stage we will send data to backend
-		// And redirect the user to the updated answer
-		window.location.href = `../answer/answer.html?question_id=${whichQustion}`;
-	}
-  });
+		if(!hasError){
+			// At this stage we will send data to backend
+			// And redirect the user to the updated answer
+			window.location.href = `../answer/answer.html?question_id=${whichQustion}`;
+		}
+	});
 
 });
