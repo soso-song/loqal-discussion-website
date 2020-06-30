@@ -1,3 +1,5 @@
+"use strict"
+
 /* Ass1 Library - JS */
 
 // global id count
@@ -156,6 +158,7 @@ reports.push(new Report("a", 1, 0, "fake answer!!!!!fake answer!!!!!fake answer!
 // logged in user
 let curr_user;
 
+//For our TA: Comment and uncomment this part to change the logged in user
 //Regular user
 curr_user = users[0];
 //Admin user
