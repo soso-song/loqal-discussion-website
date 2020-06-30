@@ -89,7 +89,6 @@ function getAllQandACount(){
 
     let headings = document.getElementsByClassName("userheading");
     headings[2].innerHTML=`Your Recent Questions (${qNum})`;
-    let Y = document.getElementsByClassName("userheading");
     headings[3].innerHTML=`Your Recent Answers (${aNum})`;
 }
 

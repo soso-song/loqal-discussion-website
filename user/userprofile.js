@@ -1,18 +1,24 @@
-let pageUser = curr_user;
-//curr_user = users[0];
+"use strict"
 
-// check if there is input user id
+let pageUser = curr_user;
+
+// Check if there is input user id
 const params = new URLSearchParams(window.location.search)
 let user_id = params.get('user_id');
 if (user_id != null){
     pageUser = users[user_id];
 }
 
-pageUser.followers = [users[0],users[1],users[2]];
-pageUser.following = [users[3],users[2]];
+// List of followers and following hardcoded for now
+// Will get these from backend later
+pageUser.followers = [users[1]];
+pageUser.following = [users[3]];
 
+// Sets the variables for reporting a user
 document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser.id+"&user_id="+curr_user.id+"&back_url="+window.location.href;
+
 $(document).ready(function() {
+    // Handles tab switches
     $("#activitybutt").click(function(){
         $('#useractivity').removeClass("hideme");
         $('#followers').addClass("hideme");
@@ -52,13 +58,13 @@ $(document).ready(function() {
 		if(currentState === 'Follow'){
             $('#followUnfollow').text('Unfollow');
             pageUser.followers.push(curr_user);
-            fillfollowers(); 
+            getFollowers(); 
 		}else if(currentState === 'Unfollow'){
             const currentuser = pageUser.followers.indexOf(curr_user);
             if(currentuser>-1){
                 $('#followUnfollow').text('Follow');
                 pageUser.followers.splice(currentuser, 1);
-                fillfollowers();    
+                getFollowers();    
             }
 		}
 		//Send data to server to follow/unfollow user
@@ -66,19 +72,23 @@ $(document).ready(function() {
 });
 
 basicInfo();
+getAllQandACount();
+getAllQUser();
+getAllAnswer();
+getFollowers();
+getFollowing();
 
-function basicInfo()
-{
-    best = 0;
-
+// Loads left hand side information about the user
+function basicInfo(){
     let mytags = ''
-    let t;
-    for(t of pageUser.tag_list)
+    for(let t of pageUser.tag_list)
     {
         mytags+=`<span class="tag">${tags[t].name}</span>`
     }
 
-    for(a of answers)
+    // Finding the number of best answers user have
+    let best = 0;
+    for(let a of answers)
     {
         if(a.is_best && a.user_id==pageUser)
         {
@@ -86,12 +96,12 @@ function basicInfo()
         }
     }
     
-    let myhtml = `<h2>${pageUser.username}</h2>
-    <h3>${pageUser.display_name}</h3>
-    <h4>@${pageUser.username}</h4>
+    let myhtml = `<h2>${pageUser.display_name}</h2>
+    <h3>@${pageUser.username}</h3>
     <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
-    <h3>Tags</h3> ${mytags}</div>							<div>
+    <h3>Tags</h3> ${mytags}</div>
+    <div>
     <h3>${best} Best Answers</h3>
     </div>
 
@@ -100,57 +110,58 @@ function basicInfo()
     $('#left').prepend(myhtml);
 }
 
-getAllQeustionsNum();
+// Gets the number of questions and answers of this user
+function getAllQandACount(){
+    let qNum = 0;
+    let aNum = 0;   
 
-function getAllQeustionsNum(){
-    let res = 0;
-    let answ = 0;
     for(let i=0; i<num_questions; i++)
     {
         if (questions[i].user_id==pageUser.id)
         {
-            res++;
+            qNum++;
         }
     }
+
     for(let j=0; j<num_answers; j++)
     {
         if(answers[j].user_id == pageUser.id)
         {
-            answ++;
+            aNum++;
         }
     }
-    let X = document.getElementsByClassName("userheading");
-    X[0].innerHTML=`Questions (${res})`;
-    let Y = document.getElementsByClassName("userheading");
-    X[1].innerHTML=`Answer (${answ})`;
+
+    let headings = document.getElementsByClassName("userheading");
+    headings[0].innerHTML=`Your Recent Questions (${qNum})`;
+    headings[1].innerHTML=`Your Recent Answers (${aNum})`;
 }
 
-getAllQeustions();
-function getAllQeustions(){
-    ansNum=0;
+// Displays all questions asked by user
+function getAllQUser(){
     let currQuestion = [];
+
     for(let i=0; i<num_questions; i++)
     {
-        
         if(questions[i].user_id == pageUser.id)
         {
             currQuestion.push(questions[i]);
         }
     }
+
     let wanted = document.getElementsByClassName("listcontainter")[0];
     let j=0;
     while(j<currQuestion.length)
     {
         let currQ = currQuestion[j];
-        let anw = users[currQ.user_id].username;
+
         let resolve ='Unresolved';
-        if (currQ.is_resolved==true)
+        if (currQ.is_resolved)
         {
             resolve = 'Resolved';
         }
-        
+
         let numA = 0;
-        for(a of answers)
+        for(let a of answers)
         {
             if(a.question_id == currQ.id)
             {
@@ -159,13 +170,13 @@ function getAllQeustions(){
         }
         wanted.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
-            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${anw}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
         j++;
     }
 }
 
-getAllAnswer();
+// Displays all answers answered by user
 function getAllAnswer(){
     let currAnswer = [];
     
@@ -191,35 +202,30 @@ function getAllAnswer(){
     }
 }
 
-
-fillfollowers();
-function fillfollowers()
+function getFollowers()
 {
-    let f = document.getElementsByClassName("personcontainter")[0];
-    let follower;
+    let followerContainer = document.getElementsByClassName("personcontainter")[0];
     let result = '';
-    for (follower of pageUser.followers)
+    for (let follower of pageUser.followers)
     {
         result+=`<div class="person">
         <div class="personname">${follower.username}</div>
         <div class="personis">@${follower.username}</div>
-    </div>`;
+        </div>`;
     }
-    f.innerHTML = result;
+    followerContainer.innerHTML = result;
 }
 
-following();
-function following()
+function getFollowing()
 {
-    let f = document.getElementsByClassName("personcontainter")[1];
-    let followin;
+    let followingContainer = document.getElementsByClassName("personcontainter")[1];
     let result = '';
-    for (followin of pageUser.following)
+    for (let following of pageUser.following)
     {
         result+=`<div class="person">
-        <div class="personname">${followin.username}</div>
-        <div class="personis">@${followin.username}</div>
-    </div>`;
+        <div class="personname">${following.username}</div>
+        <div class="personis">@${following.username}</div>
+        </div>`;
     }
-    f.innerHTML = result;
+    followingContainer.innerHTML = result;
 }
