@@ -1,4 +1,5 @@
 "use strict"
+// We will get the logged in user from the backend in future
 const user = curr_user;
 
 const userEditForm = document.querySelector('#editForm');
@@ -72,6 +73,7 @@ function edit(e){
         user.password = new_password;
         user.email = new_email;
 
+        // At theis point data is sent to backend to update user info
         window.alert("Your profile has been changed");
         window.location.href = "userprofile.html";
 	}else{
@@ -89,7 +91,5 @@ function update_photo(e){
                 };
 
         reader.readAsDataURL(photo_in.files[0]);
-
     }
-        
 }
