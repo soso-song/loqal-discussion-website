@@ -1,3 +1,5 @@
+"use strict"
+
 const params = new URLSearchParams(window.location.search)
 let target_type = params.get('type');
 let target_id = params.get('target_id');
@@ -29,7 +31,6 @@ function submitReport(){
 	//below is add report function to report list on database
 	//add_report(new Report(target_type,target_id,user_id,reason));
 	if (reason.length < 15){
-		// alert("submitted");
 		document.getElementById("reasonAreaError").innerHTML = 'Tell us more about this ' + type + " (length:" + reason.length + "<15)";
 	}else{
 		reports.push(new Report(target_type,target_id,user_id,reason));
