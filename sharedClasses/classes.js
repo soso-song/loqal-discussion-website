@@ -157,6 +157,6 @@ reports.push(new Report("a", 1, 0, "fake answer!!!!!fake answer!!!!!fake answer!
 let curr_user;
 
 //Regular user
-// curr_user = users[0];
+curr_user = users[0];
 //Admin user
-curr_user = users[2];
+//curr_user = users[2];
