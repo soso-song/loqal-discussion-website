@@ -122,9 +122,9 @@ tags.push(new Tag('diabete'));
 
 // users(username, email, display_name, password, tag_list, is_admin, photo_src)
 users.push(new User('user', 'user@user.com','First User', 'user', [0,3], false));
-users.push(new User('user2', 'user2@user.com', 'Second User', 'user2', [1,4,5], false));
+users.push(new User('user2', 'user2@user2.com', 'Second User', 'user2', [1,4,5], false));
 users.push(new User('admin', 'admin@admin.com', 'An Admin', 'admin', [0], true));
-users.push(new User('alan', 'alan@gmail.com', 'Alan T', 'alan', [0,2], false));
+users.push(new User('alan', 'alan@alan.com', 'Alan T', 'alan', [0,2], false));
 
 // questions and answers
 questions.push(new Question('1st question title','1st qustion content', 0, [0,5]));
