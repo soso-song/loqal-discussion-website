@@ -1,3 +1,5 @@
+"use strict"
+
 let pageUser = curr_user;
 
 const params = new URLSearchParams(window.location.search)
@@ -5,6 +7,7 @@ let back_url = params.get('back_url');
 
 $(document).ready(function() {
 	
+	// Display the current user tags
 	for (let i = 0; i < tags.length; i++) {
 		let newDiv = `<a href="javascript:void(0);" class="interactivetag">${tags[i].name}<span class="tagside">Follow</span></a>`
 		if(curr_user.tag_list.includes(tags[i].id)){
@@ -14,7 +17,6 @@ $(document).ready(function() {
 			$('#alltags').prepend(newDiv);
 		}
 	}
-
 
 	$('body').on('click', '.interactivetag', function () {
 		const myVal = $(this).find( "span" ).text();
