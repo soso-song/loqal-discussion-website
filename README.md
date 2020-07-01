@@ -15,7 +15,7 @@ git clone https://github.com/csc309-summer-2020/team11.git
 ```shell
 cd team11
 ```
-* Open index.html in your browser
+* Open `index.html` in your browser
 
 ## Hardcoded Data
 We decided to hardcode some useful data and user information in a JavaScript file name `sharedClasses\classes.js`, included in most of our pages, to use across our web application. Currently this file is hardcoded to provide the logged in user as a regular user called “user”. To switch to the admin user, navigate to `sharedClasses\classes.js` and simply comment the line for users[0] and uncomment the line containing users[2]:
@@ -30,9 +30,9 @@ When logged in as an Admin, a link to the Admin Dashboard page will be added to 
 
 ### A Note About Links
 In order to have links that display the correct page associated with displayed data, we decided to add optional parameters to our URLs. In these pages, we use javascript to see if the optional parameters are present. If they are we use them to display the correct data and if not the page will load using hardcoded data. For example `team11/user/userprofile.html?user_id=2`, displays user profile for user id 2 as opposed to the generic `team11/user/userprofile.html` user profile page. Here are some more examples:
-* team11/answer/answer.html?question_id=1
-* team11/answer/editanswer.html?answer_id=2
-* team11/question/editquestion.html?question_id=4
+* `team11/answer/answer.html?question_id=1`
+* `team11/answer/editanswer.html?answer_id=2`
+* `team11/question/editquestion.html?question_id=4`
 
 # Features
 
@@ -40,10 +40,10 @@ Below we have listed the main functionalities associated with each page for regu
 
 ## Regular Users
 
-### Welcome Page (index.html):
+### Welcome Page (`index.html`):
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
 
-### Register or Login (register/register.html)
+### Register or Login (`register/register.html`)
 * Register by entering all required fields in the left block and press the “Register” button, this will lead you to a page showing some popular tags that you could subscribe to.
 * Alternatively, use one of the login credentials provided below to log in.
 
@@ -55,44 +55,43 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 
 Please note that the action you perform on this page, will not actually log you in and your user will still be the user specified in `sharedClasses\classes.js`
 
-### Subscribe to Tags (register/subscribe.html)
+### Subscribe to Tags (`register/subscribe.html`)
 * Users will be able to see the most popular tags
 * Users will be able to follow/unfollow tags
 * Users will be able to follow/unfollow a custom tag
 
-### User Dashboard (user/userdashboard.html)
+### User Dashboard (`user/userdashboard.html`)
 * Users user will be able to see the newest questions and questions related to them
 * Users will be able to see the latest notice posted by the admins
 * Users will be able to see their recently posted questions and answers
 * Sidebar allows users to go to their profile or edit their profile
 
-### User Profile (user/userprofile.html)
+### User Profile (`user/userprofile.html`)
 * Users will be able to see the tags, questions and answers associated with that profile
 * Users will be able to report the user of that profile
 * Users will be able to see the list of followers and followings of that profile
 * Users will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button. This button will be absent when you are viewing your own profile.
 
-### Edit Profile (user/editprofile.html)
+### Edit Profile (`user/editprofile.html`)
 * Users can edit their username, display name, email, password, and profile photo
 * Users can see their status (normal or flagged)and account type (admin or regular user), but they cannot edit it
 * Clicking on "Edit Your Tags" will redirect you to a page where you can follow some popular tags, unfollow current tags, or add a custom tag
 
-### Ask/Edit a Question (question/question.html, question/editquestion.html)
+### Ask/Edit a Question (`question/question.html`, `question/editquestion.html`)
 * Post a new question by clicking on "Ask a New Question" button on user dashboard or "Ask" on the main navigation bar
-* Each question contains a title, a description and some related tags
-* Fill out the information and preview your question before posting
+* Provide a title, description and at least one related tag and preview your question before posting
 * Submitting a question will redirect the user to the newly created question page which will show the question and all its corresponding answers. They will be able to edit their question from this page.
 
-### Question and Answers (answer/answer.html, answer/editanswer.html)
+### Question and Answers (`answer/answer.html`, `answer/editanswer.html`)
 * A user can post a reply to questions, the posted answer will be added to the top of the answers
 * If the logged in user is the same as the user asking the question, the user can edit the question, mark the question as solved/unsolved and pick any answer as best answer
 * If the logged in user is the same as the user answering a question, an "Edit Answer" button is shown and users can edit their answer
 
-### Search (searchQuestion/search_question.html)
+### Search (`searchQuestion/search_question.html`)
 * Submit a query from any page in the search field provided in the navigation bar
 * The questions and answers containing that keyword will be displayed
 
-### Report (report/report.html)
+### Report (`report/report.html`)
 * Buttons for reporting a questions or an answer is provided in the individual question page
 * Buttons for reporting a user is provided in user's profile page
 * Clicking on the report button will direct to a page for giving a reason of reporting this user, question, or answer
@@ -108,7 +107,7 @@ Current application is hardcoded to log in as the first account called “user�
 //Admin user
 curr_user = users[2];
 ```
-Now when you open user/userdashboard.html, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
+Now when you open `user/userdashboard.html`, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
 
 ### Admin Dashboard
 * View all reported users
@@ -129,9 +128,9 @@ Now when you open user/userdashboard.html, you will see an additional button cal
 ### Post Notice
 * An admin user could post important notices that are to be pinned at top of regular user's dashboard
 * A notice contains a title and its content
-* An admin user could see all the notices at the bottom of Admin/notice.html and edit any notice or not show any notice to public.
+* An admin user could see all the notices at the bottom of `Admin/notice.html` and edit any notice or not show any notice to public.
 
-### All users
+### All Users
 * An admin could see a list of all registered users
 * Search a user by his/her exact username or email to see his/her complete account informations
   * Searching a non-exsiting user will show "No user found"
