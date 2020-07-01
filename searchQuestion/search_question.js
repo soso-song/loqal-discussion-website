@@ -1,8 +1,12 @@
 "use strict"
-
 const params = new URLSearchParams(window.location.search)
 let search_key = params.get('search_key');
 // above variables should be passed and get when user cleck search button
+
+//connect and get variabe from db
+//questions = pull_questions();
+//answers = pull_answers();
+
 
 // init:
 const questionResultEntries = document.querySelector('#questionResult');

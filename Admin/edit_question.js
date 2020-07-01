@@ -1,4 +1,9 @@
 "use strict"
+
+//connect and get variabe from db
+//questions = pull_questions();
+//tags = pull_tags();
+
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
@@ -132,7 +137,6 @@ function save_row(no){
 	questions[no].content = content_val;
 	questions[no].is_flagged = (is_flag_val == "true");
 	questions[no].is_resolved = (is_reso_val == "true");
-	//questions[no].tag = tag_val;
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
 }

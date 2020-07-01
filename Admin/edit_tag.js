@@ -1,5 +1,8 @@
 "use strict"
 
+//connect and get variabe from db
+//tags = pull_tags();
+
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
@@ -32,15 +35,8 @@ function load_row()
 function edit_row(no){
 	document.getElementById("edit_button"+no).disabled = true;
 	document.getElementById("save_button"+no).disabled = false;
-	//const title=document.getElementById("title_row"+no);
-	//const id_cell=document.getElementById("id_row"+no);
-	// const is_geo_cell=document.getElementById("is_geo_row"+no);
 	const name_cell=document.getElementById("name_row"+no);
-
-
-	//title.innerHTML="<input type='text' id='title_text"+no+"' value='"+title_data+"'>";
-	//id_cell.innerHTML="<input type='text' id='content_select"+no+"' value='"+id_cell.innerHTML+"'>";
-	// is_geo_cell.innerHTML="<input type='button' id='is_geo_select"+no+"' value='"+is_geo_cell.innerHTML+"' onclick='change_is_geo("+no+")'>";
+	
 	name_cell.innerHTML="<input type='text' id='name_select"+no+"' value='"+name_cell.innerHTML+"'>";
 }
 
@@ -56,7 +52,8 @@ function save_row(no){
 	}
 
 	document.getElementById("name_row"+no).innerHTML=name_val;
-
+	//connect and save variabe to db
+	//push_name(name_val);
 	tags[no].name = name_val;
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;

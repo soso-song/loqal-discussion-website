@@ -1,5 +1,8 @@
 "use strict"
 
+//connect and get variabe from db
+//answers = pull_questions();
+
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
