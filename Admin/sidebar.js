@@ -4,9 +4,10 @@ includeSidebar();
 function includeSidebar() {
 	const sidebar_div = document.querySelector(".sidebar");
 
-	sidebar_div.innerHTML = "<h1><a href='admin_dashboard.html'>Admin Dashboard</a><a href='../user/userdashboard.html'>Regular Dashboard</a></h1>";
+	sidebar_div.innerHTML = "<a href='../index.html'><img id='logo' src='../images/logo.png'></a>"
+	sidebar_div.innerHTML += "<h1><a href='admin_dashboard.html'>Admin Dashboard</a><a href='../user/userdashboard.html'>Regular Dashboard</a></h1>";
 
-	create_and_add("a", "Post Notice", sidebar_div,  "href", "notice.html");
+	
 	const u_bookmark = document.querySelector("#rep_users");
 	create_and_add("a", "Reported Users", sidebar_div, "href", "#rep_users", u_bookmark);
 	const q_bookmark = document.querySelector("#rep_questions");
@@ -16,6 +17,7 @@ function includeSidebar() {
 	// create_and_add("a", "Suggested Tags", sidebar_div, "href", "#");
 	const hr = document.createElement("hr");
 	sidebar_div.appendChild(hr);
+	create_and_add("a", "Post Notice", sidebar_div,  "href", "notice.html");
 	create_and_add("a", "All Users", sidebar_div, "href", "edit_user.html");
 	create_and_add("a", "All Questions", sidebar_div, "href", "edit_question.html");
 	create_and_add("a", "All Answers", sidebar_div, "href", "edit_answer.html");

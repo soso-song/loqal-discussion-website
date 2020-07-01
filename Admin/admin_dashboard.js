@@ -10,6 +10,7 @@ function load_all_reports(){
 	let rep_u_count = 0;
 	let rep_q_count = 0;
 	let rep_a_count = 0;
+	// TODO: get reports from database
 	for (const report of reports){
 		if (report.is_reviewed){
 			continue;
@@ -90,18 +91,20 @@ for (j = 0; j < reports.length; j++){
 function flag_report(e){
 	e.preventDefault();
 	const report_id = parseInt(e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML);
+	// TODO: get report instance from database
 	const report = reports[report_id];
 	report.is_reviewed = true;
-	// TODO : mark user id who reviewed this report
+	report.reviewedBy = curr_user.id;
+
 	switch(report.type){
 		case 'u':
-			users[report.rep_unique_id].is_flagged = true;
+			users[report.rep_unique_id].is_flagged = true;	// TODO: modifying an user in database
 			break;
 		case 'q':
-			questions[report.rep_unique_id].is_flagged = true;
+			questions[report.rep_unique_id].is_flagged = true;	// TODO: modifying a question in database
 			break;
 		case 'a':
-			answers[report.rep_unique_id].is_flagged = true;
+			answers[report.rep_unique_id].is_flagged = true;	// TODO: modifying an answer in database
 			break;
 	}
 	// remove current lrdiv
@@ -113,9 +116,9 @@ function flag_report(e){
 function deny_report(e){
 	e.preventDefault();
 	const report_id = parseInt(e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML);
-	const report = reports[report_id];
+	const report = reports[report_id];	// TODO: get report instance from database
 	report.is_reviewed = true;
-	// TODO : mark user id who reviewed this report
+	report.reviewedBy = curr_user.id;
 	// remove current lrdiv
 	const curr_lrdiv = e.target.parentElement.parentElement.parentElement;
 	remove_lrdiv(curr_lrdiv);

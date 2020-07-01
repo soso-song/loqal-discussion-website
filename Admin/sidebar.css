@@ -2,20 +2,19 @@
   height: 100%;
   width: 250px;
   position: fixed;
-  z-index: 1;
-  top: 0;
   left: 0;
   background-color: #4E4E4E;
-  overflow-x: hidden;
   padding-top: 20px;
 }
 
-
+.sidebar a img {
+  display: block;
+}
 
 
 /* The navigation menu links */
 .sidebar a {
-  padding: 10px 10px 10px 16px;
+  padding: 5px 5px 5px 16px;
   text-decoration: none;
   font-size: 20px;
   color: #818181;

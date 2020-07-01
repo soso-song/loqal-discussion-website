@@ -27,7 +27,7 @@ if (user_id == null){
 }
 
 function load_all_users(){
-
+	// TODO: get users from database
 	for(const user of users){
 		const user_table = document.createElement("table");
 		user_table.className = 'profiles';
@@ -62,6 +62,7 @@ function search_user(e) {
 		return;
 	}
 	let found_user = false;
+	// TODO: get users from database
 	for(u of users){
 		if(u.username === keyword || u.email === keyword){
 			user = u;
@@ -176,6 +177,7 @@ function save_all(e){
 		hasError = true;
 	} else {
 		for (let i = 0; i < users.length; i++) {
+			// TODO: getting user's information from database
             if((users[i].username === new_username) && (user.id != users[i].id)){
                 username_error.innerHTML = 'Username already taken';
                 hasError = true;
@@ -213,7 +215,7 @@ function save_all(e){
     if (hasError){
     	return;
     } 
-	
+	// TODO: upload new information of user into database
 	user.username = new_username;
 	user.email = new_email;
 	user.display_name = new_disname;

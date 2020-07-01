@@ -92,4 +92,5 @@ function update_photo(e){
 
         reader.readAsDataURL(photo_in.files[0]);
     }
+    // TODO: upload image to server
 }

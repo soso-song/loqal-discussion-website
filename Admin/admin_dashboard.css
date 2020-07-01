@@ -68,3 +68,8 @@ h3 {
 	color: gray;
 	text-align: right;
 }
+
+.wrapper{
+	display: inline-block;
+	width: 100%;
+}

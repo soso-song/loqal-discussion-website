@@ -1,15 +1,7 @@
-/*#postNotice {
-	margin: auto;
-	width: 700px;
-	background-color: #efefef;
-	padding-bottom: 50px;
-}*/
-
 #allNotices {
 	margin: auto;
 	width: 740px;
 }
-
 
 #noticeForm input{
 	display:block;
@@ -27,7 +19,6 @@
 	overflow-y: scroll;
 }
 
-
 .formError{
 	color: red;
 	height: 25px;
@@ -35,11 +26,6 @@
 	text-align: right;
 	padding-right: 30px;
 }
-
-
-/*.sign_notice {
-	text-align: right;
-}*/
 
 .post_time{
 	margin-top:5px;

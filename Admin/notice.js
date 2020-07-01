@@ -1,7 +1,9 @@
 "use strict"
 const allNotices = document.querySelector("#allNotices");
 show_all();
+
 function show_all(){
+	// TODO: get notices from database
 	for (const notice of notices){
 		show_notice(notice);
  	}
@@ -49,6 +51,7 @@ function submit_notice(e){
 		noticeForm.reset();
 	}
 	const new_notice = new Notice(title, content, 2); // TODO: need to change input user id
+	// TODO: adding new notice to database
 	notices.push(new_notice);
 	show_notice(new_notice, true);
 }
