@@ -76,7 +76,7 @@ $(document).ready(function() {
 
 		if(!hasError){
 			// At this stage we will log the user in by communicating with backend
-			window.location.href = "../user/userdashboard.html";
+			window.location.href = "../user/user_dashboard.html";
 		}else{
 			$('#loginuser').prev().prev().text('Invalid Username or password');
 		}

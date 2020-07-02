@@ -60,7 +60,7 @@ Please note that the action you perform on this page, will not actually log you 
 * Users will be able to follow/unfollow tags
 * Users will be able to follow/unfollow a custom tag
 
-### User Dashboard (`user/userdashboard.html`)
+### User Dashboard (`user/user_dashboard.html`)
 * Users user will be able to see the newest questions and questions related to them
 * Users will be able to see the latest notice posted by the admins
 * Users will be able to see their recently posted questions and answers
@@ -107,7 +107,7 @@ Current application is hardcoded to log in as the first account called “user�
 //Admin user
 curr_user = users[2];
 ```
-Now when you open `user/userdashboard.html`, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
+Now when you open `user/user_dashboard.html`, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
 
 ### Admin Dashboard (`admin/admin_dashboard.html`)
 * View all reported users

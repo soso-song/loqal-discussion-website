@@ -40,7 +40,7 @@ $(document).ready(function() {
 		}
 
 		if(!back_url){
-			location.href = "../user/userdashboard.html";
+			location.href = "../user/user_dashboard.html";
 		}else{
 			location.href = back_url;
 		}
