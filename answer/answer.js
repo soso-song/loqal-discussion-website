@@ -51,7 +51,7 @@ if(myquestion.is_resolved){
 }
 
 if(currentuser == myquestion.user_id){
-	extrabutt += ` <a href="../question/editquestion.html?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">${is_solved}</a>`
+	extrabutt += ` <a href="../question/edit_question.html?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">${is_solved}</a>`
 }
 
 $('#pbutts').html(extrabutt);

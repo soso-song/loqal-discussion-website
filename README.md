@@ -32,7 +32,7 @@ When logged in as an Admin, a link to the Admin Dashboard page will be added to 
 In order to have links that display the correct page associated with displayed data, we decided to add optional parameters to our URLs. In these pages, we use javascript to see if the optional parameters are present. If they are we use them to display the correct data and if not the page will load using hardcoded data. For example `team11/user/user_profile.html?user_id=2`, displays user profile for user id 2 as opposed to the generic `team11/user/user_profile.html` user profile page. Here are some more examples:
 * `team11/answer/answer.html?question_id=1`
 * `team11/answer/editanswer.html?answer_id=2`
-* `team11/question/editquestion.html?question_id=4`
+* `team11/question/edit_question.html?question_id=4`
 
 # Features
 
@@ -77,7 +77,7 @@ Please note that the action you perform on this page, will not actually log you 
 * Users can see their status (normal or flagged)and account type (admin or regular user), but they cannot edit it
 * Clicking on "Edit Your Tags" will redirect you to a page where you can follow some popular tags, unfollow current tags, or add a custom tag
 
-### Ask/Edit a Question (`question/question.html`, `question/editquestion.html`)
+### Ask/Edit a Question (`question/question.html`, `question/edit_question.html`)
 * Post a new question by clicking on "Ask a New Question" button on user dashboard or "Ask" on the main navigation bar
 * Provide a title, description and at least one related tag and preview your question before posting
 * Submitting a question will redirect the user to the newly created question page which will show the question and all its corresponding answers. They will be able to edit their question from this page.
