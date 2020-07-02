@@ -69,7 +69,7 @@ for (let i = 0; i < answers.length; i++) {
 		;
 
 		if(currentuser == answers[i].user_id){
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/editanswer.html?answer_id="+answers[i].id+"'>Edit Answer</a>";
+			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?answer_id="+answers[i].id+"'>Edit Answer</a>";
 		} else{
 			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
 		}
@@ -131,7 +131,7 @@ $('#answerForm').submit(function(e) {
 		+
 		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+currentuser+'">' + users[currentuser].display_name + ' (@' + users[currentuser].username + ')</a>. ' +'Just now'+'. </div>'
 		+
-		'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/editanswer.html">Edit Answer</a>'
+		'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/edit_answer.html">Edit Answer</a>'
 		;
 
 		if(currentuser == myquestion.user_id){
