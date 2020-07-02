@@ -109,7 +109,7 @@ curr_user = users[2];
 ```
 Now when you open `user/userdashboard.html`, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
 
-### Admin Dashboard (`Admin/admindashboard.html`)
+### Admin Dashboard (`Admin/admin_dashboard.html`)
 * View all reported users
   * Click to see reported users' profile
   * Flag user or deny report
