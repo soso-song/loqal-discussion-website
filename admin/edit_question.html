@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>edit_question</title>
+    <link rel="stylesheet" type="text/css" href="admin.css">
+    <link rel="stylesheet" type="text/css" href="sidebar.css">
+ </head>
+ <div class="sidebar"></div>
+ <body id="container" class="content" onload="load_row()" >
+ 	<div class="headline">
+	 		Question List:
+	</div>
+ 	<div class='cellBlock'>	
+	 	<div>
+		 	<table class="postTable">
+		 		<thead>
+					<tr>
+						<th>title</th>
+						<th>content</th>
+						<th>user</th>
+						<th>tag</th>
+						<th>is_flagged</th>
+						<th>is_resolved</th>
+						<!-- <th>#answer</th> -->
+						<th>time</th>
+						<th>edit</th>
+					</tr>
+				</thead>
+					<tbody id=posts>
+		 		</tbody>
+		 	</table>
+	 	</div>
+	 	<div class="desc">
+			admin edit questions(quick edit)
+		</div>
+	</div>
+ 	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
+ 	<script type="text/javascript" src="edit_question.js"></script>
+ 	<script type="text/javascript" src="sidebar.js"></script>
+ </body>
+</html>
