@@ -72,7 +72,7 @@ Please note that the action you perform on this page, will not actually log you 
 * Users will be able to see the list of followers and followings of that profile
 * Users will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button. This button will be absent when you are viewing your own profile.
 
-### Edit Profile (`user/editprofile.html`)
+### Edit Profile (`user/edit_profile.html`)
 * Users can edit their username, display name, email, password, and profile photo
 * Users can see their status (normal or flagged)and account type (admin or regular user), but they cannot edit it
 * Clicking on "Edit Your Tags" will redirect you to a page where you can follow some popular tags, unfollow current tags, or add a custom tag
