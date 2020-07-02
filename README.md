@@ -109,7 +109,7 @@ curr_user = users[2];
 ```
 Now when you open `user/userdashboard.html`, you will see an additional button called “Admin Dashboard” which shall lead you to a different dashboard only for admin users.
 
-### Admin Dashboard
+### Admin Dashboard (`Admin/admindashboard.html`)
 * View all reported users
   * Click to see reported users' profile
   * Flag user or deny report
@@ -125,12 +125,12 @@ Now when you open `user/userdashboard.html`, you will see an additional button c
  * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers
  * Options to direct to new pages for posting new notices, viewing all users, questions, answers or tags
 
-### Post Notice
+### Post Notice (`Admin/notice.html`)
 * An admin user could post important notices that are to be pinned at top of regular user's dashboard
 * A notice contains a title and its content
 * An admin user could see all the notices at the bottom of `Admin/notice.html` and edit any notice or not show any notice to public.
 
-### All Users
+### All Users (`Admin/edit_user.html`)
 * An admin could see a list of all registered users
 * Search a user by his/her exact username or email to see his/her complete account informations
   * Searching a non-exsiting user will show "No user found"
@@ -139,17 +139,17 @@ Now when you open `user/userdashboard.html`, you will see an additional button c
 * The "See Profile" button will lead to this user's profile page
 * Clicking on the "save" button for editing user profile will check validation of inputs
 
-### All Questions
+### All Questions (`Admin/edit_question.html`)
 * Admin could see a list of all questions in a table showing the title, content, posting user, tags, and the time the question is posted, also the admin could see if the question is flagged and if the question is resolved
 * Admin could edit any question's title, content, and tags, and also could mark questions as flagged or unflagged, resolved or not resolved
 * Editing a question with an empty title or empty content is invalid
 
-### All Answers
+### All Answers (`Admin/edit_answer.html`)
 * Admin could see a list of all answers in a table showing the which question it is answering to, the user posting the answer, content of the answer, whether it is the best answer, whether it is flagged, and the time posted
 * Admin could edit any answer's content, whether it is the best answer, and whether it is flagged
 * Editing a answer's content to be empty is invalid
 
-### All Tags
+### All Tags (`Admin/edit_tag.html`)
 * Admin could see a list of all existing tags in a table showing simply the name of the tags
 * Admin could edit the name of any tags
 * Editing a tag with an empty name is invalid
