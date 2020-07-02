@@ -29,7 +29,7 @@ curr_user = users[2];
 When logged in as an Admin, a link to the Admin Dashboard page will be added to the regular user dashboard. Additionally, changing other variables in `sharedClasses\classes.js` such as questions and answers will be dynamically reflected in our pages.
 
 ### A Note About Links
-In order to have links that display the correct page associated with displayed data, we decided to add optional parameters to our URLs. In these pages, we use javascript to see if the optional parameters are present. If they are we use them to display the correct data and if not the page will load using hardcoded data. For example `team11/user/userprofile.html?user_id=2`, displays user profile for user id 2 as opposed to the generic `team11/user/userprofile.html` user profile page. Here are some more examples:
+In order to have links that display the correct page associated with displayed data, we decided to add optional parameters to our URLs. In these pages, we use javascript to see if the optional parameters are present. If they are we use them to display the correct data and if not the page will load using hardcoded data. For example `team11/user/user_profile.html?user_id=2`, displays user profile for user id 2 as opposed to the generic `team11/user/user_profile.html` user profile page. Here are some more examples:
 * `team11/answer/answer.html?question_id=1`
 * `team11/answer/editanswer.html?answer_id=2`
 * `team11/question/editquestion.html?question_id=4`
@@ -66,7 +66,7 @@ Please note that the action you perform on this page, will not actually log you 
 * Users will be able to see their recently posted questions and answers
 * Sidebar allows users to go to their profile or edit their profile
 
-### User Profile (`user/userprofile.html`)
+### User Profile (`user/user_profile.html`)
 * Users will be able to see the tags, questions and answers associated with that profile
 * Users will be able to report the user of that profile
 * Users will be able to see the list of followers and followings of that profile

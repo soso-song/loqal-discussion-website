@@ -62,7 +62,7 @@ function load_result_question(questions){
 
 		questionResultEntries.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html?question_id=${questions[i].id}">${questions[i].title}</a>
-            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${questions[i].user_id}">${users[questions[i].user_id].username}</a> - ${questions[i].time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
+            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${questions[i].user_id}">${users[questions[i].user_id].username}</a> - ${questions[i].time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
         </div>`;
 
 		i++;

@@ -45,7 +45,7 @@ function basicInfo(){
     <h3>Tags</h3>${mytags}</div>
     </div>`
 
-    myhtml += `<a class="sidebutton" href="../user/userprofile.html?user_id=${curr_user.id}">Your Profile</a>`
+    myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${curr_user.id}">Your Profile</a>`
     myhtml += `<a class="sidebutton" href="editprofile.html">Edit Profile</a>`
 
     if(pageUser.is_admin){
@@ -113,7 +113,7 @@ function getAllQ(){
         }
         wanted.innerHTML+=`<div class="shortquestion">
         <a class="squestion" href="../answer/answer.html?question_id=${q.id}">${q.title}</a>
-        <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${q.user_id}">${users[q.user_id].display_name}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
+        <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user_id}">${users[q.user_id].display_name}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
         </div>`;
     }
 }
@@ -152,7 +152,7 @@ function getAllQUser(){
         }
         wanted.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
-            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
         j++;
     }

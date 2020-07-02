@@ -75,7 +75,7 @@ function edit(e){
 
         // At theis point data is sent to backend to update user info
         window.alert("Your profile has been changed");
-        window.location.href = "userprofile.html";
+        window.location.href = "user_profile.html";
 	}else{
         window.alert(errMessage);
     }

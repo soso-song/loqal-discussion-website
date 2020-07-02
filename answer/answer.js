@@ -22,7 +22,7 @@ for (let i = 0; i < myquestion.tag_list.length; i++) {
 	$('#ptags').prepend(newDiv);
 }
 
-$('#pdate').html('Asked by <a href="../user/userprofile.html?user_id='+myquestion.user_id+ '">'
+$('#pdate').html('Asked by <a href="../user/user_profile.html?user_id='+myquestion.user_id+ '">'
 	+
 	users[myquestion.user_id].display_name
 	+
@@ -65,7 +65,7 @@ for (let i = 0; i < answers.length; i++) {
 		+
 		answers[i].content
 		+
-		'</div><div class="answerinfo">Answered by <a href="../user/userprofile.html?user_id='+answers[i].user_id+'">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
+		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answers[i].user_id+'">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
 		;
 
 		if(currentuser == answers[i].user_id){
@@ -129,7 +129,7 @@ $('#answerForm').submit(function(e) {
 		+
 		myanswer
 		+
-		'</div><div class="answerinfo">Answered by <a href="../user/userprofile.html?user_id='+currentuser+'">' + users[currentuser].display_name + ' (@' + users[currentuser].username + ')</a>. ' +'Just now'+'. </div>'
+		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+currentuser+'">' + users[currentuser].display_name + ' (@' + users[currentuser].username + ')</a>. ' +'Just now'+'. </div>'
 		+
 		'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/editanswer.html">Edit Answer</a>'
 		;

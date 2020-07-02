@@ -84,7 +84,7 @@ function load_user_profile(user){
 	noUser.style.display = 'none';
 
 	const see_profile_btn = document.querySelector("#see_profile");
-	const html = "../user/userprofile.html?user_id=" + user.id;
+	const html = "../user/user_profile.html?user_id=" + user.id;
 	see_profile_btn.setAttribute("onclick", " location.href='" + html + "' ");
 
 	document.querySelector('#in_username').value = user.username;

@@ -170,7 +170,7 @@ function getAllQUser(){
         }
         wanted.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
-            <div class="sinfo">Asked by <a href="../user/userprofile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
         </div>`;
         j++;
     }
