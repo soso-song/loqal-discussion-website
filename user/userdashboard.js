@@ -49,7 +49,7 @@ function basicInfo(){
     myhtml += `<a class="sidebutton" href="editprofile.html">Edit Profile</a>`
 
     if(pageUser.is_admin){
-        myhtml += `<a class="sidebutton" id="adminbutt" href="../Admin/admin_dashboard.html">Admin Dashboard</a>`  
+        myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
     }
 
     $('#left').prepend(myhtml);
