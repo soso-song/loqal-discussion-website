@@ -92,10 +92,11 @@ function getAllQandACount(){
     headings[3].innerHTML=`Your Recent Answers (${aNum})`;
 }
 
-// Displays the list of all questions
-// This would be later populated by questions related to user from backend
+// Displays the list of all questions which includes the tags this user follows
 function getAllQ(){
     let wanted = document.getElementsByClassName("listcontainter")[0];
+    
+    // This would be later populated by questions related to user from backend
     for(let q of questions)
     {
         let numA = 0;
