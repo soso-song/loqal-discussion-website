@@ -127,8 +127,14 @@ a.sanswer{
 	border-radius: 5px;
 }
 
-.personname{
+.personname a{
 	font-size: 18px;
+	font-weight: bold;
+	color:inherit;
+	text-decoration: none;
+}
+
+.personid{
 	font-weight: bold;
 }
 

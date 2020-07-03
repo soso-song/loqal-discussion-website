@@ -209,8 +209,8 @@ function getFollowers()
     for (let follower of pageUser.followers)
     {
         result+=`<div class="person">
-        <div class="personname">${follower.username}</div>
-        <div class="personis">@${follower.username}</div>
+        <div class="personname"><a href="../user/user_profile.html?user_id=${follower.id}">${follower.display_name}</a></div>
+        <div class="personid">@${follower.username}</div>
         </div>`;
     }
     followerContainer.innerHTML = result;
@@ -223,8 +223,8 @@ function getFollowing()
     for (let following of pageUser.following)
     {
         result+=`<div class="person">
-        <div class="personname">${following.username}</div>
-        <div class="personis">@${following.username}</div>
+        <div class="personname"><a href="../user/user_profile.html?user_id=${following.id}">${following.display_name}</a></div>
+        <div class="personid">@${following.username}</div>
         </div>`;
     }
     followingContainer.innerHTML = result;
