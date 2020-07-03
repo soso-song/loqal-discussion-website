@@ -4,18 +4,12 @@
 //tags = pull_tags();
 
 const postEntries = document.querySelector('#posts');
-// postEntries.addEventListener('click', submit_tag);
 
 function load_row()
 {	
-	//const table=document.getElementById("posts");
+	postEntries.innerHTML = "";
 	let i=0;
 	while(i < tags.length){
-	//const row = table.insertRow(i).outerHTML=
-		// const tag_names = [];
-		// for (const tag_index of answers[i].tag_list){
-		// 	tag_names.push(tags[tag_index].name);
-		// }
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
 				"<td>"+tags[i].id+"</td>"+
@@ -62,4 +56,34 @@ function save_row(no){
 
 function delete_row(no){
 	document.getElementById("row"+no+"").outerHTML="";
+}
+
+
+function add_tag(){
+	const tag_name=document.getElementById("tagName").value;
+	const tag_erro=document.getElementById("addTagError");
+	//check errors
+	let is_exist = false;
+	let is_empty = tag_name == "";
+	let curr_tag;
+	if (!is_empty){
+		for(curr_tag of tags){
+			if(tag_name == curr_tag.name){
+				is_exist = true;
+				break;
+			}
+		}
+	}
+	//handling errors
+	if(is_empty){
+		tag_erro.innerHTML = "please enter a tag name";
+		return;
+	}else if(is_exist){
+		tag_erro.innerHTML = "tag exist with id: " + curr_tag.id;
+		return;
+	}
+
+	//no error, saving data
+	tags.push(new Tag(tag_name));
+	load_row();
 }

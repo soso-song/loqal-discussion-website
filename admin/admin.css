@@ -12,6 +12,14 @@ html, body {
 	padding: 10px 10px;
 }
 
+.cellBlock{
+	background-color: transparent;
+	width: 70%;
+	margin:auto;
+	height: 40px;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+}
 
 .content {
   margin-left: 250px;
@@ -160,11 +168,17 @@ td textarea {
     display: block;
 }
 
-.cellBlock, .lrDiv{
+
+.lrDiv{
 	background-color: #efefef;
 	width: 70%;
 	margin:auto;
 	height: 40px;
 	padding-bottom: 30px;
 	margin-bottom: 30px;
+}
+
+
+.subTitle{
+	margin-bottom: 0px;
 }

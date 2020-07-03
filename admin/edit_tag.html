@@ -11,13 +11,20 @@
  	<div class="headline">
  		Tag List:
  	</div>
+
+ 	<div class='lrDiv'>
+	 	<h3 class="subTitle"> Add a Tag </h3>
+		<input id='tagName' type='text' placeholder="new tag name">
+		<input type='submit' value='Add' onclick='add_tag()'>
+		<div class='formerror' id="addTagError"></div>
+	</div>
+
  	<div class='cellBlock'>	
 	 	<div>
 		 	<table class="postTable">
 		 		<thead>
 					<tr>
 						<th>id</th>
-						<!-- <th>is_geo</th> -->
 						<th>name</th>
 						<th>edit</th>
 					</tr>
@@ -30,6 +37,7 @@
 			admin edit tag(quick edit)
 		</div>
 	</div>
+
  	<script type="text/javascript" src="../sharedClasses/classes.js"></script>
  	<script type="text/javascript" src="edit_tag.js"></script>
  	<script type="text/javascript" src="sidebar.js"></script>
