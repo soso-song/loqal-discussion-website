@@ -9,8 +9,7 @@ let user_id = params.get('edit_for');
 const singleProfile = document.querySelector('#single_profile');
 const allUsers = document.querySelector('#all_users');
 const noUser = document.querySelector('#no_user');
-singleProfile.style.display = 'none';
-noUser.style.display = 'none';
+
 
 const editForm = document.querySelector("#editForm");
 editForm.addEventListener('submit', save_all);
@@ -28,6 +27,10 @@ if (user_id == null){
 }
 
 function load_all_users(){
+	singleProfile.style.display = 'none';
+	noUser.style.display = 'none';
+	allUsers.style.display = 'inline';
+
 	// TODO: get users from database
 	for(const user of users){
 		const user_table = document.createElement("table");
@@ -250,6 +253,9 @@ function save_all(e){
 		user.is_admin = false;
 	}
 	window.alert("Changes saved.");
+
+	// go back to list of users
+	load_all_users();
 }
 
 
