@@ -22,6 +22,7 @@ searchUserForm.addEventListener('submit', search_user);
 if (user_id == null){
 	load_all_users();
 }else{
+	// TODO: get user from database
 	user = users[user_id];
 	load_user_profile(user);
 }
@@ -85,7 +86,11 @@ function load_user_profile(user){
 
 	const see_profile_btn = document.querySelector("#see_profile");
 	const html = "../user/user_profile.html?user_id=" + user.id;
-	see_profile_btn.setAttribute("onclick", " location.href='" + html + "' ");
+	see_profile_btn.setAttribute("href", html);
+	$(document).on('click', '#see_profile', function(e){ 
+	    e.preventDefault(); 
+	    window.open(see_profile_btn.href, '_blank');
+	});
 
 	document.querySelector('#in_username').value = user.username;
 	document.querySelector('#in_email').value = user.email;
@@ -164,7 +169,7 @@ function add_tag(){
 
 function save_all(e){
 	e.preventDefault();
-
+	console.log('hi');
 	const new_username = document.querySelector("#in_username").value;
 	const new_email = document.querySelector("#in_email").value;
 	const new_disname = document.querySelector("#in_disname").value;
@@ -244,7 +249,7 @@ function save_all(e){
 	}else{
 		user.is_admin = false;
 	}
-	window.alert("Changed saved.");
+	window.alert("Changes saved.");
 }
 
 

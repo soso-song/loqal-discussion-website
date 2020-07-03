@@ -60,6 +60,7 @@ input[type="button"], input[type="submit"], button{
 	font-weight:normal;
 	border:1px solid #ee6261;
 	margin-left: 5px;
+	padding: 3px 3px 3px 3px;
 }
 
 
