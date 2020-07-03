@@ -70,6 +70,7 @@ Please note that the action you perform on this page, will not actually log you 
 * Users will be able to see the tags, questions and answers associated with that profile
 * Users will be able to report the user of that profile
 * Users will be able to see the list of followers and followings of that profile
+  * List of followers and followings are hardcoded to two specific users for now
 * Users will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button. This button will be absent when you are viewing your own profile.
 
 ### Edit Profile (`user/edit_profile.html`)
