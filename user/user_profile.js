@@ -132,8 +132,8 @@ function getAllQandACount(){
     }
 
     let headings = document.getElementsByClassName("userheading");
-    headings[0].innerHTML=`Your Recent Questions (${qNum})`;
-    headings[1].innerHTML=`Your Recent Answers (${aNum})`;
+    headings[0].innerHTML=`Questions (${qNum})`;
+    headings[1].innerHTML=`Answers (${aNum})`;
 }
 
 // Displays all questions asked by user
