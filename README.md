@@ -1,4 +1,4 @@
-![Logo](./images/logo.png)
+![Logo](./pub/images/logo.png)
 
 # Team 11 Project: LOQAL - A Localized Q&A Web Application
 We receive a vast amount of information about the COVID-19 daily. This information overload makes it difficult to find reliable and relevant information, especially for seniors and other vulnerable groups in our community who are not well versed with querying the search engine and fact checking. The goal of this project is to create a question and answer web application for reliable dissemination of information and knowledge [related to the pandemic] among members of the community. 
