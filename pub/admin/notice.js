@@ -1,7 +1,7 @@
 "use strict"
 const allNotices = document.querySelector("#allNotices");
+var fs = require("fs");
 show_all();
-
 function show_all(){
 	// TODO: get notices from database
 	for (const notice of notices){
@@ -52,6 +52,12 @@ function submit_notice(e){
 	}
 	const new_notice = new Notice(title, content, 2); // TODO: need to change input user id
 	// TODO: adding new notice to database
+	let noticeString = {"title":new_notice.title, "content":new_notice.content, user_id};
+	fs.writeFile("notice.json",noticeString);
+	function noticeBackend(){
+		const url ='/notice';
+		
+	}
 	notices.push(new_notice);
 	show_notice(new_notice, true);
 }

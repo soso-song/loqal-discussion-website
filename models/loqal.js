@@ -4,6 +4,23 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
+
+const NoticeSchema = new mongoose.Schema({
+	title:{
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	content:{
+		type: String,
+		required: true,
+		minlength: 1,
+		maxlength: 1000,
+		trim: true
+	}
+})
+
 const TagSchema = new mongoose.Schema({
     name: {
         type: String,
