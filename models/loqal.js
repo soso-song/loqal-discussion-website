@@ -18,8 +18,13 @@ const NoticeSchema = new mongoose.Schema({
 		minlength: 1,
 		maxlength: 1000,
 		trim: true
-	}
-})
+	},
+	time:{
+		type: Date,
+		default:Date.now
+	},
+	user: UserSchema
+});
 
 const TagSchema = new mongoose.Schema({
     name: {
