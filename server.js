@@ -254,6 +254,38 @@ app.get('/answers', mongoChecker, (req, res) => {
 	})
 
 })
+//Notice route below**********/
+app.get('/notice', mongoChecker, (req, res) => {
+	Answer.find().then((answers) => {
+		res.send(answers) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+
+})
+
+app.post("/notice", mongoChecker, authenticate, (req, res) => {
+	const notice = new Notice({
+		title: req.body.title,
+		content: req.body.content,
+		user: req.user,
+		time: Date.now
+	});
+
+	// Save questions
+	notice.save().then((notice) => {
+        res.redirect('/notice');
+	})
+	.catch((error) => {
+		if (isMongoError(error)) { 
+			res.status(500).send('Internal server error')
+		} else {
+			log("this is the error ",error, " end of error")
+			res.status(400).send('Bad Request')
+		}
+	})
+})
 
 
 /*** Webpage routes below **********************************/
