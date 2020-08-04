@@ -181,7 +181,7 @@ app.post('/questions', mongoChecker, authenticate, (req, res) => {
 
 	// Save questions
 	question.save().then((quesiton) => {
-        res.redirect('/answer');
+        res.redirect('/answer?question_id=' + question._id);
 	})
 	.catch((error) => {
 		if (isMongoError(error)) { 
@@ -203,6 +203,30 @@ app.get('/questions', mongoChecker, (req, res) => {
 	})
 
 })
+
+// Route for getting the question by given id
+app.get('/questions/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid Question ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Question.findById(id).then((question) => {
+		if (!question) {
+			res.status(404).send('Restaurant not found');
+		} else {
+			res.json({ question });
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 
 
 app.get('/answers', mongoChecker, (req, res) => {

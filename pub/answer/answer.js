@@ -8,14 +8,57 @@ let myquestion = questions[myquestionid];
 // check if there is question id in URL to use instead
 const params = new URLSearchParams(window.location.search)
 let urlquestionid = params.get('question_id');
+
+function getQuestion(){
+	const url = '/questions/' + myquestionid;
+
+	const request = new Request(url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	console.log("before request");
+
+	fetch(request)
+	.then(async (res) => {
+		console.log("after request");
+		if (res.status === 200) {
+           // return a promise that resolves with the JSON body
+           const question = res.json().question;
+           return question;
+       	} else {
+            alert('Could not get question');
+       	} 
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
+
+
+console.log(urlquestionid)
+
 if (urlquestionid != null){
+	console.log("hihihi")
 	myquestionid = urlquestionid;
-	myquestion = questions[myquestionid];
+	console.log("here")
+	getQuestion().then((question) => {
+		myquestion = question;
+		$('#ptitle').text(myquestion.title);
+		$('#pdesc').text(myquestion.content);
+		console.log(myquestion);
+	});
+	console.log("hi")
 }
 
 // Populating the question information
-$('#ptitle').text(myquestion.title);
-$('#pdesc').text(myquestion.content);
+// while(!myquestion){
+// 	console.log('wait');
+// }
+console.log(myquestion.title);
+
 
 for (let i = 0; i < myquestion.tag_list.length; i++) {
 	const newDiv = '<span class="tag">' + tags[myquestion.tag_list[i]].name + '</span>';
@@ -56,7 +99,7 @@ if(currentuser == myquestion.user_id){
 
 $('#pbutts').html(extrabutt);
 
-// Displaying the list of answers for this qustion
+// Displaying the list of answers for this question
 for (let i = 0; i < answers.length; i++) {
 	if(answers[i].question_id == myquestionid){
 
@@ -144,3 +187,6 @@ $('#answerForm').submit(function(e) {
 		$('#myans').val("");
 	}
 });
+
+
+
