@@ -13,7 +13,7 @@ mongoose.set('bufferCommands', false);  // don't buffer db requests if the db se
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { User } = require('./models/loqal')
+const { User, Question, Answer} = require('./models/loqal')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb')
@@ -164,6 +164,57 @@ const authenticate = (req, res, next) => {
 	}
 }
 
+/*** Question routes below **********************************/
+// Route for creating a new question
+app.post('/questions', mongoChecker, authenticate, (req, res) => {
+
+	const question = new Question({
+		title: req.body.title,
+		content: req.body.content,
+		user: req.user,
+		tags: [], 
+		//tags: req.body.tags, //TODO: need to add tags
+		answers: [],
+		isResolved: false,
+		isFlagged: false
+	});
+
+	// Save questions
+	question.save().then((quesiton) => {
+        res.redirect('/answer');
+	})
+	.catch((error) => {
+		if (isMongoError(error)) { 
+			res.status(500).send('Internal server error')
+		} else {
+			log("this is the error ",error, " end of error")
+			res.status(400).send('Bad Request')
+		}
+	})
+})
+
+/// Route for getting all exisiting questions
+app.get('/questions', mongoChecker, (req, res) => {
+	Question.find().then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+
+})
+
+
+app.get('/answers', mongoChecker, (req, res) => {
+	Answer.find().then((answers) => {
+		res.send(answers) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+
+})
+
 
 /*** Webpage routes below **********************************/
 // Inject the sessionChecker middleware to any routes that require it.
@@ -197,6 +248,10 @@ app.get('/dashboard', (req, res) => {
 	} else {
 		res.redirect('/login')
 	}
+})
+
+app.get('/answer', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
 })
 
 app.use(express.static(__dirname + '/pub'));

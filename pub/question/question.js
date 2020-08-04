@@ -88,8 +88,35 @@ $(document).ready(function() {
 		if(!hasError){
 			// At this stage we will send data to backend
 			// And redirect the user to the newly created question
-			window.location.href = "../answer/answer.html";
+			// window.location.href = "../answer/answer.html";
+			saveQuestion(mytitle, mydesc, mytags);
 		}
 	});
 
+	function saveQuestion(mytitle, mydesc, mytags){
+		const url = '/questions';
+
+		let data = {
+			title: mytitle,
+			content: mydesc,
+			tags: mytags.split(',')
+		}
+
+		const request = new Request(url, {
+			method: 'post',
+			body: JSON.stringify(data),
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request)
+		.then(function(res) {
+			window.location.href = res.url;
+		}).catch((error) => {
+			console.log(error)
+		})
+	}
 });
+

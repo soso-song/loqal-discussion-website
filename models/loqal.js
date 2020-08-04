@@ -5,27 +5,6 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
 
-const NoticeSchema = new mongoose.Schema({
-	title:{
-		type: String,
-		required: true,
-		minlength: 1,
-		trim: true
-	},
-	content:{
-		type: String,
-		required: true,
-		minlength: 1,
-		maxlength: 1000,
-		trim: true
-	},
-	time:{
-		type: Date,
-		default:Date.now
-	},
-	user: UserSchema
-});
-
 const TagSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -134,9 +113,111 @@ UserSchema.statics.findByEmailPassword = function(email, password) {
 	})
 }
 
+const NoticeSchema = new mongoose.Schema({
+	title:{
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	content:{
+		type: String,
+		required: true,
+		minlength: 1,
+		maxlength: 1000,
+		trim: true
+	},
+	time:{
+		type: Date,
+		default:Date.now
+	},
+	user: UserSchema
+});
+
+const AnswerSchema = new mongoose.Schema({
+	user: {
+		type: UserSchema,
+		required: true
+	},
+	content: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	isFlagged: {
+		type: Boolean,
+	    required: true
+	},
+	isBest: {
+		type: Boolean,
+		required: true
+	},
+	time: {
+		type:Date, 
+		default: Date.now
+	},
+	lastUpdated: {
+		type:Date, 
+		default: Date.now
+	}
+})
+
+
+const QuestionSchema = new mongoose.Schema({
+	title: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	content: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	user: {
+		type: UserSchema,
+		required: true
+	},
+	tags: {
+		type: [TagSchema],
+		required: true
+	},
+	answers: {
+		type: [AnswerSchema],
+		required: true
+	},
+	isResolved: {
+		type: Boolean,
+	    required: true
+	},
+	isFlagged: {
+		type: Boolean,
+	    required: true
+	},
+	time: {
+		type:Date, 
+		default: Date.now
+	},
+	lastUpdated: {
+		type:Date, 
+		default: Date.now
+	}
+})
+
+
+
+
 const User = mongoose.model('User', UserSchema)
 const Tag = mongoose.model('Tag', TagSchema)
+const Question = mongoose.model("Question", QuestionSchema)
+const Answer = mongoose.model("Answer", AnswerSchema)
 
-module.exports = { User:User,
+module.exports = { 
+	User:User,
 	Tag:Tag,
+	Question:Question,
+	Answer:Answer
 }
