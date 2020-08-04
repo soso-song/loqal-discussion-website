@@ -286,7 +286,34 @@ app.post("/notice", mongoChecker, (req, res) => {
 		}
 	})
 })
+//tag route below**********/
+app.get('/tag', mongoChecker, (req, res) => {
+	Answer.find().then((answers) => {
+		res.send(answers) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error"
 
+})
+
+app.post("/tag", mongoChecker, (req, res) => {
+	const notice = new Tag({
+		Name: req.bot
+	});
+
+	// Save questions
+	notice.save().then((notice) => {
+        res.redirect('/tag');
+	})
+	.catch((error) => {
+		if (isMongoError(error)) { 
+			res.status(500).send('Internal server error')
+		} else {
+			log("this is the error ",error, " end of error")
+			res.status(400).send('Bad Request')
+		}
+	})
+})
 
 /*** Webpage routes below **********************************/
 // Inject the sessionChecker middleware to any routes that require it.

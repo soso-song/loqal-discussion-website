@@ -65,7 +65,6 @@ function submit_notice(e){
 				'Content-Type': 'application/json'
 			}
 		});
-
 		fetch(request)
 		.then(function(res) {
 			window.location.href = res.url;
