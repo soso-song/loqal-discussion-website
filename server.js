@@ -204,6 +204,21 @@ app.get('/questions', mongoChecker, (req, res) => {
 
 })
 
+//http://localhost:5000/questions/search/o
+app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
+	const keyword = req.params.keyword;
+	Question.find({$or:[
+		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{content		: { $regex: keyword, $options: "i" }}
+		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
+	]}).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+
+})
 
 app.get('/answers', mongoChecker, (req, res) => {
 	Answer.find().then((answers) => {
@@ -214,6 +229,8 @@ app.get('/answers', mongoChecker, (req, res) => {
 	})
 
 })
+
+
 
 
 /*** Webpage routes below **********************************/
