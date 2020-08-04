@@ -13,7 +13,7 @@ mongoose.set('bufferCommands', false);  // don't buffer db requests if the db se
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { User, Question, Answer} = require('./models/loqal')
+const { User, Question, Answer, Notice} = require('./models/loqal')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb')
@@ -265,7 +265,7 @@ app.get('/notice', mongoChecker, (req, res) => {
 
 })
 
-app.post("/notice", mongoChecker, authenticate, (req, res) => {
+app.post("/notice", mongoChecker, (req, res) => {
 	const notice = new Notice({
 		title: req.body.title,
 		content: req.body.content,

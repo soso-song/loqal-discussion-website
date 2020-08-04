@@ -4,6 +4,8 @@ var fs = require("fs");
 show_all();
 function show_all(){
 	// TODO: get notices from database
+	const notices = notice.find();
+	log(notices);
 	for (const notice of notices){
 		show_notice(notice);
  	}
@@ -52,12 +54,26 @@ function submit_notice(e){
 	}
 	const new_notice = new Notice(title, content, 2); // TODO: need to change input user id
 	// TODO: adding new notice to database
-	let noticeString = {"title":new_notice.title, "content":new_notice.content, user_id};
-	fs.writeFile("notice.json",noticeString);
-	function noticeBackend(){
+	let noticeString = {"title":new_notice.title, "content":new_notice.content, "user":curr_user, "time":Date.now};
+	function saveNotice(notice){
 		const url ='/notice';
-		
+		const request = new Request(url, {
+			method: 'post',
+			body: JSON.stringify(notice),
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request)
+		.then(function(res) {
+			window.location.href = res.url;
+		}).catch((error) => {
+			console.log(error)
+		})
 	}
+
 	notices.push(new_notice);
 	show_notice(new_notice, true);
 }
