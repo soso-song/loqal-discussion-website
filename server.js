@@ -217,7 +217,6 @@ app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
-
 })
 
 // Route for getting the question by given id
@@ -252,8 +251,23 @@ app.get('/answers', mongoChecker, (req, res) => {
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
-
 })
+
+//http://localhost:5000/questions/search/o
+app.get('/answers/search/:keyword', mongoChecker, (req, res) => {
+	const keyword = req.params.keyword;
+	Answer.find({$or:[
+		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{content		: { $regex: keyword, $options: "i" }}
+		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
+	]}).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
 //Notice route below**********/
 app.get('/notice', mongoChecker, (req, res) => {
 	Answer.find().then((answers) => {
