@@ -3,129 +3,98 @@
 //Getting the main question from database
 let myquestionid = 4;
 let currentuser = curr_user.id;
-let myquestion = questions[myquestionid];
+let myquestion;
 	
 // check if there is question id in URL to use instead
 const params = new URLSearchParams(window.location.search)
 let urlquestionid = params.get('question_id');
 
-function getQuestion(){
-	const url = '/questions/' + myquestionid;
-
-	const request = new Request(url, {
-		method: 'get',
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-			'Content-Type': 'application/json'
-		}
-	});
-	console.log("before request");
-
-	fetch(request)
-	.then(async (res) => {
-		console.log("after request");
-		if (res.status === 200) {
-           // return a promise that resolves with the JSON body
-           const question = res.json().question;
-           return question;
-       	} else {
-            alert('Could not get question');
-       	} 
-	})
-	.catch((error) => {
-		console.log(error)
-	})
-}
-
-
-console.log(urlquestionid)
-
 if (urlquestionid != null){
-	console.log("hihihi")
 	myquestionid = urlquestionid;
-	console.log("here")
 	getQuestion().then((question) => {
-		myquestion = question;
-		$('#ptitle').text(myquestion.title);
-		$('#pdesc').text(myquestion.content);
-		console.log(myquestion);
+		myquestion = JSON.parse(myquestion);
+		showQuestion();
 	});
-	console.log("hi")
 }
 
-// Populating the question information
-// while(!myquestion){
-// 	console.log('wait');
-// }
-console.log(myquestion.title);
 
+function showQuestion(){
+	$('#ptitle').text(myquestion.title);
+	$('#pdesc').text(myquestion.content);
 
-for (let i = 0; i < myquestion.tag_list.length; i++) {
-	const newDiv = '<span class="tag">' + tags[myquestion.tag_list[i]].name + '</span>';
-	$('#ptags').prepend(newDiv);
-}
+	for (let i = 0; i < myquestion.tag_list.length; i++) {
+		const newDiv = '<span class="tag">' + tags[myquestion.tag_list[i]].name + '</span>';
+		$('#ptags').prepend(newDiv);
+	}
 
-$('#pdate').html('Asked by <a href="../user/user_profile.html?user_id='+myquestion.user_id+ '">'
-	+
-	users[myquestion.user_id].display_name
-	+
-	" (@"
-	+
-	users[myquestion.user_id].username
-	+
-	")</a> "
-	+
-	myquestion.time
-	+
-	"."
-);
-
-let extrabutt = "<a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser+"&back_url="+window.location.href+"'>Report this question</a>";
-
-let is_solved = "Mark Solved";
-if(myquestion.is_resolved){
-	is_solved = "Mark Unsolved";
-}
-
-if(myquestion.is_resolved){
-	$('#pinfo').html("Solved");
-}else{
-	$('#pinfo').html("Unsolved");
-}
-
-if(currentuser == myquestion.user_id){
-	extrabutt += ` <a href="../question/edit_question.html?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">${is_solved}</a>`
-}
-
-$('#pbutts').html(extrabutt);
-
-// Displaying the list of answers for this question
-for (let i = 0; i < answers.length; i++) {
-	if(answers[i].question_id == myquestionid){
-
-		let report_answer_btn_url = "../report/report.html?type=a&target_id="+answers[i].id+"&user_id="+currentuser+"&back_url="+window.location.href;
-		let oneanswer = '<div class="answer"><div class="answertext">'
+	$('#pdate').html('Asked by <a href="../user/user_profile.html?user_id='+myquestion.user_id+ '">'
 		+
-		answers[i].content
+		users[myquestion.user_id].display_name
 		+
-		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answers[i].user_id+'">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
-		;
+		" (@"
+		+
+		users[myquestion.user_id].username
+		+
+		")</a> "
+		+
+		myquestion.time
+		+
+		"."
+	);
 
-		if(currentuser == answers[i].user_id){
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?answer_id="+answers[i].id+"'>Edit Answer</a>";
-		} else{
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
+	let extrabutt = "<a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser+"&back_url="+window.location.href+"'>Report this question</a>";
+
+	let is_solved = "Mark Solved";
+	if(myquestion.is_resolved){
+		is_solved = "Mark Unsolved";
+	}
+
+	if(myquestion.is_resolved){
+		$('#pinfo').html("Solved");
+	}else{
+		$('#pinfo').html("Unsolved");
+	}
+
+	if(currentuser == myquestion.user_id){
+		extrabutt += ` <a href="../question/edit_question.html?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">${is_solved}</a>`
+	}
+
+	$('#pbutts').html(extrabutt);
+
+	
+	// Displaying the list of answers for this question
+	for (let i = 0; i < answers.length; i++) {
+		if(answers[i].question_id == myquestionid){
+
+			let report_answer_btn_url = "../report/report.html?type=a&target_id="+answers[i].id+"&user_id="+currentuser+"&back_url="+window.location.href;
+			let oneanswer = '<div class="answer"><div class="answertext">'
+			+
+			answers[i].content
+			+
+			'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answers[i].user_id+'">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
+			;
+
+			if(currentuser == answers[i].user_id){
+				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?answer_id="+answers[i].id+"'>Edit Answer</a>";
+			} else{
+				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
+			}
+
+			if(currentuser == myquestion.user_id){
+				oneanswer += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
+			} else{
+				oneanswer += '</div></div>'
+			}
+
+			$('#answers').prepend(oneanswer);
 		}
-
-		if(currentuser == myquestion.user_id){
-			oneanswer += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
-		} else{
-			oneanswer += '</div></div>'
-		}
-
-		$('#answers').prepend(oneanswer);
 	}
 }
+
+
+
+
+
 
 // Handling selecting best answer
 $('body').on('click', '.pickbest', function () {
@@ -190,3 +159,29 @@ $('#answerForm').submit(function(e) {
 
 
 
+async function getQuestion(){
+	const url = '/questions/' + myquestionid;
+
+	const request = new Request(url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	await fetch(request)
+	.then(async (res) => {
+		if (res.status === 200) {
+           // return a promise that resolves with the JSON body
+           const json = await res.json();
+           myquestion = JSON.stringify(json.question);
+           return myquestion;
+       	} else {
+            alert('Could not get question');
+       	} 
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}

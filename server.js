@@ -204,7 +204,6 @@ app.get('/questions', mongoChecker, (req, res) => {
 
 })
 
-<<<<<<< HEAD
 //http://localhost:5000/questions/search/o
 app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
@@ -220,7 +219,7 @@ app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	})
 
 })
-=======
+
 // Route for getting the question by given id
 app.get('/questions/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
@@ -245,7 +244,6 @@ app.get('/questions/:id', mongoChecker, (req, res) => {
 })
 
 
->>>>>>> b19158d6e6f1f4acf0fe6b0dd777c02532fdd587
 
 app.get('/answers', mongoChecker, (req, res) => {
 	Answer.find().then((answers) => {
@@ -256,8 +254,6 @@ app.get('/answers', mongoChecker, (req, res) => {
 	})
 
 })
-
-
 
 
 /*** Webpage routes below **********************************/
