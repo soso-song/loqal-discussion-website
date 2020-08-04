@@ -292,8 +292,8 @@ app.get('/tag', mongoChecker, (req, res) => {
 		res.send(answers) 
 	})
 	.catch((error) => {
-		res.status(500).send("Internal Server Error"
-
+		res.status(500).send("Internal Server Error")
+	})
 })
 
 app.post("/tag", mongoChecker, (req, res) => {
@@ -366,4 +366,4 @@ app.use(express.static(__dirname + '/pub'));
 const port = process.env.PORT || 5000
 app.listen(port, () => {
 	log(`Listening on port ${port}...`)
-}) 
+})
