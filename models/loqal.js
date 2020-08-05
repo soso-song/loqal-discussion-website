@@ -147,11 +147,11 @@ const AnswerSchema = new mongoose.Schema({
 	},
 	isFlagged: {
 		type: Boolean,
-	    required: true
+	    default: false
 	},
 	isBest: {
 		type: Boolean,
-		required: true
+	    default: false
 	},
 	time: {
 		type:Date, 

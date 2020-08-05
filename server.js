@@ -13,7 +13,7 @@ mongoose.set('bufferCommands', false);  // don't buffer db requests if the db se
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { User, Question, Answer, Notice} = require('./models/loqal')
+const { User, Question, Notice} = require('./models/loqal')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb')
@@ -204,21 +204,6 @@ app.get('/questions', mongoChecker, (req, res) => {
 
 })
 
-//http://localhost:5000/questions/search/o
-app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
-	const keyword = req.params.keyword;
-	Question.find({$or:[
-		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
-		{content		: { $regex: keyword, $options: "i" }}
-		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
-	]}).then((questions) => {
-		res.send(questions) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-})
-
 // Route for getting the question by given id
 app.get('/questions/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
@@ -242,21 +227,10 @@ app.get('/questions/:id', mongoChecker, (req, res) => {
 	})
 })
 
-
-
-app.get('/answers', mongoChecker, (req, res) => {
-	Answer.find().then((answers) => {
-		res.send(answers) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-})
-
 //http://localhost:5000/questions/search/o
-app.get('/answers/search/:keyword', mongoChecker, (req, res) => {
+app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
-	Answer.find({$or:[
+	Question.find({$or:[
 		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
 		{content		: { $regex: keyword, $options: "i" }}
 		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
@@ -267,6 +241,58 @@ app.get('/answers/search/:keyword', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
+
+
+
+// Route for creating a new answers
+app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
+
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){	// nor valid id
+		res.status(404).send('question not valid');
+		return;
+	}
+	Question.findById(id).then((question)=>{
+		if(!question){	//undefined
+			res.status(404).send('question not found');
+		}else{
+			const answers = {
+				user: req.user,
+				content: req.body.content
+			};
+			question.answers.push(answers);
+			question.save().then((result)=>{
+				//res.redirect('/question?question_id=' + question._id); // no need refresh page since answer add in frontend
+			}).catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
+			log("this is the error ",error, " end of error")
+			res.status(400).send('Bad Request')
+		}
+	})
+})
+
+//http://localhost:5000/questions/search/o
+app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
+	const keyword = req.params.keyword;
+
+	Question.find(
+		{answers.content 	: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{answers.content 	: { $regex: keyword, $options: "i" }}  // specify a projection with find
+	).then((answers) => {
+		res.send(answers) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
 
 //Notice route below**********/
 app.get('/notice', mongoChecker, (req, res) => {
