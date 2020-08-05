@@ -1,6 +1,7 @@
 "use strict"
 
 let pageUser = curr_user;
+let backendUser = null;
 
 $(document).ready(function() {
     $("#activitybutt").click(function(){
@@ -23,12 +24,39 @@ $(document).ready(function() {
     
 });
 
-basicInfo();
-getNotice();
-getAllQandACount();
-getAllQ();
-getAllQUser();
-getAllAnswer();
+function getCurrentUser() {
+    const url = '/currentuser';
+
+    // Since this is a GET request, simply call fetch on the URL
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            alert('Could not get current user')
+       }                
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+        //console.log(json.username)
+        backendUser = json
+        basicInfo();
+        getNotice();
+        getAllQandACount();
+        getAllQ();
+        getAllQUser();
+        getAllAnswer();
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+getCurrentUser();
+//basicInfo();
+//getNotice();
+//getAllQandACount();
+//getAllQ();
+//getAllQUser();
+//getAllAnswer();
 
 // Loads left hand side information about the user
 function basicInfo(){
@@ -39,7 +67,7 @@ function basicInfo(){
         mytags+=`<span class="tag">${tags[t].name}</span>`
     }
     
-    let myhtml = `<h2> Welcome Back ${pageUser.display_name}</h2>
+    let myhtml = `<h2> Welcome Back ${backendUser.displayname}</h2>
     <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3>${mytags}</div>
@@ -48,7 +76,7 @@ function basicInfo(){
     myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${curr_user.id}">Your Profile</a>`
     myhtml += `<a class="sidebutton" href="edit_profile.html">Edit Profile</a>`
 
-    if(pageUser.is_admin){
+    if(backendUser.isAdmin){
         myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
     }
 
