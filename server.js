@@ -203,14 +203,15 @@ app.post('/questions', mongoChecker, authenticate, (req, res) => {
 		title: req.body.title,
 		content: req.body.content,
 		user: req.user,
-		tags: [], 
+		//tags: [], 
 		//tags: req.body.tags, //TODO: need to add tags
-		answers: [],
+		//answers: [],
 		isResolved: false,
 		isFlagged: false
 	});
-	log('this is user');
-	log(req.user);
+	// log('this is user');
+	// log(req.user);
+
 	// Save questions
 	question.save().then((quesiton) => {
         res.redirect('/answer?question_id=' + question._id);
@@ -329,7 +330,7 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 
 //Notice route below**********/
 app.get('/notice', mongoChecker, (req, res) => {
-	Answer.find().then((answers) => {
+	Question.find().then((answers) => {
 		res.send(answers) 
 	})
 	.catch((error) => {
@@ -361,7 +362,7 @@ app.post("/notice", mongoChecker, (req, res) => {
 })
 //tag route below**********/
 app.get('/tag', mongoChecker, (req, res) => {
-	Answer.find().then((answers) => {
+	Question.find().then((answers) => {
 		res.send(answers) 
 	})
 	.catch((error) => {

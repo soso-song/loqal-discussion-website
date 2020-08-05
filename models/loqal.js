@@ -136,7 +136,7 @@ const NoticeSchema = new mongoose.Schema({
 
 const AnswerSchema = new mongoose.Schema({
 	user: {
-		type: UserSchema,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true
 	},
 	content: {
@@ -178,7 +178,7 @@ const QuestionSchema = new mongoose.Schema({
 		trim: true
 	},
 	user: {
-		type: UserSchema,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true
 	},
 	tags: {
@@ -186,16 +186,18 @@ const QuestionSchema = new mongoose.Schema({
 		required: true
 	},
 	answers: {
-		type: [AnswerSchema],
-		required: true
+		type: [AnswerSchema]
+		//required: true
 	},
 	isResolved: {
 		type: Boolean,
-	    required: true
+		default: false
+	    //required: true
 	},
 	isFlagged: {
 		type: Boolean,
-	    required: true
+		default: false
+	    //required: true
 	},
 	time: {
 		type:Date, 
@@ -213,12 +215,12 @@ const QuestionSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema)
 const Tag = mongoose.model('Tag', TagSchema)
 const Question = mongoose.model("Question", QuestionSchema)
-const Answer = mongoose.model("Answer", AnswerSchema)
+//const Answer = mongoose.model("Answer", AnswerSchema)
 const Notice = mongoose.model("Notice",NoticeSchema)
 module.exports = { 
 	User:User,
 	Tag:Tag,
 	Question:Question,
-	Answer:Answer,
+	//Answer:Answer,
 	Notice:Notice
 }
