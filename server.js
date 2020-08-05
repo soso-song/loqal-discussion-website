@@ -178,7 +178,8 @@ app.post('/questions', mongoChecker, authenticate, (req, res) => {
 		isResolved: false,
 		isFlagged: false
 	});
-
+	log('this is user');
+	log(req.user);
 	// Save questions
 	question.save().then((quesiton) => {
         res.redirect('/answer?question_id=' + question._id);
@@ -283,8 +284,8 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
 
 	Question.find(
-		{answers.content 	: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
-		{answers.content 	: { $regex: keyword, $options: "i" }}  // specify a projection with find
+		//{answers.content 	: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		//{answers.content 	: { $regex: keyword, $options: "i" }}  // specify a projection with find
 	).then((answers) => {
 		res.send(answers) 
 	})

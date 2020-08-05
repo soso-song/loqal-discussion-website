@@ -136,7 +136,9 @@ $('#answerForm').submit(function(e) {
 	if(!hasError){
 		// Send the new answer to backend
 		answers.push(new Answer(myanswer, currentuser, myquestionid));
-
+		//Answer add to database-----------
+		saveAnswer(myanswer,myquestionid);
+		//---------------------------------
 		let newDiv = '<div class="answer"><div class="answertext">'
 		+
 		myanswer
@@ -157,7 +159,29 @@ $('#answerForm').submit(function(e) {
 	}
 });
 
+function saveAnswer(myanswer,myquestionid){
+	const url = '/questions/'+myquestionid;
 
+	let data = {
+		content: myanswer
+	}
+
+	const request = new Request(url, {
+		method: 'post',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	fetch(request)
+	.then(function(res) {
+		//window.location.href = res.url;
+	}).catch((error) => {
+		console.log(error)
+	})
+}
 
 async function getQuestion(){
 	const url = '/questions/' + myquestionid;
