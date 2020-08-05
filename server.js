@@ -164,6 +164,37 @@ const authenticate = (req, res, next) => {
 	}
 }
 
+/*** User routes below **********************************/
+// Route for getting a user
+app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
+	log(req.params.id)
+	const id = req.params.id
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;
+	}
+
+	// If id valid, findById
+	User.findOne({_id: id}).then((user) => {
+		if (!user) {
+			res.status(404).send('Resource not found')  // could not find this student
+		} else {
+			res.send(user)
+		}
+	})
+	.catch((error) => {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	})
+
+})
+
+// Route for getting the current user, check to see if there is a better way
+app.get('/currentuser', mongoChecker, authenticate, (req, res) => {
+	res.send(req.user)
+})
+
 /*** Question routes below **********************************/
 // Route for creating a new question
 app.post('/questions', mongoChecker, authenticate, (req, res) => {
@@ -282,7 +313,7 @@ app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
 //http://localhost:5000/questions/search/o
 app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
-
+	/*
 	Question.find(
 		//{answers.content 	: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
 		//{answers.content 	: { $regex: keyword, $options: "i" }}  // specify a projection with find
@@ -292,6 +323,7 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
+	*/
 })
 
 
