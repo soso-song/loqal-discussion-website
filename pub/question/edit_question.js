@@ -5,24 +5,44 @@ $(document).ready(function() {
 	//Getting the question from database
 	let myquestionid = 4;
 	let myquestion = questions[myquestionid];
+	let currentuser;
 
-	//Getting the question id from parameter if available
-	const params = new URLSearchParams(window.location.search)
-	let urlquestionid = params.get('question_id');
-	if (urlquestionid != null){
-		myquestionid = urlquestionid;
-		myquestion = questions[myquestionid];
+	fetch('/currentuser')
+	.then((res) => {
+		if (res.status === 200) {
+	        return res.json();
+	    } else {
+	        alert('Could not get question');
+	    } 
+	})
+	.then((json) => {
+		currentuser = json._id;
+		getQuestionByURL();
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+
+
+	// find question with given question id in URL
+	function getQuestionByURL() {
+		const params = new URLSearchParams(window.location.search)
+		const urlquestionid = params.get('question_id');
+
+		if (urlquestionid != null){
+			myquestionid = urlquestionid;
+			getQuestionByID(myquestionid).then((question) => {
+				myquestion = question;
+				if(myquestion.user == currentuser){
+					showQuestionInfo();	
+				}
+				else {
+					alert('You have no permission to edit this question!');
+				}
+				
+			});
+		}
 	}
-
-	//Populating fields with current question data
-	$('#qtitle').val(myquestion.title);
-	$('#qdesc').val(myquestion.content);
-
-	let alltags = '';
-	for (let i = 0; i < myquestion.tag_list.length; i++) {
-		alltags += tags[myquestion.tag_list[i]].name + ',';
-	}
-	$('#qtags').val(alltags);
 
 	function previewTitle() {
         const titleString = $('#qtitle').val();
@@ -60,11 +80,26 @@ $(document).ready(function() {
 			}
 		}
 	}
+
+	function showQuestionInfo(){
+		//Populating fields with current question data
+		$('#qtitle').val(myquestion.title);
+		$('#qdesc').val(myquestion.content);
+
+		// TODO: add tags
+		// let alltags = '';
+		// for (let i = 0; i < myquestion.tag_list.length; i++) {
+		// 	alltags += tags[myquestion.tag_list[i]].name + ',';
+		// }
+		// $('#qtags').val(alltags);
+
+		// Setting initial values
+		previewTitle();
+		previewDesc();
+		// previewTags();	// TODO: add tags
+	}
 	
-	// Setting initial values
-	previewTitle();
-	previewDesc();
-	previewTags();
+	
 
 	// Setting values on change
 	$('#qtitle').on('input', function() {
@@ -102,20 +137,23 @@ $(document).ready(function() {
 			hasError = true;
 		}
 
-		if (mytags.length < 1) {
-			$('#qtags').prev().prev().text('This field cannot be empty');
-			hasError = true;
-		}
+
+		// TODO: add tags
+		// if (mytags.length < 1) {
+		// 	$('#qtags').prev().prev().text('This field cannot be empty');
+		// 	hasError = true;
+		// }
 
 		if(!hasError){
 			// At this stage we will send data to backend
 			// And redirect the user to the newly updated question
-			myquestion.title = mytitle;
-			myquestion.content = mydesc;
+			updateQuestion(myquestionid ,mytitle, mydesc, mytags);
+			// myquestion.title = mytitle;
+			// myquestion.content = mydesc;
 			// tags should be sent to backend to see which ones we already have and which ones are new and then added to questions object
-			// myquestion.tag_list = mytags
+			// myquestion.tag_list = mytags	// TODO: add tags
 
-			window.location.href = "../answer/answer.html";
+			// window.location.href = "../answer/answer.html?question_id=" + myquestionid;
 		}
 	});
 

@@ -67,7 +67,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60000,
+        expires: 3600000,
         httpOnly: true
     }
 }));
@@ -203,9 +203,9 @@ app.post('/questions', mongoChecker, authenticate, (req, res) => {
 		title: req.body.title,
 		content: req.body.content,
 		user: req.user,
-		//tags: [], 
+		tags: [], 
 		//tags: req.body.tags, //TODO: need to add tags
-		//answers: [],
+		answers: [],
 		isResolved: false,
 		isFlagged: false
 	});
@@ -275,6 +275,39 @@ app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	})
 })
 
+// Route for updating basic info(title, desc, tags) of a question given by id
+app.patch('/questions/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid quesiton ID');
+		return;
+	}
+	// If id valid, findById
+	Question.findById(id).then((question) => {
+		if (!question) {
+			res.status(404).send('Quesiton not found');
+		} else {
+			question.title = req.body.title;
+			question.content = req.body.content;
+			// question.tags = req.body.tags;	// TODO: add tags
+			if (req.body.isResolved !== null){
+				question.isResolved = req.body.isResolved;
+			}
+			question.save().then((result)=>{
+				res.redirect('/answer?question_id=' + id);
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 
 
 // Route for creating a new answers
@@ -305,7 +338,6 @@ app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
 		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
 		} else {
-			log("this is the error ",error, " end of error")
 			res.status(400).send('Bad Request')
 		}
 	})
