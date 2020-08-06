@@ -382,29 +382,6 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 	*/
 })
 
-// Route for getting the answer by given id
-app.get('/answers/:id', mongoChecker, (req, res) => {
-	const id = req.params.id;
-
-	// Validate id
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid answer ID');
-		return;
-	}
-
-	// If id valid, findById
-	Answer.findById(id).then((answer) => {
-		if (!answer) {
-			res.status(404).send('Answer not found');
-		} else {
-			res.json({answer: answer});
-		}
-	})
-	.catch((error) => {
-		res.status(500).send('Internal Server Error');
-	})
-})
-
 
 //Notice route below**********/
 app.get('/notice', mongoChecker, (req, res) => {
