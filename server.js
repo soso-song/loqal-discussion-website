@@ -296,7 +296,7 @@ app.patch('/questions/:id', mongoChecker, (req, res) => {
 				question.isResolved = req.body.isResolved;
 			}
 			question.save().then((result)=>{
-				res.redirect('/answer?question_id=' + id);
+				res.redirect(303, '/answer?question_id=' + id);
 			}).catch((error)=>{
 				console.log(error);
 				res.status(400).send('Bad request.');
