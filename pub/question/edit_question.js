@@ -147,7 +147,9 @@ $(document).ready(function() {
 		if(!hasError){
 			// At this stage we will send data to backend
 			// And redirect the user to the newly updated question
-			updateQuestion(myquestionid ,mytitle, mydesc, mytags);
+			updateQuestion(myquestionid ,mytitle, mydesc, mytags).then((url) => {
+				window.location.href = url;
+			})
 			// myquestion.title = mytitle;
 			// myquestion.content = mydesc;
 			// tags should be sent to backend to see which ones we already have and which ones are new and then added to questions object

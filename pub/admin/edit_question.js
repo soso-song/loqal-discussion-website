@@ -1,39 +1,76 @@
 "use strict"
 
 //connect and get variabe from db
-//questions = pull_questions();
+let currentuser;
+let questions;
 //tags = pull_tags();
+
+checkAdminUser().then((res) => {
+	if (res){
+		currentuser = res;
+		getAllQuestions();
+	}
+})
+.catch((error) => {
+	console.log(error);
+})
+
+
+async function getAllQuestions(){
+	await fetch('/questions')
+	.then((res) => {
+		if (res.status === 200) {
+           return res.json();
+       	} else {
+            alert('Could not get questions');
+       	} 
+	})
+	.then((json) => {
+		questions = json;
+		load_row();
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
 
 const postEntries = document.querySelector('#posts');
 // postEntries.addEventListener('click', submit_tag);
 
-function load_row()
+let i = 0;
+
+async function load_row()
 {	
-	//const table=document.getElementById("posts");
-	let i=0;
-	while(i < questions.length){
-	//const row = table.insertRow(i).outerHTML=
+	await getUserInfo(questions[i].user).then((res) => {
+		//const row = table.insertRow(i).outerHTML=
 		const tag_names = [];
-		for (const tag_index of questions[i].tag_list){
+		for (const tag_index of questions[i].tags){
 			tag_names.push(tags[tag_index].name);
 		}
 		postEntries.innerHTML += 
-			"<tr id='row"+i+"'>"+
-				"<td id='title_row"+i+"'><textarea id='title_text"+i+"' disabled>"+questions[i].title+"</textarea></td>"+
-				"<td id='content_row"+i+"'><textarea id='content_text"+i+"' disabled>"+questions[i].content+"</textarea></td>"+
-				"<td>"+users[questions[i].user_id].username+"</td>"+
-				"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
-				"<td id='is_flag_row"+i+"'>"+questions[i].is_flagged+"</td>"+
-				"<td id='is_reso_row"+i+"'>"+questions[i].is_resolved+"</td>"+
-				//"<td>"+questions[i].answer.length+"</td>"+
-				"<td>"+questions[i].time+"</td>"+
-				"<td>"+
-					"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
-					"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
-					// "<input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'>"+
-				"</td>"+
-			"</tr>";
+		"<tr id='row"+i+"'>"+
+			"<td id='title_row"+i+"'><textarea id='title_text"+i+"' disabled>"+questions[i].title+"</textarea></td>"+
+			"<td id='content_row"+i+"'><textarea id='content_text"+i+"' disabled>"+questions[i].content+"</textarea></td>"+
+			"<td>"+res.username+"</td>"+
+			"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
+			"<td id='is_flag_row"+i+"'>"+questions[i].isFlagged+"</td>"+
+			"<td id='is_reso_row"+i+"'>"+questions[i].isResolved+"</td>"+
+			"<td>"+questions[i].time+"</td>"+
+			"<td>"+
+				"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
+				"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
+				// "<input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'>"+
+			"</td>"+
+		"</tr>";
 		i++;
+
+	})
+	.catch((error) => {
+		console.log(error);
+	})
+	
+	if(i < questions.length){
+		load_row();
 	}
 }
 
@@ -59,9 +96,9 @@ function edit_row(no){
 	is_reso_cell.innerHTML="<input type='button' id='is_reso_select"+no+"' value='"+is_reso_cell.innerHTML+"' onclick='change_is_reso("+no+")'>";
 	// get and display current tags
 	const question_tags = [];
-	for (const tag_index of questions[no].tag_list){
-		question_tags.push(tags[tag_index]);
-	}
+	// for (const tag_index of questions[no].tags){
+	// 	question_tags.push(tags[tag_index]);
+	// }
 	// making adding tag options
 	let html_tag = '';
 	for(const curr_tag of question_tags){
@@ -116,11 +153,12 @@ function save_row(no){
 		i++;
 	}
 	// this if statement checks the tag is not empty
-	if(tag_id.size == 0){
-		console.log("no change due to tag list is empty");
-		alert("no change due to tag list is empty, question index: " + no);
-		return;
-	}
+	// TODO: add this back for checking if tag list is empty
+	// if(tag_id.size == 0){
+	// 	console.log("no change due to tag list is empty");
+	// 	alert("no change due to tag list is empty, question index: " + no);
+	// 	return;
+	// }
 	// above are get value part
 	// below are set value part
 	//set html values
@@ -132,11 +170,15 @@ function save_row(no){
 
 	//below is write function to questions database
 	//edit_question(no,tag_id,title_val,content_val,(is_flag_val == "true"),(is_reso_val == "true"))
-	questions[no].tag_list = Array.from(tag_id);
-	questions[no].title = title_val;
-	questions[no].content = content_val;
-	questions[no].is_flagged = (is_flag_val == "true");
-	questions[no].is_resolved = (is_reso_val == "true");
+	// TODO: add the correct tags list
+	updateQuestion(questions[no]._id, title_val, content_val, [], 
+				   (is_reso_val == "true"),
+				   (is_flag_val == "true"));
+	// questions[no].tags = Array.from(tag_id);
+	// questions[no].title = title_val;
+	// questions[no].content = content_val;
+	// questions[no].is_flagged = (is_flag_val == "true");
+	// questions[no].is_resolved = (is_reso_val == "true");
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
 }

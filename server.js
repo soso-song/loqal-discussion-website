@@ -164,6 +164,25 @@ const authenticate = (req, res, next) => {
 	}
 }
 
+
+// Middleware for authentication of resources
+const adminAuthenticate = (req, res, next) => {
+	if (req.session.user) {
+		User.findById(req.session.user).then((user) => {
+			if (!user || !user.isAdmin) {
+				return Promise.reject()
+			} else {
+				req.user = user
+				next()
+			}
+		}).catch((error) => {
+			res.status(401).send("Unauthorized")
+		})
+	} else {
+		res.status(401).send("Unauthorized")
+	}
+}
+
 /*** User routes below **********************************/
 // Route for getting a user
 app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
@@ -294,6 +313,9 @@ app.patch('/questions/:id', mongoChecker, (req, res) => {
 			// question.tags = req.body.tags;	// TODO: add tags
 			if (req.body.isResolved !== null){
 				question.isResolved = req.body.isResolved;
+			}
+			if (req.body.isFlagged !== null){
+				question.isFlagged = req.body.isFlagged;
 			}
 			question.save().then((result)=>{
 				res.redirect(303, '/answer?question_id=' + id);
