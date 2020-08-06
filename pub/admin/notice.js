@@ -1,14 +1,34 @@
 "use strict"
 const allNotices = document.querySelector("#allNotices");
 var fs = require("fs");
-show_all();
-function show_all(){
-	// TODO: get notices from database
-	const notices = notice.find();
-	log(notices);
-	for (const notice of notices){
-		show_notice(notice);
- 	}
+
+checkAdminUser().then((res) => {
+	if (res){
+		currentuser = res;
+		getAllnotices();
+	}
+})
+.catch((error) => {
+	console.log(error);
+})
+
+
+async function getAllnotices(){
+	await fetch('/notice')
+	.then((res) => {
+		if (res.status === 200) {
+           return res.json();
+       	} else {
+            alert('Could not get notices');
+       	} 
+	})
+	.then((json) => {
+		notices = json;
+		load_row();
+	})
+	.catch((error) => {
+		console.log(error)
+	})
 }
 
 function show_notice(notice, front=false){

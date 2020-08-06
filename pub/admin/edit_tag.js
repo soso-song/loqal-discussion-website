@@ -4,6 +4,34 @@
 //tags = pull_tags();
 
 const postEntries = document.querySelector('#posts');
+checkAdminUser().then((res) => {
+	if (res){
+		currentuser = res;
+		getAlltags();
+	}
+})
+.catch((error) => {
+	console.log(error);
+})
+
+
+async function getAlltags(){
+	await fetch('/tag')
+	.then((res) => {
+		if (res.status === 200) {
+           return res.json();
+       	} else {
+            alert('Could not get tags');
+       	} 
+	})
+	.then((json) => {
+		tags = json;
+		load_row();
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
 
 function load_row()
 {	
