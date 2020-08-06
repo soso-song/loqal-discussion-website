@@ -350,6 +350,7 @@ app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
 			};
 			question.answers.push(answers);
 			question.save().then((result)=>{
+				res.send(result);
 				//res.redirect('/question?question_id=' + question._id); // no need refresh page since answer add in frontend
 			}).catch((error)=>{
 				res.status(400).send('Bad request.');
@@ -379,6 +380,29 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 	*/
+})
+
+// Route for getting the answer by given id
+app.get('/answers/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid answer ID');
+		return;
+	}
+
+	// If id valid, findById
+	Answer.findById(id).then((answer) => {
+		if (!answer) {
+			res.status(404).send('Answer not found');
+		} else {
+			res.json({answer: answer});
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
 })
 
 

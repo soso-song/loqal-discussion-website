@@ -81,7 +81,7 @@ async function getUserInfo(user_id){
            	// return a promise that resolves with the JSON body
            	return res.json();
        	} else {
-            alert('Could not get user.');
+            // alert('Could not get user.');
        	} 
 	})
 	.then((json) => {
@@ -95,3 +95,32 @@ async function getUserInfo(user_id){
 	})
 	return userInfo;
 }
+
+// // get the user's username and displayname from server
+// async function getAnswer(answer_id){
+// 	const url = '/answers/' + answer_id;
+
+// 	const request = new Request(url, {
+// 		method: 'get',
+// 		headers: {
+// 			'Accept': 'application/json, text/plain, */*',
+// 			'Content-Type': 'application/json'
+// 		}
+// 	});
+// 	let answer;
+// 	await fetch(request)
+// 	.then((res) => {
+// 		if (res.status === 200) {
+//            	return res.json();
+//        	} else {
+//             alert('Could not get answer.');
+//        	} 
+// 	})
+// 	.then((json) => {
+// 		answer = json.answer;
+// 	})
+// 	.catch((error) => {
+// 		console.log(error)
+// 	})
+// 	return answer;
+// }

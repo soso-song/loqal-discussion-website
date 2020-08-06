@@ -36,6 +36,11 @@ function getQuestionByURL() {
 			showQuestion();
 		})
 		.then((res) => {
+			if(myquestion.answers.length > 0){
+				showAnswers();
+			}
+		})
+		.then((res) => {
 			setOnclicks();
 		})
 	}
@@ -51,7 +56,6 @@ function showQuestion(){
 	// 	const newDiv = '<span class="tag">' + tags[myquestion.tag_list[i]].name + '</span>';
 	// 	$('#ptags').prepend(newDiv);
 	// }
-
 	getUserInfo(myquestion.user).then((quesUser) => {
 		$('#pdate').html('Asked by <a href="../user/user_profile.html?user_id='+myquestion.user+ '">'
 			+
@@ -89,39 +93,48 @@ function showQuestion(){
 
 
 	$('#pbutts').html(extrabutt);
-
-	
-	// Displaying the list of answers for this question
-	for (let i = 0; i < answers.length; i++) {
-		if(answers[i].question_id == myquestionid){
-
-			let report_answer_btn_url = "../report/report.html?type=a&target_id="+answers[i].id+"&user_id="+currentuser+"&back_url="+window.location.href;
-			let oneanswer = '<div class="answer"><div class="answertext">'
-			+
-			answers[i].content
-			+
-			'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answers[i].user_id+'">' + users[answers[i].user_id].display_name + ' (@' + users[answers[i].user_id].username + ')</a>. ' +answers[i].time+'. </div>'
-			;
-
-			if(currentuser == answers[i].user_id){
-				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?answer_id="+answers[i].id+"'>Edit Answer</a>";
-			} else{
-				oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
-			}
-
-			if(currentuser == myquestion.user_id){
-				oneanswer += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
-			} else{
-				oneanswer += '</div></div>'
-			}
-
-			$('#answers').prepend(oneanswer);
-		}
-	}
-
-	// set all the onclick setting after constructing the page
-	
 }
+
+let i = 0;
+async function showAnswers(){
+	let answer = myquestion.answers[i];
+
+	await getUserInfo(answer.user).then((ansUser) => {
+
+		let report_answer_btn_url = "../report/report.html?type=a&target_id="+answer._id+"&user_id="+currentuser+"&back_url="+window.location.href;
+		
+		let oneanswer = '<div class="answer"><div class="answertext">'
+		+
+		answer.content
+		+
+		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a>. ' +answer.time+'. </div>'
+		;
+
+		if(currentuser == answer.user){
+			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?answer_id="+answer._id+"'>Edit Answer</a>";
+		} else{
+			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
+		}
+
+		if(currentuser == myquestion.user){
+			oneanswer += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
+		} else{
+			oneanswer += '</div></div>'
+		}
+
+		$('#answers').prepend(oneanswer);
+		i++;
+	})
+	.catch((error) => {
+		console.log(error);
+	})
+
+	if(i < myquestion.answers.length){
+		showAnswers();
+	}
+}
+
+
 
 
 function setOnclicks(){
@@ -168,28 +181,31 @@ function setOnclicks(){
 	    }
 
 		if(!hasError){
-			// Send the new answer to backend
-			answers.push(new Answer(myanswer, currentuser, myquestionid));
 			//Answer add to database-----------
-			saveAnswer(myanswer,myquestionid);
-			//---------------------------------
-			let newDiv = '<div class="answer"><div class="answertext">'
-			+
-			myanswer
-			+
-			'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+currentuser+'">' + users[currentuser].display_name + ' (@' + users[currentuser].username + ')</a>. ' +'Just now'+'. </div>'
-			+
-			'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/edit_answer.html">Edit Answer</a>'
-			;
+			saveAnswer(myanswer,myquestionid).then((res) => {
+				return getUserInfo(currentuser);
+			})
+			.then((userInfo) => {
+				let newDiv = '<div class="answer"><div class="answertext">'
+				+
+				myanswer
+				+
+				'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+currentuser+'">' + userInfo.displayname + ' (@' + userInfo.username + ')</a>. ' +'Just now'+'. </div>'
+				+
+				'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/edit_answer.html">Edit Answer</a>'
+				;
 
-			if(currentuser == myquestion.user_id){
-				newDiv += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
-			} else{
-				newDiv += '</div></div>'
-			}
+				if(currentuser == myquestion.user){
+					newDiv += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
+				} else{
+					newDiv += '</div></div>'
+				}
+				
+				$('#answers').prepend(newDiv);
+				$('#myans').val("");
+			})
+			//---------------------------------
 			
-			$('#answers').prepend(newDiv);
-			$('#myans').val("");
 		}
 	});
 }
@@ -199,7 +215,7 @@ function setOnclicks(){
 
 
 
-function saveAnswer(myanswer,myquestionid){
+async function saveAnswer(myanswer,myquestionid){
 	const url = '/questions/'+myquestionid;
 
 	let data = {

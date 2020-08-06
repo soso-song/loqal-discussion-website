@@ -215,12 +215,10 @@ const QuestionSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema)
 const Tag = mongoose.model('Tag', TagSchema)
 const Question = mongoose.model("Question", QuestionSchema)
-//const Answer = mongoose.model("Answer", AnswerSchema)
 const Notice = mongoose.model("Notice",NoticeSchema)
 module.exports = { 
 	User:User,
 	Tag:Tag,
 	Question:Question,
-	//Answer:Answer,
 	Notice:Notice
 }
