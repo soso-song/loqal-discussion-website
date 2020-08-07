@@ -25,19 +25,19 @@ async function getAlltags(){
        	} 
 	})
 	.then((json) => {
-		tags = json;
-		load_row();
+		var currTags = json;
+		load_row(currTags);
 	})
 	.catch((error) => {
 		console.log(error)
 	})
 }
 
-function load_row()
+function load_row(currTags)
 {	
 	postEntries.innerHTML = "";
 	let i=0;
-	while(i < tags.length){
+	while(i < currTags.length){
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
 				"<td>"+tags[i].id+"</td>"+
@@ -93,16 +93,16 @@ function add_tag(){
 	//check errors
 	let is_exist = false;
 	let is_empty = tag_name == "";
-	let curr_tag;
-	if (!is_empty){
-		for(curr_tag of tags){
-			if(tag_name == curr_tag.name){
-				is_exist = true;
-				break;
-			}
-		}
-	}
-	//handling errors
+	// let curr_tag;
+	// if (!is_empty){
+	// 	for(curr_tag of tags){
+	// 		if(tag_name == curr_tag.name){
+	// 			is_exist = true;
+	// 			break;
+	// 		}
+	// 	}
+	// }
+	// //handling errors
 	if(is_empty){
 		tag_erro.innerHTML = "please enter a tag name";
 		return;
@@ -110,8 +110,45 @@ function add_tag(){
 		tag_erro.innerHTML = "tag exist with id: " + curr_tag.id;
 		return;
 	}
-
+	const url = '/tag';
 	//no error, saving data
-	tags.push(new Tag(tag_name));
+	let data = {
+		"name":tag_name
+	}
+	const request = new Request(url, {
+        method: 'post', 
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+    .then(function(res) {
+
+        // Handle response we get from the API.
+        // Usually check the error codes to see what happened.
+        // const message = document.querySelector('#message')
+        // if (res.status === 200) {
+        //     // If student was added successfully, tell the user.
+        //     console.log('Added tag')
+        //     message.innerText = 'Success: Added a student.'
+        //     message.setAttribute("style", "color: green")
+           
+        // } else {
+        //     // If server couldn't add the student, tell the user.
+        //     // Here we are adding a generic message, but you could be more specific in your app.
+        //     message.innerText = 'Could not add student'
+        //     message.setAttribute("style", "color: red")
+     
+        // }
+        // log(res)  // log the result in the console for development purposes,
+        //                   //  users are not expected to see this.
+    }).catch((error) => {
+        log(error)
+    })
+	// tags.push(new Tag(tag_name));
 	load_row();
 }

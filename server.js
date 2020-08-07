@@ -13,7 +13,7 @@ mongoose.set('bufferCommands', false);  // don't buffer db requests if the db se
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { User, Question, Notice} = require('./models/loqal')
+const { User, Question, Notice, Tag} = require('./models/loqal')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb')
@@ -430,8 +430,8 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 
 //Notice route below**********/
 app.get('/notice', mongoChecker, (req, res) => {
-	Notice.find().then((answers) => {
-		res.send(answers) 
+	Notice.find().then((notice) => {
+		res.sendFile(path.join(__dirname, '/pub/admin/notice.html'))
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
@@ -481,7 +481,7 @@ app.post("/notice", mongoChecker, (req, res) => {
 	});
 
 	// Save questions
-	Notice.save().then((notice) => {
+	notice.save().then((notice) => {
         res.redirect('/notice');
 	})
 	.catch((error) => {
@@ -493,10 +493,11 @@ app.post("/notice", mongoChecker, (req, res) => {
 		}
 	})
 })
+
 //tag route below**********/
 app.get('/tag', mongoChecker, (req, res) => {
 	Tag.find().then((answers) => {
-		res.send(answers) 
+		res.sendFile(path.join(__dirname, '/pub/admin/edit_tag.html'))
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
@@ -527,11 +528,11 @@ app.get('/tag/:id', mongoChecker, (req, res) => {
 
 app.post("/tag", mongoChecker, (req, res) => {
 	const tag = new Tag({
-		Name: req.body.name
+		name: req.body.name
 	});
 
 	// Save questions
-	Tag.save().then((tag) => {
+	tag.save().then((tag) => {
         res.redirect('/tag');
 	})
 	.catch((error) => {
