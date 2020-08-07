@@ -1,7 +1,7 @@
 "use strict";
 
-async function getTagByName(name){
-	const url = '/tags/' + name;
+async function getTagById(id){
+	const url = '/tags/' + id;
 
 	const request = new Request(url, {
 		method: 'get',
@@ -29,11 +29,11 @@ async function getTagByName(name){
 	return tag;
 }
 
-async function updateTag(name,newName){
-	const url = '/tags/' + name;
+async function updateTag(id,name){
+	const url = '/tags/' + id;
 
 	const data = {
-        name:newName
+        name:name
 	}
 
 	const request = new Request(url, {
