@@ -222,11 +222,11 @@ app.get('/users/questions/:user', mongoChecker, (req, res) => {
 	})
 })
 
-//get all question for given userid
+//get all answers for given userid
 app.get('/users/answers/:user', mongoChecker, (req, res) => {
 	const userid = req.params.user;
 	Question.find(
-		{'answers.user' : { $eq : userid} }
+		{'answers.user' : {$eq : userid} }
 	).then((questions) => {
 		questions.forEach(ques=>{
 			ques.answers = ques.answers.filter(ans => ans.user == userid);
@@ -239,14 +239,13 @@ app.get('/users/answers/:user', mongoChecker, (req, res) => {
 })
 
 
-//http://localhost:5000/questions/search/o
-app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
-	const keyword = req.params.keyword;
+//get all questions with given tag
+app.get('/questions/tags/:tagid', mongoChecker, (req, res) => {
+	const tag = req.params.tagid;
 	Question.find(
-		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
-		{'answers.content'	: { $regex: keyword, $options: "i" }}
-	).then((answers) => {
-		res.send(answers) 
+		{'tags.name': tag}
+	).then((questions) => {
+		res.send(questions) 
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
