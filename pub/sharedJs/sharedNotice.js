@@ -1,7 +1,7 @@
 "use strict";
 
-async function getNoticeByName(name){
-	const url = '/notices/' + name;
+async function getNoticeById(Id){
+	const url = '/notices/' + Id;
 
 	const request = new Request(url, {
 		method: 'get',
