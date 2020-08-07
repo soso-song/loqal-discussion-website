@@ -430,13 +430,46 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 
 //Notice route below**********/
 app.get('/notice', mongoChecker, (req, res) => {
-	Question.find().then((answers) => {
+	Notice.find().then((answers) => {
 		res.send(answers) 
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
 
+})
+
+app.post('/notice/:id', mongoChecker, authenticate, (req, res) => {
+
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){	// nor valid id
+		res.status(404).send('notice not valid');
+		return;
+	}
+	Notice.findById(id).then((notice)=>{
+		if(!question){	//undefined
+			res.status(404).send('notice not found');
+		}else{
+			const notice = new Notice({
+				title: req.body.title,
+				content: req.body.content,
+				user: req.user,
+				time: Date.now
+			});
+			notice.save().then((result)=>{
+				res.send(result);
+			}).catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
+	})
 })
 
 app.post("/notice", mongoChecker, (req, res) => {
@@ -448,7 +481,7 @@ app.post("/notice", mongoChecker, (req, res) => {
 	});
 
 	// Save questions
-	notice.save().then((notice) => {
+	Notice.save().then((notice) => {
         res.redirect('/notice');
 	})
 	.catch((error) => {
@@ -462,7 +495,7 @@ app.post("/notice", mongoChecker, (req, res) => {
 })
 //tag route below**********/
 app.get('/tag', mongoChecker, (req, res) => {
-	Question.find().then((answers) => {
+	Tag.find().then((answers) => {
 		res.send(answers) 
 	})
 	.catch((error) => {
@@ -470,13 +503,35 @@ app.get('/tag', mongoChecker, (req, res) => {
 	})
 })
 
+app.get('/tag/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid tag ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Tag.findById(id).then((tag) => {
+		if (!tag) {
+			res.status(404).send('tag not found');
+		} else {
+			res.json({ tag });
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 app.post("/tag", mongoChecker, (req, res) => {
-	const notice = new Tag({
-		Name: req.bot
+	const tag = new Tag({
+		Name: req.body.name
 	});
 
 	// Save questions
-	notice.save().then((notice) => {
+	Tag.save().then((tag) => {
         res.redirect('/tag');
 	})
 	.catch((error) => {
