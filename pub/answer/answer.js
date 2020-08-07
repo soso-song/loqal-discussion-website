@@ -103,7 +103,7 @@ async function showAnswers(){
 
 		let report_answer_btn_url = "../report/report.html?type=a&target_id="+answer._id+"&user_id="+currentuser+"&back_url="+window.location.href;
 		
-		let oneanswer = '<div class="answer"><div class="answertext">'
+		let oneanswer = '<div id='+answer._id+' class="answer"><div class="answertext">'
 		+
 		answer.content
 		+
@@ -131,6 +131,8 @@ async function showAnswers(){
 
 	if(i < myquestion.answers.length){
 		showAnswers();
+	}else{
+		goAnchor();
 	}
 }
 
@@ -238,3 +240,17 @@ async function saveAnswer(myanswer,myquestionid){
 		console.log(error)
 	})
 }
+
+function getAnchor() {
+    let currentUrl = document.URL,
+	urlParts   = currentUrl.split('#');
+    return (urlParts.length > 1) ? urlParts[1] : null;
+}
+
+function goAnchor() {
+	let element_to_scroll_to = document.getElementById(getAnchor());
+	element_to_scroll_to.scrollIntoView({ behavior: 'smooth'});
+    // if(window.location.hash) {
+    //     location.hash = '#'+getAnchor();
+    // }
+};

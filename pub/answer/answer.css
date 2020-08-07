@@ -172,3 +172,7 @@ a.pickbest{
 	font-weight:normal;
 	border:1px solid #666666;
 }
+
+/*html {
+  scroll-behavior: smooth;
+}*/

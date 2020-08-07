@@ -133,7 +133,7 @@ function load_result_answer(questions){
 
 			getUserInfo(answer.user).then(userInfo => {
 					answerResultEntries.innerHTML+=`<div ${color} class="shortquestion">
-					<a class="sanswer" href="/answer?question_id=${curr_question._id}">${answer.content}</a>
+					<a class="sanswer" href="/answer?question_id=${curr_question._id}#${answer._id}">${answer.content}</a>
 					<div class="sinfo">Answered by <a href="../user/user_profile.html?user_id=${answer.user}">${userInfo.displayname}</a> - ${answer.time}</div>
 				</div>`;
 			})
