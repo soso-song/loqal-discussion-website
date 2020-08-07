@@ -1,12 +1,14 @@
 "use strict"
 
-let pageUser = curr_user;
+let pageUser;
 
 // Check if there is input user id
 const params = new URLSearchParams(window.location.search)
 let user_id = params.get('user_id');
 if (user_id != null){
-    pageUser = users[user_id];
+    getPageUser()
+}else{
+    getCurrentUser()
 }
 
 function getPageUser() {
@@ -23,20 +25,43 @@ function getPageUser() {
     })
     .then((json) => {  // the resolved promise with the JSON body
         pageUser = json
-        basicInfo();
-        //getAllQandACount();
-        //document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser.id+"&user_id="+curr_user.id+"&back_url="+window.location.href;
-
-        getAllQUser();
-        getAllAnswer();
-        //getFollowers();
-        //getFollowing();
+        setUpPage()
     }).catch((error) => {
         console.log(error)
     })
 }
 
-getPageUser();
+function getCurrentUser() {
+    const url = '/currentuser'
+
+    // Since this is a GET request, simply call fetch on the URL
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            alert('Could not get current user')
+       }                
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+        pageUser = json
+        setUpPage()
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+function setUpPage(){
+    basicInfo();
+    //getAllQandACount();
+    //document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser.id+"&user_id="+curr_user.id+"&back_url="+window.location.href;
+
+    getAllQUser();
+    getAllAnswer();
+    //getFollowers();
+    //getFollowing();
+}
+
 // List of followers and following hardcoded for now
 // Will get these from backend later
 //pageUser.followers = [users[1]];
