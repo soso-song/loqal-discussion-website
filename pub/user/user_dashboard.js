@@ -62,18 +62,18 @@ getCurrentUser();
 function basicInfo(){
     let mytags = ''
     let t;
-    for(t of pageUser.tag_list)
+    for(t of backendUser.tags)
     {
         mytags+=`<span class="tag">${tags[t].name}</span>`
     }
     
     let myhtml = `<h2> Welcome Back ${backendUser.displayname}</h2>
-    <img src="${pageUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
+    <img src="${backendUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3>${mytags}</div>
     </div>`
 
-    myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${curr_user.id}">Your Profile</a>`
+    myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
     myhtml += `<a class="sidebutton" href="edit_profile.html">Edit Profile</a>`
 
     if(backendUser.isAdmin){
@@ -124,27 +124,46 @@ function getAllQandACount(){
 function getAllQ(){
     let wanted = document.getElementsByClassName("listcontainter")[0];
     
-    // This would be later populated by questions related to user from backend
-    for(let q of questions)
-    {
-        let numA = 0;
-        for(let a of answers)
-        {
-            if(a.question_id == q.id)
+
+    const url = '/questions';
+
+    // Since this is a GET request, simply call fetch on the URL
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            alert('Could not get current user')
+       }                
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+        //console.log(json.username)
+        json.forEach(function(q) {
+            let numA = 0;
+            for(let a of answers)
             {
-                numA++;
+                if(a.question_id == q.id)
+                {
+                    numA++;
+                }
             }
-        }
-        let resolve ='Unresolved';
-        if (q.is_resolved == true)
-        {
-            resolve = 'Resolved';
-        }
-        wanted.innerHTML+=`<div class="shortquestion">
-        <a class="squestion" href="../answer/answer.html?question_id=${q.id}">${q.title}</a>
-        <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user_id}">${users[q.user_id].display_name}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
-        </div>`;
-    }
+            let resolve ='Unresolved';
+            if (q.isResolved == true)
+            {
+                resolve = 'Resolved';
+            }
+            wanted.innerHTML+=`<div class="shortquestion">
+            <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
+            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${q.user}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
+            </div>`;
+        });
+    }).catch((error) => {
+        console.log(error)
+    })
+
+
+    // This would be later populated by questions related to user from backend
+
 }
 
 // Displays all questions asked by user
