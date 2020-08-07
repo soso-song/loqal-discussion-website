@@ -1,30 +1,51 @@
 "use strict"
 // We will get the logged in user from the backend in future
-const user = curr_user;
+
+function getCurrentUser() {
+    const url = '/currentuser';
+
+    // Since this is a GET request, simply call fetch on the URL
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            alert('Could not get current user')
+       }                
+    })
+    .then((json) => {  // the resolved promise with the JSON body
+        load_profile(json);
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+getCurrentUser()
+//const user = curr_user;
 
 const userEditForm = document.querySelector('#editForm');
 userEditForm.addEventListener('submit',edit);
 userEditForm.addEventListener('change', update_photo);
 
 
-load_profile(user);
+//load_profile(user);
 function load_profile(user){
     document.querySelector('#userName').value = user.username;
-    document.querySelector('#displayName').value = user.display_name;
+    document.querySelector('#displayName').value = user.displayname;
     document.querySelector('#email').value = user.email;
-    document.querySelector('#password').value = user.password;
+    //document.querySelector('#password').value = user.password;
 
     // display picture
     const photo = document.querySelector('#prof_pic');
     photo.setAttribute('src', user.photo_src);
 
     // show if flagged user
-    if (user.is_flagged){
+    if (user.isFlagged){
         document.querySelector('#status').value = 'Flagged';
     }
 
     // show if user if admin
-    if (user.is_admin){
+    if (user.isAdmin){
         document.querySelector('#acct_type').value = 'Admin';
     }
 }

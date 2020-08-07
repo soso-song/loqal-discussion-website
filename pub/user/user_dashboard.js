@@ -74,7 +74,7 @@ function basicInfo(){
     </div>`
 
     myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
-    myhtml += `<a class="sidebutton" href="edit_profile.html">Edit Profile</a>`
+    myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
 
     if(backendUser.isAdmin){
         myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
