@@ -282,6 +282,7 @@ app.get('/questions/:id', mongoChecker, (req, res) => {
 //http://localhost:5000/questions/search/o
 app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
+	//log('inside questionsearch');
 	Question.find({$or:[
 		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
 		{content		: { $regex: keyword, $options: "i" }}
@@ -369,17 +370,16 @@ app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
 //http://localhost:5000/questions/search/o
 app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
-	/*
 	Question.find(
-		//{answers.content 	: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
-		//{answers.content 	: { $regex: keyword, $options: "i" }}  // specify a projection with find
+		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{'answers.content'	: { $regex: keyword, $options: "i" }}
 	).then((answers) => {
 		res.send(answers) 
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
-	*/
+	
 })
 
 //Notice route below**********/
