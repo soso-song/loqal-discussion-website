@@ -186,7 +186,7 @@ const adminAuthenticate = (req, res, next) => {
 /*** User routes below **********************************/
 // Route for getting a user
 app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
-	log(req.params.id)
+	//log(req.params.id)
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
@@ -208,6 +208,53 @@ app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
 	})
 
 })
+
+//get all question for given userid
+app.get('/users/questions/:user', mongoChecker, (req, res) => {
+	const userid = req.params.user;
+	Question.find(
+		{user : { $eq : userid} }
+	).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
+//get all question for given userid
+app.get('/users/answers/:user', mongoChecker, (req, res) => {
+	const userid = req.params.user;
+	Question.find(
+		{'answers.user' : { $eq : userid} }
+	).then((questions) => {
+		questions.forEach(ques=>{
+			ques.answers = ques.answers.filter(ans => ans.user == userid);
+		});
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
+
+//http://localhost:5000/questions/search/o
+app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
+	const keyword = req.params.keyword;
+	Question.find(
+		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{'answers.content'	: { $regex: keyword, $options: "i" }}
+	).then((answers) => {
+		res.send(answers) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+	
+})
+
+
 
 // Route for getting the current user, check to see if there is a better way
 app.get('/currentuser', mongoChecker, authenticate, (req, res) => {

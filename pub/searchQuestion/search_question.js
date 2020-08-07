@@ -86,8 +86,8 @@ function search_keyword(mytitle, mydesc, mytags){
 		
 	})
 	.then(data => {
-		console.log('answers');
-		console.log(data);
+		// console.log('answers');
+		// console.log(data);
 		load_result_answer(data);
 	})
 	.catch((error) => {

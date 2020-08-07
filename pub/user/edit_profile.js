@@ -30,6 +30,7 @@ userEditForm.addEventListener('change', update_photo);
 
 //load_profile(user);
 function load_profile(user){
+    console.log(user);
     document.querySelector('#userName').value = user.username;
     document.querySelector('#displayName').value = user.displayname;
     document.querySelector('#email').value = user.email;
