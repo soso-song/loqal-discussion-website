@@ -65,8 +65,8 @@ function setUpPage(){
 
     getAllQUser();
     getAllAnswer();
-    //getFollowers();
-    //getFollowing();
+    getFollowers();
+    getFollowing();
     if(pageUser._id == currentUser._id){
         $('#followUnfollow').css("display", "none");
     }else{
@@ -309,8 +309,8 @@ function getFollowers()
     for (let follower of pageUser.followers)
     {
         result+=`<div class="person">
-        <div class="personname"><a href="../user/user_profile.html?user_id=${follower.id}">${follower.display_name}</a></div>
-        <div class="personid">@${follower.username}</div>
+        <div class="personname"><a href="../user/user_profile.html?user_id=${follower}">${follower}</a></div>
+        <div class="personid">@${follower}</div>
         </div>`;
     }
     followerContainer.innerHTML = result;
@@ -323,8 +323,8 @@ function getFollowing()
     for (let following of pageUser.following)
     {
         result+=`<div class="person">
-        <div class="personname"><a href="../user/user_profile.html?user_id=${following.id}">${following.display_name}</a></div>
-        <div class="personid">@${following.username}</div>
+        <div class="personname"><a href="../user/user_profile.html?user_id=${following}">${following}</a></div>
+        <div class="personid">@${following}</div>
         </div>`;
     }
     followingContainer.innerHTML = result;
