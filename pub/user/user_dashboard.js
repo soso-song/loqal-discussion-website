@@ -37,26 +37,16 @@ function getCurrentUser() {
        }                
     })
     .then((json) => {  // the resolved promise with the JSON body
-        //console.log(json.username)
         backendUser = json
         basicInfo();
         getNotice();
-        getAllQandACount();
         getAllQ();
-        getAllQUser();
-        getAllAnswer();
     }).catch((error) => {
         console.log(error)
     })
 }
 
 getCurrentUser();
-//basicInfo();
-//getNotice();
-//getAllQandACount();
-//getAllQ();
-//getAllQUser();
-//getAllAnswer();
 
 // Loads left hand side information about the user
 function basicInfo(){
@@ -92,32 +82,6 @@ function getNotice(){
     <div id="noticedate">Posted on ${curr.time}, 2020</div>`
 
     $('#notification').prepend(myhtml);
-}
-
-// Gets the number of questions and answers of this user
-function getAllQandACount(){
-    let qNum = 0;
-    let aNum = 0;   
-
-    for(let i=0; i<num_questions; i++)
-    {
-        if (questions[i].user_id==pageUser.id)
-        {
-            qNum++;
-        }
-    }
-
-    for(let j=0; j<num_answers; j++)
-    {
-        if(answers[j].user_id == pageUser.id)
-        {
-            aNum++;
-        }
-    }
-
-    let headings = document.getElementsByClassName("userheading");
-    headings[2].innerHTML=`Your Recent Questions (${qNum})`;
-    headings[3].innerHTML=`Your Recent Answers (${aNum})`;
 }
 
 // Displays the list of all questions which includes the tags this user follows
@@ -164,68 +128,4 @@ function getAllQ(){
 
     // This would be later populated by questions related to user from backend
 
-}
-
-// Displays all questions asked by user
-function getAllQUser(){
-    let currQuestion = [];
-
-    for(let i=0; i<num_questions; i++)
-    {
-        if(questions[i].user_id == pageUser.id)
-        {
-            currQuestion.push(questions[i]);
-        }
-    }
-
-    let wanted = document.getElementsByClassName("listcontainter")[1];
-    let j=0;
-    while(j<currQuestion.length)
-    {
-        let currQ = currQuestion[j];
-
-        let resolve ='Unresolved';
-        if (currQ.is_resolved)
-        {
-            resolve = 'Resolved';
-        }
-
-        let numA = 0;
-        for(let a of answers)
-        {
-            if(a.question_id == currQ.id)
-            {
-                numA++;
-            }
-        }
-        wanted.innerHTML+=`<div class="shortquestion">
-            <a class="squestion" href="../answer/answer.html?question_id=${currQ.id}">${currQ.title}</a>
-            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user_id}">${users[currQ.user_id].username}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
-        </div>`;
-        j++;
-    }
-}
-
-// Displays all answers answered by user
-function getAllAnswer(){
-    let currAnswer = [];
-    for(let i=0; i<num_answers; i++)
-    {
-        if(answers[i].user_id == pageUser.id)
-        {
-            currAnswer.push(answers[i]);
-        }
-    }
-    let wanted = document.getElementsByClassName("listcontainter")[2];
-    let j=0;
-    while(j<currAnswer.length)
-    {
-        let currA = currAnswer[j];
-        let Qc = questions[currA.question_id].title;
-        wanted.innerHTML+=`	<div class="shortquestion">
-        <a class="sanswer" href="../answer/answer.html?question_id=${currA.question_id}">${currA.content}</a>
-        <div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${currA.question_id}">${Qc}</a> - ${currA.time}</div>
-    </div>`;
-        j++;
-    }
 }
