@@ -38,6 +38,18 @@ app.use(bodyParser.json())
 const session = require('express-session')
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//For handling images
+// multipart middleware: allows you to access uploaded file from req.file
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'csc309summer11',
+    api_key: '565837127599264',
+    api_secret: 'zUyJecwIy4lfJnsC9BSMxoda7i8'
+});
+
 // Our own express middleware to check for 
 // an active user on the session cookie (indicating a logged in user.)
 const sessionChecker = (req, res, next) => {
@@ -383,6 +395,137 @@ app.post('/unfollow/:id', mongoChecker, authenticate, (req, res) => {
 		}
 	})
 })
+
+/*** Image API Routes below ************************************/
+
+// a POST route to *create* an image
+app.post("/images", multipartMiddleware, authenticate, (req, res) => {
+
+	User.findById(req.user._id).then((user) => {
+		if (!user) {
+			res.status(404).send('User not found');
+		} else {
+			const imageId = user.image_id
+			if(imageId !== ''){
+				cloudinary.uploader.destroy(imageId, function (result) {
+
+					user.image_id= "", 
+                	user.image_url= "",
+					user.save().then((result)=>{
+						//res.send(result);
+						    // Use uploader.upload API to upload image to cloudinary server.
+						cloudinary.uploader.upload(
+							req.files.image.path, // req.files contains uploaded files
+							function (result) {
+								user.image_id= result.public_id, // image id on cloudinary server
+								user.image_url= result.url,
+								user.save().then((result2)=>{
+									res.send(result2);
+								}).catch((error)=>{
+									console.log(error);
+									res.status(400).send('Bad request.');
+								})
+						});
+					}).catch((error)=>{
+						console.log(error);
+						res.status(400).send('Bad request.');
+					})
+
+				});
+			}else{
+				cloudinary.uploader.upload(
+					req.files.image.path, // req.files contains uploaded files
+					function (result) {
+						cloudinary.uploader.upload(
+							req.files.image.path, // req.files contains uploaded files
+							function (result) {
+								user.image_id= result.public_id, // image id on cloudinary server
+								user.image_url= result.url,
+								user.save().then((result2)=>{
+									res.send(result2);
+								}).catch((error)=>{
+									console.log(error);
+									res.status(400).send('Bad request.');
+								})
+						});
+				});
+			}
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+
+});
+
+/*
+// a GET route to get all images
+app.get("/images", (req, res) => {
+    Image.find().then(
+        images => {
+            res.send({ images }); // can wrap in object if want to add more properties
+        },
+        error => {
+            res.status(500).send(error); // server error
+        }
+    );
+});
+
+
+/// a DELETE route to remove an image by its id.
+app.delete("/images/:imageId", (req, res) => {
+    const imageId = req.params.imageId;
+
+    // Delete an image by its id (NOT the database ID, but its id on the cloudinary server)
+    // on the cloudinary server
+    cloudinary.uploader.destroy(imageId, function (result) {
+
+        // Delete the image from the database
+        Image.findOneAndRemove({ image_id: imageId })
+            .then(img => {
+                if (!img) {
+                    res.status(404).send();
+                } else {
+                    res.send(img);
+                }
+            })
+            .catch(error => {
+                res.status(500).send(); // server error, could not delete.
+            });
+    });
+});
+
+// Delete the image of the current user
+app.delete("/images", (req, res) => {
+    User.findById(req.user._id).then((user) => {
+		if (!user) {
+			res.status(404).send('User not found');
+		} else {
+			const imageId = user.image_id
+			if(imageId !== ''){
+				cloudinary.uploader.destroy(imageId, function (result) {
+
+					user.image_id= "", 
+                	user.image_url= "",
+					user.save().then((result)=>{
+						res.send(result);
+					}).catch((error)=>{
+						console.log(error);
+						res.status(400).send('Bad request.');
+					})
+
+				});
+			}else{
+				res.status(404).send('No Image ID');
+			}
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+
+});
+*/
 
 /*** Question routes below **********************************/
 // Route for creating a new question

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Edit Profile</title>
         <link rel="stylesheet" type="text/css" href="../index.css">
-        <link rel="stylesheet" type="text/css" href="edit_profile.css">
+        <link rel="stylesheet" type="text/css" href="../user/edit_profile.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript" src="../index.js"></script>
     <body>
@@ -33,12 +33,13 @@
                         </div>
                         <div class='center'>
                             <img id="prof_pic">
+                            <form id="imageForm">
+                                <input name="image" type="file" />
+                                <input id="uploadbtn" type='submit' value='Upload'>
+                            </form>
                         </div>
                         <div id='editDiv'>
                             <form id="editForm">
-                                <div class='center'>
-                                    <input type="file" id="photoSrc" accept='image/*' placeholder="update photo">
-                                </div>
                                 <ul>
                                     <li>
                                         <label for="userName">Username:</label>
@@ -82,6 +83,6 @@
 			</div>
         </div>
     <script type="text/javascript" src="../sharedClasses/classes.js"></script>
-    <script type="text/javascript" src="edit_profile.js"></script>
+    <script type="text/javascript" src="../user/edit_profile.js"></script>
     </body> 
 </html>

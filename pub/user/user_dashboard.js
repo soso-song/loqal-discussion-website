@@ -58,7 +58,7 @@ function basicInfo(){
     }
     
     let myhtml = `<h2> Welcome Back ${backendUser.displayname}</h2>
-    <img src="${backendUser.photo_src}" alt="Main Profile Pic" id="profilePic">							
+    <img src="${backendUser.image_url}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3>${mytags}</div>
     </div>`
