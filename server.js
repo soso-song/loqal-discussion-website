@@ -260,6 +260,130 @@ app.get('/currentuser', mongoChecker, authenticate, (req, res) => {
 	res.send(req.user)
 })
 
+/*** Follow Unfollow routes below **********************************/
+// Following a user
+app.post('/follow/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+	User.findById(id).then((user)=>{
+		if(!user){
+			res.status(404).send('user not found');
+		}else{
+			if(user.followers.includes(req.user._id)){
+				res.status(400).send('Already following');
+			}else{
+				user.followers.push(req.user._id);
+				user.save().then((result)=>{
+					//res.send(result);
+
+					User.findById(req.user._id).then((follower)=>{
+						if(!follower){
+							res.status(404).send('user not found');
+						}else{
+							if(follower.following.includes(user._id)){
+								res.status(400).send('Already following');
+							}else{
+								follower.following.push(user._id);
+								follower.save().then((result2)=>{
+									res.send(result2);
+								}).catch((error)=>{
+									log(error)
+									res.status(400).send('Bad request.');
+								})
+							}
+						}
+					})
+					.catch((error) => {
+						log(error)
+						if (isMongoError(error)) {
+							res.status(500).send('Internal server error')
+						} else {
+							res.status(400).send('Bad Request')
+						}
+					})
+
+					
+				}).catch((error)=>{
+					log(error)
+					res.status(400).send('Bad request.');
+				})
+			}
+		}
+	})
+	.catch((error) => {
+		log(error)
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
+	})
+})
+
+// Unfollowing a user
+app.post('/unfollow/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+	User.findById(id).then((user)=>{
+		if(!user){
+			res.status(404).send('user not found');
+		}else{
+			if(!user.followers.includes(req.user._id)){
+				res.status(400).send('Already not following');
+			}else{
+				const index = user.followers.indexOf(req.user._id);
+				user.followers.splice(index, 1);
+
+				user.save().then((result)=>{
+					//res.send(result);
+
+					User.findById(req.user._id).then((follower)=>{
+						if(!follower){
+							res.status(404).send('user not found');
+						}else{
+							if(!follower.following.includes(user._id)){
+								res.status(400).send('Already not following');
+							}else{
+								const index = follower.following.indexOf(user._id);
+								follower.following.splice(index, 1);
+				
+								follower.save().then((result2)=>{
+									res.send(result2);
+								}).catch((error)=>{
+									res.status(400).send('Bad request.');
+								})
+							}
+						}
+					})
+					.catch((error) => {
+						if (isMongoError(error)) {
+							res.status(500).send('Internal server error')
+						} else {
+							res.status(400).send('Bad Request')
+						}
+					})
+
+				}).catch((error)=>{
+					res.status(400).send('Bad request.');
+				})
+			}
+		}
+	})
+	.catch((error) => {
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
+	})
+})
+
 /*** Question routes below **********************************/
 // Route for creating a new question
 app.post('/questions', mongoChecker, authenticate, (req, res) => {

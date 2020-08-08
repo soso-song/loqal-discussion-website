@@ -106,25 +106,71 @@ $(document).ready(function() {
             $('#followUnfollow').text('Unfollow');
         }
     }
-    
-    $("#followUnfollow").click(function(){
-		const currentState = $('#followUnfollow').text();
-		if(currentState === 'Follow'){
-            $('#followUnfollow').text('Unfollow');
-            pageUser.followers.push(curr_user);
-            getFollowers(); 
-		}else if(currentState === 'Unfollow'){
-            const currentuser = pageUser.followers.indexOf(curr_user);
-            if(currentuser>-1){
-                $('#followUnfollow').text('Follow');
-                pageUser.followers.splice(currentuser, 1);
-                getFollowers();    
-            }
-		}
-		//Send data to server to follow/unfollow user
-    });
     */
+   $("#followUnfollow").click(function(){
+    const currentState = $('#followUnfollow').text();
+    if(currentState === 'Follow'){
+        //$('#followUnfollow').text('Unfollow');
+        followUser();
+        //getFollowers(); 
+    }else if(currentState === 'Unfollow'){
+        unfollowUser();
+        /*
+        const currentuser = pageUser.followers.indexOf(curr_user);
+        if(currentuser>-1){
+            $('#followUnfollow').text('Follow');
+            pageUser.followers.splice(currentuser, 1);
+            getFollowers();    
+        }
+        */
+    }
+    //Send data to server to follow/unfollow user
+    });
 });
+
+function followUser(){
+    const url = '/follow/'+pageUser._id;
+	
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post', 
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+    
+    fetch(request)
+    .then(function(res) {
+        $('#followUnfollow').text('Unfollow');
+        //getFollowers(); 
+        console.log(res) 
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+function unfollowUser(){
+    const url = '/unfollow/'+pageUser._id;
+	
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post', 
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+    
+    fetch(request)
+    .then(function(res) {
+        $('#followUnfollow').text('Follow');
+        //getFollowers(); 
+        console.log(res) 
+    }).catch((error) => {
+        console.log(error)
+    })
+}
 
 
 // Loads left hand side information about the user
