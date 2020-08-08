@@ -1,18 +1,20 @@
 "use strict"
 
 let pageUser;
+let currentUser;
 
+getPageUser()
 // Check if there is input user id
-const params = new URLSearchParams(window.location.search)
-let user_id = params.get('user_id');
-if (user_id != null){
-    getPageUser()
-}else{
-    getCurrentUser()
-}
+
 
 function getPageUser() {
-    const url = '/users/'+user_id;
+    let url = '/currentuser';
+
+    const params = new URLSearchParams(window.location.search)
+    let user_id = params.get('user_id');
+    if (user_id != null){
+        url = '/users/'+user_id;
+    }
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -25,7 +27,12 @@ function getPageUser() {
     })
     .then((json) => {  // the resolved promise with the JSON body
         pageUser = json
-        setUpPage()
+        if(user_id != null){
+            getCurrentUser()
+        }else{
+            currentUser = pageUser
+            setUpPage()
+        }
     }).catch((error) => {
         console.log(error)
     })
@@ -44,7 +51,7 @@ function getCurrentUser() {
        }                
     })
     .then((json) => {  // the resolved promise with the JSON body
-        pageUser = json
+        currentUser = json
         setUpPage()
     }).catch((error) => {
         console.log(error)
@@ -60,6 +67,20 @@ function setUpPage(){
     getAllAnswer();
     //getFollowers();
     //getFollowing();
+    if(pageUser._id == currentUser._id){
+        $('#followUnfollow').css("display", "none");
+    }else{
+        $('#followUnfollow').css("display", "block");
+    }
+
+    //sets initial state for follower button
+    for(let i=0; i<pageUser.followers.length; i++)
+    {
+        if (pageUser.followers[i]==currentUser._id)
+        {
+            $('#followUnfollow').text('Unfollow');
+        }
+    }
 }
 
 // List of followers and following hardcoded for now
