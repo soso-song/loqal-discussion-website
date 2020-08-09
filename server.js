@@ -933,8 +933,8 @@ app.post("/notice", mongoChecker, (req, res) => {
 
 //tag route below**********/
 app.get('/tag', mongoChecker, (req, res) => {
-	Tag.find().then((answers) => {
-		res.sendFile(path.join(__dirname, '/pub/admin/edit_tag.html'))
+	Tag.find().then((tags) => {
+		res.send(tags)
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
