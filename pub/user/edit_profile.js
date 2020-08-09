@@ -61,6 +61,7 @@ function edit(e){
     
     let hasError = false;
     let errMessage = '';
+    $('#changeerror').text(errMessage);
 
     const new_username = document.querySelector('#userName').value;
     const new_display_name = document.querySelector('#displayName').value;
@@ -69,13 +70,6 @@ function edit(e){
     if (new_username.length < 1) {
         errMessage = 'Username cannot be empty';
         hasError = true;
-    }else{
-        for (let i = 0; i < users.length; i++) {
-            if((users[i].username == new_username) && (curr_user.id != users[i].id)){
-                errMessage = 'Username already taken';
-                hasError = true;
-            }
-        }
     }
 
     if (new_display_name.length < 1) {
@@ -90,44 +84,40 @@ function edit(e){
 
     if(!hasError){
 
-        updateUser(new_username , new_display_name, new_email).then((url) => {
-            window.location.href = url;
-        })
-        // At theis point data is sent to backend to update user info
-        //window.alert("Your profile has been changed");
-        //window.location.href = "user_profile.html";
+        const url = '/users'
+
+        const data = {
+            username: new_username,
+            displayname: new_display_name,
+            email: new_email
+        }
+
+        const request = new Request(url, {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        fetch(request)
+		.then(function(res) {
+			if (res.redirected) {
+				window.location.href = res.url;
+			}
+
+			if (res.status === 200) {
+				//console.log(res.statusText)
+			} else {
+                $('#changeerror').text('Could not update the profile');
+			}
+		}).catch((error) => {
+			//console.log(error)
+		})
 	}else{
-        window.alert(errMessage);
+        $('#changeerror').text(errMessage);
     }
-}
-
-async function updateUser(myusername, myname, mymail){
-	const url = '/users/' + backendUser._id;
-
-	const data = {
-		username: myusername,
-		displayname: myname,
-		email: mymail
-	}
-
-	const request = new Request(url, {
-		method: 'PATCH',
-		body: JSON.stringify(data),
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-			'Content-Type': 'application/json'
-		}
-	});
-
-	let newURL;
-
-	await fetch(request)
-	.then(function(res) {
-		newURL = res.url;
-	}).catch((error) => {
-		console.log(error);
-	})
-	return newURL;
 }
 
 function new_upload(e){
