@@ -96,8 +96,8 @@ $(document).ready(function() {
 			hasError = true;
 		}
 
-		if (password.length < 8) {
-		$('#pword').prev().prev().text('Password must be at least 8 characters long');
+		if (password.length < 6) {
+		$('#pword').prev().prev().text('Password must be at least 6 characters long');
 			hasError = true;
 		}
 

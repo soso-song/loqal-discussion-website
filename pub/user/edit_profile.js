@@ -64,7 +64,6 @@ function edit(e){
 
     const new_username = document.querySelector('#userName').value;
     const new_display_name = document.querySelector('#displayName').value;
-	const new_password = document.querySelector('#password').value;
     const new_email = document.querySelector('#email').value;
 
     if (new_username.length < 1) {
@@ -84,11 +83,6 @@ function edit(e){
         hasError = true;
     }
 
-    if (new_password.length < 1) {
-        errMessage = 'Password cannot be empty';
-        hasError = true;
-    }
-
     if (new_email.length < 1) {
         errMessage = 'E-mail cannot be empty';
         hasError = true;
@@ -96,7 +90,7 @@ function edit(e){
 
     if(!hasError){
 
-        updateUser(new_username , new_display_name, new_password, new_email).then((url) => {
+        updateUser(new_username , new_display_name, new_email).then((url) => {
             window.location.href = url;
         })
         // At theis point data is sent to backend to update user info
@@ -107,13 +101,12 @@ function edit(e){
     }
 }
 
-async function updateUser(myusername, myname, mypass, mymail){
+async function updateUser(myusername, myname, mymail){
 	const url = '/users/' + backendUser._id;
 
 	const data = {
 		username: myusername,
 		displayname: myname,
-		password: mypass,
 		email: mymail
 	}
 

@@ -239,7 +239,6 @@ app.patch('/users/:id', mongoChecker, (req, res) => {
 		} else {
 			user.displayname = req.body.displayname;
 			user.email = req.body.email;
-			user.password = req.body.password;
 			user.username = req.body.username
 
 			user.save().then((result)=>{
@@ -247,6 +246,28 @@ app.patch('/users/:id', mongoChecker, (req, res) => {
 				res.redirect(303, myurl);
 			}).catch((error)=>{
 				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+// Route for changing password
+app.patch('/changepassword', mongoChecker, authenticate, (req, res) => {
+	User.findById(req.user._id).then((user) => {
+		if (!user) {
+			res.status(404).send('User not found');
+		} else {
+			user.password = req.body.password;
+
+			user.save().then((result)=>{
+				const myurl = '/user/user_profile.html?user_id=' + user._id
+				res.redirect(myurl);
+			}).catch((error)=>{
+				//console.log(error);
 				res.status(400).send('Bad request.');
 			})
 		}

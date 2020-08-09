@@ -80,11 +80,11 @@
 	padding:20px;
 }
 
-#editTagButt{
+.otherButt{
 	display:inline-block;
 	color:#ee6261;
 	text-decoration:none;
-	margin: 10px 0px 40px 0px;
+	margin: 10px 20px 40px 0px;
 	background-color:transparent;
 	cursor: pointer;
 	text-align: center;
