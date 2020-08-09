@@ -135,7 +135,14 @@ const NoticeSchema = new mongoose.Schema({
 		type: Date,
 		default:Date.now
 	},
-	user: UserSchema
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true
+	},
+	isShowing: {
+		type: Boolean,
+		default: true
+	}
 });
 
 const AnswerSchema = new mongoose.Schema({

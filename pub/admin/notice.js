@@ -1,11 +1,11 @@
 "use strict"
-const allNotices = document.querySelector("#allNotices");
+const actNotices = document.querySelector("#actNotices");
+const passNotices = document.querySelector("#passNotices");
 // var fs = require("fs");
-let currentuser;
+
 checkAdminUser().then((res) => {
 	if (res){
-		currentuser = res;
-		getAllnotices();
+		render_notices();
 	}
 })
 .catch((error) => {
@@ -13,35 +13,61 @@ checkAdminUser().then((res) => {
 })
 
 
-async function getAllnotices(){
-	await fetch('/notice')
-	.then((res) => {
-		if (res.status === 200) {
-           return res.json();
-       	} else {
-            alert('Could not get notices');
-       	} 
+// async function getAllnotices(){
+// 	await fetch('/notice')
+// 	.then((res) => {
+// 		if (res.status === 200) {
+//            return res.json();
+//        	} else {
+//             alert('Could not get notices');
+//        	} 
+// 	})
+// 	.then((json) => {
+// 		notices = json;
+// 		load_row();
+// 	})
+// 	.catch((error) => {
+// 		console.log(error)
+// 	})
+// }
+function render_notices(){
+	const url = '/notice/all';
+	const get_request = new Request(url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(get_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get notices');
+		}
 	})
-	.then((json) => {
-		notices = json;
-		load_row();
+	.then(data => {
+		console.log(data);
+		data.forEach(notice => show_notice(notice));
+		//load_result_question(data);
 	})
 	.catch((error) => {
 		console.log(error)
-	})
+	});
 }
 
-function show_notice(notice, front=false){
+function show_notice(notice){
 	const div = document.createElement("div");
 	div.className = 'notice_block';
 	div.innerHTML = "<h3>" + notice.title + "</h3> <hr>";
 	div.innerHTML += "<p>" + notice.content + "</p>";
-	const user = users[notice.user_id];
-	div.innerHTML += "<p class='sign_notice'><a class='admin_name'>" + user.display_name + "(@" + user.username + ")</a>   <a class='post_time'>  " + notice.time + "</a>";
-	if (!front){
-		allNotices.appendChild(div);	// after existing blocks
+	getUserInfo(notice.user).then(userInfo => {
+		div.innerHTML += `<p class='sign_notice'><a class='admin_name' href="../user/user_profile.html?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a>`;
+	})
+	if (notice.isShowing){
+		actNotices.appendChild(div);
 	} else{
-		allNotices.insertBefore(div, allNotices.children[1]);
+		passNotices.appendChild(div);	// after existing blocks
 	}
 }
 
@@ -49,6 +75,33 @@ function show_notice(notice, front=false){
 
 const noticeForm = document.querySelector("#noticeForm");
 noticeForm.addEventListener('submit', submit_notice);
+
+
+
+
+function post_notice(mytitle, mydesc){
+	const url = '/notice';
+	const data = {
+		title: mytitle,
+		content: mydesc
+	}
+
+	const notice_request = new Request(url, {
+		method: 'post',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(notice_request)
+	.then(res => {
+		//
+	})
+	.catch((error) => {
+		console.log(error)
+	});
+}
 
 function submit_notice(e){
 	e.preventDefault();
@@ -64,7 +117,10 @@ function submit_notice(e){
 		document.querySelector("#titleError").innerHTML = "";
 	}
 
-	const content = noticeForm.elements['noticeContent'].value;
+	let content = noticeForm.elements['noticeContent'].value;
+	if (content ===''){
+		content = "null";
+	}
 	if (title.length > 1000){
 		document.querySelector("#contentError").innerHTML = "Content must be within 1000 characters";
 		return;
@@ -72,67 +128,6 @@ function submit_notice(e){
 		document.querySelector("#contentError").innerHTML = "";
 		noticeForm.reset();
 	}
-	// const new_notice = new Notice(title, content, 2); // TODO: need to change input user id
-	// TODO: adding new notice to database
-	let data = {
-		"title":title, 
-		"content":content,
-		"user": currentuser
-	};
-	const url = '/notice';
-	//no error, saving data
-	const request = new Request(url, {
-        method: 'post', 
-        body: JSON.stringify(data),
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        },
-    });
 
-    // Send the request with fetch()
-    fetch(request)
-    .then(function(res) {
-
-        // Handle response we get from the API.
-        // Usually check the error codes to see what happened.
-        // const message = document.querySelector('#message')
-        // if (res.status === 200) {
-        //     // If student was added successfully, tell the user.
-        //     console.log('Added tag')
-        //     message.innerText = 'Success: Added a student.'
-        //     message.setAttribute("style", "color: green")
-           
-        // } else {
-        //     // If server couldn't add the student, tell the user.
-        //     // Here we are adding a generic message, but you could be more specific in your app.
-        //     message.innerText = 'Could not add student'
-        //     message.setAttribute("style", "color: red")
-     
-        // }
-        // log(res)  // log the result in the console for development purposes,
-        //                   //  users are not expected to see this.
-    }).catch((error) => {
-        log(error)
-    })
-	// function saveNotice(notice){
-	// 	const url ='/notice';
-	// 	const request = new Request(url, {
-	// 		method: 'post',
-	// 		body: JSON.stringify(notice),
-	// 		headers: {
-	// 			'Accept': 'application/json, text/plain, */*',
-	// 			'Content-Type': 'application/json'
-	// 		}
-	// 	});
-	// 	fetch(request)
-	// 	.then(function(res) {
-	// 		window.location.href = res.url;
-	// 	}).catch((error) => {
-	// 		console.log(error)
-	// 	})
-	// }
-
-	// notices.push(new_notice);
-	// show_notice(new_notice, true);
+	post_notice(title,content);
 }

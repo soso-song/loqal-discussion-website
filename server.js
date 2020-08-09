@@ -729,48 +729,132 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 })
 
 //Notice route below**********/
+//add a notice: set isShowing for all previous notices to false when a new notice is added
+app.post('/notice', mongoChecker, authenticate, (req, res) => {
+	//Notice.update({}, {$set:{isShowing:false}}, { multi: true });
+	// db.notices.updateMany({},{$set:{isShowing:false}});
+	Notice.updateMany({isShowing:true},{$set:{isShowing:false}}).then()
+	.catch(err=>{
+		console.error(err)
+	})
+	// mongoose.notices.updateMany({},{$set:{isShowing:false}});
+
+
+	const notice = new Notice({
+		title: req.body.title,
+		content: req.body.content,
+		user: req.user._id
+	});
+	notice.save().then((notice) => {
+		//console.log(notice);
+        //res.redirect('/answer?question_id=' + question._id);
+	})
+	.catch((error) => {
+		if (isMongoError(error)) { 
+			res.status(500).send('Internal server error')
+		} else {
+			log("this is the error ",error, " end of error")
+			res.status(400).send('Bad Request')
+		}
+	})
+})
+// get a notice with isShowing set to true
 app.get('/notice', mongoChecker, (req, res) => {
-	Notice.find().then((notice) => {
-		res.sendFile(path.join(__dirname, '/pub/admin/notice.html'))
+	Notice.find(
+		{isShowing : {$eq : true} }
+	).then((notice) => {
+		res.send(notice[0]) 
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
-
+})
+// get all notice
+app.get('/notice/all', mongoChecker, (req, res) => {
+	Notice.find().then((notice) => {
+		res.send(notice) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
 })
 
-app.post('/notice/:id', mongoChecker, authenticate, (req, res) => {
-
+// manually edit notice from dashboard
+app.patch('/notice/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
-	if(!ObjectID.isValid(id)){	// nor valid id
-		res.status(404).send('notice not valid');
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid notice ID');
 		return;
 	}
-	Notice.findById(id).then((notice)=>{
-		if(!question){	//undefined
-			res.status(404).send('notice not found');
-		}else{
-			const notice = new Notice({
-				title: req.body.title,
-				content: req.body.content,
-				user: req.user,
-				time: Date.now
-			});
+	// If id valid, findById
+	Notice.findById(id).then((notice) => {
+		if (!notice) {
+			res.status(404).send('Notice not found');
+		} else {
+			notice.title = req.body.title;
+			notice.content = req.body.content;
+			if (req.body.isShowing !== null){
+				notice.isShowing = req.body.isShowing;
+			}
 			notice.save().then((result)=>{
-				res.send(result);
+				//res.redirect(303, '/answer?question_id=' + id);
 			}).catch((error)=>{
+				//console.log(error);
 				res.status(400).send('Bad request.');
 			})
 		}
 	})
 	.catch((error) => {
-		if (isMongoError(error)) {
-			res.status(500).send('Internal server error')
-		} else {
-			res.status(400).send('Bad Request')
-		}
+		res.status(500).send('Internal Server Error');
 	})
 })
+
+
+
+// app.get('/notice', mongoChecker, (req, res) => {
+// 	Notice.find().then((notice) => {
+// 		res.sendFile(path.join(__dirname, '/pub/admin/notice.html'))
+// 	})
+// 	.catch((error) => {
+// 		res.status(500).send("Internal Server Error")
+// 	})
+
+// })
+
+// app.post('/notice/:id', mongoChecker, authenticate, (req, res) => {
+
+// 	const id = req.params.id;
+// 	if(!ObjectID.isValid(id)){	// nor valid id
+// 		res.status(404).send('notice not valid');
+// 		return;
+// 	}
+// 	Notice.findById(id).then((notice)=>{
+// 		if(!question){	//undefined
+// 			res.status(404).send('notice not found');
+// 		}else{
+// 			const notice = new Notice({
+// 				title: req.body.title,
+// 				content: req.body.content,
+// 				user: req.user,
+// 				time: Date.now
+// 			});
+// 			notice.save().then((result)=>{
+// 				res.send(result);
+// 			}).catch((error)=>{
+// 				res.status(400).send('Bad request.');
+// 			})
+// 		}
+// 	})
+// 	.catch((error) => {
+// 		if (isMongoError(error)) {
+// 			res.status(500).send('Internal server error')
+// 		} else {
+// 			res.status(400).send('Bad Request')
+// 		}
+// 	})
+// })
 
 app.post("/notice", mongoChecker, (req, res) => {
 	const notice = new Notice({
