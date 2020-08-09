@@ -116,9 +116,10 @@ function getAllQ(){
             {
                 resolve = 'Resolved';
             }
+
             wanted.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
-            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${q.user}</a> - ${q.time} - ${numA} Answers - ${resolve}</div>
+            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${q.user}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
             </div>`;
         });
     }).catch((error) => {
