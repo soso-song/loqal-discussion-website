@@ -83,6 +83,7 @@ function showQuestion(){
 
 	if(myquestion.isResolved){
 		$('#pinfo').html("Solved");
+		$('#pinfo').attr('class','green');
 	}else{
 		$('#pinfo').html("Unsolved");
 	}
