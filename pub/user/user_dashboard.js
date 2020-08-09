@@ -81,13 +81,27 @@ function basicInfo(){
 
 // Loads the latest notification
 function getNotice(){
-    let curr = notices[notices.length-1];
-    let myhtml =`
-    <div id="noticetitle">${curr.title}</div>
-    <div id="noticedesc">${curr.content}</div>
-    <div id="noticedate">Posted on ${curr.time}, 2020</div>`
+    const url = '/notice';
 
-    $('#notification').prepend(myhtml);
+    // Since this is a GET request, simply call fetch on the URL
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            //console.log("Could not get any notice")
+       }                
+    })
+    .then((json) => {
+        let myhtml =`
+        <div id="noticetitle">${json.title}</div>
+        <div id="noticedesc">${json.content}</div>
+        <div id="noticedate">Posted on ${readableDate(json.time)}, 2020</div>`
+
+        $('#notification').prepend(myhtml);
+    }).catch((error) => {
+        //console.log(error)
+    })
 }
 
 // Displays the list of all questions which includes the tags this user follows

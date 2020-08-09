@@ -775,10 +775,14 @@ app.post('/notice', mongoChecker, authenticate, (req, res) => {
 })
 // get a notice with isShowing set to true
 app.get('/notice', mongoChecker, (req, res) => {
-	Notice.find(
+	Notice.findOne(
 		{isShowing : {$eq : true} }
 	).then((notice) => {
-		res.send(notice[0]) 
+		if(!notice){
+			res.status(404).send('Notice not found');
+		}else{
+			res.send(notice) 
+		}
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
