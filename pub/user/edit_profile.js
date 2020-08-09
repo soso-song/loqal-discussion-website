@@ -1,5 +1,4 @@
 "use strict"
-// We will get the logged in user from the backend in future
 
 let backendUser = null;
 
@@ -35,11 +34,9 @@ imageForm.addEventListener('submit',new_upload);
 
 //load_profile(user);
 function load_profile(user){
-    console.log(user);
     document.querySelector('#userName').value = user.username;
     document.querySelector('#displayName').value = user.displayname;
     document.querySelector('#email').value = user.email;
-    //document.querySelector('#password').value = user.password;
 
     // display picture
     const photo = document.querySelector('#prof_pic');
@@ -126,20 +123,23 @@ function edit(e){
 
 function new_upload(e){
     e.preventDefault();
+    
+    // Check to see a file was selected
+    if( document.getElementById("imagefield").files.length > 0 ){
+    
+        const url = "/images";
 
-    const url = "/images";
+        // The data we are going to send in our request
+        const imageData = new FormData(e.target);
 
-    // The data we are going to send in our request
-    const imageData = new FormData(e.target);
+        // Create our request constructor with all the parameters we need
+        const request = new Request(url, {
+            method: "post",
+            body: imageData,
+        });
 
-    // Create our request constructor with all the parameters we need
-    const request = new Request(url, {
-        method: "post",
-        body: imageData,
-    });
-
-    // Send the request with fetch()
-    fetch(request)
+        // Send the request with fetch()
+        fetch(request)
         .then(function (res) {
             // Handle response we get from the API.
             // Usually check the error codes to see what happened.
@@ -156,4 +156,6 @@ function new_upload(e){
         .catch(error => {
             console.log(error);
         });
+
+    }
 }
