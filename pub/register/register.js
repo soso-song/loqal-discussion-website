@@ -139,30 +139,17 @@ $(document).ready(function() {
 		// Send the request with fetch()
 		fetch(request)
 		.then(function(res) {
-	
 			if (res.redirected) {
 				window.location.href = res.url;
 			}
-			// Handle response we get from the API.
-			// Usually check the error codes to see what happened.
-			const message = document.querySelector('#message')
+			
 			if (res.status === 200) {
-				// If student was added successfully, tell the user.
-				console.log('Added student')
-				message.innerText = 'Success: Added a student.'
-				message.setAttribute("style", "color: green")
-			   
+				//console.log(res.statusText)
 			} else {
-				// If server couldn't add the student, tell the user.
-				// Here we are adding a generic message, but you could be more specific in your app.
-				message.innerText = 'Could not add student'
-				message.setAttribute("style", "color: red")
-		 
+		 		$('#registerbackerror').text('There was a problem creating this user');
 			}
-			log(res)  // log the result in the console for development purposes,
-							  //  users are not expected to see this.
 		}).catch((error) => {
-			log(error)
+			//console.log(error)
 		})
 	}
 
