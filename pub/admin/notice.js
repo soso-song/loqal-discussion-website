@@ -13,23 +13,6 @@ checkAdminUser().then((res) => {
 })
 
 
-// async function getAllnotices(){
-// 	await fetch('/notice')
-// 	.then((res) => {
-// 		if (res.status === 200) {
-//            return res.json();
-//        	} else {
-//             alert('Could not get notices');
-//        	} 
-// 	})
-// 	.then((json) => {
-// 		notices = json;
-// 		load_row();
-// 	})
-// 	.catch((error) => {
-// 		console.log(error)
-// 	})
-// }
 function render_notices(){
 	const url = '/notice/all';
 	const get_request = new Request(url, {
@@ -47,7 +30,7 @@ function render_notices(){
 		}
 	})
 	.then(data => {
-		console.log(data);
+		//console.log(data);
 		data.forEach(notice => show_notice(notice));
 		//load_result_question(data);
 	})
@@ -62,16 +45,22 @@ function show_notice(notice){
 	div.innerHTML = "<h3>" + notice.title + "</h3> <hr>";
 	div.innerHTML += "<p>" + notice.content + "</p>";
 	getUserInfo(notice.user).then(userInfo => {
-		div.innerHTML += `<p class='sign_notice'><a class='admin_name' href="../user/user_profile.html?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a>`;
+		div.innerHTML += `<div class='notice_info_btn' id="pbutts"><a href="../admin/edit_notice/edit_notice.html?notice_id=${notice._id}">Edit notice</a></div>`;
+		div.innerHTML += `<div class='notice_info'><a class='admin_name' href="../user/user_profile.html?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a></div>`;
+		
+		// div.innerHTML += `<p class='sign_notice'><a class='admin_name' href="../user/user_profile.html?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a>`;
+		// div.innerHTML += `<div id="pbutts"></div>`;
+		// //if(currentuser == myquestion.user){
+		// letextrabutt += `<a href="../admin/edit_notice/edit_notice.html?question_id=${notice._id}">Edit notice</a>`
+		// //}
+		// $('#pbutts').html(extrabutt);
 	})
 	if (notice.isShowing){
 		actNotices.appendChild(div);
 	} else{
-		passNotices.appendChild(div);	// after existing blocks
+		passNotices.appendChild(div);
 	}
 }
-
-
 
 const noticeForm = document.querySelector("#noticeForm");
 noticeForm.addEventListener('submit', submit_notice);
@@ -130,4 +119,5 @@ function submit_notice(e){
 	}
 
 	post_notice(title,content);
+	window.location.href = '/admin/notice.html';
 }

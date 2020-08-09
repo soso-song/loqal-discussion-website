@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+ 		<meta charset="utf-8">
+    	<title>Edit notice</title>
+		<link rel="stylesheet" type="text/css" href="../../index.css">
+		<link rel="stylesheet" type="text/css" href="edit_notice.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../../sharedJs/sharedNotice.js"></script>
+		<script type="text/javascript" src="../../sharedJs/sharedUser.js"></script>
+		<script type="text/javascript" src="edit_notice.js"></script>
+		<script type="text/javascript" src="../../index.js"></script>
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<!-- <div id="navbar">
+				<a href="../../index.html" id="navlogo"> </a>
+				
+				<ul id="menubar">
+					<li><a href="../user/user_dashboard.html">Dashboard</a></li>
+					<li><a href="../question/question.html">Ask</a></li>
+					<li><a href="../user/user_profile.html">Profile</a></li>
+				</ul>
+
+				<div id="searchparent">
+					<form id='searchForm'>
+						 <input id='searchinput' name="searchinput" type="text" placeholder="Search...">
+						 <input id="searchbutton" type="submit" value="Search">
+					</form>
+				</div>
+			</div> -->
+			<div id="pagecontent">
+				<div id="onecol">
+					<div id="askparent">
+						<div class="headline">
+							Edit notice
+						</div>
+						<div>
+							<form id='questionForm'>
+								<div class="formerror"></div>
+								<label for="qtitle">Title</label>
+								<input id='qtitle' name="qtitle" type="text" placeholder="Title" value="">
+						
+								<div class="formerror"></div>
+								<label for="qdesc">Description</label>
+								<textarea id="qdesc" name="qdesc" rows="4" cols="50" placeholder="Type your question here"></textarea>
+								
+								<div class="formerror"></div>
+								<label for="qactive">Active (isShowing)</label>
+								<input id='qactive' name="qactive" type="button" value=false onclick="click_bool()">
+								<!-- <div class="formerror"></div>
+								<label for="qtags">Tags</label>
+								 <input id='qtags' name="qtags" type="text" placeholder="Type a comma-separated list of tags" value=""> -->
+						
+								<!-- <div class="headline">
+									Preview
+								</div>
+								<div id="preview">
+									<div id="ptitle" class="gray">Title</div>
+									<div id="pdesc" class="gray">Description</div>
+									<div id="ptags"></div>
+								</div> -->
+						
+								 <input id="formbtn" type="submit" value="Save Changes">
+							 </form>
+						</div>
+					</div>			
+				</div>
+			</div>
+		</div>
+		<!-- <div id="footer">
+			<div id="footerinfo">
+				LOQAL was developed by Behrad, Alan, Nicole and Kyle for CSC309<br><br>
+				<b>Summer 2020</b>
+			</div>
+		</div> -->
+		<script type="text/javascript" src="../../sharedClasses/classes.js"></script>
+	</body>
+</html>
