@@ -776,7 +776,7 @@ app.post('/notice', mongoChecker, authenticate, (req, res) => {
 	});
 	notice.save().then((notice) => {
 		//console.log(notice);
-        //res.redirect('/answer?question_id=' + question._id);
+        //res.redirect('/admin/notice.html');
 	})
 	.catch((error) => {
 		if (isMongoError(error)) { 
@@ -802,6 +802,26 @@ app.get('/notice', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
+// Route for getting the notice by given id
+app.get('/notice/find/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid Notice ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+	Notice.findById(id).then((notice) => {
+		if (!notice) {
+			res.status(404).send('Restaurant not found');
+		} else {
+			res.json(notice);
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 // get all notice
 app.get('/notice/all', mongoChecker, (req, res) => {
 	Notice.find().then((notice) => {

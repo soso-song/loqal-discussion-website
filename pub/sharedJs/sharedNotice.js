@@ -1,7 +1,7 @@
 "use strict";
 
-async function getNoticeById(Id){
-	const url = '/notices/' + Id;
+function getNoticeById(Id, callBack){
+	const url = '/notice/find/' + Id;
 
 	const request = new Request(url, {
 		method: 'get',
@@ -10,8 +10,7 @@ async function getNoticeById(Id){
 			'Content-Type': 'application/json'
 		}
 	});
-	let notice;
-	await fetch(request)
+	fetch(request)
 	.then((res) => {
 		if (res.status === 200) {
            // return a promise that resolves with the JSON body
@@ -20,21 +19,21 @@ async function getNoticeById(Id){
             alert('Could not get notice');
        	} 
 	})
-	.then((json) => {
-		notice = json.notice;
+	.then((data) => {
+		callBack(data);
 	})
 	.catch((error) => {
 		console.log(error)
 	})
-	return notice;
 }
 
-async function updateNotice(id,newTitle,newContent){
-	const url = '/notices/' + id;
+function updateNotice(id,newTitle,newContent,newActice){
+	const url = '/notice/' + id;
 
 	const data = {
         title:newTitle,
-        content:newContent
+        content:newContent,
+        isShowing:newActice
 	}
 
 	const request = new Request(url, {
@@ -45,16 +44,9 @@ async function updateNotice(id,newTitle,newContent){
 			'Content-Type': 'application/json'
 		}
 	});
-
-	let newURL;
-
-	await fetch(request)
-	.then(function(res) {
-		if(isResolved === null){
-			newURL = res.url;
-		}
-	}).catch((error) => {
+	fetch(request)
+	.then()
+	.catch((error) => {
 		console.log(error);
 	})
-	return newURL;
 }
