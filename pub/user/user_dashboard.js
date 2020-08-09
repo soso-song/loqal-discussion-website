@@ -122,19 +122,14 @@ function getAllQ(){
     })
     .then((json) => {
         json.forEach(function(q) {
-            let numA = 0;
-            for(let a of answers)
-            {
-                if(a.question_id == q.id)
-                {
-                    numA++;
-                }
-            }
+
             let resolve ='Unresolved';
             if (q.isResolved == true)
             {
                 resolve = 'Resolved';
             }
+
+            const numA = q.answers.length;
 
             getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
@@ -164,14 +159,9 @@ function getAllFollowingQ(){
     })
     .then((json) => {
         json.forEach(function(q) {
-            let numA = 0;
-            for(let a of answers)
-            {
-                if(a.question_id == q.id)
-                {
-                    numA++;
-                }
-            }
+            
+            const numA = q.answers.length;
+
             let resolve ='Unresolved';
             if (q.isResolved == true)
             {
