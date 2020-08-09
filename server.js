@@ -962,27 +962,68 @@ app.post("/tag", mongoChecker, (req, res) => {
 	})
 })
 app.patch('/tag/:id', mongoChecker, (req, res) => {
-	const id = req.params.id;
-	// Validate id
+	const id = req.params.id
+
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid quesiton ID');
+		res.status(404).send()
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
 		return;
 	}
-	// If id valid, findById
-	Tag.findById(id).then((tag) => {
+
+	// Find the fields to update and their values.
+	const fieldsToUpdate = {
+		name:req.body.name
+	}
+	// req.body.name((change) => {
+	// 	const propertyToChange = change.path.substr(1). // getting rid of the '/' character
+	// 	fieldsToUpdate[propertyToChange] = change.value
+	// })
+
+	Tag.findByIdAndUpdate(id, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false}).then((tag) => {
 		if (!tag) {
-			res.status(404).send('Tag not found');
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(tag)
+		}
+	}).catch((error) => {
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
 		} else {
-			tag.name = req.body.name;
-			question.save().then((result)=>{
-			}).catch((error)=>{
-				console.log(error);
-				res.status(400).send('Bad request.');
-			})
+			log(error)
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	})
+})
+app.delete('/tag/:id', mongoChecker, (req,res) =>{
+	const id = req.params.id
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;
+	}
+
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	Tag.findByIdAndRemove(id).then((tag) => {
+		if (!tag) {
+			res.status(404).send()
+		} else {   
+			res.send(tag)
 		}
 	})
 	.catch((error) => {
-		res.status(500).send('Internal Server Error');
+		log(error)
+		res.status(500).send() // server error, could not delete.
 	})
 })
 /*** Webpage routes below **********************************/
