@@ -38,7 +38,7 @@ app.use(bodyParser.json())
 const session = require('express-session')
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//For handling images
+// For handling images
 // multipart middleware: allows you to access uploaded file from req.file
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
@@ -86,7 +86,6 @@ app.use(session({
 
 // A route to login and create a session
 app.post('/users/login', mongoChecker, (req, res) => {
-	log(req.body)
 	const email = req.body.email
     const password = req.body.password
 
