@@ -41,6 +41,7 @@ function getCurrentUser() {
         basicInfo();
         getNotice();
         getAllQ();
+        getAllFollowingQ();
     }).catch((error) => {
         console.log(error)
     })
@@ -107,22 +108,19 @@ function getNotice(){
 
 // Displays the list of all questions which includes the tags this user follows
 function getAllQ(){
-    let wanted = document.getElementsByClassName("listcontainter")[0];
-    
+    const wanted = document.getElementById('everyonequestionlist');
 
     const url = '/questions';
 
-    // Since this is a GET request, simply call fetch on the URL
     fetch(url)
     .then((res) => { 
         if (res.status === 200) {
             return res.json()
        } else {
-            alert('Could not get current user')
+            //
        }                
     })
-    .then((json) => {  // the resolved promise with the JSON body
-        //console.log(json.username)
+    .then((json) => {
         json.forEach(function(q) {
             let numA = 0;
             for(let a of answers)
@@ -149,8 +147,46 @@ function getAllQ(){
     }).catch((error) => {
         console.log(error)
     })
+}
 
+function getAllFollowingQ(){
+    const wanted = document.getElementById('followquestionlist');
+    
+    const url = '/questions/following';
 
-    // This would be later populated by questions related to user from backend
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            //
+       }                
+    })
+    .then((json) => {
+        json.forEach(function(q) {
+            let numA = 0;
+            for(let a of answers)
+            {
+                if(a.question_id == q.id)
+                {
+                    numA++;
+                }
+            }
+            let resolve ='Unresolved';
+            if (q.isResolved == true)
+            {
+                resolve = 'Resolved';
+            }
 
+            getUserInfo(q.user).then((myUser) => {
+                wanted.innerHTML+=`<div class="shortquestion">
+                <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
+                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                </div>`;
+            })
+
+        });
+    }).catch((error) => {
+        console.log(error)
+    })
 }

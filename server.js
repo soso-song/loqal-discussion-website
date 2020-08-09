@@ -617,6 +617,20 @@ app.get('/questions', mongoChecker, (req, res) => {
 
 })
 
+// Route for getting questions posted by users the current user is following
+app.get('/questions/following', mongoChecker, authenticate, (req, res) => {
+	const usersfollowing = req.user.following
+
+	Question.find(
+		{ user: { "$in": usersfollowing }}
+	).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
 // Route for getting the question by given id
 app.get('/questions/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
