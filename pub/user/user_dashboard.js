@@ -87,20 +87,21 @@ function getNotice(){
     fetch(url)
     .then((res) => { 
         if (res.status === 200) {
-            return res.json()
+            const json = res.json()
+            let myhtml =`
+            <div id="noticetitle">${json.title}</div>
+            <div id="noticedesc">${json.content}</div>
+            <div id="noticedate">Posted on ${readableDate(json.time)}, 2020</div>`
+            $('#notification').prepend(myhtml);
        } else {
+            let myhtml =`
+            <div id="noticetitle">No New Notice</div>`
+            $('#notification').prepend(myhtml);
             //console.log("Could not get any notice")
        }                
     })
-    .then((json) => {
-        let myhtml =`
-        <div id="noticetitle">${json.title}</div>
-        <div id="noticedesc">${json.content}</div>
-        <div id="noticedate">Posted on ${readableDate(json.time)}, 2020</div>`
-
-        $('#notification').prepend(myhtml);
-    }).catch((error) => {
-        //console.log(error)
+    .catch((error) => {
+        //console.log("Could not get any notice")
     })
 }
 
