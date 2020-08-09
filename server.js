@@ -909,27 +909,27 @@ app.patch('/notice/:id', mongoChecker, (req, res) => {
 // 	})
 // })
 
-app.post("/notice", mongoChecker, (req, res) => {
-	const notice = new Notice({
-		title: req.body.title,
-		content: req.body.content,
-		user: req.user,
-		time: Date.now
-	});
+// app.post("/notice", mongoChecker, (req, res) => {
+// 	const notice = new Notice({
+// 		title: req.body.title,
+// 		content: req.body.content,
+// 		user: req.user,
+// 		time: Date.now
+// 	});
 
-	// Save questions
-	notice.save().then((notice) => {
-        res.redirect('/notice');
-	})
-	.catch((error) => {
-		if (isMongoError(error)) { 
-			res.status(500).send('Internal server error')
-		} else {
-			log("this is the error ",error, " end of error")
-			res.status(400).send('Bad Request')
-		}
-	})
-})
+// 	// Save questions
+// 	notice.save().then((notice) => {
+//         res.redirect('/notice');
+// 	})
+// 	.catch((error) => {
+// 		if (isMongoError(error)) { 
+// 			res.status(500).send('Internal server error')
+// 		} else {
+// 			log("this is the error ",error, " end of error")
+// 			res.status(400).send('Bad Request')
+// 		}
+// 	})
+// })
 
 //tag route below**********/
 app.get('/tag', mongoChecker, (req, res) => {
