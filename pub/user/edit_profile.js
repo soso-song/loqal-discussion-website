@@ -1,6 +1,8 @@
 "use strict"
 // We will get the logged in user from the backend in future
 
+let backendUser = null;
+
 function getCurrentUser() {
     const url = '/currentuser';
 
@@ -14,6 +16,7 @@ function getCurrentUser() {
        }                
     })
     .then((json) => {  // the resolved promise with the JSON body
+        backendUser = json
         load_profile(json);
     }).catch((error) => {
         console.log(error)
@@ -92,17 +95,46 @@ function edit(e){
     }
 
     if(!hasError){
-        user.username = new_username;
-        user.display_name = new_display_name;
-        user.password = new_password;
-        user.email = new_email;
 
+        updateUser(new_username , new_display_name, new_password, new_email).then((url) => {
+            window.location.href = url;
+        })
         // At theis point data is sent to backend to update user info
-        window.alert("Your profile has been changed");
-        window.location.href = "user_profile.html";
+        //window.alert("Your profile has been changed");
+        //window.location.href = "user_profile.html";
 	}else{
         window.alert(errMessage);
     }
+}
+
+async function updateUser(myusername, myname, mypass, mymail){
+	const url = '/users/' + backendUser._id;
+
+	const data = {
+		username: myusername,
+		displayname: myname,
+		password: mypass,
+		email: mymail
+	}
+
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	let newURL;
+
+	await fetch(request)
+	.then(function(res) {
+		newURL = res.url;
+	}).catch((error) => {
+		console.log(error);
+	})
+	return newURL;
 }
 
 function new_upload(e){
