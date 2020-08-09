@@ -4,6 +4,8 @@ let pageUser;
 let currentUser;
 
 getPageUser()
+// Check if there is input user id
+
 
 function getPageUser() {
     let url = '/currentuser';
@@ -58,8 +60,8 @@ function getCurrentUser() {
 
 function setUpPage(){
     basicInfo();
-
-    document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
+    //getAllQandACount();
+    //document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser.id+"&user_id="+curr_user.id+"&back_url="+window.location.href;
 
     getAllQUser();
     getAllAnswer();
@@ -81,6 +83,14 @@ function setUpPage(){
     }
 }
 
+// List of followers and following hardcoded for now
+// Will get these from backend later
+//pageUser.followers = [users[1]];
+//pageUser.following = [users[3]];
+
+// Sets the variables for reporting a user
+
+
 $(document).ready(function() {
     // Handles tab switches
     $("#activitybutt").click(function(){
@@ -101,10 +111,29 @@ $(document).ready(function() {
         $('#following').removeClass("hideme");
     });
 
+    /*
+    //hides follow button if user profile and logged in user are the same
+    if(pageUser.username == curr_user.username){
+        $('#followUnfollow').css("display", "none");
+    }else{
+        $('#followUnfollow').css("display", "block");
+    }
+
+    //sets initial state for follower button
+    for(let i=0; i<pageUser.followers.length; i++)
+    {
+        if (pageUser.followers[i]==curr_user)
+        {
+            $('#followUnfollow').text('Unfollow');
+        }
+    }
+    */
    $("#followUnfollow").click(function(){
     const currentState = $('#followUnfollow').text();
     if(currentState === 'Follow'){
+        //$('#followUnfollow').text('Unfollow');
         followUser();
+        //getFollowers(); 
     }else if(currentState === 'Unfollow'){
         unfollowUser();
         /*
@@ -197,7 +226,7 @@ function basicInfo(){
     <div id="mytags">
     <h3>Tags</h3> ${mytags}</div>
     <div>
-    <h3>Best Answers</h3>
+    <h3> Best Answers</h3>
     </div>
 
     </div>`

@@ -1,3 +1,8 @@
+#editDiv { 
+	width: 95%;
+	margin: auto;
+	padding-left: 30px;
+}
 
 
 #editForm label{
@@ -20,13 +25,17 @@
 	padding:20px 0px 10px 0px;
 }
 
+.center, .save{
+	width: 200px;
+	margin: auto;
+}
 
 #prof_pic {
 	width: 200px;
 }
 
 #editForm input[type='submit']{
-	display:inline-block;
+	display:block;
 	color:#ee6261;
 	text-decoration:none;
 	margin-top: 40px;
@@ -51,6 +60,7 @@
 #editForm ul {
     width: 80%;
     padding: 10px 0px 0px 0px;
+   	margin: auto;
 }
 
 #editForm ul li {
@@ -74,12 +84,12 @@
 	display:inline-block;
 	color:#ee6261;
 	text-decoration:none;
-	margin: 10px 10px 20px 0px;
+	margin: 10px 20px 40px 0px;
 	background-color:transparent;
 	cursor: pointer;
 	text-align: center;
 	padding:8px 15px;
-	font-size:15px;
+	font-size:13px;
 	font-weight:normal;
 	border:1px solid #ee6261;
 }
