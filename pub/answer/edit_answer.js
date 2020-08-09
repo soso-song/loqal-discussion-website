@@ -1,19 +1,20 @@
 "use strict"
 
 $(document).ready(function() {
-	let whichAnswer = 4;
-	let whichQustion = answers[whichAnswer].question_id;
+	let whichAnswer;
+	let whichQuestion;
 
 	//Getting the answer id from parameter if available
 	const params = new URLSearchParams(window.location.search)
-	let urlanswerid = params.get('answer_id');
-	if (urlanswerid != null){
+	const urlquestionid = params.get('question_id');
+	const urlanswerid = params.get('answer_id');
+	if (urlanswerid != null && urlquestionid != null){
 		whichAnswer = urlanswerid;
-		whichQustion = answers[whichAnswer].question_id;
+		whichQuestion = urlquestionid;
+		getAnswer();
 	}
 
-	// Populating the field with the current answer
-	$('#qdesc').val(answers[whichAnswer].content);
+	
 
 	$('#answerForm').submit(function(e) {
 		e.preventDefault();
@@ -32,8 +33,63 @@ $(document).ready(function() {
 		if(!hasError){
 			// At this stage we will send data to backend
 			// And redirect the user to the updated answer
-			window.location.href = `../answer/answer.html?question_id=${whichQustion}`;
+			saveAnswer(mydesc);
 		}
 	});
+
+
+	function getAnswer(){
+		const url = '/answerByQuesIdAnsId/'+ whichQuestion + '/' + whichAnswer;
+
+		fetch(url)
+		.then((res) => {
+			return res.json();
+		})
+		.then((json) => {
+			console.log(json.content);
+			// Populating the field with the current answer
+			$('#qdesc').val(json.content);
+			return;
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+	}
+
+	function saveAnswer(mydesc){
+		const url = '/editAnswer/'+ whichQuestion + '/' + whichAnswer;
+
+		let data = {
+			content: mydesc
+		}
+
+		const request = new Request(url, {
+			method: 'PATCH',
+			body: JSON.stringify(data),
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request)
+		.then(function(res) {
+			if (res.status == 403){
+				alert('You have no permission to edit this answer!');
+				fetch('/answer?question_id=' + whichQuestion)
+				.then((res)=>{
+					window.location.href = res.url;
+				})
+				.catch((error) => {
+					console.log(error);
+				})
+			} else {
+				window.location.href = res.url;
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+	}
 
 });
