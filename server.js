@@ -815,7 +815,6 @@ app.get('/notice/all', mongoChecker, (req, res) => {
 // manually edit notice from dashboard
 app.patch('/notice/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
-
 	// Validate id
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Invalid notice ID');

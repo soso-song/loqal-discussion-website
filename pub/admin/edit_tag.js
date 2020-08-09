@@ -15,38 +15,7 @@ checkAdminUser().then((res) => {
 	console.log(error);
 })
 
-async function getTagsByName(given){
-	const url ='/tag';
-	const get_request =  new Request(url,{
-		method:"get",
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-		}
-	});
-	fetch(get_request)
-	.then(res => {
-		if(res.status === 200){
-			return res.json();
-		}else{
-			alert('could not get notices');
-		}
-	})
-	.then(data => {
-		currTags = data;
-	})
-	.catch((error) => {
-		console.log(error)
-	});
-	var wantedId;
-	for(var i=0;i<currTags.length;i++)
-	{
-		if (currTags[i].name == given)
-		{
-			wantedId = currTags[i]._id;
-		}
-	}
-	return wantedId;
-}
+
 
 
 async function getAlltags(){
@@ -102,7 +71,7 @@ function load_row(currTags)
 	while(i < currTags.length){
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
-				"<td>"+currTags[i].name+"</td>"+
+				"<td>"+currTags[i]._id+"</td>"+
 				// "<td id='is_geo_row"+i+"'>"+tags[i].is_geo+"</td>"+
 				"<td id='name_row"+i+"'>"+currTags[i].name+"</td>"+
 				"<td>"+
@@ -128,13 +97,26 @@ function edit_row(no){
 
 
 function save_row(no){
+	var url = '/tag/';
+	const id =  document.getElementById("name_select")
+	url = url+currId;
 	const name_val=document.getElementById("name_select"+no).value;
-
 	if(name_val.length < 1){
 		window.alert('Tag name can not be empty!');
 		return;
 	}
-
+	let data = {
+		"name":name_val
+	}
+	const request = new Request(url, {
+        method: 'patch', 
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+	});
+	console.log("worked");
 	document.getElementById("name_row"+no).innerHTML=name_val;
 
 	//connect and save variabe to db
@@ -146,6 +128,7 @@ function save_row(no){
 }
 
 function delete_row(no){
+	var url = "/tag";
 	document.getElementById("row"+no+"").outerHTML="";
 	const get_request =  new Request(url,{
 		method:"delete",
