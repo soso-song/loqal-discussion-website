@@ -221,6 +221,39 @@ app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
 
 })
 
+// Route for updating basic info(title, desc, tags) of a question given by id
+app.patch('/users/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid quesiton ID');
+		return;
+	}
+	// If id valid, findById
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send('Quesiton not found');
+		} else {
+			user.displayname = req.body.displayname;
+			user.email = req.body.email;
+			user.password = req.body.password;
+			user.username = req.body.username
+
+			user.save().then((result)=>{
+				const myurl = '/user/user_profile.html?user_id=' + user._id
+				res.redirect(303, myurl);
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 //get all question for given userid
 app.get('/users/questions/:user', mongoChecker, (req, res) => {
 	const userid = req.params.user;
