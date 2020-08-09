@@ -3,6 +3,7 @@
 //connect and get variabe from db
 //tags = pull_tags();
 let currentuser;
+let currTags;
 const postEntries = document.querySelector('#posts');
 checkAdminUser().then((res) => {
 	if (res){
@@ -14,26 +15,83 @@ checkAdminUser().then((res) => {
 	console.log(error);
 })
 
-
-async function getAlltags(){
-	await fetch('/tag')
-	.then((res) => {
-		if (res.status === 200) {
-           return res.json();
-       	} else {
-            alert('Could not get tags');
-       	} 
+async function getTagsByName(given){
+	const url ='/tag';
+	const get_request =  new Request(url,{
+		method:"get",
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(get_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get notices');
+		}
 	})
-	.then((json) => {
-		var currTags = json;
-		log("hello");
-		log(currTags);
-		// load_row(currTags);
+	.then(data => {
+		currTags = data;
 	})
 	.catch((error) => {
 		console.log(error)
-	})
+	});
+	var wantedId;
+	for(var i=0;i<currTags.length;i++)
+	{
+		if (currTags[i].name == given)
+		{
+			wantedId = currTags[i]._id;
+		}
+	}
+	return wantedId;
 }
+
+
+async function getAlltags(){
+	const url = '/tag';
+	const get_request =  new Request(url,{
+		method:"get",
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(get_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get notices');
+		}
+	})
+	.then(data => {
+		console.log(data);
+		currTags = data;
+		load_row(currTags);
+	})
+	.catch((error) => {
+		console.log(error)
+	});
+}
+// 	await fetch('/tag')
+// 	.then((res) => {
+// 		if (res.status === 200) {
+//            return res.json();
+//        	} else {
+//             alert('Could not get tags');
+//        	} 
+// 	})
+// 	.then((json) => {
+// 		var currTags = json;
+// 		log("hello");
+// 		log(currTags);
+// 		// load_row(currTags);
+// 	})
+// 	.catch((error) => {
+// 		console.log(error)
+// 	})
+// }
 // function load_row(){
 // 	getAlltags();
 // }
@@ -62,7 +120,7 @@ function edit_row(no){
 	document.getElementById("edit_button"+no).disabled = true;
 	document.getElementById("save_button"+no).disabled = false;
 	const name_cell=document.getElementById("name_row"+no);
-	
+	const url = '/tag';
 	name_cell.innerHTML="<input type='text' id='name_select"+no+"' value='"+name_cell.innerHTML+"'>";
 }
 
@@ -78,6 +136,7 @@ function save_row(no){
 	}
 
 	document.getElementById("name_row"+no).innerHTML=name_val;
+
 	//connect and save variabe to db
 	//push_name(name_val);
 	tags[no].name = name_val;
@@ -88,6 +147,12 @@ function save_row(no){
 
 function delete_row(no){
 	document.getElementById("row"+no+"").outerHTML="";
+	const get_request =  new Request(url,{
+		method:"delete",
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
 }
 
 
@@ -154,5 +219,5 @@ function add_tag(){
         log(error)
     })
 	// tags.push(new Tag(tag_name));
-	load_row();
+	getAlltags();
 }

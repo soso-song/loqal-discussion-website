@@ -41,6 +41,7 @@ function getCurrentUser() {
         basicInfo();
         getNotice();
         getAllQ();
+        getAllFollowingQ();
     }).catch((error) => {
         console.log(error)
     })
@@ -81,42 +82,86 @@ function basicInfo(){
 
 // Loads the latest notification
 function getNotice(){
-    let curr = notices[notices.length-1];
-    let myhtml =`
-    <div id="noticetitle">${curr.title}</div>
-    <div id="noticedesc">${curr.content}</div>
-    <div id="noticedate">Posted on ${curr.time}, 2020</div>`
-
-    $('#notification').prepend(myhtml);
-}
-
-// Displays the list of all questions which includes the tags this user follows
-function getAllQ(){
-    let wanted = document.getElementsByClassName("listcontainter")[0];
-    
-
-    const url = '/questions';
+    const url = '/notice';
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
     .then((res) => { 
         if (res.status === 200) {
-            return res.json()
+            const json = res.json()
+            let myhtml =`
+            <div id="noticetitle">${json.title}</div>
+            <div id="noticedesc">${json.content}</div>
+            <div id="noticedate">Posted on ${readableDate(json.time)}, 2020</div>`
+            $('#notification').prepend(myhtml);
        } else {
-            alert('Could not get current user')
+            let myhtml =`
+            <div id="noticetitle">No New Notice</div>`
+            $('#notification').prepend(myhtml);
+            //console.log("Could not get any notice")
        }                
     })
-    .then((json) => {  // the resolved promise with the JSON body
-        //console.log(json.username)
+    .catch((error) => {
+        //console.log("Could not get any notice")
+    })
+}
+
+// Displays the list of all questions which includes the tags this user follows
+function getAllQ(){
+    const wanted = document.getElementById('everyonequestionlist');
+
+    const url = '/questions';
+
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            //
+       }                
+    })
+    .then((json) => {
         json.forEach(function(q) {
-            let numA = 0;
-            for(let a of answers)
+
+            let resolve ='Unresolved';
+            if (q.isResolved == true)
             {
-                if(a.question_id == q.id)
-                {
-                    numA++;
-                }
+                resolve = 'Resolved';
             }
+
+            const numA = q.answers.length;
+
+            getUserInfo(q.user).then((myUser) => {
+                wanted.innerHTML+=`<div class="shortquestion">
+                <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
+                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                </div>`;
+            })
+
+        });
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+function getAllFollowingQ(){
+    const wanted = document.getElementById('followquestionlist');
+    
+    const url = '/questions/following';
+
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            //
+       }                
+    })
+    .then((json) => {
+        json.forEach(function(q) {
+            
+            const numA = q.answers.length;
+
             let resolve ='Unresolved';
             if (q.isResolved == true)
             {
@@ -134,8 +179,4 @@ function getAllQ(){
     }).catch((error) => {
         console.log(error)
     })
-
-
-    // This would be later populated by questions related to user from backend
-
 }

@@ -1,0 +1,91 @@
+#questionForm label{
+	display:block;
+	margin-bottom:10px;
+}
+
+#questionForm input{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px;
+	width:600px;
+}
+
+#questionForm textarea{
+	display:block;
+	margin-bottom:20px;
+	padding: 10px;
+	width:600px;
+}
+
+.headline{
+	font-size:23px;
+	padding:20px 0px 10px 0px;
+}
+
+.desc{
+	font-style: italic;
+	margin-bottom:20px;
+}
+
+#preview{
+	background-color:#ffffff;
+	border: 1px solid #cccccc;
+	padding: 10px;
+	min-height:100px;
+	width:600px;
+}
+
+#questionForm #formbtn{
+	display:block;
+	color:#ee6261;
+	text-decoration:none;
+	margin-top: 40px;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:10px;
+	height:38px;
+	font-size:15px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+	width:200px;
+}
+
+.formerror{
+	color:red;
+}
+
+.tag{
+	display:inline-block;
+	color:#ffffff;
+	background-color:#ee6261;
+	margin-right:10px;
+	margin-top:10px;
+	padding:10px;
+}
+
+#ptitle{
+	font-size:20px;
+	font-weight: bold;
+	margin-bottom:20px;
+}
+
+#pdesc{
+	font-size:15px;
+}
+
+.gray{
+	color:#aaaaaa;
+}
+
+#onecol{
+	overflow:auto;
+	width: 1000px;
+	padding:20px;
+	margin: 0 auto;
+}
+
+#askparent{
+	background:#ffffff;
+	padding:20px;
+}
