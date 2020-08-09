@@ -60,16 +60,8 @@ const UserSchema = new mongoose.Schema({
     followers:[{
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User' 
-    }],
-	tags: [TagSchema],
-	image_id: {
-        type: String,
-		default: ''
-    },
-    image_url: {
-        type: String,
-		default: ''
-    }
+    }],        
+    tags: [TagSchema]
 })
 
 //Some functions from the lecture notes

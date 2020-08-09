@@ -811,7 +811,30 @@ app.post("/tag", mongoChecker, (req, res) => {
 		}
 	})
 })
-
+app.patch('/tag/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid quesiton ID');
+		return;
+	}
+	// If id valid, findById
+	Tag.findById(id).then((tag) => {
+		if (!tag) {
+			res.status(404).send('Tag not found');
+		} else {
+			tag.name = req.body.name;
+			question.save().then((result)=>{
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
 /*** Webpage routes below **********************************/
 // Inject the sessionChecker middleware to any routes that require it.
 // sessionChecker will run before the route handler and check if we are

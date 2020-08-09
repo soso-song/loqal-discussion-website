@@ -1,7 +1,7 @@
 "use strict"
 const allNotices = document.querySelector("#allNotices");
-var fs = require("fs");
-
+// var fs = require("fs");
+let currentuser;
 checkAdminUser().then((res) => {
 	if (res){
 		currentuser = res;
@@ -72,27 +72,67 @@ function submit_notice(e){
 		document.querySelector("#contentError").innerHTML = "";
 		noticeForm.reset();
 	}
-	const new_notice = new Notice(title, content, 2); // TODO: need to change input user id
+	// const new_notice = new Notice(title, content, 2); // TODO: need to change input user id
 	// TODO: adding new notice to database
-	let noticeString = {"title":new_notice.title, "content":new_notice.content, "user":curr_user, "time":Date.now};
-	function saveNotice(notice){
-		const url ='/notice';
-		const request = new Request(url, {
-			method: 'post',
-			body: JSON.stringify(notice),
-			headers: {
-				'Accept': 'application/json, text/plain, */*',
-				'Content-Type': 'application/json'
-			}
-		});
-		fetch(request)
-		.then(function(res) {
-			window.location.href = res.url;
-		}).catch((error) => {
-			console.log(error)
-		})
-	}
+	let data = {
+		"title":title, 
+		"content":content,
+		"user": currentuser
+	};
+	const url = '/notice';
+	//no error, saving data
+	const request = new Request(url, {
+        method: 'post', 
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
 
-	notices.push(new_notice);
-	show_notice(new_notice, true);
+    // Send the request with fetch()
+    fetch(request)
+    .then(function(res) {
+
+        // Handle response we get from the API.
+        // Usually check the error codes to see what happened.
+        // const message = document.querySelector('#message')
+        // if (res.status === 200) {
+        //     // If student was added successfully, tell the user.
+        //     console.log('Added tag')
+        //     message.innerText = 'Success: Added a student.'
+        //     message.setAttribute("style", "color: green")
+           
+        // } else {
+        //     // If server couldn't add the student, tell the user.
+        //     // Here we are adding a generic message, but you could be more specific in your app.
+        //     message.innerText = 'Could not add student'
+        //     message.setAttribute("style", "color: red")
+     
+        // }
+        // log(res)  // log the result in the console for development purposes,
+        //                   //  users are not expected to see this.
+    }).catch((error) => {
+        log(error)
+    })
+	// function saveNotice(notice){
+	// 	const url ='/notice';
+	// 	const request = new Request(url, {
+	// 		method: 'post',
+	// 		body: JSON.stringify(notice),
+	// 		headers: {
+	// 			'Accept': 'application/json, text/plain, */*',
+	// 			'Content-Type': 'application/json'
+	// 		}
+	// 	});
+	// 	fetch(request)
+	// 	.then(function(res) {
+	// 		window.location.href = res.url;
+	// 	}).catch((error) => {
+	// 		console.log(error)
+	// 	})
+	// }
+
+	// notices.push(new_notice);
+	// show_notice(new_notice, true);
 }

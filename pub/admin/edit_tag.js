@@ -2,7 +2,7 @@
 
 //connect and get variabe from db
 //tags = pull_tags();
-
+let currentuser;
 const postEntries = document.querySelector('#posts');
 checkAdminUser().then((res) => {
 	if (res){
@@ -26,13 +26,17 @@ async function getAlltags(){
 	})
 	.then((json) => {
 		var currTags = json;
-		load_row(currTags);
+		log("hello");
+		log(currTags);
+		// load_row(currTags);
 	})
 	.catch((error) => {
 		console.log(error)
 	})
 }
-
+// function load_row(){
+// 	getAlltags();
+// }
 function load_row(currTags)
 {	
 	postEntries.innerHTML = "";
@@ -40,9 +44,9 @@ function load_row(currTags)
 	while(i < currTags.length){
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
-				"<td>"+tags[i].id+"</td>"+
+				"<td>"+currTags[i].name+"</td>"+
 				// "<td id='is_geo_row"+i+"'>"+tags[i].is_geo+"</td>"+
-				"<td id='name_row"+i+"'>"+tags[i].name+"</td>"+
+				"<td id='name_row"+i+"'>"+currTags[i].name+"</td>"+
 				"<td>"+
 					"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
 					"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
