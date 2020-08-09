@@ -29,16 +29,15 @@
                 <div id="onecol">
                     <div id="editparent">
                         <div class="headline">
-                            Edit Profile
+                            Edit Your Profile
                         </div>
-                        <div class='center'>
                             <img id="prof_pic">
                             <form id="imageForm">
-                                <input name="image" type="file" />
-                                <input id="uploadbtn" type='submit' value='Upload'>
+                                <input id="imagefield" name="image" type="file"/>
+                                <br>
+                                <input class="otherButt" id="uploadbtn" type='submit' value='Upload'>
                             </form>
-                        </div>
-                        <div id='editDiv'>
+                        
                             <div class="formerror" id="changeerror"></div>
                             <form id="editForm">
                                 <ul>
@@ -70,10 +69,10 @@
                                         <input type="text" id="acct_type" name="acct_type" value="Regular User" disabled>
                                     </li>
                                 </ul>
-                                <input class='save' id="formbtn" type='submit' value='Save Changes'><br>
                                 <a class="otherButt" href="../user/user_profile.html">Cancel</a>
+                                <input id="formbtn" type='submit' value='Save Changes'>
                             </form>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
