@@ -56,9 +56,15 @@ function basicInfo(){
     {
         mytags+=`<span class="tag">${tags[t].name}</span>`
     }
+
+    let userph = '/images/staticphoto.jpg'
+
+    if(backendUser.image_url !== ''){
+        userph = backendUser.image_url
+    }
     
     let myhtml = `<h2> Welcome Back ${backendUser.displayname}</h2>
-    <img src="${backendUser.image_url}" alt="Main Profile Pic" id="profilePic">							
+    <img src="${userph}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3>${mytags}</div>
     </div>`

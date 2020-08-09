@@ -213,10 +213,16 @@ function basicInfo(){
         }
     }
     */
+
+   let userph = '/images/staticphoto.jpg'
+
+   if(pageUser.image_url !== ''){
+       userph = pageUser.image_url
+   }
     
     let myhtml = `<h2>${pageUser.displayname}</h2>
     <h3>@${pageUser.username}</h3>
-    <img src="${pageUser.image_url}" alt="Main Profile Pic" id="profilePic">							
+    <img src="${userph}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3> ${mytags}</div>
     <div>

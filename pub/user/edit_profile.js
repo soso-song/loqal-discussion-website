@@ -43,7 +43,11 @@ function load_profile(user){
 
     // display picture
     const photo = document.querySelector('#prof_pic');
-    photo.setAttribute('src', user.image_url);
+    if(user.image_url !== ''){
+        photo.setAttribute('src', user.image_url);
+    }else{
+        photo.setAttribute('src', '/images/staticphoto.jpg');
+    }
 
     // show if flagged user
     if (user.isFlagged){
