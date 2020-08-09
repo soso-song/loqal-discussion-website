@@ -45,15 +45,8 @@ function show_notice(notice){
 	div.innerHTML = "<h3>" + notice.title + "</h3> <hr>";
 	div.innerHTML += "<p>" + notice.content + "</p>";
 	getUserInfo(notice.user).then(userInfo => {
-		div.innerHTML += `<div class='notice_info_btn' id="pbutts"><a href="../admin/edit_notice/edit_notice.html?notice_id=${notice._id}">Edit notice</a></div>`;
+		div.innerHTML += `<div class='notice_info_btn' id="pbutts"><a href="../admin/edit_notice.html?notice_id=${notice._id}">Edit notice</a></div>`;
 		div.innerHTML += `<div class='notice_info'><a class='admin_name' href="../user/user_profile.html?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a></div>`;
-		
-		// div.innerHTML += `<p class='sign_notice'><a class='admin_name' href="../user/user_profile.html?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a>`;
-		// div.innerHTML += `<div id="pbutts"></div>`;
-		// //if(currentuser == myquestion.user){
-		// letextrabutt += `<a href="../admin/edit_notice/edit_notice.html?question_id=${notice._id}">Edit notice</a>`
-		// //}
-		// $('#pbutts').html(extrabutt);
 	})
 	if (notice.isShowing){
 		actNotices.appendChild(div);
