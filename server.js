@@ -93,7 +93,8 @@ app.post('/users/login', mongoChecker, (req, res) => {
     // by their email and password
 	User.findByEmailPassword(email, password).then((user) => {
 	    if (!user) {
-            res.redirect('/login');
+			//res.redirect('/login');
+			res.status(404).send('Resource not found') 
         } else {
             // Add the user's id to the session cookie.
 			// We can check later if this exists to ensure we are logged in.
@@ -104,10 +105,12 @@ app.post('/users/login', mongoChecker, (req, res) => {
     }).catch((error) => {
 		// redirect to login if can't login for any reason
     	if (isMongoError(error)) { 
-			res.status(500).redirect('/login');
+			//res.status(500).redirect('/login');
+			res.status(500).send('Internal server error')
 		} else {
 			log(error)
-			res.status(400).redirect('/login');
+			//res.status(400).redirect('/login');
+			res.status(400).send('Bad Request')
 		}
 		
     })
