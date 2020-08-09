@@ -179,5 +179,5 @@ function add_tag(){
         log(error)
     })
 	// tags.push(new Tag(tag_name));
-	load_row();
+	getAlltags();
 }
