@@ -12,6 +12,10 @@ const TagSchema = new mongoose.Schema({
         minlength: 1,
         trim: true
     }
+    count: {
+    	type: Number,
+    	default: 0
+    }
 });
 
 const UserSchema = new mongoose.Schema({
