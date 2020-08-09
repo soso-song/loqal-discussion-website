@@ -260,7 +260,7 @@ function getAllQUser(){
 
             wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${currQ._id}">${currQ.title}</a>
-                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user}">${currQ.user}</a> - ${currQ.time} -  ${numA} Answers - ${resolve}</div>
+                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user}">${pageUser.username}</a> - ${readableDate(currQ.time)} -  ${numA} Answers - ${resolve}</div>
             </div>`;
         });
     }).catch((error) => {
@@ -289,7 +289,7 @@ function getAllAnswer(){
             currQ.answers.forEach(function(currA) {
                 wanted.innerHTML+=`	<div class="shortquestion">
                 <a class="sanswer" href="../answer/answer.html?question_id=${currQ._id}">${currA.content}</a>
-                <div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${currQ._id}">${currQ.title}</a> - ${currA.time}</div>
+                <div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${currQ._id}">${currQ.title}</a> - ${readableDate(currA.time)}</div>
                 </div>`;
                 answerCount += 1;
             });
@@ -308,12 +308,13 @@ function getFollowers()
     let result = '';
     for (let follower of pageUser.followers)
     {
-        result+=`<div class="person">
-        <div class="personname"><a href="../user/user_profile.html?user_id=${follower}">${follower}</a></div>
-        <div class="personid">@${follower}</div>
-        </div>`;
+        getUserInfo(follower).then((myUser) => {
+            followerContainer.innerHTML+=`<div class="person">
+            <div class="personname"><a href="../user/user_profile.html?user_id=${follower}">${myUser.displayname}</a></div>
+            <div class="personid">@${myUser.username}</div>
+            </div>`;
+        })
     }
-    followerContainer.innerHTML = result;
 }
 
 function getFollowing()
@@ -322,10 +323,11 @@ function getFollowing()
     let result = '';
     for (let following of pageUser.following)
     {
-        result+=`<div class="person">
-        <div class="personname"><a href="../user/user_profile.html?user_id=${following}">${following}</a></div>
-        <div class="personid">@${following}</div>
-        </div>`;
+        getUserInfo(following).then((myUser) => {
+            followingContainer.innerHTML+=`<div class="person">
+            <div class="personname"><a href="../user/user_profile.html?user_id=${following}">${myUser.displayname}</a></div>
+            <div class="personid">@${myUser.username}</div>
+            </div>`;
+        })
     }
-    followingContainer.innerHTML = result;
 }
