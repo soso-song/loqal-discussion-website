@@ -3,6 +3,7 @@
 //connect and get variabe from db
 //tags = pull_tags();
 let currentuser;
+let currTags;
 const postEntries = document.querySelector('#posts');
 checkAdminUser().then((res) => {
 	if (res){
@@ -16,24 +17,48 @@ checkAdminUser().then((res) => {
 
 
 async function getAlltags(){
-	await fetch('/tag')
-	.then((res) => {
-		if (res.status === 200) {
-           return res.json();
-       	} else {
-            alert('Could not get tags');
-       	} 
+	const url = '/tag';
+	const get_request =  new Request(url,{
+		method:"get",
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(get_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get notices');
+		}
 	})
-	.then((json) => {
-		var currTags = json;
-		log("hello");
-		log(currTags);
-		// load_row(currTags);
+	.then(data => {
+		console.log(data);
+		currTags = data;
+		load_row(currTags);
 	})
 	.catch((error) => {
 		console.log(error)
-	})
+	});
 }
+// 	await fetch('/tag')
+// 	.then((res) => {
+// 		if (res.status === 200) {
+//            return res.json();
+//        	} else {
+//             alert('Could not get tags');
+//        	} 
+// 	})
+// 	.then((json) => {
+// 		var currTags = json;
+// 		log("hello");
+// 		log(currTags);
+// 		// load_row(currTags);
+// 	})
+// 	.catch((error) => {
+// 		console.log(error)
+// 	})
+// }
 // function load_row(){
 // 	getAlltags();
 // }
