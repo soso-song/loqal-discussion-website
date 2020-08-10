@@ -51,22 +51,35 @@ function showQuestion(){
 	$('#ptitle').text(myquestion.title);
 	$('#pdesc').text(myquestion.content);
 
-	let newDiv = '';
-	// TODO: add the tag list
-	for (let i = 0; i < myquestion.tags.length; i++) {
-		// get tag names
-		fetch('/tag/' + myquestion.tags[i])
-		.then((res) => {
-			return res.json();
-		})
-		.then((json) => {
-			newDiv = '<span class="tag">' + json.tag.name + '</span>';
-			$('#ptags').prepend(newDiv);
-		})
-		.catch((error) => {
-			console.log(error);
-		})
+
+	const url = '/tagIdToName';
+	const data = {
+		ids: myquestion.tags
 	}
+	const request = new Request(url, {
+		method: 'post',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	fetch(request)
+	.then((res) => {
+		return res.json();
+	})
+	.then((json) => {
+		let newDiv = '';
+		for(let i=0; i < json.length; i++){
+			newDiv = '<span class="tag">' + json[i] + '</span>';
+			$('#ptags').prepend(newDiv);
+		}
+	})
+	.catch((error) => {
+		console.log(error);
+	})
+
 
 	getUserInfo(myquestion.user).then((quesUser) => {
 		$('#pdate').html('Asked by <a href="../user/user_profile.html?user_id='+myquestion.user+ '">'
