@@ -764,6 +764,34 @@ app.get('/answerByQuesIdAnsId/:question_id/:answer_id', mongoChecker, (req, res)
 	})
 })
 
+app.get('/answerByAnsId/:answer_id', mongoChecker, (req, res) => {
+	const answer_id = req.params.answer_id;
+	
+	// Validate id
+	if (!ObjectID.isValid(answer_id)) {
+		res.status(404).send('Invalid ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Question.find().then(questions=> {
+		if (!questions) {
+			res.status(404).send('Question not found');
+		} else {
+			for(const question of questions){
+				const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
+				if(answer){
+					res.json(answer);
+					break;
+				}
+			};
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 // Route for edting the content of an answer
 app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, (req, res) => {
 	const question_id = req.params.question_id;
