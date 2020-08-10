@@ -235,7 +235,7 @@ app.patch('/users', mongoChecker, authenticate, (req, res) => {
 
 			user.save().then((result)=>{
 				const myurl = '/user/user_profile.html?user_id=' + user._id
-				res.redirect(myurl);
+				res.redirect(303, myurl);
 			}).catch((error)=>{
 				//console.log(error);
 				res.status(400).send('Bad request.');
@@ -257,7 +257,7 @@ app.patch('/changepassword', mongoChecker, authenticate, (req, res) => {
 
 			user.save().then((result)=>{
 				const myurl = '/user/user_profile.html?user_id=' + user._id
-				res.redirect(myurl);
+				res.redirect(303, myurl);
 			}).catch((error)=>{
 				//console.log(error);
 				res.status(400).send('Bad request.');
