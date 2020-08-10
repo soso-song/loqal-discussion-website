@@ -161,7 +161,7 @@ $(document).ready(function() {
 	}
 
 	function customTag(tag_name){
-		const url = '/tag/';
+		const url = '/tag';
 
 		let data = {
 			name: tag_name
