@@ -107,7 +107,7 @@ async function showAnswers(){
 			bestText = "id='isbest'"
 		}
 
-		let oneanswer = '<div '+bestText+' class="answer"><div class="answertext">'
+		let oneanswer = '<div '+bestText+' class="answer"><div id="'+answer._id+'" class="answertext">'
 		+
 		answer.content
 		+
