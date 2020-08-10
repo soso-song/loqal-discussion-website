@@ -89,7 +89,9 @@ $(document).ready(function() {
 			// At this stage we will send data to backend
 			// And redirect the user to the newly created question
 			// window.location.href = "../answer/answer.html";
-			saveQuestion(mytitle, mydesc, mytags);
+			createTags(mytags.split(',')).then((mytags) => {
+				saveQuestion(mytitle, mydesc, mytags);
+			})
 		}
 	});
 
@@ -99,7 +101,7 @@ $(document).ready(function() {
 		let data = {
 			title: mytitle,
 			content: mydesc,
-			tags: mytags.split(',')
+			tags: mytags
 		}
 
 		const request = new Request(url, {
@@ -117,6 +119,52 @@ $(document).ready(function() {
 		}).catch((error) => {
 			console.log(error)
 		})
+	}
+
+	async function createTags(tag_names){
+		const url = '/tag';
+		const url_c = '/countTagUse/';
+
+		let data;
+		let request;
+
+		const mytags = [];
+
+		for(let tag_name of tag_names){
+			data = { name: tag_name };
+
+			request = new Request(url, {
+				method: 'post',
+				body: JSON.stringify(data),
+				headers: {
+					'Accept': 'application/json, text/plain, */*',
+					'Content-Type': 'application/json'
+				}
+			})
+
+			await fetch(request).then((res) => {
+				return res.json();
+			}).then((json) => {
+				mytags.push(json.tag._id);
+				// count this use of tag
+				request = new Request(url_c+json.tag._id, {
+					method: 'PATCH',
+					headers: {
+						'Accept': 'application/json, text/plain, */*',
+						'Content-Type': 'application/json'
+					}
+				})
+				fetch(request).then()
+				.catch((error) => {
+					console.log(error);
+				})
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+		}
+
+		return mytags;
 	}
 });
 

@@ -583,8 +583,7 @@ app.post('/questions', mongoChecker, authenticate, (req, res) => {
 		title: req.body.title,
 		content: req.body.content,
 		user: req.user,
-		tags: [], 
-		//tags: req.body.tags, //TODO: need to add tags
+		tags: req.body.tags, 
 		answers: [],
 		isResolved: false,
 		isFlagged: false
@@ -1195,6 +1194,33 @@ app.patch('/unfollowTag/:tag_id/:user_id', mongoChecker, (req, res) => {
 		res.status(500).send('Internal Server Error');
 	})
 
+})
+
+// increment the number of tag used
+app.patch('/countTagUse/:tag_id/', mongoChecker, (req, res) => {
+	const tag_id = req.params.tag_id;
+
+	// Validate id
+	if (!ObjectID.isValid(tag_id)) {
+		res.status(404).send('Invalid Tag ID');
+		return;
+	}
+
+	Tag.findById(tag_id).then((tag) => {
+		if(!tag){
+			res.status(404).send('Tag not found');
+		}
+		else {
+			tag.count++;
+			tag.save().then()
+			.catch((error) => {
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
 })
 
 
