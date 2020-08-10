@@ -87,3 +87,51 @@ async function getTagList(tags){
     })
     return tag_names;
 }
+
+
+async function createTags(tag_names){
+	const url = '/tag';
+	const url_c = '/countTagUse/';
+
+	let data;
+	let request;
+
+	const mytags = [];
+
+	for(let tag_name of tag_names){
+		data = { name: tag_name };
+
+		request = new Request(url, {
+			method: 'post',
+			body: JSON.stringify(data),
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		})
+
+		await fetch(request).then((res) => {
+			return res.json();
+		}).then((json) => {
+			mytags.push(json.tag._id);
+			// count this use of tag
+			request = new Request(url_c+json.tag._id, {
+				method: 'PATCH',
+				headers: {
+					'Accept': 'application/json, text/plain, */*',
+					'Content-Type': 'application/json'
+				}
+			})
+			fetch(request).then()
+			.catch((error) => {
+				console.log(error);
+			})
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+	}
+
+	return mytags;
+}
+

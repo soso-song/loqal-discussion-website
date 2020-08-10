@@ -169,7 +169,6 @@ $(document).ready(function() {
 			// At this stage we will send data to backend
 			// And redirect the user to the newly updated question
 			createTags(mytags.split(',')).then((mytags) => {
-				console.log(mytags)
 				return updateQuestion(myquestionid ,mytitle, mydesc, mytags);
 			})
 			.then((url) => {
