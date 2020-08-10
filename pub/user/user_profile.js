@@ -58,7 +58,7 @@ function getCurrentUser() {
 
 function setUpPage(){
     basicInfo();
-
+    getUserTags();
     getAllQUser();
     getAllAnswer();
     getFollowers();
@@ -156,6 +156,21 @@ function unfollowUser(){
     })
 }
 
+function getUserTags(){
+    if(pageUser.tags.length>0){
+        getTagList(pageUser.tags).then((tags) => {
+            let mytags = '';
+            for(let i=0; i < tags.length; i++){
+                mytags+=`<span class="tag">${tags[i]}</span>`;
+            }
+    
+            let myhtml = `<h3>Tags</h3> ${mytags}`
+    
+            $('#mytags').html(myhtml);
+        })
+    }
+}
+
 
 // Loads left hand side information about the user
 function basicInfo(){
@@ -178,38 +193,28 @@ function basicInfo(){
        userph = pageUser.image_url
     }
     
-    getTagList(pageUser.tags).then((tags) => {
-        let mytags = '';
-        for(let i=0; i < tags.length; i++){
-            mytags+=`<span class="tag">${tags[i]}</span>`;
-        }
+    let myhtml = `<h2>${pageUser.displayname}</h2>
+    <h3>@${pageUser.username}</h3>
+    <img src="${userph}" alt="Main Profile Pic" id="profilePic">                            
+    `
 
-        let myhtml = `<h2>${pageUser.displayname}</h2>
-        <h3>@${pageUser.username}</h3>
-        <img src="${userph}" alt="Main Profile Pic" id="profilePic">                            
-        <div id="mytags">
-        <h3>Tags</h3> ${mytags}</div>
-        `
+    if(false){
+        myhtml += `<div>
+        <h3>Best Answers</h3>
+        </div>`
+    }
 
-        if(false){
-            myhtml += `<div>
-            <h3>Best Answers</h3>
-            </div>`
-        }
+    if(pageUser._id == currentUser._id){
+        myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
+    }
 
-        if(pageUser._id == currentUser._id){
-            myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
-        }
-
-        const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
+    const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
 
 
-        myhtml += `<a href="javascript:void(0);" onclick='toggleFollowButt()' id="followUnfollow">Follow</a>`
-        myhtml += `<a href="${reportLink}" id="reportuser">Report This User</a>`
+    myhtml += `<a href="javascript:void(0);" onclick='toggleFollowButt()' id="followUnfollow">Follow</a>`
+    myhtml += `<a href="${reportLink}" id="reportuser">Report This User</a>`
 
-        $('#left').html(myhtml);
-
-    })
+    $('#userinfo').html(myhtml);
 }
 
 // Displays all questions asked by user

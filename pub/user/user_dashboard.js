@@ -38,6 +38,7 @@ function getCurrentUser() {
     })
     .then((json) => {  // the resolved promise with the JSON body
         backendUser = json
+        getUserTags();
         basicInfo();
         getNotice();
         getAllTagQ();
@@ -49,6 +50,19 @@ function getCurrentUser() {
 }
 
 getCurrentUser();
+
+function getUserTags(){
+    if(backendUser.tags.length>0){
+        getTagList(backendUser.tags).then((tags) => {
+            let mytags = '';
+            for(let i=0; i < tags.length; i++){
+                mytags+=`<span class="tag">${tags[i]}</span>`;
+            }
+    
+            $('#mytags').html(`<h3>My Tags</h3>${mytags}`);
+        })
+    }
+}
 
 // Loads left hand side information about the user
 function basicInfo(){
@@ -80,28 +94,15 @@ function basicInfo(){
         </div>`
     }
 
-    getTagList(backendUser.tags).then((tags) => {
-        let mytags = '';
-        for(let i=0; i < tags.length; i++){
-            mytags+=`<span class="tag">${tags[i]}</span>`;
-        }
+    myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
 
-        myhtml +=  `<div id="mytags">
-                    <h3>Tags</h3>${mytags}
-                    </div>`
+    myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
 
-        myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
+    if(backendUser.isAdmin){
+        myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
+    }
 
-        myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
-
-        if(backendUser.isAdmin){
-            myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
-        }
-
-        $('#left').prepend(myhtml);
-    })
-
-    
+    $('#userinfo').prepend(myhtml);
 }
 
 
