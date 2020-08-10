@@ -991,6 +991,7 @@ app.get('/tag/:id', mongoChecker, (req, res) => {
 	})
 })
 
+// Route for creating a new tag but will check if tag already exist
 app.post("/tag", mongoChecker, (req, res) => {
 	const tagName = (req.body.name).toLowerCase();
 
@@ -1106,6 +1107,96 @@ app.get('/popularTags', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
+
+
+
+app.patch('/followTag/:tag_id/:user_id', mongoChecker, (req, res) => {
+	const tag_id = req.params.tag_id;
+	const user_id = req.params.user_id;
+
+	// Validate id
+	if (!ObjectID.isValid(tag_id) || !ObjectID.isValid(user_id)) {
+		res.status(404).send('Invalid ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	User.findById(user_id).then((user) => {
+		if(!user){
+			res.status(404).send('User not found');
+		} else if (!user.tags.includes(tag_id)){
+			// add to tag count
+			Tag.findById(tag_id).then((tag) => {
+				if(!tag){
+					res.status(404).send('Tag not found');
+				}
+				else {
+					tag.count++;
+					tag.save().then((tag) => {
+						user.tags.push(tag_id);
+						user.save().then()
+						.catch((error) => {
+							res.status(400).send('Bad request.');
+						})
+					})
+					.catch((error) => {
+						res.status(400).send('Bad request.');
+					})
+				}
+			})
+			.catch((error) => {
+				res.status(500).send('Internal Server Error');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+
+})
+
+app.patch('/unfollowTag/:tag_id/:user_id', mongoChecker, (req, res) => {
+	const tag_id = req.params.tag_id;
+	const user_id = req.params.user_id;
+
+	// Validate id
+	if (!ObjectID.isValid(tag_id) || !ObjectID.isValid(user_id)) {
+		res.status(404).send('Invalid ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	User.findById(user_id).then((user) => {
+		if(!user){
+			res.status(404).send('User not found');
+		} else if (user.tags.includes(tag_id)){
+			Tag.findById(tag_id).then((tag) => {
+				if(!tag){
+					res.status(404).send('Tag not found');
+				}
+				else {
+					tag.count = tag.count <= 0 ? 0 : tag.count-1;
+					tag.save().then((tag) => {
+						user.tags = user.tags.filter((tag) => tag._id != tag_id);
+						user.save().then()
+						.catch((error) => {
+							res.status(400).send('Bad request.');
+						})
+					})
+					.catch((error) => {
+						res.status(400).send('Bad request.');
+					})
+				}
+			})
+			.catch((error) => {
+				res.status(500).send('Internal Server Error');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+
+})
+
 
 
 /*** Webpage routes below **********************************/

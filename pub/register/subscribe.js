@@ -3,10 +3,11 @@
 let currentuser;
 let tags;
 
-const params = new URLSearchParams(window.location.search)
-let back_url = params.get('back_url');
+// const params = new URLSearchParams(window.location.search)
+// let back_url = params.get('back_url');
 
 $(document).ready(function() {
+
 	// get current user
 	const url = '/currentuser';
 	const request = new Request(url, {
@@ -52,42 +53,67 @@ $(document).ready(function() {
 		})
   	}
 
+  	
+
+
+
 	function showTags(){
 		// limit the number of popular tags showing
 		let limit = 0;
 		// Display the current user tags
 		for (let i = 0; i < tags.length; i++) {
-			let newDiv = `<a href="javascript:void(0);" class="interactivetag">${tags[i].name}<span class="tagside">Follow</span></a>`
+			let newDiv = '<a href="javascript:void(0);" class="interactivetag" id="' + tags[i]._id + '">' + tags[i].name + '<span class="tagside">Follow</span></a>';
 			if(currentuser.tags.includes(tags[i]._id)){
-				newDiv = `<a href="javascript:void(0);" class="interactivetag">${tags[i].name}<span class="tagside">Unfollow</span></a>`
+				newDiv = '<a href="javascript:void(0);" class="interactivetag" id="' + tags[i]._id + '">' + tags[i].name + '<span class="tagside">Unfollow</span></a>';
 				$('#currenttags').prepend(newDiv);
 			}else if (limit < 10){
 				$('#alltags').prepend(newDiv);
 			}
 		}
 	}
-	
-	
 
-	$('body').on('click', '.interactivetag', function () {
+	$('body').on('click', '.interactivetag', function (e) {
+		e.preventDefault();
 		const myVal = $(this).find( "span" ).text();
 		if(myVal === "Follow"){
 			$(this).find( "span" ).text("Unfollow");
-			// Remove this tag from user by sending a post request to backend
+			// Add new tag to user by sending a post request to backend
+			if (e.target.id == "") {
+				followTag(e.target.parentElement.id);
+			}else {
+				followTag(e.target.id);
+			}
 		}else{
 			$(this).find( "span" ).text("Follow");
-			// Add new tag to user by sending a post request to backend
+			// Remove this tag from user by sending a post request to backend
+			if (e.target.id == "") {
+				unfollowTag(e.target.parentElement.id);
+			}else {
+				unfollowTag(e.target.id);
+			}
 		}
 	});
 
-	$('body').on('click', '#continue', function () {
+	$('body').on('click', '#continue', function (e) {
+		e.preventDefault();
 		const myVal = $(this).find( "span" ).text();
 		if(myVal === "Follow"){
 			$(this).find( "span" ).text("Unfollow");
-			// Remove this tag from user by sending a post request to backend
+			// Add new tag to user by sending a post request to backend
+			if (e.target.id == "") {
+				followTag(e.target.parentElement.id);
+			}else {
+				followTag(e.target.id);
+			}
+
 		}else{
 			$(this).find( "span" ).text("Follow");
-			// Add new tag to user by sending a post request to backend
+			// Remove this tag from user by sending a post request to backend
+			if (e.target.id == "") {
+				usfollowTag(e.target.parentElement.id);
+			}else {
+				usfollowTag(e.target.id);
+			}
 		}
 
 		if(!back_url){
@@ -115,11 +141,73 @@ $(document).ready(function() {
 
 		if(!hasError){
 			// At this stage we will send data to backend to add tag to user and will get the tag id from back-end
-			let newTag = `<a href="javascript:void(0);" class="interactivetag">${formattedString}<span class="tagside">Unfollow</span></a>`
-			$('#currenttags').prepend(newTag);
+			customTag(formattedString);
+			
 		}
   	});
 
 
+  	function followTag(tag_id){
+		const url = '/followTag/' + tag_id + '/' + currentuser._id;
 
+		const request = new Request(url, {
+			method: 'PATCH',
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request).then()
+		.catch((error) => {
+			console.log(error);
+		})
+	}
+
+	function unfollowTag(tag_id){
+		const url = '/unfollowTag/' + tag_id + '/' + currentuser._id;
+
+		const request = new Request(url, {
+			method: 'PATCH',
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request).then()
+		.catch((error) => {
+			console.log(error);
+		})
+	}
+
+	function customTag(tag_name){
+		const url = '/tag/';
+
+		let data = {
+			name: tag_name
+		}
+
+		const request = new Request(url, {
+			method: 'post',
+			body: JSON.stringify(data),
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request)
+		.then(function(res) {
+			return res.json();
+		})
+		.then((json) => {
+			let newTag = '<a href="javascript:void(0);" class="interactivetag" id="' + json.tag._id + '">' + json.tag.name + '<span class="tagside">Unfollow</span></a>';
+			$('#currenttags').prepend(newTag);
+			followTag(json.tag._id);
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+	}
 });
