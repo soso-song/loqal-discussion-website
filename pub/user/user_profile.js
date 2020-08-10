@@ -159,11 +159,6 @@ function unfollowUser(){
 
 // Loads left hand side information about the user
 function basicInfo(){
-    let mytags = ''
-    for(let t of pageUser.tags)
-    {
-        mytags+=`<span class="tag">${t.name}</span>`
-    }
 
     // Finding the number of best answers user have
     /*
@@ -177,36 +172,39 @@ function basicInfo(){
     }
     */
 
-   let userph = '/images/staticphoto.jpg'
+    let userph = '/images/staticphoto.jpg'
 
-   if(pageUser.image_url !== ''){
+    if(pageUser.image_url !== ''){
        userph = pageUser.image_url
-   }
+    }
     
-    let myhtml = `<h2>${pageUser.displayname}</h2>
-    <h3>@${pageUser.username}</h3>
-    <img src="${userph}" alt="Main Profile Pic" id="profilePic">							
-    <div id="mytags">
-    <h3>Tags</h3> ${mytags}</div>
-    `
+    getTagList(pageUser.tags).then((mytags) => {
+        let myhtml = `<h2>${pageUser.displayname}</h2>
+        <h3>@${pageUser.username}</h3>
+        <img src="${userph}" alt="Main Profile Pic" id="profilePic">                            
+        <div id="mytags">
+        <h3>Tags</h3> ${mytags}</div>
+        `
 
-    if(false){
-        myhtml += `<div>
-        <h3>Best Answers</h3>
-        </div>`
-    }
+        if(false){
+            myhtml += `<div>
+            <h3>Best Answers</h3>
+            </div>`
+        }
 
-    if(pageUser._id == currentUser._id){
-        myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
-    }
+        if(pageUser._id == currentUser._id){
+            myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
+        }
 
-    const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
+        const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
 
 
-    myhtml += `<a href="javascript:void(0);" onclick='toggleFollowButt()' id="followUnfollow">Follow</a>`
-	myhtml += `<a href="${reportLink}" id="reportuser">Report This User</a>`
+        myhtml += `<a href="javascript:void(0);" onclick='toggleFollowButt()' id="followUnfollow">Follow</a>`
+        myhtml += `<a href="${reportLink}" id="reportuser">Report This User</a>`
 
-    $('#left').html(myhtml);
+        $('#left').html(myhtml);
+
+    })
 }
 
 // Displays all questions asked by user

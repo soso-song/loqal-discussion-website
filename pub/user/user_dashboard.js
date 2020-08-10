@@ -79,7 +79,7 @@ function basicInfo(){
         </div>`
     }
 
-    getTagList('').then((mytags) => {
+    getTagList(backendUser.tags).then((mytags) => {
         myhtml +=  `<div id="mytags">
                     <h3>Tags</h3>${mytags}
                     </div>`
@@ -97,38 +97,6 @@ function basicInfo(){
 
     
 }
-
-// Loads all the tags this user is following to
-async function getTagList(mytags){
-    const url = '/tagIdToName';
-    const data = {
-        ids: backendUser.tags
-    }
-    const request = new Request(url, {
-        method: 'post',
-        body: JSON.stringify(data),
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-    });
-
-    await fetch(request)
-    .then((res) => {
-        return res.json();
-    })
-    .then((json) => {
-        let newDiv = '';
-        for(let i=0; i < json.length; i++){
-            mytags+=`<span class="tag">${json[i]}</span>`;
-        }
-    })
-    .catch((error) => {
-        console.log(error);
-    })
-    return mytags;
-}
-
 
 
 // Loads the latest notification
