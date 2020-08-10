@@ -40,6 +40,7 @@ function getCurrentUser() {
         backendUser = json
         basicInfo();
         getNotice();
+        getAllTagQ();
         getAllQ();
         getAllFollowingQ();
     }).catch((error) => {
@@ -135,7 +136,7 @@ function getNotice(){
     })
 }
 
-// Displays the list of all questions which includes the tags this user follows
+// Displays the list of all questions
 function getAllQ(){
     const wanted = document.getElementById('everyonequestionlist');
 
@@ -196,6 +197,57 @@ function getAllFollowingQ(){
             {
                 resolve = 'Resolved';
             }
+
+            getUserInfo(q.user).then((myUser) => {
+                wanted.innerHTML+=`<div class="shortquestion">
+                <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
+                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                </div>`;
+            })
+
+        });
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+// Displays the list of all questions which includes the tags this user follows
+function getAllTagQ(){
+    const wanted = document.getElementById('tagquestionlist');
+
+    const url = '/questionsByTagIds';
+
+    const data = {
+        tag_ids: backendUser.tags
+    }
+
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    });
+
+    fetch(request)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            //
+       }                
+    })
+    .then((json) => {
+        json.forEach(function(q) {
+
+            let resolve ='Unresolved';
+            if (q.isResolved == true)
+            {
+                resolve = 'Resolved';
+            }
+
+            const numA = q.answers.length;
 
             getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">

@@ -299,22 +299,6 @@ app.get('/users/answers/:user', mongoChecker, (req, res) => {
 })
 
 
-//get all questions with given tag
-app.get('/questions/tags/:tagid', mongoChecker, (req, res) => {
-	const tag_id = req.params.tagid;
-	Question.find(
-		{'tags': { $eq : tag_id} }
-	).then((questions) => {
-		res.send(questions) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-	
-})
-
-
-
 // Route for getting the current user, check to see if there is a better way
 app.get('/currentuser', mongoChecker, authenticate, (req, res) => {
 	res.send(req.user)
@@ -628,6 +612,20 @@ app.get('/questions/following', mongoChecker, authenticate, (req, res) => {
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
+})
+
+//get all questions with given tag
+app.post('/questionsByTagIds', mongoChecker, (req, res) => {
+	const tag_ids = req.body.tag_ids;
+	Question.find(
+		{'tags': { $in : tag_ids} }
+	).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+	
 })
 
 // Route for getting the question by given id
