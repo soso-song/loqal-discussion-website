@@ -26,6 +26,8 @@ if (target_type == 'u') {
 	head_line.innerHTML = "Report an Answer";
 }
 
+
+
 function submitReport(){
 	let reason = document.getElementById("reasonTextArea").value;
 	//below is add report function to report list on database

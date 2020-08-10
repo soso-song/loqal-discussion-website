@@ -102,7 +102,7 @@ function load_result_question(questions){
 	while(i < questions.length){
 		const curr_question = questions[i];
 		const question_answer_nums = curr_question.answers.length;
-		const is_resolved = "Unresolved";
+		let is_resolved = "Unresolved";
 		if(curr_question.isResolved){
 			is_resolved = "Resolved";
 		}

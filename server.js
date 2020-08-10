@@ -643,7 +643,7 @@ app.get('/questions/:id', mongoChecker, (req, res) => {
 	// If id valid, findById
 	Question.findById(id).then((question) => {
 		if (!question) {
-			res.status(404).send('Restaurant not found');
+			res.status(404).send('Question not found');
 		} else {
 			res.json({ question });
 		}
@@ -1331,7 +1331,7 @@ app.get('/report/type/answer', mongoChecker, (req, res) => {
 
 
 // Route for getting the report by given id
-app.get('/report/:id', mongoChecker, (req, res) => {
+app.get('/reports/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
@@ -1423,6 +1423,10 @@ app.get('/answer', (req, res) => {
 
 app.get('/subscribe', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/register/subscribe.html'));
+})
+
+app.get('/report', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/report/report.html'));
 })
 
 app.use(express.static(__dirname + '/pub'));
