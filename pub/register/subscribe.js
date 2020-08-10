@@ -3,8 +3,8 @@
 let currentuser;
 let tags;
 
-// const params = new URLSearchParams(window.location.search)
-// let back_url = params.get('back_url');
+const params = new URLSearchParams(window.location.search)
+let back_url = params.get('back_url');
 
 $(document).ready(function() {
 
@@ -94,28 +94,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('body').on('click', '#continue', function (e) {
-		e.preventDefault();
-		const myVal = $(this).find( "span" ).text();
-		if(myVal === "Follow"){
-			$(this).find( "span" ).text("Unfollow");
-			// Add new tag to user by sending a post request to backend
-			if (e.target.id == "") {
-				followTag(e.target.parentElement.id);
-			}else {
-				followTag(e.target.id);
-			}
-
-		}else{
-			$(this).find( "span" ).text("Follow");
-			// Remove this tag from user by sending a post request to backend
-			if (e.target.id == "") {
-				usfollowTag(e.target.parentElement.id);
-			}else {
-				usfollowTag(e.target.id);
-			}
-		}
-
+	$('body').on('click', '#continue', function () {
 		if(!back_url){
 			location.href = "../user/user_dashboard.html";
 		}else{
