@@ -227,7 +227,6 @@ function setOnclicks(){
 			//Answer add to database-----------
 			let newDiv = '';
 			saveAnswer(myanswer,myquestionid).then((res) => {
-				console.log(myquestionid);
 				newDiv = "<div class='answerbuttons'> <a href=''>Report this answer</a> <a href='../answer/edit_answer.html?question_id="
 				+ myquestionid + "&answer_id=" + res + "'>Edit Answer</a>";
 				return res;

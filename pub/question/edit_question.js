@@ -86,17 +86,39 @@ $(document).ready(function() {
 		$('#qtitle').val(myquestion.title);
 		$('#qdesc').val(myquestion.content);
 
-		// TODO: add tags
-		// let alltags = '';
-		// for (let i = 0; i < myquestion.tag_list.length; i++) {
-		// 	alltags += tags[myquestion.tag_list[i]].name + ',';
-		// }
-		// $('#qtags').val(alltags);
+		let alltags = '';
+		const url = '/tagIdToName';
 
-		// Setting initial values
-		previewTitle();
-		previewDesc();
-		// previewTags();	// TODO: add tags
+		const data = {
+			ids: myquestion.tags
+		}
+
+		const request = new Request(url, {
+			method: 'post',
+			body: JSON.stringify(data),
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		fetch(request)
+		.then((res) => {
+			return res.json();
+		})
+		.then((json) => {
+			alltags = json.join();
+			$('#qtags').val(alltags);
+			// Setting initial values
+			previewTitle();
+			previewDesc();
+			previewTags();
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+
+		
 	}
 	
 	
@@ -138,24 +160,24 @@ $(document).ready(function() {
 		}
 
 
-		// TODO: add tags
-		// if (mytags.length < 1) {
-		// 	$('#qtags').prev().prev().text('This field cannot be empty');
-		// 	hasError = true;
-		// }
+		if (mytags.length < 1) {
+			$('#qtags').prev().prev().text('This field cannot be empty');
+			hasError = true;
+		}
 
 		if(!hasError){
 			// At this stage we will send data to backend
 			// And redirect the user to the newly updated question
-			updateQuestion(myquestionid ,mytitle, mydesc, mytags).then((url) => {
+			createTags(mytags.split(',')).then((mytags) => {
+				console.log(mytags)
+				return updateQuestion(myquestionid ,mytitle, mydesc, mytags);
+			})
+			.then((url) => {
 				window.location.href = url;
 			})
-			// myquestion.title = mytitle;
-			// myquestion.content = mydesc;
-			// tags should be sent to backend to see which ones we already have and which ones are new and then added to questions object
-			// myquestion.tag_list = mytags	// TODO: add tags
-
-			// window.location.href = "../answer/answer.html?question_id=" + myquestionid;
+			.catch((error) => {
+				console.log(error);
+			})
 		}
 	});
 

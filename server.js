@@ -685,7 +685,7 @@ app.patch('/questions/:id', mongoChecker, (req, res) => {
 		} else {
 			question.title = req.body.title;
 			question.content = req.body.content;
-			// question.tags = req.body.tags;	// TODO: add tags
+			question.tags = req.body.tags;
 			if (req.body.isResolved !== null){
 				question.isResolved = req.body.isResolved;
 			}
@@ -989,6 +989,25 @@ app.get('/tag/:id', mongoChecker, (req, res) => {
 		res.status(500).send('Internal Server Error');
 	})
 })
+
+// Route which given a list of tag ids, return a list of tag names
+app.post('/tagIdToName', mongoChecker, (req, res) => {
+	const ids = req.body.ids;
+	let names;
+
+	Tag.find({'_id': { $in: ids} }).then((tags) => {
+		if(tags.length != ids.length) {
+			res.status(404).send("Can't find all tags");
+		} else {
+			names = tags.map(tag => tag.name);
+			res.send(names);
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 
 // Route for creating a new tag but will check if tag already exist
 app.post("/tag", mongoChecker, (req, res) => {
