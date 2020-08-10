@@ -59,8 +59,6 @@ function getCurrentUser() {
 function setUpPage(){
     basicInfo();
 
-    document.querySelector('#reportuser').href = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
-
     getAllQUser();
     getAllAnswer();
     getFollowers();
@@ -101,24 +99,16 @@ $(document).ready(function() {
         $('#following').removeClass("hideme");
     });
 
-   $("#followUnfollow").click(function(){
+});
+
+function toggleFollowButt(){
     const currentState = $('#followUnfollow').text();
     if(currentState === 'Follow'){
         followUser();
     }else if(currentState === 'Unfollow'){
         unfollowUser();
-        /*
-        const currentuser = pageUser.followers.indexOf(curr_user);
-        if(currentuser>-1){
-            $('#followUnfollow').text('Follow');
-            pageUser.followers.splice(currentuser, 1);
-            getFollowers();    
-        }
-        */
     }
-    //Send data to server to follow/unfollow user
-    });
-});
+}
 
 function followUser(){
     const url = '/follow/'+pageUser._id;
@@ -135,7 +125,8 @@ function followUser(){
     fetch(request)
     .then(function(res) {
         $('#followUnfollow').text('Unfollow');
-        //getFollowers(); 
+        //getFollowers();
+        getPageUser();
         console.log(res) 
     }).catch((error) => {
         console.log(error)
@@ -157,7 +148,8 @@ function unfollowUser(){
     fetch(request)
     .then(function(res) {
         $('#followUnfollow').text('Follow');
-        //getFollowers(); 
+        //getFollowers();
+        getPageUser();
         console.log(res) 
     }).catch((error) => {
         console.log(error)
@@ -208,7 +200,13 @@ function basicInfo(){
         myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
     }
 
-    $('#left').prepend(myhtml);
+    const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
+
+
+    myhtml += `<a href="javascript:void(0);" onclick='toggleFollowButt()' id="followUnfollow">Follow</a>`
+	myhtml += `<a href="${reportLink}" id="reportuser">Report This User</a>`
+
+    $('#left').html(myhtml);
 }
 
 // Displays all questions asked by user
@@ -217,7 +215,7 @@ function getAllQUser(){
     const url = '/users/questions/' + pageUser._id;
 
     let wanted = document.getElementsByClassName("listcontainter")[0];
-
+    let totalString = ''
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
     .then((res) => { 
@@ -241,11 +239,13 @@ function getAllQUser(){
 
             let numA = currQ.answers.length;
 
-            wanted.innerHTML+=`<div class="shortquestion">
+            totalString+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${currQ._id}">${currQ.title}</a>
                 <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user}">${pageUser.username}</a> - ${readableDate(currQ.time)} -  ${numA} Answers - ${resolve}</div>
             </div>`;
         });
+
+        wanted.innerHTML = totalString;
     }).catch((error) => {
         console.log(error)
     })
@@ -257,6 +257,8 @@ function getAllAnswer(){
     const url = '/users/answers/' + pageUser._id;
 
     let wanted = document.getElementsByClassName("listcontainter")[1];
+    let totalString = ''
+
     let answerCount = 0;
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -270,7 +272,7 @@ function getAllAnswer(){
     .then((json) => { 
         json.forEach(function(currQ) {
             currQ.answers.forEach(function(currA) {
-                wanted.innerHTML+=`	<div class="shortquestion">
+                totalString+=`	<div class="shortquestion">
                 <a class="sanswer" href="../answer/answer.html?question_id=${currQ._id}">${currA.content}</a>
                 <div class="sinfo">In reply to <a href="../answer/answer.html?question_id=${currQ._id}">${currQ.title}</a> - ${readableDate(currA.time)}</div>
                 </div>`;
@@ -279,6 +281,7 @@ function getAllAnswer(){
         });
         let headings = document.getElementsByClassName("userheading");
         headings[1].innerHTML=`Answers (${answerCount})`;
+        wanted.innerHTML = totalString;
         
     }).catch((error) => {
         console.log(error)
@@ -288,7 +291,8 @@ function getAllAnswer(){
 function getFollowers()
 {
     let followerContainer = document.getElementsByClassName("personcontainter")[0];
-    let result = '';
+    followerContainer.innerHTML = ''
+    $("#followerbutt").text(`Followers (${pageUser.followers.length})`);
     for (let follower of pageUser.followers)
     {
         getUserInfo(follower).then((myUser) => {
@@ -303,7 +307,8 @@ function getFollowers()
 function getFollowing()
 {
     let followingContainer = document.getElementsByClassName("personcontainter")[1];
-    let result = '';
+    followingContainer.innerHTML = ''
+    $("#followingbutt").text(`Followers (${pageUser.following.length})`);
     for (let following of pageUser.following)
     {
         getUserInfo(following).then((myUser) => {
