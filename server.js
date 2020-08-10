@@ -720,14 +720,13 @@ app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
 		if(!question){	//undefined
 			res.status(404).send('question not found');
 		}else{
-			const answers = {
+			const answer = {
 				user: req.user,
 				content: req.body.content
 			};
-			question.answers.push(answers);
-			question.save().then((result)=>{
-				res.send(result);
-				//res.redirect('/question?question_id=' + question._id); // no need refresh page since answer add in frontend
+			question.answers.push(answer);
+			question.save().then((question)=>{
+				res.send(question.answers[question.answers.length-1]);	// return the answer
 			}).catch((error)=>{
 				res.status(400).send('Bad request.');
 			})
@@ -741,6 +740,69 @@ app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
 		}
 	})
 })
+
+
+// Route for getting the answer by given question id and answer id
+app.get('/answerByQuesIdAnsId/:question_id/:answer_id', mongoChecker, (req, res) => {
+	const question_id = req.params.question_id;
+	const answer_id = req.params.answer_id;
+	
+	// Validate id
+	if (!ObjectID.isValid(question_id) || !ObjectID.isValid(answer_id)) {
+		res.status(404).send('Invalid ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Question.findById(question_id).then((question) => {
+		if (!question) {
+			res.status(404).send('Question not found');
+		} else {
+			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
+			res.json(answer);
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+// Route for edting the content of an answer
+app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, (req, res) => {
+	const question_id = req.params.question_id;
+	const answer_id = req.params.answer_id;
+
+	// Validate id
+	if (!ObjectID.isValid(question_id) || !ObjectID.isValid(answer_id)) {
+		res.status(404).send('Invalid Question ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Question.findById(question_id).then((question) => {
+		if (!question) {
+			res.status(404).send('Question not found');
+		} else if(question.user != req.session.user){
+			res.status(403).send("No permission to edit");
+		} 
+		else {
+			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
+			answer.content = req.body.content;
+			question.save().then((result)=>{
+				res.redirect(303, '/answer?question_id=' + question_id);
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+
+
 
 //http://localhost:5000/questions/search/o
 app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {

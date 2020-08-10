@@ -112,7 +112,8 @@ async function showAnswers(){
 		;
 
 		if(currentuser == answer.user){
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?answer_id="+answer._id+"'>Edit Answer</a>";
+			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?question_id="
+					  + myquestionid + "&answer_id="+answer._id+"'>Edit Answer</a>";
 		} else{
 			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
 		}
@@ -185,18 +186,21 @@ function setOnclicks(){
 
 		if(!hasError){
 			//Answer add to database-----------
+			let newDiv = '';
 			saveAnswer(myanswer,myquestionid).then((res) => {
+				console.log(myquestionid);
+				newDiv = "<div class='answerbuttons'> <a href=''>Report this answer</a> <a href='../answer/edit_answer.html?question_id="
+				+ myquestionid + "&answer_id=" + res + "'>Edit Answer</a>";
 				return getUserInfo(currentuser);
 			})
 			.then((userInfo) => {
-				let newDiv = '<div class="answer"><div class="answertext">'
+				newDiv = "<div class='answer'><div class='answertext'>"
 				+
 				myanswer
 				+
-				'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+currentuser+'">' + userInfo.displayname + ' (@' + userInfo.username + ')</a>. ' +'Just now'+'. </div>'
+				"</div><div class='answerinfo'>Answered by <a href='../user/user_profile.html?user_id="+currentuser+"''>" + userInfo.displayname + " (@" + userInfo.username + ")</a>. Just now. </div>"
 				+
-				'<div class="answerbuttons"> <a href="">Report this answer</a> <a href="../answer/edit_answer.html">Edit Answer</a>'
-				;
+				newDiv;
 
 				if(currentuser == myquestion.user){
 					newDiv += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
@@ -234,12 +238,19 @@ async function saveAnswer(myanswer,myquestionid){
 		}
 	});
 
-	fetch(request)
+	let answer_id;
+	await fetch(request)
 	.then(function(res) {
-		//window.location.href = res.url;
-	}).catch((error) => {
+		return res.json();
+		return res.json();
+	})
+	.then((json) => {
+		answer_id = json._id;
+	})
+	.catch((error) => {
 		console.log(error)
 	})
+	return answer_id;
 }
 
 function getAnchor() {
