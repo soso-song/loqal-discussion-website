@@ -1029,6 +1029,7 @@ app.patch('/tag/:id', mongoChecker, (req, res) => {
 		}
 	})
 })
+
 app.delete('/tag/:id', mongoChecker, (req,res) =>{
 	const id = req.params.id
 
@@ -1055,6 +1056,20 @@ app.delete('/tag/:id', mongoChecker, (req,res) =>{
 		res.status(500).send() // server error, could not delete.
 	})
 })
+
+app.get('/popularTags', mongoChecker, (req, res) => {
+	Tag.find().then((tags) => {
+		// sort the tags by count
+		tags = tags.sort((a,b) =>  a.count - b.count);
+		// tags = tags.slice(0,5);
+		res.send(tags);
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
+
 /*** Webpage routes below **********************************/
 // Inject the sessionChecker middleware to any routes that require it.
 // sessionChecker will run before the route handler and check if we are
@@ -1093,7 +1108,12 @@ app.get('/answer', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
 })
 
+app.get('/subscribe', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/register/subscribe.html'));
+})
+
 app.use(express.static(__dirname + '/pub'));
+
 
 // static js directory
 //app.use("/js", express.static(path.join(__dirname, '/public/js')))
