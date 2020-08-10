@@ -301,9 +301,9 @@ app.get('/users/answers/:user', mongoChecker, (req, res) => {
 
 //get all questions with given tag
 app.get('/questions/tags/:tagid', mongoChecker, (req, res) => {
-	const tag = req.params.tagid;
+	const tag_id = req.params.tagid;
 	Question.find(
-		{'tags.name': tag}
+		{'tags': { $eq : tag_id} }
 	).then((questions) => {
 		res.send(questions) 
 	})
