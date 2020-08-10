@@ -21,7 +21,7 @@
 }
 
 #profilePic{
-	width:200px;
+	width:50px;
 	border:1px solid #cccccc;
 }
 
@@ -31,7 +31,7 @@
 	width:300px;
 	background-color: white;
 	padding:20px;
-	text-align: center;
+	text-align: left;
 }
 
 #right{
@@ -160,4 +160,18 @@ a.sanswer{
 	font-size:18px;
 	font-weight:normal;
 	border:1px solid #ee6261;
+}
+
+#dashheading{
+	font-size:23px;
+	padding:30px 30px;
+	background:#ee6261;
+	color:#ffffff;
+}
+
+#dashname{
+	font-size:18px;
+	padding:30px 30px;
+	background:#f58484;
+	color:#ffffff;
 }

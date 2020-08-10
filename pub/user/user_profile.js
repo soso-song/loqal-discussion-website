@@ -196,10 +196,17 @@ function basicInfo(){
     <img src="${userph}" alt="Main Profile Pic" id="profilePic">							
     <div id="mytags">
     <h3>Tags</h3> ${mytags}</div>
-    <div>
-    <h3>Best Answers</h3>
-    </div>
-    </div>`
+    `
+
+    if(false){
+        myhtml += `<div>
+        <h3>Best Answers</h3>
+        </div>`
+    }
+
+    if(pageUser._id == currentUser._id){
+        myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
+    }
 
     $('#left').prepend(myhtml);
 }

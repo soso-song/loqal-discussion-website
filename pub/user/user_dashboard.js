@@ -63,15 +63,31 @@ function basicInfo(){
     if(backendUser.image_url !== ''){
         userph = backendUser.image_url
     }
+
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const d = new Date();
+    const dayName = days[d.getDay()];
     
-    let myhtml = `<h2> Welcome Back ${backendUser.displayname}</h2>
-    <img src="${userph}" alt="Main Profile Pic" id="profilePic">							
-    <div id="mytags">
-    <h3>Tags</h3>${mytags}</div>
-    </div>`
+    let myhtml = `
+    <div id="dashheading">User Dashboard</div>
+    <div id="dashname">Welcome back ${backendUser.displayname}<br><br>
+    We hope you are having a great ${dayName}
+    
+    </div>
+    `
+    myhtml += `<div id="notification"></div>`
+
+    if(false){
+        myhtml += `
+        <img src="${userph}" alt="Main Profile Pic" id="profilePic">	
+        <div id="mytags">
+        <h3>Tags</h3>${mytags}
+        </div>`
+    }
+
+    myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
 
     myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
-    myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
 
     if(backendUser.isAdmin){
         myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
@@ -96,6 +112,7 @@ function getNotice(){
     .then((json) => {
         if(json){
             let myhtml =`
+            <h4>Latest Notice</h4>
             <div id="noticetitle">${json.title}</div>
             <div id="noticedesc">${json.content}</div>
             <div id="noticedate">Posted on ${readableDate(json.time)}, 2020</div>`
