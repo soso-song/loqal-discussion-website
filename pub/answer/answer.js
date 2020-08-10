@@ -65,11 +65,9 @@ function showQuestion(){
 			+
 			quesUser.username
 			+
-			")</a> "
+			")</a> - "
 			+
-			myquestion.time
-			+
-			"."
+			readableDate(myquestion.time)
 		);
 	})
 	
@@ -113,7 +111,7 @@ async function showAnswers(){
 		+
 		answer.content
 		+
-		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a>. ' +answer.time+'. </div>'
+		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a> - ' +readableDate(answer.time)+' </div>'
 		;
 
 		if(currentuser._id == answer.user){
