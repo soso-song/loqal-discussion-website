@@ -79,6 +79,7 @@ function load_row(currTags)
 					"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
 					// "<input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'>"+
 				"</td>"+
+				"<td>"+currTags[i].count+"</td>"
 			"</tr>";
 		i++;
 	}
