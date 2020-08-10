@@ -290,8 +290,7 @@ function getAnchor() {
 
 function goAnchor() {
 	let element_to_scroll_to = document.getElementById(getAnchor());
-	element_to_scroll_to.scrollIntoView({ behavior: 'smooth'});
-    // if(window.location.hash) {
-    //     location.hash = '#'+getAnchor();
-    // }
-};
+	if(element_to_scroll_to){
+		element_to_scroll_to.scrollIntoView({ behavior: 'smooth'});
+	}
+}
