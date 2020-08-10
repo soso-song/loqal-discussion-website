@@ -3,7 +3,7 @@
 //connect and get variabe from db
 let currentuser;
 let questions;
-//tags = pull_tags();
+let all_tags;
 
 checkAdminUser().then((res) => {
 	if (res){
@@ -41,17 +41,18 @@ let i = 0;
 
 async function load_row()
 {	
+	let username;
 	await getUserInfo(questions[i].user).then((res) => {
-		//const row = table.insertRow(i).outerHTML=
-		const tag_names = [];
-		for (const tag_index of questions[i].tags){
-			tag_names.push(tags[tag_index].name);
-		}
+		username = res.username;
+		return getTagList(questions[i].tags)
+	})
+	.then(tag_names => {
+		questions[i].tag_names = tag_names;
 		postEntries.innerHTML += 
 		"<tr id='row"+i+"'>"+
 			"<td id='title_row"+i+"'><textarea id='title_text"+i+"' disabled>"+questions[i].title+"</textarea></td>"+
 			"<td id='content_row"+i+"'><textarea id='content_text"+i+"' disabled>"+questions[i].content+"</textarea></td>"+
-			"<td>"+res.username+"</td>"+
+			"<td>"+username+"</td>"+
 			"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
 			"<td id='is_flag_row"+i+"'>"+questions[i].isFlagged+"</td>"+
 			"<td id='is_reso_row"+i+"'>"+questions[i].isResolved+"</td>"+
@@ -80,7 +81,7 @@ function edit_row(no){
 	document.getElementById("save_button"+no).disabled = false;
 	const title=document.getElementById("title_row"+no).firstChild;
 	const content=document.getElementById("content_row"+no).firstChild;
-	const tag=document.getElementById("tag_row"+no);
+
 	const is_flag_cell=document.getElementById("is_flag_row"+no);
 	const is_reso_cell=document.getElementById("is_reso_row"+no);
 
@@ -94,32 +95,51 @@ function edit_row(no){
 	// content.innerHTML="<textarea id='content_text"+no+"'>"+content.innerHTML+"</textarea>";
 	is_flag_cell.innerHTML="<input type='button' id='is_flag_select"+no+"' value='"+is_flag_cell.innerHTML+"' onclick='change_is_flag("+no+")'>";
 	is_reso_cell.innerHTML="<input type='button' id='is_reso_select"+no+"' value='"+is_reso_cell.innerHTML+"' onclick='change_is_reso("+no+")'>";
-	// get and display current tags
-	const question_tags = [];
-	// for (const tag_index of questions[no].tags){
-	// 	question_tags.push(tags[tag_index]);
-	// }
-	// making adding tag options
+
+	getPopularTags(no);
+}
+
+// get the list of tags sorted in decreasing number of usage
+function getPopularTags(no){
+  	const url = '/popularTags';
+
+	fetch(url)
+	.then((res) => {
+		return res.json();
+	})
+	.then((json) => {
+		all_tags = json;
+		showTagsToEdit(json, no);
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
+
+
+function showTagsToEdit(all_tags, no){
+	const q_tags = questions[no].tags;
+	// make adding tag options
 	let html_tag = '';
-	for(const curr_tag of question_tags){
+
+	for(let i=0; i < q_tags.length; i++){
 		html_tag += '<select id="html_tag">';
-		for(const tag_elem of tags){
-			if(curr_tag.id == tag_elem.id){
-				html_tag += "<option value="+tag_elem.id+" selected>"+tag_elem.name +"</option>";	
-			}else{
-				html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";	
+		for(let j=0; j < all_tags.length; j++){
+			if(q_tags[i] == all_tags[j]._id){
+				html_tag += "<option value="+all_tags[j]._id+" selected>"+all_tags[j].name +"</option>";
+			} else {
+				html_tag += "<option value="+all_tags[j]._id+">"+ all_tags[j].name +"</option>";
 			}
 		}
 		html_tag += "<option value=-1>remove</option>";
 		html_tag += '</select>';
 	}
-	//tag.innerHTML = "<div id='tag_text"+no+">'";
+	const tag = document.getElementById("tag_row"+no);
 	tag.innerHTML = "<input type='button' value='Add Tag' class='add_tag' onclick='add_tag_row("+no+")'>";
 	tag.innerHTML += html_tag;
-	//tag.innerHTML="<input type='text' id='tag_text"+no+"' value='"+tag_data+"'>";
-	
-	//let html_com_tag = '';
 }
+
+
 
 
 function save_row(no){
@@ -147,18 +167,16 @@ function save_row(no){
 	let i = 1;
 	while(i < tag_div.childElementCount){
 		if(tag_div.children[i].value != -1){
-			tag_id.add(parseInt(tag_div.children[i].value));
+			tag_id.add(tag_div.children[i].value);
 			tag_text.add(tag_div.children[i].options[tag_div.children[i].selectedIndex].text);
 		}
 		i++;
 	}
 	// this if statement checks the tag is not empty
-	// TODO: add this back for checking if tag list is empty
-	// if(tag_id.size == 0){
-	// 	console.log("no change due to tag list is empty");
-	// 	alert("no change due to tag list is empty, question index: " + no);
-	// 	return;
-	// }
+	if(tag_id.size == 0){
+		alert("no change due to tag list is empty, question index: " + no);
+		return;
+	}
 	// above are get value part
 	// below are set value part
 	//set html values
@@ -170,15 +188,10 @@ function save_row(no){
 
 	//below is write function to questions database
 	//edit_question(no,tag_id,title_val,content_val,(is_flag_val == "true"),(is_reso_val == "true"))
-	// TODO: add the correct tags list
-	updateQuestion(questions[no]._id, title_val, content_val, [], 
+	updateQuestion(questions[no]._id, title_val, content_val, Array.from(tag_id), 
 				   (is_reso_val == "true"),
 				   (is_flag_val == "true"));
-	// questions[no].tags = Array.from(tag_id);
-	// questions[no].title = title_val;
-	// questions[no].content = content_val;
-	// questions[no].is_flagged = (is_flag_val == "true");
-	// questions[no].is_resolved = (is_reso_val == "true");
+
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
 }
@@ -190,10 +203,10 @@ function delete_row(no){
 
 
 function add_tag_row(no){
-	const tag=document.getElementById("tag_row"+no);
+	const tag = document.getElementById("tag_row"+no);
 	let html_tag = '<select id="html_tag">';
-	for(const tag_elem of tags){
-		html_tag += "<option value="+tag_elem.id+">"+tag_elem.name +"</option>";	
+	for(const tag_elem of all_tags){
+		html_tag += "<option value="+tag_elem._id+">"+tag_elem.name +"</option>";	
 	}
 	html_tag += "<option value=-1>remove</option>";
 	html_tag += '</select>';
@@ -229,3 +242,4 @@ function change_is_reso(no){
 		is_reso_button.value = true;
 	}
 }
+
