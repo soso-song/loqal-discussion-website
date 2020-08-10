@@ -4,13 +4,40 @@ const rep_users = document.querySelector("#rep_users");
 const rep_ques = document.querySelector("#rep_questions");
 const rep_ans = document.querySelector("#rep_answers");
 
-load_all_reports();
-function load_all_reports(){
+
+show_reports();
+
+function show_reports(){
+	const report_url = '/report';
+	const report_request = new Request(report_url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(report_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get reports');
+		}
+	})
+	.then(data => {
+		render_reports(data);
+	})
+	.catch((error) => {
+		console.log(error)
+	});
+}
+
+
+function render_reports(reports){
 	
 	let rep_u_count = 0;
 	let rep_q_count = 0;
 	let rep_a_count = 0;
-	// TODO: get reports from database
+
 	for (const report of reports){
 		if (report.is_reviewed){
 			continue;
@@ -29,29 +56,37 @@ function load_all_reports(){
 		switch(report.type){
 			case 'u':
 				rep_u_count++;
-				left.innerHTML = "<p>Reported: <strong>" + users[report.rep_unique_id].username + "</strong></p>";
+				getUserInfo(report.targetId,data=>{
+					left.innerHTML = "<p>Reported: <strong>" + data.username + "</strong></p>";
+				});
 				type_output = "User"; 
-				html_name = "edit_user.html?edit_for=" + report.rep_unique_id;
+				html_name = "edit_user.html?edit_for=" + report.targetId;
 				rep_users.appendChild(div);
 				break;
 			case 'q':
 				rep_q_count++;
-				left.innerHTML = "<p>Reported: <strong>" + questions[report.rep_unique_id].title + "</strong></p>";;
+				getQuestionInfo(report.targetId,data=>{
+					left.innerHTML = "<p>Reported: <strong>" + data.question.title + "</strong></p>";
+				});
 				type_output = "Question"; 
-				html_name = "../answer/answer.html?question_id=" + report.rep_unique_id;
+				html_name = "../answer/answer.html?question_id=" + report.targetId;
 				rep_ques.appendChild(div);
 				break;
 			case 'a':
 				rep_a_count++;
-				left.innerHTML = "<p>Reported: <strong>" + answers[report.rep_unique_id].content + "</strong></p>";;
+				getAnswerInfo(report.targetId,data=>{
+					left.innerHTML = "<p>Reported: <strong>" + data.content + "</strong></p>";
+				});
 				type_output = "Answer";
-				html_name = "../answer/answer.html?question_id=" + answers[report.rep_unique_id].question_id;
+				html_name = "../answer/answer.html?question_id=" + report.targetId;
 				rep_ans.appendChild(div);
 				break;
 		}
-		left.innerHTML += "<p>Reported by: " + users[report.rep_user].username + "</p>";
+		getUserInfo(report.user,data=>{
+			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+		});
 		left.innerHTML += "<p>Reason: " + report.reason + "</p>";
-		left.innerHTML += "<p>Report ID (for current implemention only):<strong>"+report.id+"</strong></p>"
+		left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
 		left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
 		right.innerHTML = "<p></p>";
 		const button = document.createElement("button");
@@ -138,3 +173,87 @@ function remove_lrdiv(curr_lrdiv){
 
 
 
+
+function getUserInfo(user_id, callBack){
+	const url = '/users/' + user_id;
+	const request = new Request(url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then((res) => {
+		if (res.status === 200) {
+           	// return a promise that resolves with the JSON body
+           	return res.json();
+       	} else {
+            // alert('Could not get user.');
+       	} 
+	})
+	.then(data => {
+		callBack(data);
+		// userInfo = {
+  //          	displayname: data.displayname,
+  //          	username: data.username
+  //       };
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
+
+
+function getQuestionInfo(id, callBack){
+	const url = '/questions/' + id;
+
+	const request = new Request(url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then((res) => {
+		if (res.status === 200) {
+           // return a promise that resolves with the JSON body
+           return res.json();
+       	} else {
+            alert('Could not get question');
+       	} 
+	})
+	.then(data => {
+		callBack(data);
+		//question = json.question;
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
+
+function getAnswerInfo(id, callBack){
+	const url = '/answers/' + id;
+	const request = new Request(url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then((res) => {
+		if (res.status === 200) {
+           	return res.json();
+       	} else {
+            // alert('Could not get user.');
+       	} 
+	})
+	.then(data => {
+		callBack(data);
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}
