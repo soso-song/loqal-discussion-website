@@ -760,22 +760,17 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 //Notice route below**********/
 //add a notice: set isShowing for all previous notices to false when a new notice is added
 app.post('/notice', mongoChecker, authenticate, (req, res) => {
-	//Notice.update({}, {$set:{isShowing:false}}, { multi: true });
-	// db.notices.updateMany({},{$set:{isShowing:false}});
+	// disable all passed notices
 	Notice.updateMany({isShowing:true},{$set:{isShowing:false}}).then()
 	.catch(err=>{
 		console.error(err)
 	})
-	// mongoose.notices.updateMany({},{$set:{isShowing:false}});
-
-
 	const notice = new Notice({
 		title: req.body.title,
 		content: req.body.content,
 		user: req.user._id
 	});
 	notice.save().then((notice) => {
-		//console.log(notice);
         //res.redirect('/admin/notice.html');
 	})
 	.catch((error) => {
@@ -808,7 +803,7 @@ app.get('/notice/find/:id', mongoChecker, (req, res) => {
 	// Validate id
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Invalid Notice ID');
-		return;  // so that we don't run the rest of the handler.
+		return;
 	}
 	Notice.findById(id).then((notice) => {
 		if (!notice) {
