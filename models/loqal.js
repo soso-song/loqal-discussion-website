@@ -225,16 +225,50 @@ const QuestionSchema = new mongoose.Schema({
 	}
 })
 
-
+const ReportSchema = new mongoose.Schema({
+    type:{
+        type: String,
+        required: true,
+        enum: ['u', 'q', 'a']
+    },
+    targetId:{
+    	type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    reason:{
+        type: String,
+        required: true,
+        minlength: 1,
+        trim: true
+    },
+    user: { // user who is reporting
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    reviewer: { // admin who is review
+        type: mongoose.Schema.Types.ObjectId
+        //required: true // can be not review yet
+    },
+    time:{
+        type: Date,
+        default:Date.now
+    },
+    isReviewed: {
+        type: Boolean,
+        default: false
+    }
+});
 
 
 const User = mongoose.model('User', UserSchema)
 const Tag = mongoose.model('Tag', TagSchema)
 const Question = mongoose.model("Question", QuestionSchema)
 const Notice = mongoose.model("Notice",NoticeSchema)
+const Report = mongoose.model("Report",ReportSchema)
 module.exports = { 
 	User:User,
 	Tag:Tag,
 	Question:Question,
-	Notice:Notice
+	Notice:Notice,
+	Report:Report
 }
