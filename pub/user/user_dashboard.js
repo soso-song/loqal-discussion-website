@@ -1,6 +1,6 @@
 "use strict"
 
-let pageUser = curr_user;
+// let pageUser = curr_user;
 let backendUser = null;
 
 $(document).ready(function() {
@@ -79,7 +79,12 @@ function basicInfo(){
         </div>`
     }
 
-    getTagList(backendUser.tags).then((mytags) => {
+    getTagList(backendUser.tags).then((tags) => {
+        let mytags = '';
+        for(let i=0; i < tags.length; i++){
+            mytags+=`<span class="tag">${tags[i]}</span>`;
+        }
+
         myhtml +=  `<div id="mytags">
                     <h3>Tags</h3>${mytags}
                     </div>`

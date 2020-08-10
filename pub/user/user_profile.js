@@ -178,7 +178,12 @@ function basicInfo(){
        userph = pageUser.image_url
     }
     
-    getTagList(pageUser.tags).then((mytags) => {
+    getTagList(pageUser.tags).then((tags) => {
+        let mytags = '';
+        for(let i=0; i < tags.length; i++){
+            mytags+=`<span class="tag">${tags[i]}</span>`;
+        }
+
         let myhtml = `<h2>${pageUser.displayname}</h2>
         <h3>@${pageUser.username}</h3>
         <img src="${userph}" alt="Main Profile Pic" id="profilePic">                            

@@ -61,7 +61,7 @@ async function updateTag(id,name){
 
 // Loads all the tags this user is following to
 async function getTagList(tags){
-	let mytags = '';
+	let tag_names;
     const url = '/tagIdToName';
     const data = {
         ids: tags
@@ -80,13 +80,10 @@ async function getTagList(tags){
         return res.json();
     })
     .then((json) => {
-        let newDiv = '';
-        for(let i=0; i < json.length; i++){
-            mytags+=`<span class="tag">${json[i]}</span>`;
-        }
+    	tag_names = json;
     })
     .catch((error) => {
         console.log(error);
     })
-    return mytags;
+    return tag_names;
 }
