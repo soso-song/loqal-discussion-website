@@ -802,6 +802,44 @@ app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, (req, res) => {
 })
 
 
+// Route for setting an answer as best answer
+app.post('/bestanswer/:question_id/:answer_id', mongoChecker, (req, res) => {
+	const question_id = req.params.question_id;
+	const answer_id = req.params.answer_id;
+
+	// Validate id
+	if (!ObjectID.isValid(question_id) || !ObjectID.isValid(answer_id)) {
+		res.status(404).send('Invalid Question ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Question.findById(question_id).then((question) => {
+		if (!question) {
+			res.status(404).send('Question not found');
+		} else if(question.user != req.session.user){
+			res.status(403).send("No permission to edit");
+		} 
+		else {
+			question.answers.map((myans) => {
+				myans.isBest = false;
+			})
+
+			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
+			answer.isBest = true;
+
+			question.save().then((result)=>{
+				res.status(200).send('Selected as best answer');
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
 
 
 //http://localhost:5000/questions/search/o

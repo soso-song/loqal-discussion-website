@@ -104,7 +104,12 @@ async function showAnswers(){
 
 		let report_answer_btn_url = "../report/report.html?type=a&target_id="+answer._id+"&user_id="+currentuser+"&back_url="+window.location.href;
 		
-		let oneanswer = '<div id='+answer._id+' class="answer"><div class="answertext">'
+		let bestText = ''
+		if(answer.isBest){
+			bestText = "id='isbest'"
+		}
+
+		let oneanswer = '<div '+bestText+' class="answer"><div class="answertext">'
 		+
 		answer.content
 		+
@@ -119,7 +124,7 @@ async function showAnswers(){
 		}
 
 		if(currentuser == myquestion.user){
-			oneanswer += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
+			oneanswer += ' <a href="javascript:void(0);" onclick="'+ `pickAsBest('${myquestionid}', '${answer._id}')` +'" class="pickbest">Pick as Best Answer</a></div></div>';
 		} else{
 			oneanswer += '</div></div>'
 		}
@@ -136,6 +141,30 @@ async function showAnswers(){
 	}else{
 		goAnchor();
 	}
+}
+
+function pickAsBest(questionid, answerid){	
+	const url = `/bestanswer/${questionid}/${answerid}`;
+
+	const request = new Request(url, {
+		method: 'post', 
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		},
+	});
+
+	fetch(request)
+	.then(function(res) {
+		//console.log(res)
+		if (res.status === 200) {
+			console.log("picked");
+		} else {
+			console.log("not picked");
+		}
+	}).catch((error) => {
+		//console.log(error)
+	})
 }
 
 
@@ -191,9 +220,10 @@ function setOnclicks(){
 				console.log(myquestionid);
 				newDiv = "<div class='answerbuttons'> <a href=''>Report this answer</a> <a href='../answer/edit_answer.html?question_id="
 				+ myquestionid + "&answer_id=" + res + "'>Edit Answer</a>";
-				return getUserInfo(currentuser);
+				return res;
 			})
-			.then((userInfo) => {
+			.then((res) => {
+				const userInfo = getUserInfo(currentuser)
 				newDiv = "<div class='answer'><div class='answertext'>"
 				+
 				myanswer
@@ -203,7 +233,7 @@ function setOnclicks(){
 				newDiv;
 
 				if(currentuser == myquestion.user){
-					newDiv += ' <a href="javascript:void(0);" class="pickbest">Pick as Best Answer</a></div></div>';
+					newDiv += ' <a href="javascript:void(0);" onclick="'+ `pickAsBest('${myquestionid}', '${res}')` +'" class="pickbest">Pick as Best Answer</a></div></div>';
 				} else{
 					newDiv += '</div></div>'
 				}
