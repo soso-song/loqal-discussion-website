@@ -51,12 +51,6 @@ getCurrentUser();
 
 // Loads left hand side information about the user
 function basicInfo(){
-    let mytags = ''
-    let t;
-    for(t of backendUser.tags)
-    {
-        mytags+=`<span class="tag">${tags[t].name}</span>`
-    }
 
     let userph = '/images/staticphoto.jpg'
 
@@ -85,16 +79,45 @@ function basicInfo(){
         </div>`
     }
 
-    myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
+    getTagList('').then((mytags) => {
+        myhtml +=  `<div id="mytags">
+                    <h3>Tags</h3>${mytags}
+                    </div>`
 
-    myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
+        myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
 
-    if(backendUser.isAdmin){
-        myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
-    }
+        myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
 
-    $('#left').prepend(myhtml);
+        if(backendUser.isAdmin){
+            myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
+        }
+
+        $('#left').prepend(myhtml);
+    })
+
+    
 }
+
+// Loads all the tags this user is following to
+async function getTagList(mytags){
+    let t;
+    for(t of backendUser.tags)
+    {
+        await fetch('/tag/' + t)
+        .then((res) => {
+            return res.json();
+        })
+        .then((json) => {
+            mytags+=`<span class="tag">${json.tag.name}</span>`;
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+    return mytags;
+}
+
+
 
 // Loads the latest notification
 function getNotice(){
