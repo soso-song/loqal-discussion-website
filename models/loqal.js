@@ -66,7 +66,7 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User' 
     }],
-	tags: [TagSchema],
+	tags: [mongoose.Schema.Types.ObjectId],
 	image_id: {
         type: String,
 		default: ''
@@ -198,7 +198,7 @@ const QuestionSchema = new mongoose.Schema({
 		required: true
 	},
 	tags: {
-		type: [TagSchema],
+		type: [mongoose.Schema.Types.ObjectId],
 		required: true
 	},
 	answers: {
