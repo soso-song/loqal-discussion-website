@@ -30,12 +30,12 @@ if (target_type == 'u') {
 
 function submitReport(){
 	let reason = document.getElementById("reasonTextArea").value;
-	//below is add report function to report list on database
-	//add_report(new Report(target_type,target_id,user_id,reason));
 	if (reason.length < 15){
 		document.getElementById("reasonAreaError").innerHTML = 'Tell us more about this ' + type + " (length:" + reason.length + "<15)";
 	}else{
-		reports.push(new Report(target_type,target_id,user_id,reason));
+		//below is add report function to report list on database
+		post_report(target_type,target_id,reason);
+		//reports.push(new Report(target_type,target_id,user_id,reason)); //old code
 		goBackUrl();
 
 		if(!back_url){
@@ -45,6 +45,28 @@ function submitReport(){
 			location.href = back_url;
 		}
 	}
+}
+
+function post_report(type, target_id, reason){
+	const url = '/report';
+	const data = {
+		type: type,
+		targetId: target_id,
+		reason: reason
+	}
+	const report_request = new Request(url, {
+		method: 'post',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(report_request)
+	.then()
+	.catch((error) => {
+		console.error(error)
+	});
 }
 
 function goBackUrl(){
