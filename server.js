@@ -954,23 +954,42 @@ app.get('/tag/:id', mongoChecker, (req, res) => {
 })
 
 app.post("/tag", mongoChecker, (req, res) => {
-	const tag = new Tag({
-		name: req.body.name
-	});
+	const tagName = (req.body.name).toLowerCase();
 
-	// Save questions
-	tag.save().then((tag) => {
-        res.redirect('/tag');
-	})
-	.catch((error) => {
-		if (isMongoError(error)) { 
-			res.status(500).send('Internal server error')
-		} else {
-			log("this is the error ",error, " end of error")
-			res.status(400).send('Bad Request')
+	// check if tag already exist
+	Tag.find({ name: tagName })
+	.then((tags) => {
+		if(tags.length > 0){
+			res.send({
+				tag: tags[0],
+				duplicate: true
+			});
+		}
+		else {
+			const tag = new Tag({
+				name: tagName
+			});
+			// Save questions
+			tag.save().then((tag) => {
+		        res.send({
+		        	tag: tag,
+		        	duplicate: false
+		        })
+			})
+			.catch((error) => {
+				if (isMongoError(error)) { 
+					res.status(500).send('Internal server error');
+				} else {
+					res.status(400).send('Bad Request');
+				}
+			})
 		}
 	})
+	.catch((error) => {
+		console.log(error);
+	})
 })
+
 app.patch('/tag/:id', mongoChecker, (req, res) => {
 	const id = req.params.id
 
