@@ -43,27 +43,7 @@ async function getAlltags(){
 		console.log(error)
 	});
 }
-// 	await fetch('/tag')
-// 	.then((res) => {
-// 		if (res.status === 200) {
-//            return res.json();
-//        	} else {
-//             alert('Could not get tags');
-//        	} 
-// 	})
-// 	.then((json) => {
-// 		var currTags = json;
-// 		log("hello");
-// 		log(currTags);
-// 		// load_row(currTags);
-// 	})
-// 	.catch((error) => {
-// 		console.log(error)
-// 	})
-// }
-// function load_row(){
-// 	getAlltags();
-// }
+
 function load_row(currTags)
 {	
 	postEntries.innerHTML = "";
@@ -71,7 +51,7 @@ function load_row(currTags)
 	while(i < currTags.length){
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
-				"<td>"+currTags[i]._id+"</td>"+
+				"<td id=tagId"+i+">"+currTags[i]._id+"</td>"+
 				// "<td id='is_geo_row"+i+"'>"+tags[i].is_geo+"</td>"+
 				"<td id='name_row"+i+"'>"+currTags[i].name+"</td>"+
 				"<td>"+
@@ -99,8 +79,8 @@ function edit_row(no){
 
 function save_row(no){
 	var url = '/tag/';
-	const id =  document.getElementById("name_select")
-	url = url+currId;
+	const id =  document.getElementById("tagId"+no).innerHTML;
+	url = url+id;
 	const name_val=document.getElementById("name_select"+no).value;
 	if(name_val.length < 1){
 		window.alert('Tag name can not be empty!');
@@ -109,7 +89,8 @@ function save_row(no){
 	let data = {
 		"name":name_val
 	}
-	const request = new Request(url, {
+	console.log(url);
+	const get_request = new Request(url, {
         method: 'patch', 
         body: JSON.stringify(data),
         headers: {
@@ -117,7 +98,18 @@ function save_row(no){
             'Content-Type': 'application/json'
         },
 	});
-	console.log("worked");
+	fetch(get_request)
+		.then(function(res) {
+			if (res.status == 403){
+				alert('You have no permission to edit this tag!');
+			} else {
+				alert("Successful");
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+	})
+	
 	document.getElementById("name_row"+no).innerHTML=name_val;
 
 	//connect and save variabe to db
@@ -137,6 +129,22 @@ function delete_row(no){
 			'Accept': 'application/json, text/plain, */*',
 		}
 	});
+	fetch(get_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get notices');
+		}
+	})
+	.then(data => {
+		//console.log(data);
+		data.forEach(notice => show_notice(notice));
+		//load_result_question(data);
+	})
+	.catch((error) => {
+		console.log(error)
+	});
 }
 
 
@@ -146,16 +154,6 @@ function add_tag(){
 	//check errors
 	let is_exist = false;
 	let is_empty = tag_name == "";
-	// let curr_tag;
-	// if (!is_empty){
-	// 	for(curr_tag of tags){
-	// 		if(tag_name == curr_tag.name){
-	// 			is_exist = true;
-	// 			break;
-	// 		}
-	// 	}
-	// }
-	// //handling errors
 	if(is_empty){
 		tag_erro.innerHTML = "please enter a tag name";
 		return;
@@ -179,27 +177,7 @@ function add_tag(){
 
     // Send the request with fetch()
     fetch(request)
-    .then(function(res) {
-
-        // Handle response we get from the API.
-        // Usually check the error codes to see what happened.
-        // const message = document.querySelector('#message')
-        // if (res.status === 200) {
-        //     // If student was added successfully, tell the user.
-        //     console.log('Added tag')
-        //     message.innerText = 'Success: Added a student.'
-        //     message.setAttribute("style", "color: green")
-           
-        // } else {
-        //     // If server couldn't add the student, tell the user.
-        //     // Here we are adding a generic message, but you could be more specific in your app.
-        //     message.innerText = 'Could not add student'
-        //     message.setAttribute("style", "color: red")
-     
-        // }
-        // log(res)  // log the result in the console for development purposes,
-        //                   //  users are not expected to see this.
-    }).catch((error) => {
+    .then(function(res) {}).catch((error) => {
         log(error)
     })
 	// tags.push(new Tag(tag_name));
