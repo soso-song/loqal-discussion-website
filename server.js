@@ -1309,7 +1309,7 @@ app.get('/report', mongoChecker, (req, res) => {
 })
 
 // get a report with type is user
-app.get('/report/type/user', mongoChecker, (req, res) => {
+app.get('/reports/type/user', mongoChecker, (req, res) => {
 	Report.find(
 		{type : {$eq : 'u'} }
 	).then((report) => {
@@ -1324,7 +1324,7 @@ app.get('/report/type/user', mongoChecker, (req, res) => {
 	})
 })
 // get a report with type is question
-app.get('/report/type/question', mongoChecker, (req, res) => {
+app.get('/reports/type/question', mongoChecker, (req, res) => {
 	Report.find(
 		{type : {$eq : 'q'} }
 	).then((report) => {
@@ -1339,7 +1339,7 @@ app.get('/report/type/question', mongoChecker, (req, res) => {
 	})
 })
 // get a report with type is answer
-app.get('/report/type/answer', mongoChecker, (req, res) => {
+app.get('/reports/type/answer', mongoChecker, (req, res) => {
 	Report.find(
 		{type : {$eq : 'a'} }
 	).then((report) => {
@@ -1370,7 +1370,7 @@ app.get('/reports/:id', mongoChecker, (req, res) => {
 		if (!report) {
 			res.status(404).send('Report not found');
 		} else {
-			res.json(report);
+			res.send(report);
 		}
 	})
 	.catch((error) => {
@@ -1380,7 +1380,7 @@ app.get('/reports/:id', mongoChecker, (req, res) => {
 
 
 // Route for updating basic info fromt admin of a review given by id
-app.patch('/report/:id', mongoChecker, (req, res) => {
+app.patch('/reports/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
@@ -1400,6 +1400,7 @@ app.patch('/report/:id', mongoChecker, (req, res) => {
 				console.log(error);
 				res.status(400).send('Bad request.');
 			})
+			res.status(200);
 		}
 	})
 	.catch((error) => {

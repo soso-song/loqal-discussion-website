@@ -3,9 +3,18 @@
 const rep_users = document.querySelector("#rep_users");
 const rep_ques = document.querySelector("#rep_questions");
 const rep_ans = document.querySelector("#rep_answers");
+let admin_user = null;
 
+checkAdminUser().then((res) => {
+	if (res){
+		show_reports();
+		admin_user = res._id;
+	}
+})
+.catch((error) => {
+	console.log(error);
+})
 
-show_reports();
 
 function show_reports(){
 	const report_url = '/report';
@@ -85,7 +94,7 @@ function render_reports(reports){
 		getUserInfo(report.user,data=>{
 			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
 			left.innerHTML += "<p>Reason: " + report.reason + "</p>";
-			left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
+			//left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
 			left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
 
 		});
@@ -93,19 +102,23 @@ function render_reports(reports){
 		const button = document.createElement("button");
 		if(report.type === 'a'){
 			getAnswerInfo(report.targetId,data=>{
-				
 				button.setAttribute("onclick", " location.href='" + html_name + "' ");
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
-				right.innerHTML += "<p><button class='flag'>Flag "+ type_output +"</button></p>";
-				right.innerHTML += "<p><button class='deny'>Deny</button></p>";
+				right.innerHTML += `<p><button id="${report._id}" class='aflag'>Flag ${type_output} </button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='adeny'>Deny</button></p>`;
+				let aflags = document.querySelectorAll(".aflag");
+				let adenies = document.querySelectorAll(".adeny");
+				aflags[aflags.length-1].addEventListener('click', flag_report);
+				adenies[adenies.length-1].addEventListener('click', deny_report);
+				
 			});
 		}else{
 			button.setAttribute("onclick", " location.href='" + html_name + "' ");
 			button.innerHTML = "View " + type_output;
 			right.children[0].appendChild(button);
-			right.innerHTML += "<p><button class='flag'>Flag "+ type_output +"</button></p>";
-			right.innerHTML += "<p><button class='deny'>Deny</button></p>";
+			right.innerHTML += `<p><button id="${report._id}" class='flag'>Flag ${type_output}</button></p>`;
+			right.innerHTML += `<p><button id="${report._id}" class='deny'>Deny</button></p>`;
 		}
 	}
 	if (rep_u_count === 0){
@@ -125,7 +138,7 @@ function render_reports(reports){
 	}
 	const all_flags = document.querySelectorAll(".flag");
 	const all_denies = document.querySelectorAll(".deny");
-	for (let j = 0; j < reports.length; j++){
+	for (let j = 0; j < reports.length-rep_a_count; j++){
 		all_flags[j].addEventListener('click', flag_report);
 		all_denies[j].addEventListener('click', deny_report);
 	}
@@ -136,11 +149,11 @@ function render_reports(reports){
 
 function flag_report(e){
 	e.preventDefault();
-	const report_id = parseInt(e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML);
+	const report_id = e.target.id;//parseInt(e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML);
 	// TODO: get report instance from database
-	const report = reports[report_id];
-	report.is_reviewed = true;
-	report.reviewedBy = curr_user.id;
+	// const report = reports[report_id];
+	// report.is_reviewed = true;
+	// report.reviewedBy = curr_user.id;
 
 	switch(report.type){
 		case 'u':
@@ -155,24 +168,31 @@ function flag_report(e){
 	}
 	// remove current lrdiv
 	const curr_lrdiv = e.target.parentElement.parentElement.parentElement;
-	remove_lrdiv(curr_lrdiv);
+	remove_lrdiv(curr_lrdiv,report_id);
 }
+
+
+
+
+
 
 
 function deny_report(e){
 	e.preventDefault();
-	const report_id = parseInt(e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML);
-	const report = reports[report_id];	// TODO: get report instance from database
-	report.is_reviewed = true;
-	report.reviewedBy = curr_user.id;
-	// remove current lrdiv
+	const report_id = e.target.id;//e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML;
+	// console.log(report_id);
+	// console.log(e.target);
+	// const report = reports[report_id];	// TODO: get report instance from database
+	// report.is_reviewed = true;
+	// report.reviewedBy = curr_user.id;
+	// // remove current lrdiv
 	const curr_lrdiv = e.target.parentElement.parentElement.parentElement;
-	remove_lrdiv(curr_lrdiv);
+	remove_lrdiv(curr_lrdiv,report_id);
 }
 
 
 
-function remove_lrdiv(curr_lrdiv){
+function remove_lrdiv(curr_lrdiv,report_id){
 	const parent = curr_lrdiv.parentElement;
 	parent.removeChild(curr_lrdiv);
 	if(parent.children.length === 1){
@@ -180,8 +200,31 @@ function remove_lrdiv(curr_lrdiv){
 		div.className = 'lrDiv';
 		parent.appendChild(div);
 	}
+	resloveReport(report_id);
 }
 
+
+function resloveReport(report_id){
+	const url = '/reports/' + report_id;
+	const data = {
+        reviewer:admin_user,
+        isReviewed:true
+	}
+
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then()
+	.catch((error) => {
+		console.log(error);
+	})
+}
 
 
 // below are my non async type functions different with shared
