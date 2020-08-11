@@ -25,6 +25,10 @@
 	border:1px solid #cccccc;
 }
 
+.hideme{
+	display: none;
+}
+
 #left{
 	float:left;
 	display:block;
@@ -76,6 +80,8 @@ a.sanswer{
 #profilestats{
 	padding:10px 0px;
 	margin:0px;
+	border-bottom: 1px solid #cccccc;
+
 }
 
 #profilestats li{
@@ -86,6 +92,7 @@ a.sanswer{
 	font-size: 20px;
 	font-weight: bold;
 	margin:20px 0px;
+	text-align: center;
 }
 #profilestats a{
 	text-decoration: none;

@@ -316,7 +316,7 @@ function getFollowing()
 {
     let followingContainer = document.getElementsByClassName("personcontainter")[1];
     followingContainer.innerHTML = ''
-    $("#followingbutt").text(`Followers (${pageUser.following.length})`);
+    $("#followingbutt").text(`Following (${pageUser.following.length})`);
     for (let following of pageUser.following)
     {
         getUserInfo(following).then((myUser) => {

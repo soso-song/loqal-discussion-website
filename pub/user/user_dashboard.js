@@ -4,22 +4,22 @@
 let backendUser = null;
 
 $(document).ready(function() {
-    $("#activitybutt").click(function(){
-        $('#useractivity').removeClass("hideme");
-        $('#followers').addClass("hideme");
-        $('#following').addClass("hideme");
+    $("#everyonebutt").click(function(){
+        $('#everyonesection').removeClass("hideme");
+        $('#tagssection').addClass("hideme");
+        $('#followingsection').addClass("hideme");
     });
     
-    $("#followerbutt").click(function(){
-        $('#useractivity').addClass("hideme");
-        $('#followers').removeClass("hideme");
-        $('#following').addClass("hideme");
+    $("#tagsbutt").click(function(){
+        $('#everyonesection').addClass("hideme");
+        $('#tagssection').removeClass("hideme");
+        $('#followingsection').addClass("hideme");
     });
     
     $("#followingbutt").click(function(){
-        $('#useractivity').addClass("hideme");
-        $('#followers').addClass("hideme");
-        $('#following').removeClass("hideme");
+        $('#everyonesection').addClass("hideme");
+        $('#tagssection').addClass("hideme");
+        $('#followingsection').removeClass("hideme");
     });
     
 });

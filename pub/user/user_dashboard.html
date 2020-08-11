@@ -36,17 +36,28 @@
 							<div id="mytags"></div>
 						</div>
 						<div id="right">
-							<!--a id="askbig" href="../question/question.html">Ask a New Question</a-->
-							<div class="userheading">Newest Questions From People You Follow</div>
-							<div class="listcontainter" id="followquestionlist">								
+							<ul id="profilestats">
+								<li><a id="everyonebutt" href="#">Everyone</a></li>
+								<li><a id="tagsbutt" href="#">Tags</a></li>
+								<li><a id="followingbutt" href="#">Following</a></li>
+							</ul>
+
+							<div id="everyonesection">
+								<div class="userheading">Newest Questions From Everyone</div>
+								<div class="listcontainter"  id="everyonequestionlist">								
+								</div>
 							</div>
 
-							<div class="userheading">Newest Questions From Tags You Follow</div>
-							<div class="listcontainter" id="tagquestionlist">								
+							<div id="tagssection" class="hideme">
+								<div class="userheading">Newest Questions From Tags You Follow</div>
+								<div class="listcontainter" id="tagquestionlist">								
+								</div>
 							</div>
 
-							<div class="userheading">Newest Questions From Everyone</div>
-							<div class="listcontainter"  id="everyonequestionlist">								
+							<div id="followingsection" class="hideme">
+								<div class="userheading">Newest Questions From People You Follow</div>
+								<div class="listcontainter" id="followquestionlist">								
+								</div>
 							</div>
 
 						</div>
