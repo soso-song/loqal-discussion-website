@@ -766,7 +766,6 @@ app.get('/answerByQuesIdAnsId/:question_id/:answer_id', mongoChecker, (req, res)
 
 app.get('/answerByAnsId/:answer_id', mongoChecker, (req, res) => {
 	const answer_id = req.params.answer_id;
-	
 	// Validate id
 	if (!ObjectID.isValid(answer_id)) {
 		res.status(404).send('Invalid ID');
@@ -781,7 +780,7 @@ app.get('/answerByAnsId/:answer_id', mongoChecker, (req, res) => {
 			for(const question of questions){
 				const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
 				if(answer){
-					res.json(answer);
+					res.json({question,answer});
 					break;
 				}
 			};

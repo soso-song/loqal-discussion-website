@@ -39,7 +39,7 @@ function render_reports(reports){
 	let rep_a_count = 0;
 
 	for (const report of reports){
-		if (report.is_reviewed){
+		if (report.isReviewed){
 			continue;
 		}
 		const div = document.createElement("div");
@@ -60,7 +60,7 @@ function render_reports(reports){
 					left.innerHTML = "<p>Reported: <strong>" + data.username + "</strong></p>";
 				});
 				type_output = "User"; 
-				html_name = "edit_user.html?edit_for=" + report.targetId;
+				html_name = "/user/user_profile.html?user_id=" + report.targetId;
 				rep_users.appendChild(div);
 				break;
 			case 'q':
@@ -69,32 +69,44 @@ function render_reports(reports){
 					left.innerHTML = "<p>Reported: <strong>" + data.question.title + "</strong></p>";
 				});
 				type_output = "Question"; 
-				html_name = "../answer/answer.html?question_id=" + report.targetId;
+				html_name = "/answer?question_id=" + report.targetId;
 				rep_ques.appendChild(div);
 				break;
 			case 'a':
 				rep_a_count++;
 				getAnswerInfo(report.targetId,data=>{
-					left.innerHTML = "<p>Reported: <strong>" + data.content + "</strong></p>";
+					left.innerHTML = "<p>Reported: <strong>" + data.answer.content + "</strong></p>";
+					type_output = "Answer";
+					html_name = `/answer?question_id=${data.question._id}#${report.targetId}`;
 				});
-				type_output = "Answer";
-				html_name = "../answer/answer.html?question_id=" + report.targetId;
 				rep_ans.appendChild(div);
 				break;
 		}
 		getUserInfo(report.user,data=>{
 			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+			left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+			left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
+			left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
+
 		});
-		left.innerHTML += "<p>Reason: " + report.reason + "</p>";
-		left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
-		left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
 		right.innerHTML = "<p></p>";
 		const button = document.createElement("button");
-		button.setAttribute("onclick", " location.href='" + html_name + "' ");
-		button.innerHTML = "View " + type_output;
-		right.children[0].appendChild(button);
-		right.innerHTML += "<p><button class='flag'>Flag "+ type_output +"</button></p>";
-		right.innerHTML += "<p><button class='deny'>Deny</button></p>";
+		if(report.type === 'a'){
+			getAnswerInfo(report.targetId,data=>{
+				
+				button.setAttribute("onclick", " location.href='" + html_name + "' ");
+				button.innerHTML = "View " + type_output;
+				right.children[0].appendChild(button);
+				right.innerHTML += "<p><button class='flag'>Flag "+ type_output +"</button></p>";
+				right.innerHTML += "<p><button class='deny'>Deny</button></p>";
+			});
+		}else{
+			button.setAttribute("onclick", " location.href='" + html_name + "' ");
+			button.innerHTML = "View " + type_output;
+			right.children[0].appendChild(button);
+			right.innerHTML += "<p><button class='flag'>Flag "+ type_output +"</button></p>";
+			right.innerHTML += "<p><button class='deny'>Deny</button></p>";
+		}
 	}
 	if (rep_u_count === 0){
 		const div = document.createElement("div");
@@ -111,16 +123,15 @@ function render_reports(reports){
 		div.className = 'lrDiv';
 		rep_ans.appendChild(div);
 	}
+	const all_flags = document.querySelectorAll(".flag");
+	const all_denies = document.querySelectorAll(".deny");
+	for (let j = 0; j < reports.length; j++){
+		all_flags[j].addEventListener('click', flag_report);
+		all_denies[j].addEventListener('click', deny_report);
+	}
 }
 
 
-const all_flags = document.querySelectorAll(".flag");
-const all_denies = document.querySelectorAll(".deny");
-let j;
-for (j = 0; j < reports.length; j++){
-	all_flags[j].addEventListener('click', flag_report);
-	all_denies[j].addEventListener('click', deny_report);
-}
 
 
 function flag_report(e){
@@ -173,7 +184,7 @@ function remove_lrdiv(curr_lrdiv){
 
 
 
-
+// below are my non async type functions different with shared
 function getUserInfo(user_id, callBack){
 	const url = '/users/' + user_id;
 	const request = new Request(url, {
@@ -234,7 +245,7 @@ function getQuestionInfo(id, callBack){
 }
 
 function getAnswerInfo(id, callBack){
-	const url = '/answers/' + id;
+	const url = '/answerByAnsId/' + id;
 	const request = new Request(url, {
 		method: 'get',
 		headers: {
