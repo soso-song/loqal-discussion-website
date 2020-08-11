@@ -62,34 +62,80 @@ function render_reports(reports){
 
 		let type_output;
 		let html_name;
-		switch(report.type){
-			case 'u':
-				rep_u_count++;
-				getUserInfo(report.targetId,data=>{
-					left.innerHTML = "<p>Reported: <strong>" + data.username + "</strong></p>";
-				});
+		
+		right.innerHTML = "<p></p>";
+		const button = document.createElement("button");
+		if(report.type === 'u'){
+			rep_u_count++;
+			getUserInfo(report.targetId,data=>{
 				type_output = "User"; 
 				html_name = "/user/user_profile.html?user_id=" + report.targetId;
+				left.innerHTML = "<p>Reported: <strong>" + data.username + "</strong></p>";
 				rep_users.appendChild(div);
-				break;
-			case 'q':
-				rep_q_count++;
-				getQuestionInfo(report.targetId,data=>{
-					left.innerHTML = "<p>Reported: <strong>" + data.question.title + "</strong></p>";
-				});
+
+				button.setAttribute("onclick", " location.href='" + html_name + "' ");
+				button.innerHTML = "View " + type_output;
+				right.children[0].appendChild(button);
+				right.innerHTML += `<p><button class='uflag'>Flag ${type_output}</button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='udeny'>Deny</button></p>`;
+
+				let uflag = document.querySelectorAll(".uflag");
+				let udeny = document.querySelectorAll(".udeny");
+				
+				let flag_button = uflag[uflag.length-1];
+				flag_button.addEventListener('click', flag_report);
+				flag_button.myParam = ['u',report._id,report.targetId];
+
+				//uflag[uflag.length-1].addEventListener('click', flag_report);
+				udeny[udeny.length-1].addEventListener('click', deny_report);
+			});
+		}else if(report.type === 'q'){
+			rep_q_count++;
+			getQuestionInfo(report.targetId,data=>{
+				left.innerHTML = "<p>Reported: <strong>" + data.question.title + "</strong></p>";
 				type_output = "Question"; 
 				html_name = "/answer?question_id=" + report.targetId;
 				rep_ques.appendChild(div);
-				break;
-			case 'a':
-				rep_a_count++;
-				getAnswerInfo(report.targetId,data=>{
-					left.innerHTML = "<p>Reported: <strong>" + data.answer.content + "</strong></p>";
-					type_output = "Answer";
-					html_name = `/answer?question_id=${data.question._id}#${report.targetId}`;
-				});
+
+				button.setAttribute("onclick", " location.href='" + html_name + "' ");
+				button.innerHTML = "View " + type_output;
+				right.children[0].appendChild(button);
+				right.innerHTML += `<p><button class='qflag'>Flag ${type_output}</button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='qdeny'>Deny</button></p>`;
+
+				let qflag = document.querySelectorAll(".qflag");
+				let qdeny = document.querySelectorAll(".qdeny");
+
+				let flag_button = qflag[qflag.length-1];
+				flag_button.addEventListener('click', flag_report);
+				flag_button.myParam = ['q',report._id,report.targetId];
+
+				//qflag[qflag.length-1].addEventListener('click', flag_report);
+				qdeny[qdeny.length-1].addEventListener('click', deny_report);
+			});
+		}else if(report.type === 'a'){
+			rep_a_count++;
+			getAnswerInfo(report.targetId,data=>{
+				type_output = "Answer";
+				html_name = `/answer?question_id=${data.question._id}#${report.targetId}`;
+				left.innerHTML = "<p>Reported: <strong>" + data.answer.content + "</strong></p>";
 				rep_ans.appendChild(div);
-				break;
+
+				button.setAttribute("onclick", " location.href='" + html_name + "' ");
+				button.innerHTML = "View " + type_output;
+				right.children[0].appendChild(button);
+				right.innerHTML += `<p><button class='aflag'>Flag ${type_output} </button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='adeny'>Deny</button></p>`;
+
+				let aflag = document.querySelectorAll(".aflag");
+				let adeny = document.querySelectorAll(".adeny");
+
+				let flag_button = aflag[aflag.length-1];
+				flag_button.addEventListener('click', flag_report);
+				flag_button.myParam = ['a',report._id,report.targetId];
+
+				adeny[adeny.length-1].addEventListener('click', deny_report);
+			});
 		}
 		getUserInfo(report.user,data=>{
 			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
@@ -98,28 +144,6 @@ function render_reports(reports){
 			left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
 
 		});
-		right.innerHTML = "<p></p>";
-		const button = document.createElement("button");
-		if(report.type === 'a'){
-			getAnswerInfo(report.targetId,data=>{
-				button.setAttribute("onclick", " location.href='" + html_name + "' ");
-				button.innerHTML = "View " + type_output;
-				right.children[0].appendChild(button);
-				right.innerHTML += `<p><button id="${report._id}" class='aflag'>Flag ${type_output} </button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='adeny'>Deny</button></p>`;
-				let aflags = document.querySelectorAll(".aflag");
-				let adenies = document.querySelectorAll(".adeny");
-				aflags[aflags.length-1].addEventListener('click', flag_report);
-				adenies[adenies.length-1].addEventListener('click', deny_report);
-				
-			});
-		}else{
-			button.setAttribute("onclick", " location.href='" + html_name + "' ");
-			button.innerHTML = "View " + type_output;
-			right.children[0].appendChild(button);
-			right.innerHTML += `<p><button id="${report._id}" class='flag'>Flag ${type_output}</button></p>`;
-			right.innerHTML += `<p><button id="${report._id}" class='deny'>Deny</button></p>`;
-		}
 	}
 	if (rep_u_count === 0){
 		const div = document.createElement("div");
@@ -136,34 +160,33 @@ function render_reports(reports){
 		div.className = 'lrDiv';
 		rep_ans.appendChild(div);
 	}
-	const all_flags = document.querySelectorAll(".flag");
-	const all_denies = document.querySelectorAll(".deny");
-	for (let j = 0; j < reports.length-rep_a_count; j++){
-		all_flags[j].addEventListener('click', flag_report);
-		all_denies[j].addEventListener('click', deny_report);
-	}
 }
 
 
 
 
 function flag_report(e){
-	e.preventDefault();
-	const report_id = e.target.id;//parseInt(e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML);
-	// TODO: get report instance from database
-	// const report = reports[report_id];
-	// report.is_reviewed = true;
-	// report.reviewedBy = curr_user.id;
+	const para = e.currentTarget.myParam;
+	const type = para[0];
+	const report_id = para[1];
+	const target_id = para[2];
 
-	switch(report.type){
+	switch(type){
 		case 'u':
-			users[report.rep_unique_id].is_flagged = true;	// TODO: modifying an user in database
+		//http://localhost:5000/flagUser/5f2f8690dd8ed22c0c074d5d
+			//users[report.rep_unique_id].is_flagged = true;	// TODO: modifying an user in database
+			flag_user(target_id);
+			//console.log('user');
 			break;
 		case 'q':
-			questions[report.rep_unique_id].is_flagged = true;	// TODO: modifying a question in database
+			flag_question(target_id);
+			//questions[report.rep_unique_id].is_flagged = true;	// TODO: modifying a question in database
+			//console.log('quest');
 			break;
 		case 'a':
-			answers[report.rep_unique_id].is_flagged = true;	// TODO: modifying an answer in database
+			flag_answer(target_id);
+			//answers[report.rep_unique_id].is_flagged = true;	// TODO: modifying an answer in database
+			//console.log('answ');
 			break;
 	}
 	// remove current lrdiv
@@ -171,7 +194,63 @@ function flag_report(e){
 	remove_lrdiv(curr_lrdiv,report_id);
 }
 
-
+function flag_user(id){
+	const url = '/flagUser/' + id;
+	const data = {
+        flag:true
+	}
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then()
+	.catch((error) => {
+		console.log(error);
+	})
+}
+function flag_question(id){
+	const url = '/flagQuestion/' + id;
+	const data = {
+        flag:true
+	}
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then()
+	.catch((error) => {
+		console.log(error);
+	})
+}
+function flag_answer(id){
+	const url = '/flagAnswer/' + id;
+	const data = {
+        flag:true
+	}
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+	fetch(request)
+	.then()
+	.catch((error) => {
+		console.log(error);
+	})
+}
 
 
 

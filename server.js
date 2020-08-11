@@ -247,6 +247,8 @@ app.patch('/users', mongoChecker, authenticate, (req, res) => {
 	})
 })
 
+
+
 // Route for changing password
 app.patch('/changepassword', mongoChecker, authenticate, (req, res) => {
 	User.findById(req.user._id).then((user) => {
@@ -664,6 +666,92 @@ app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
+	})
+})
+
+
+
+// Route for flag user
+app.patch('/flagUser/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+	User.findById(id).then((user) => {
+		if (!user) {
+			// console.log(req.params._id);
+			// console.log(user);
+			// console.log('nonononoooo');
+			res.status(404).send('User not found');
+		} else {
+			user.isFlagged = req.body.flag;
+			user.save().then(use => {
+				res.send(use);
+			})
+			.catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+// Route for flag question
+app.patch('/flagQuestion/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+	Question.findById(id).then((question) => {
+		if (!question) {
+			res.status(404).send('User not found');
+		} else {
+			question.isFlagged = req.body.flag;
+			question.save().then(ques=>{
+				res.send(ques);
+			})
+			.catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+// Route for flag question
+app.patch('/flagAnswer/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+	Question.find().then(questions => {
+		questions.forEach(question => {
+			const answer = (question.answers.filter(ans=>ans._id == id))[0];
+			//console.log(answer);
+			if(answer){
+				//res.json({question,answer});
+				answer.isFlagged = req.body.flag;
+				question.save()
+				.then(ques=>{
+					//console.log(ques);
+					res.send(ques);
+				})
+				.catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+			}
+		})
+	})
+	.catch((error) => {
+		console.error(error);
+		res.status(500).send('Internal Server Error');
 	})
 })
 
@@ -1400,7 +1488,6 @@ app.patch('/reports/:id', mongoChecker, (req, res) => {
 				console.log(error);
 				res.status(400).send('Bad request.');
 			})
-			res.status(200);
 		}
 	})
 	.catch((error) => {
