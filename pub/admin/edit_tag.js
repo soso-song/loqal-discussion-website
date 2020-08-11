@@ -81,17 +81,16 @@ function save_row(no){
 	var url = '/tag/';
 	const id =  document.getElementById("tagId"+no).innerHTML;
 	url = url+id;
-	const name_val=document.getElementById("name_select"+no).value;
+	const name_val = document.getElementById("name_select"+no).value;
 	if(name_val.length < 1){
 		window.alert('Tag name can not be empty!');
 		return;
 	}
 	let data = {
-		"name":name_val
+		name:name_val
 	}
-	console.log(url);
 	const get_request = new Request(url, {
-        method: 'patch', 
+        method: 'PATCH', 
         body: JSON.stringify(data),
         headers: {
             'Accept': 'application/json, text/plain, */*',
