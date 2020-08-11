@@ -879,8 +879,8 @@ app.get('/answerByAnsId/:answer_id', mongoChecker, (req, res) => {
 	})
 })
 
-// Route for edting the content of an answer
-app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, (req, res) => {
+// Route for edting the answer
+app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, authenticate, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 
@@ -889,17 +889,31 @@ app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, (req, res) => {
 		res.status(404).send('Invalid Question ID');
 		return;  // so that we don't run the rest of the handler.
 	}
-
 	// If id valid, findById
 	Question.findById(question_id).then((question) => {
 		if (!question) {
+
+			console.log('hi?')
 			res.status(404).send('Question not found');
-		} else if(question.user != req.session.user){
+		} else if(question.user != req.session.user || !req.user.isAdmin){
+			console.log('not admin??')
 			res.status(403).send("No permission to edit");
-		} 
+		}
 		else {
+			console.log('hi?')
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
 			answer.content = req.body.content;
+			if(req.body.isBest !== null){
+				if(req.body.isBest){
+					question.answers.map((myans) => {
+						myans.isBest = false;
+					})
+				}
+				answer.isBest = req.body.isBest;
+			}
+			if(req.body.isFlagged !== null){
+				answer.isFlagged = req.body.isFlagged;
+			}
 			question.save().then((result)=>{
 				res.redirect(303, '/answer?question_id=' + question_id);
 			}).catch((error)=>{
@@ -909,6 +923,7 @@ app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, (req, res) => {
 		}
 	})
 	.catch((error) => {
+		console.log(error)
 		res.status(500).send('Internal Server Error');
 	})
 })
