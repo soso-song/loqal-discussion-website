@@ -223,6 +223,17 @@ app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
 
 })
 
+// Route for getting all users
+app.get('/allUsers', mongoChecker, (req, res) => {
+	User.find().then((users) => {
+		res.send(users) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
+
 // Route for updating basic info of current user
 app.patch('/users', mongoChecker, authenticate, (req, res) => {
 	User.findById(req.user._id).then((user) => {
@@ -297,6 +308,44 @@ app.get('/users/answers/:user', mongoChecker, (req, res) => {
 	})
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
+	})
+})
+
+// Route for updating basic info of current user
+app.patch('/adminEditUser/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send('User not found');
+		} else if( !req.user.isAdmin ){
+			res.status(403).send("No permission to edit");
+		}
+		else {
+			user.displayname = req.body.displayname;
+			console.log(user.username);
+			console.log(req.body.username);
+			user.username = req.body.username;
+			user.email = req.body.email;
+			user.tags = req.body.tags;
+			user.isFlagged = req.body.isFlagged;
+			user.isAdmin = req.body.isAdmin;
+
+			user.save().then((result)=>{
+				const myurl = '/user/user_profile.html?user_id=' + user._id
+				res.redirect(303, myurl);
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
 	})
 })
 
