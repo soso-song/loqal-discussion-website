@@ -1121,6 +1121,22 @@ app.post('/tagIdToName', mongoChecker, (req, res) => {
 	})
 })
 
+// Route which given a list of tag ids, return a list of tags
+app.post('/tagIdToList', mongoChecker, (req, res) => {
+	const ids = req.body.ids;
+	let names;
+
+	Tag.find({'_id': { $in: ids} }).then((tags) => {
+		if(tags.length != ids.length) {
+			res.status(404).send("Can't find all tags");
+		} else {
+			res.send(tags);
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
 
 // Route for creating a new tag but will check if tag already exist
 app.post("/tag", mongoChecker, (req, res) => {

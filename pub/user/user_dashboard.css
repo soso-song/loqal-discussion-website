@@ -77,6 +77,39 @@ a.sanswer{
 	font-size:15px;
 }
 
+#filtersection{
+	padding:20px 0px;
+}
+
+#edittags{
+	text-decoration: none;
+	color:#ee6261;
+	text-decoration:none;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:5px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+	float:right;
+}
+
+#checkboxes{
+	list-style-type: none;
+	padding:10px;
+	margin:0px;
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+}
+
+#checkboxes li{
+	padding:0px;
+	font-size: 15px;
+	text-align: left;
+	display:inline-block;
+	width:145px;
+}
+
 #profilestats{
 	padding:10px 0px;
 	margin:0px;

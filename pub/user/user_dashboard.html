@@ -33,13 +33,13 @@
 					<div id="twocol">
 						<div id="left">
 							<idv id="userinfo"></idv>
-							<div id="mytags"></div>
+							<!--div id="mytags"></div-->
 						</div>
 						<div id="right">
 							<ul id="profilestats">
-								<li><a id="everyonebutt" href="#">Everyone</a></li>
-								<li><a id="tagsbutt" href="#">Tags</a></li>
-								<li><a id="followingbutt" href="#">Following</a></li>
+								<li><a id="everyonebutt" href="javascript:void(0);">Everyone</a></li>
+								<li><a id="tagsbutt" href="javascript:void(0);">Tags</a></li>
+								<li><a id="followingbutt" href="javascript:void(0);">Following</a></li>
 							</ul>
 
 							<div id="everyonesection">
@@ -50,6 +50,13 @@
 
 							<div id="tagssection" class="hideme">
 								<div class="userheading">Newest Questions From Tags You Follow</div>
+								<div id="filtersection">
+									<a id="edittags" href="../register/subscribe.html">Edit your tags</a>
+									<h3>Filter by Your Tags</h3>
+									<ul id="checkboxes">
+									</ul>
+									<a class="sidebutton" href="javascript:void(0);" onclick='getQBySelectedTag()'>Apply Filters</a>
+								</div>
 								<div class="listcontainter" id="tagquestionlist">								
 								</div>
 							</div>

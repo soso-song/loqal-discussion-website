@@ -38,7 +38,8 @@ function getCurrentUser() {
     })
     .then((json) => {  // the resolved promise with the JSON body
         backendUser = json
-        getUserTags();
+        //getUserTags();
+        getUserTagsFilter();
         basicInfo();
         getNotice();
         getAllTagQ();
@@ -62,6 +63,84 @@ function getUserTags(){
             $('#mytags').html(`<h3>My Tags</h3>${mytags}`);
         })
     }
+}
+
+function getUserTagsFilter(){
+    if(backendUser.tags.length>0){
+        
+        getTagListObjects(backendUser.tags).then((tags) => {
+            let mytags = '';
+            for(let i=0; i < tags.length; i++){
+                //mytags+=`<span class="tag">${tags[i]}</span>`;
+                mytags+=`<li><input type="checkbox" name="tagtype" value="${tags[i]._id}" checked/>${tags[i].name}</li>`;
+            }
+    
+            $('#checkboxes').html(mytags);
+        })
+    }else{
+        let notagDesc = `
+        <div class="userheading">Newest Questions From Tags You Follow</div>
+        <div id="filtersection">
+            <h3>You are not following any tags yet</h3>
+            <a class="sidebutton" href="../register/subscribe.html">Follow Some Tags</a>
+        </div>
+        <div class="listcontainter" id="tagquestionlist">								
+        </div>
+        `
+        $('#tagssection').html(notagDesc);
+    }
+}
+
+function getQBySelectedTag(){
+
+    let selectedTags = []
+    $("input:checkbox[name=tagtype]:checked").each(function(){
+        selectedTags.push($(this).val());
+    });
+
+    const wanted = document.getElementById('tagquestionlist');
+    wanted.innerHTML = ''
+
+    const url = '/questionsByTagIds';
+	const data = {
+		tag_ids: selectedTags
+	}
+	const request = new Request(url, {
+		method: 'post',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	fetch(request)
+	.then((res) => {
+		return res.json();
+	})
+	.then((json) => {
+		json.forEach(function(q) {
+            
+            const numA = q.answers.length;
+
+            let resolve ='Unresolved';
+            if (q.isResolved == true)
+            {
+                resolve = 'Resolved';
+            }
+
+            getUserInfo(q.user).then((myUser) => {
+                wanted.innerHTML+=`<div class="shortquestion">
+                <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
+                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                </div>`;
+            })
+
+        });
+	})
+	.catch((error) => {
+		console.log(error);
+	})
 }
 
 // Loads left hand side information about the user
@@ -215,6 +294,7 @@ function getAllFollowingQ(){
 // Displays the list of all questions which includes the tags this user follows
 function getAllTagQ(){
     const wanted = document.getElementById('tagquestionlist');
+    wanted.innerHTML = ''
 
     const url = '/questionsByTagIds';
 
@@ -256,7 +336,6 @@ function getAllTagQ(){
                 <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
             })
-
         });
     }).catch((error) => {
         console.log(error)

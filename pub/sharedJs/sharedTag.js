@@ -88,6 +88,34 @@ async function getTagList(tags){
     return tag_names;
 }
 
+async function getTagListObjects(tags){
+	let tag_names;
+    const url = '/tagIdToList';
+    const data = {
+        ids: tags
+    }
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    });
+
+    await fetch(request)
+    .then((res) => {
+        return res.json();
+    })
+    .then((json) => {
+    	tag_names = json;
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    return tag_names;
+}
+
 
 async function createTags(tag_names){
 	const url = '/tag';
