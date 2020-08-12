@@ -60,7 +60,7 @@ function getSingleUser(){
 }
 
 function getAllUsers(){
-	fetch('/allUsers')
+	fetch('/users')
 	.then((res) => {
 		if (res.status === 200) {
 	       	return res.json();
@@ -364,7 +364,7 @@ function update_photo(e){
 
 function updateUser(data){
 
-	const url = '/adminEditUser/' + user._id;
+	const url = '/users/' + user._id;
 
 	const request = new Request(url, {
 		method: 'PATCH',

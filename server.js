@@ -1,29 +1,21 @@
-/* server.js - user & resource authentication */
+/* server.js */
 'use strict';
 const log = console.log
 const path = require('path')
 
 const express = require('express')
-// starting the express server
 const app = express();
 
 // mongoose and mongo connection
 const { mongoose } = require('./db/mongoose')
-mongoose.set('bufferCommands', false);  // don't buffer db requests if the db server isn't connected - minimizes http requests hanging if this is the case.
-mongoose.set('useFindAndModify', false); // for some deprecation issues
+mongoose.set('bufferCommands', false);
+mongoose.set('useFindAndModify', false);
 
 // import the mongoose models
 const { User, Question, Notice, Tag, Report} = require('./models/loqal')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb')
-
-/// handlebars server-side templating engine
-//const hbs = require('hbs')
-// Set express property 'view engine' to be 'hbs'
-//app.set('view engine', 'hbs')
-// setting up partials directory
-//hbs.registerPartials(path.join(__dirname, '/views/partials'))
 
 /*** Helper functions below **********************************/
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
@@ -197,10 +189,8 @@ app.get('/users/logout', (req, res) => {
 	})
 })
 
-/*** User routes below **********************************/
-
 // Route for getting all users
-app.get('/allUsers', mongoChecker, (req, res) => {
+app.get('/users', mongoChecker, (req, res) => {
 	User.find().then((users) => {
 		res.send(users) 
 	})
@@ -208,7 +198,6 @@ app.get('/allUsers', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
-
 
 // Route for updating basic info of current user
 app.patch('/users', mongoChecker, authenticate, (req, res) => {
@@ -233,8 +222,6 @@ app.patch('/users', mongoChecker, authenticate, (req, res) => {
 		res.status(500).send('Internal Server Error');
 	})
 })
-
-
 
 // Route for changing password
 app.patch('/users/password', mongoChecker, authenticate, (req, res) => {
@@ -354,7 +341,7 @@ app.get('/users/answers/:user', mongoChecker, (req, res) => {
 })
 
 // Route for updating basic info of current user
-app.patch('/adminEditUser/:id', mongoChecker, authenticate, (req, res) => {
+app.patch('/users/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -515,8 +502,6 @@ app.post('/users/unfollow/:id', mongoChecker, authenticate, (req, res) => {
 		}
 	})
 })
-
-/*** Image API Routes below ************************************/
 
 // Route for getting a user
 app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
