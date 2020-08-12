@@ -173,7 +173,7 @@ function basicInfo(){
         </div>`
     }
 
-    myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
+    myhtml += `<a class="sidebutton" href="/ask">Ask a Question</a>`
 
     myhtml += `<a class="sidebutton" href="/profile?user_id=${backendUser._id}">Your Profile</a>`
 

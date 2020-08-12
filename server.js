@@ -1603,6 +1603,10 @@ app.get('/answer', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
 })
 
+app.get('/ask', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/question/question.html'));
+})
+
 app.get('/subscribe', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/register/subscribe.html'));
 })
