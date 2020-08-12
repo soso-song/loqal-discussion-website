@@ -650,6 +650,32 @@ app.post('/questions/tags', mongoChecker, (req, res) => {
 	
 })
 
+//get questions with given tag name
+app.get('/questions/tags/:tagname', mongoChecker, (req, res) => {
+	const tagname = req.params.tagname;
+	//log('inside questionsearch');
+	Tag.find(
+		{name: {$eq: tagname}}
+	).then(tagdata => {
+		const tag = tagdata[0]; // we chuold have tags have unique name, so
+		if(!tag){
+			res.status(404).send('tag name not found'); // tell user tag name is not exist, instead no question
+		}else{
+			Question.find(
+				{tags : tag._id}
+			).then((questions) => {
+				res.send(questions);
+			})
+			.catch((error) => {
+				res.status(500).send("Internal Server Error")
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
 //http://localhost:5000/questions/search/o
 app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;

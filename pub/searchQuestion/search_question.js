@@ -13,87 +13,11 @@ const questionResultEntries = document.querySelector('#questionResult');
 const answerResultEntries = document.querySelector('#answerResult');
 
 if ((search_key != null)&&(search_key != '')){
-	search_keyword();
+	search_question();
+	search_answer();
 }
 
-// // code below is for normal page user
-// function search_questions() {
-// 	const keyword = search_key;
-// 	let result_ques = [];
-// 	let result_answ = [];
 
-// 	//This simple way of searching would later be implemented in backend
-// 	for(let curr_que of questions){
-// 		if(curr_que.title.includes(keyword) || curr_que.content.includes(keyword)){
-// 			result_ques.push(curr_que);
-// 		}
-// 	}
-// 	for(let curr_ans of answers){
-// 		if(curr_ans.content.includes(keyword)){
-// 			result_answ.push(curr_ans)
-// 		}
-// 	}
-
-// 	load_result_question(result_ques);
-// 	load_result_answer(result_answ);
-// }
-
-
-function search_keyword(mytitle, mydesc, mytags){
-	
-	const keyword = search_key;
-
-	const question_url = '/questions/search/'+search_key;
-	const question_request = new Request(question_url, {
-		method: 'get',
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-		}
-	});
-	
-
-	const answer_url = '/answers/search/'+search_key;
-	const answer_request = new Request(answer_url, {
-		method: 'get',
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-		}
-	});
-
-
-	fetch(question_request)
-	.then(res => {
-		if(res.status === 200){
-			return res.json();
-		}else{
-			alert('could not get questions');
-		}
-	})
-	.then(data => {
-		load_result_question(data);
-	})
-	.catch((error) => {
-		console.log(error)
-	});
-
-	fetch(answer_request)
-	.then(res => {
-		if(res.status === 200){
-			return res.json();
-		}else{
-			alert('could not get answers');
-		}
-		
-	})
-	.then(data => {
-		// console.log('answers');
-		// console.log(data);
-		load_result_answer(data);
-	})
-	.catch((error) => {
-		console.log(error)
-	});
-}
 
 
 function load_result_question(questions){	
@@ -119,11 +43,11 @@ function load_result_question(questions){
 	}
 }
 
-function load_result_answer(questions){	
+function load_result_answer(answers){	
 	let i=0;
 	answerResultEntries.innerHTML = '';
-	while(i < questions.length){
-		const curr_question = questions[i];
+	while(i < answers.length){
+		const curr_question = answers[i];
 		const curr_answers = curr_question.answers.filter(ans => ans.content.includes(search_key));
 		let color = '';
 		if(i%2){
@@ -146,6 +70,9 @@ function load_result_answer(questions){
 	}
 }
 
+function load_result_tag(tag){	
+	console.log(tag);
+}
 
 
 
@@ -153,3 +80,79 @@ function load_result_answer(questions){
 
 
 
+
+
+function search_question(){
+	const keyword = search_key;
+	const question_url = '/questions/search/'+search_key;
+	const question_request = new Request(question_url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(question_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get questions');
+		}
+	})
+	.then(data => {
+		load_result_question(data);
+	})
+	.catch((error) => {
+		console.log(error)
+	});
+}
+
+function search_answer(){
+	const answer_url = '/answers/search/'+search_key;
+	const answer_request = new Request(answer_url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(answer_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get answers');
+		}
+		
+	})
+	.then(data => {
+		load_result_answer(data);
+	})
+	.catch((error) => {
+		console.log(error)
+	});
+}
+
+function search_tag(){
+	const keyword = search_key;
+	const tag_url = '/questions/search/'+search_key;
+	const tag_request = new Request(tag_url, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+		}
+	});
+	fetch(tag_request)
+	.then(res => {
+		if(res.status === 200){
+			return res.json();
+		}else{
+			alert('could not get tags');
+		}
+	})
+	.then(data => {
+		load_result_tag(data);
+	})
+	.catch((error) => {
+		console.log(error)
+	});
+}
