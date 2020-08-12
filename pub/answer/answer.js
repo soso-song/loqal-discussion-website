@@ -52,7 +52,7 @@ function showQuestion(){
 	$('#pdesc').text(myquestion.content);
 
 
-	const url = '/tagIdToName';
+	const url = '/tag/names';
 	const data = {
 		ids: myquestion.tags
 	}

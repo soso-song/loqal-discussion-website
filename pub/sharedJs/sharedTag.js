@@ -62,7 +62,7 @@ async function updateTag(id,name){
 // Loads all the tags this user is following to
 async function getTagList(tags){
 	let tag_names;
-    const url = '/tagIdToName';
+    const url = '/tag/names';
     const data = {
         ids: tags
     }
@@ -90,7 +90,7 @@ async function getTagList(tags){
 
 async function getTagListObjects(tags){
 	let tag_names;
-    const url = '/tagIdToList';
+    const url = '/tag/info';
     const data = {
         ids: tags
     }
@@ -119,7 +119,7 @@ async function getTagListObjects(tags){
 
 async function createTags(tag_names){
 	const url = '/tag';
-	const url_c = '/countTagUse/';
+	const url_c = '/tag/increment/';
 
 	let data;
 	let request;

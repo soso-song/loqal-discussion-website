@@ -87,7 +87,7 @@ $(document).ready(function() {
 		$('#qdesc').val(myquestion.content);
 
 		let alltags = '';
-		const url = '/tagIdToName';
+		const url = '/tag/names';
 
 		const data = {
 			ids: myquestion.tags

@@ -208,7 +208,7 @@ function load_user_profile(){
 
 // get the list of tags sorted in decreasing number of usage
 function getPopularTags(){
-  	const url = '/popularTags';
+  	const url = '/tag/popular';
 
 	fetch(url)
 	.then((res) => {

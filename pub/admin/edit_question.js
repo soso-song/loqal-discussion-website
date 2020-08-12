@@ -101,7 +101,7 @@ function edit_row(no){
 
 // get the list of tags sorted in decreasing number of usage
 function getPopularTags(no){
-  	const url = '/popularTags';
+  	const url = '/tag/popular';
 
 	fetch(url)
 	.then((res) => {

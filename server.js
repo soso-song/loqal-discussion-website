@@ -828,6 +828,21 @@ app.get('/answers/users/:user', mongoChecker, (req, res) => {
 	})
 })
 
+//http://localhost:5000/questions/search/o
+app.get('/answers/search/:keyword', mongoChecker, (req, res) => {
+	const keyword = req.params.keyword;
+	Question.find(
+		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{'answers.content'	: { $regex: keyword, $options: "i" }}
+	).then((answers) => {
+		res.send(answers) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+	
+})
+
 // Route for getting the answer by given question id and answer id
 app.get('/answers/:question_id/:answer_id', mongoChecker, (req, res) => {
 	const question_id = req.params.question_id;
@@ -970,22 +985,6 @@ app.post('/answers/best/:question_id/:answer_id', mongoChecker, (req, res) => {
 	})
 })
 
-
-//http://localhost:5000/questions/search/o
-app.get('/answers/search/:keyword', mongoChecker, (req, res) => {
-	const keyword = req.params.keyword;
-	Question.find(
-		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
-		{'answers.content'	: { $regex: keyword, $options: "i" }}
-	).then((answers) => {
-		res.send(answers) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-	
-})
-
 // Route for creating a new answers
 app.post('/answers/:id', mongoChecker, authenticate, (req, res) => {
 
@@ -1059,6 +1058,17 @@ app.get('/notice/current', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
+
+// get all notice
+app.get('/notice', mongoChecker, (req, res) => {
+	Notice.find().then((notice) => {
+		res.send(notice) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
 // Route for getting the notice by given id
 app.get('/notice/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
@@ -1076,16 +1086,6 @@ app.get('/notice/:id', mongoChecker, (req, res) => {
 	})
 	.catch((error) => {
 		res.status(500).send('Internal Server Error');
-	})
-})
-
-// get all notice
-app.get('/notice', mongoChecker, (req, res) => {
-	Notice.find().then((notice) => {
-		res.send(notice) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
 	})
 })
 
@@ -1131,30 +1131,8 @@ app.get('/tag', mongoChecker, (req, res) => {
 	})
 })
 
-app.get('/tag/:id', mongoChecker, (req, res) => {
-	const id = req.params.id;
-
-	// Validate id
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid tag ID');
-		return;  // so that we don't run the rest of the handler.
-	}
-
-	// If id valid, findById
-	Tag.findById(id).then((tag) => {
-		if (!tag) {
-			res.status(404).send('tag not found');
-		} else {
-			res.json({ tag });
-		}
-	})
-	.catch((error) => {
-		res.status(500).send('Internal Server Error');
-	})
-})
-
 // Route which given a list of tag ids, return a list of tag names
-app.post('/tagIdToName', mongoChecker, (req, res) => {
+app.post('/tag/names', mongoChecker, (req, res) => {
 	const ids = req.body.ids;
 	let names;
 
@@ -1172,9 +1150,8 @@ app.post('/tagIdToName', mongoChecker, (req, res) => {
 })
 
 // Route which given a list of tag ids, return a list of tags
-app.post('/tagIdToList', mongoChecker, (req, res) => {
+app.post('/tag/info', mongoChecker, (req, res) => {
 	const ids = req.body.ids;
-	let names;
 
 	Tag.find({'_id': { $in: ids} }).then((tags) => {
 		if(tags.length != ids.length) {
@@ -1293,7 +1270,7 @@ app.delete('/tag/:id', mongoChecker, (req,res) =>{
 	})
 })
 
-app.get('/popularTags', mongoChecker, (req, res) => {
+app.get('/tag/popular', mongoChecker, (req, res) => {
 	Tag.find().then((tags) => {
 		// sort the tags by count
 		tags = tags.sort((a,b) =>  a.count - b.count);
@@ -1307,7 +1284,7 @@ app.get('/popularTags', mongoChecker, (req, res) => {
 
 
 
-app.patch('/followTag/:tag_id/:user_id', mongoChecker, (req, res) => {
+app.patch('/tag/follow/:tag_id/:user_id', mongoChecker, (req, res) => {
 	const tag_id = req.params.tag_id;
 	const user_id = req.params.user_id;
 
@@ -1351,7 +1328,7 @@ app.patch('/followTag/:tag_id/:user_id', mongoChecker, (req, res) => {
 
 })
 
-app.patch('/unfollowTag/:tag_id/:user_id', mongoChecker, (req, res) => {
+app.patch('/tag/unfollow/:tag_id/:user_id', mongoChecker, (req, res) => {
 	const tag_id = req.params.tag_id;
 	const user_id = req.params.user_id;
 
@@ -1395,7 +1372,7 @@ app.patch('/unfollowTag/:tag_id/:user_id', mongoChecker, (req, res) => {
 })
 
 // increment the number of tag used
-app.patch('/countTagUse/:tag_id/', mongoChecker, (req, res) => {
+app.patch('/tag/increment/:tag_id/', mongoChecker, (req, res) => {
 	const tag_id = req.params.tag_id;
 
 	// Validate id
@@ -1414,6 +1391,28 @@ app.patch('/countTagUse/:tag_id/', mongoChecker, (req, res) => {
 			.catch((error) => {
 				res.status(400).send('Bad request.');
 			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+app.get('/tag/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid tag ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Tag.findById(id).then((tag) => {
+		if (!tag) {
+			res.status(404).send('tag not found');
+		} else {
+			res.json({ tag });
 		}
 	})
 	.catch((error) => {

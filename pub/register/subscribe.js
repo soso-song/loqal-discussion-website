@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 	// get the list of tags sorted in decreasing number of usage
 	function getPopularTags(){
-  		const url = '/popularTags';
+  		const url = '/tag/popular';
 
 		fetch(url)
 		.then((res) => {
@@ -127,7 +127,7 @@ $(document).ready(function() {
 
 
   	function followTag(tag_id){
-		const url = '/followTag/' + tag_id + '/' + currentuser._id;
+		const url = '/tag/follow/' + tag_id + '/' + currentuser._id;
 
 		const request = new Request(url, {
 			method: 'PATCH',
@@ -144,7 +144,7 @@ $(document).ready(function() {
 	}
 
 	function unfollowTag(tag_id){
-		const url = '/unfollowTag/' + tag_id + '/' + currentuser._id;
+		const url = '/tag/unfollow/' + tag_id + '/' + currentuser._id;
 
 		const request = new Request(url, {
 			method: 'PATCH',
