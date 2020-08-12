@@ -249,7 +249,7 @@ function getAllQUser(){
 
             totalString+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${currQ._id}">${currQ.title}</a>
-                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${currQ.user}">${pageUser.username}</a> - ${readableDate(currQ.time)} -  ${numA} Answers - ${resolve}</div>
+                <div class="sinfo">Asked by <a href="/profile?user_id=${currQ.user}">${pageUser.username}</a> - ${readableDate(currQ.time)} -  ${numA} Answers - ${resolve}</div>
             </div>`;
         });
 
@@ -305,7 +305,7 @@ function getFollowers()
     {
         getUserInfo(follower).then((myUser) => {
             followerContainer.innerHTML+=`<div class="person">
-            <div class="personname"><a href="../user/user_profile.html?user_id=${follower}">${myUser.displayname}</a></div>
+            <div class="personname"><a href="/profile?user_id=${follower}">${myUser.displayname}</a></div>
             <div class="personid">@${myUser.username}</div>
             </div>`;
         })
@@ -321,7 +321,7 @@ function getFollowing()
     {
         getUserInfo(following).then((myUser) => {
             followingContainer.innerHTML+=`<div class="person">
-            <div class="personname"><a href="../user/user_profile.html?user_id=${following}">${myUser.displayname}</a></div>
+            <div class="personname"><a href="/profile?user_id=${following}">${myUser.displayname}</a></div>
             <div class="personid">@${myUser.username}</div>
             </div>`;
         })

@@ -132,7 +132,7 @@ function getQBySelectedTag(){
             getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
             })
 
@@ -175,7 +175,7 @@ function basicInfo(){
 
     myhtml += `<a class="sidebutton" href="../question/question.html">Ask a Question</a>`
 
-    myhtml += `<a class="sidebutton" href="../user/user_profile.html?user_id=${backendUser._id}">Your Profile</a>`
+    myhtml += `<a class="sidebutton" href="/profile?user_id=${backendUser._id}">Your Profile</a>`
 
     if(backendUser.isAdmin){
         myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
@@ -244,7 +244,7 @@ function getAllQ(){
             getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
             })
 
@@ -281,7 +281,7 @@ function getAllFollowingQ(){
             getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
             })
 
@@ -333,7 +333,7 @@ function getAllTagQ(){
             getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="../answer/answer.html?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
             })
         });

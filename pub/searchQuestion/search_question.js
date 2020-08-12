@@ -109,7 +109,7 @@ function load_result_question(questions){
 		getUserInfo(curr_question.user).then(userInfo => {
 			questionResultEntries.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="/answer?question_id=${curr_question._id}">${curr_question.title}</a>
-            <div class="sinfo">Asked by <a href="../user/user_profile.html?user_id=${curr_question.user}">${userInfo.displayname}</a> - ${curr_question.time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
+            <div class="sinfo">Asked by <a href="/profile?user_id=${curr_question.user}">${userInfo.displayname}</a> - ${curr_question.time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
         	</div>`;
 		})
 		i++;
@@ -134,7 +134,7 @@ function load_result_answer(questions){
 			getUserInfo(answer.user).then(userInfo => {
 					answerResultEntries.innerHTML+=`<div ${color} class="shortquestion">
 					<a class="sanswer" href="/answer?question_id=${curr_question._id}#${answer._id}">${answer.content}</a>
-					<div class="sinfo">Answered by <a href="../user/user_profile.html?user_id=${answer.user}">${userInfo.displayname}</a> - ${answer.time}</div>
+					<div class="sinfo">Answered by <a href="/profile?user_id=${answer.user}">${userInfo.displayname}</a> - ${answer.time}</div>
 				</div>`;
 			})
 		});

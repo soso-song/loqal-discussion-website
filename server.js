@@ -210,7 +210,7 @@ app.patch('/users', mongoChecker, authenticate, (req, res) => {
 			user.username = req.body.username
 
 			user.save().then((result)=>{
-				const myurl = '/user/user_profile.html?user_id=' + user._id
+				const myurl = '/profile?user_id=' + user._id
 				res.redirect(303, myurl);
 			}).catch((error)=>{
 				//console.log(error);
@@ -232,7 +232,7 @@ app.patch('/users/password', mongoChecker, authenticate, (req, res) => {
 			user.password = req.body.password;
 
 			user.save().then((result)=>{
-				const myurl = '/user/user_profile.html?user_id=' + user._id
+				const myurl = '/profile?user_id=' + user._id
 				res.redirect(303, myurl);
 			}).catch((error)=>{
 				//console.log(error);
@@ -336,7 +336,7 @@ app.patch('/users/:id', mongoChecker, authenticate, (req, res) => {
 			user.isAdmin = req.body.isAdmin;
 
 			user.save().then((result)=>{
-				const myurl = '/user/user_profile.html?user_id=' + user._id
+				const myurl = '/profile?user_id=' + user._id
 				res.redirect(303, myurl);
 			}).catch((error)=>{
 				console.log(error);
@@ -1593,6 +1593,10 @@ app.get('/dashboard', (req, res) => {
 	} else {
 		res.redirect('/login')
 	}
+})
+
+app.get('/profile', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/user/user_profile.html'));
 })
 
 app.get('/answer', (req, res) => {

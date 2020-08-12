@@ -142,7 +142,7 @@ function load_user_profile(){
 	noUser.style.display = 'none';
 
 	const see_profile_btn = document.querySelector("#see_profile");
-	const html = "../user/user_profile.html?user_id=" + user._id;
+	const html = "/profile?user_id=" + user._id;
 	see_profile_btn.setAttribute("href", html);
 	$(document).on('click', '#see_profile', function(e){ 
 	    e.preventDefault(); 

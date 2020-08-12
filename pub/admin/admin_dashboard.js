@@ -69,7 +69,7 @@ function render_reports(reports){
 			rep_u_count++;
 			getUserInfo(report.targetId,data=>{
 				type_output = "User"; 
-				html_name = "/user/user_profile.html?user_id=" + report.targetId;
+				html_name = "/profile?user_id=" + report.targetId;
 				left.innerHTML = "<p>Reported: <strong>" + data.username + "</strong></p>";
 				rep_users.appendChild(div);
 

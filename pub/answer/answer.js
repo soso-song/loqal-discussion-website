@@ -82,7 +82,7 @@ function showQuestion(){
 
 
 	getUserInfo(myquestion.user).then((quesUser) => {
-		$('#pdate').html('Asked by <a href="../user/user_profile.html?user_id='+myquestion.user+ '">'
+		$('#pdate').html('Asked by <a href="/profile?user_id='+myquestion.user+ '">'
 			+
 			quesUser.displayname
 			+
@@ -136,7 +136,7 @@ async function showAnswers(){
 		+
 		answer.content
 		+
-		'</div><div class="answerinfo">Answered by <a href="../user/user_profile.html?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a> - ' +readableDate(answer.time)+' </div>'
+		'</div><div class="answerinfo">Answered by <a href="/profile?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a> - ' +readableDate(answer.time)+' </div>'
 		;
 
 		if(currentuser._id == answer.user){
@@ -249,7 +249,7 @@ function setOnclicks(){
 				+
 				myanswer
 				+
-				"</div><div class='answerinfo'>Answered by <a href='../user/user_profile.html?user_id="+currentuser._id+"''>" + currentuser.displayname + " (@" + currentuser.username + ")</a>. Just now. </div>"
+				"</div><div class='answerinfo'>Answered by <a href='/profile?user_id="+currentuser._id+"''>" + currentuser.displayname + " (@" + currentuser.username + ")</a>. Just now. </div>"
 				+
 				newDiv;
 
