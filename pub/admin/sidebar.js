@@ -4,7 +4,7 @@ includeSidebar();
 function includeSidebar() {
 	const sidebar_div = document.querySelector(".sidebar");
 
-	sidebar_div.innerHTML = "<a href='../index.html'><img id='logo' src='../images/logo.png'></a>"
+	sidebar_div.innerHTML = "<a href='/'><img id='logo' src='../images/logo.png'></a>"
 	sidebar_div.innerHTML += "<h1><a href='admin_dashboard.html'>Admin Dashboard</a><a href='/dashboard'>Regular Dashboard</a></h1>";
 
 	
