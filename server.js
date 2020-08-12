@@ -1607,6 +1607,10 @@ app.get('/ask', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/question/question.html'));
 })
 
+app.get('/edit/question', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/question/edit_question.html'));
+})
+
 app.get('/subscribe', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/register/subscribe.html'));
 })

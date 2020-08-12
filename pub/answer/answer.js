@@ -112,7 +112,7 @@ function showQuestion(){
 	}
 
 	if(currentuser._id == myquestion.user){
-		extrabutt += ` <a href="../question/edit_question.html?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">${is_solved}</a>`
+		extrabutt += ` <a href="/edit/question?question_id=${myquestionid}">Edit question</a> <a href="javascript:void(0);" id="solvedbutt">${is_solved}</a>`
 	}
 
 
