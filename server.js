@@ -743,7 +743,7 @@ app.patch('/questions/:id', mongoChecker, (req, res) => {
 
 /*** Flagging routes below **********************************/
 // Route for flag user
-app.patch('/flagUser/:id', mongoChecker, authenticate, (req, res) => {
+app.patch('/users/flag/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -771,7 +771,7 @@ app.patch('/flagUser/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for flag question
-app.patch('/flagQuestion/:id', mongoChecker, authenticate, (req, res) => {
+app.patch('/questions/flag/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -796,7 +796,7 @@ app.patch('/flagQuestion/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for flag question
-app.patch('/flagAnswer/:id', mongoChecker, authenticate, (req, res) => {
+app.patch('/answers/flag/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');

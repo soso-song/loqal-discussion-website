@@ -173,7 +173,7 @@ function flag_report(e){
 
 	switch(type){
 		case 'u':
-		//http://localhost:5000/flagUser/5f2f8690dd8ed22c0c074d5d
+		//http://localhost:5000/users/flag/5f2f8690dd8ed22c0c074d5d
 			//users[report.rep_unique_id].is_flagged = true;	// TODO: modifying an user in database
 			flag_user(target_id);
 			//console.log('user');
@@ -195,7 +195,7 @@ function flag_report(e){
 }
 
 function flag_user(id){
-	const url = '/flagUser/' + id;
+	const url = '/users/flag/' + id;
 	const data = {
         flag:true
 	}
@@ -214,7 +214,7 @@ function flag_user(id){
 	})
 }
 function flag_question(id){
-	const url = '/flagQuestion/' + id;
+	const url = '/questions/flag/' + id;
 	const data = {
         flag:true
 	}
@@ -233,7 +233,7 @@ function flag_question(id){
 	})
 }
 function flag_answer(id){
-	const url = '/flagAnswer/' + id;
+	const url = '/answers/flag/' + id;
 	const data = {
         flag:true
 	}
