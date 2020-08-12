@@ -27,7 +27,7 @@ function load_result_question(questions){
 	questionResultEntries.innerHTML = '';
 
 	if(questions.length == 0){
-		questionResultEntries.innerHTML+="No results were found.";
+		questionResultEntries.innerHTML+="No questions were found.";
 		return;
 	}
 	while(i < questions.length){
@@ -52,7 +52,7 @@ function load_result_answer(questions){
 	let i=0;
 	answerResultEntries.innerHTML = '';
 	if(questions.length == 0){
-		answerResultEntries.innerHTML+="No results were found.";
+		answerResultEntries.innerHTML+="No answers were found.";
 		return;
 	}
 	while(i < questions.length){
@@ -82,7 +82,7 @@ function load_result_tag(questions){
 		tagResultEntries.innerHTML+="Tag name not exist.";
 		return;
 	}else if(questions.length == 0){								//questions = []
-		tagResultEntries.innerHTML+="No results were found.";
+		tagResultEntries.innerHTML+="No questions were found.";
 		return;
 	}
 	while(i < questions.length){
