@@ -96,7 +96,7 @@ $(document).ready(function() {
 
 	$('body').on('click', '#continue', function () {
 		if(!back_url){
-			location.href = "../user/user_dashboard.html";
+			location.href = "/dashboard";
 		}else{
 			location.href = back_url;
 		}
