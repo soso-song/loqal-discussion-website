@@ -17,7 +17,7 @@ checkAdminUser().then((res) => {
 
 
 function show_reports(){
-	const report_url = '/report';
+	const report_url = '/reports';
 	const report_request = new Request(report_url, {
 		method: 'get',
 		headers: {

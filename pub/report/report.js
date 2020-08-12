@@ -48,7 +48,7 @@ function submitReport(){
 }
 
 function post_report(type, target_id, reason){
-	const url = '/report';
+	const url = '/reports';
 	const data = {
 		type: type,
 		targetId: target_id,

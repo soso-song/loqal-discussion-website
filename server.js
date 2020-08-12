@@ -1422,7 +1422,7 @@ app.get('/tag/:id', mongoChecker, (req, res) => {
 
 //report route below********************************************************************/
 // Route for creating a new report
-app.post('/report', mongoChecker, authenticate, (req, res) => {
+app.post('/reports', mongoChecker, authenticate, (req, res) => {
 
 	const report = new Report({
 		type: req.body.type,
@@ -1451,7 +1451,7 @@ app.post('/report', mongoChecker, authenticate, (req, res) => {
 })
 
 /// Route for getting all exisiting reports
-app.get('/report', mongoChecker, (req, res) => {
+app.get('/reports', mongoChecker, (req, res) => {
 	Report.find().then((reports) => {
 		res.send(reports) 
 	})
