@@ -5,7 +5,7 @@ let myquestionid = 4;
 let currentuser = curr_user.id;
 let myquestion = questions[4];
 
-fetch('/currentuser')
+fetch('/users/current')
 .then((res) => {
 	if (res.status === 200) {
         // return a promise that resolves with the JSON body

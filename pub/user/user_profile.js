@@ -6,7 +6,7 @@ let currentUser;
 getPageUser()
 
 function getPageUser() {
-    let url = '/currentuser';
+    let url = '/users/current';
 
     const params = new URLSearchParams(window.location.search)
     let user_id = params.get('user_id');
@@ -37,7 +37,7 @@ function getPageUser() {
 }
 
 function getCurrentUser() {
-    const url = '/currentuser'
+    const url = '/users/current'
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -111,7 +111,7 @@ function toggleFollowButt(){
 }
 
 function followUser(){
-    const url = '/follow/'+pageUser._id;
+    const url = '/users/follow/'+pageUser._id;
 	
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
@@ -134,7 +134,7 @@ function followUser(){
 }
 
 function unfollowUser(){
-    const url = '/unfollow/'+pageUser._id;
+    const url = '/users/unfollow/'+pageUser._id;
 	
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {

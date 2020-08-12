@@ -400,7 +400,7 @@ function new_upload(e){
     // Check to see a file was selected
     if( document.getElementById("imagefield").files.length > 0 ){
     
-        const url = "/images";
+        const url = "/users/picture";
 
         // The data we are going to send in our request
         const imageData = new FormData(e.target);

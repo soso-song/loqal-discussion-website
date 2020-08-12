@@ -23,7 +23,7 @@ function edit(e){
 	}
 
     if(!hasError){
-        const url = '/changepassword'
+        const url = '/users/password'
 
         const data = {
             password: password,

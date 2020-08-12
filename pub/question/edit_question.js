@@ -7,7 +7,7 @@ $(document).ready(function() {
 	let myquestion = questions[myquestionid];
 	let currentuser;
 
-	fetch('/currentuser')
+	fetch('/users/current')
 	.then((res) => {
 		if (res.status === 200) {
 	        return res.json();

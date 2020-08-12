@@ -9,7 +9,7 @@ let back_url = params.get('back_url');
 $(document).ready(function() {
 
 	// get current user
-	const url = '/currentuser';
+	const url = '/users/current';
 	const request = new Request(url, {
 		method: 'get',
 		headers: {

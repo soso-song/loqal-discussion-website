@@ -25,7 +25,7 @@ $(document).ready(function() {
 });
 
 function getCurrentUser() {
-    const url = '/currentuser';
+    const url = '/users/current';
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)

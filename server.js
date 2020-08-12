@@ -84,6 +84,75 @@ app.use(session({
     }
 }));
 
+// Middleware for authentication of resources
+const authenticate = (req, res, next) => {
+	if (req.session.user) {
+		User.findById(req.session.user).then((user) => {
+			if (!user) {
+				return Promise.reject()
+			} else {
+				req.user = user
+				next()
+			}
+		}).catch((error) => {
+			res.status(401).send("Unauthorized")
+		})
+	} else {
+		res.status(401).send("Unauthorized")
+	}
+}
+
+
+// Middleware for authentication of resources
+const adminAuthenticate = (req, res, next) => {
+	if (req.session.user) {
+		User.findById(req.session.user).then((user) => {
+			if (!user || !user.isAdmin) {
+				return Promise.reject()
+			} else {
+				req.user = user
+				next()
+			}
+		}).catch((error) => {
+			res.status(401).send("Unauthorized")
+		})
+	} else {
+		res.status(401).send("Unauthorized")
+	}
+}
+
+/*** User routes below ****************/
+// Set up a POST route to create a user of your web app (*not* a student).
+app.post('/users', mongoChecker, (req, res) => {
+	log(req.body)
+
+	// Create a new user
+	const user = new User({
+		email: req.body.email,
+		password: req.body.password,
+		username: req.body.username,
+		displayname: req.body.displayname
+	})
+
+	// Save the user
+	user.save().then((user) => {
+		//res.send(user)
+		//Behrad adding this:
+		//Automatically logging the user in after registeration
+		req.session.user = user._id;
+        req.session.email = user.email
+        res.redirect('/dashboard');
+	})
+	.catch((error) => {
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			log(error)
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	})
+})
+
 // A route to login and create a session
 app.post('/users/login', mongoChecker, (req, res) => {
 	const email = req.body.email
@@ -128,100 +197,7 @@ app.get('/users/logout', (req, res) => {
 	})
 })
 
-/*** User routes below ****************/
-// Set up a POST route to create a user of your web app (*not* a student).
-app.post('/users', mongoChecker, (req, res) => {
-	log(req.body)
-
-	// Create a new user
-	const user = new User({
-		email: req.body.email,
-		password: req.body.password,
-		username: req.body.username,
-		displayname: req.body.displayname
-	})
-
-	// Save the user
-	user.save().then((user) => {
-		//res.send(user)
-		//Behrad adding this:
-		//Automatically logging the user in after registeration
-		req.session.user = user._id;
-        req.session.email = user.email
-        res.redirect('/dashboard');
-	})
-	.catch((error) => {
-		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
-			res.status(500).send('Internal server error')
-		} else {
-			log(error)
-			res.status(400).send('Bad Request') // bad request for changing the student.
-		}
-	})
-})
-
-// Middleware for authentication of resources
-const authenticate = (req, res, next) => {
-	if (req.session.user) {
-		User.findById(req.session.user).then((user) => {
-			if (!user) {
-				return Promise.reject()
-			} else {
-				req.user = user
-				next()
-			}
-		}).catch((error) => {
-			res.status(401).send("Unauthorized")
-		})
-	} else {
-		res.status(401).send("Unauthorized")
-	}
-}
-
-
-// Middleware for authentication of resources
-const adminAuthenticate = (req, res, next) => {
-	if (req.session.user) {
-		User.findById(req.session.user).then((user) => {
-			if (!user || !user.isAdmin) {
-				return Promise.reject()
-			} else {
-				req.user = user
-				next()
-			}
-		}).catch((error) => {
-			res.status(401).send("Unauthorized")
-		})
-	} else {
-		res.status(401).send("Unauthorized")
-	}
-}
-
 /*** User routes below **********************************/
-// Route for getting a user
-app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
-	//log(req.params.id)
-	const id = req.params.id
-
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send()
-		return;
-	}
-
-	// If id valid, findById
-	User.findOne({_id: id}).then((user) => {
-		if (!user) {
-			res.status(404).send('Resource not found')  // could not find this student
-		} else {
-			res.send(user)
-		}
-	})
-	.catch((error) => {
-		log(error)
-		res.status(500).send('Internal Server Error')  // server error
-	})
-
-})
 
 // Route for getting all users
 app.get('/allUsers', mongoChecker, (req, res) => {
@@ -261,7 +237,7 @@ app.patch('/users', mongoChecker, authenticate, (req, res) => {
 
 
 // Route for changing password
-app.patch('/changepassword', mongoChecker, authenticate, (req, res) => {
+app.patch('/users/password', mongoChecker, authenticate, (req, res) => {
 	User.findById(req.user._id).then((user) => {
 		if (!user) {
 			res.status(404).send('User not found');
@@ -281,6 +257,72 @@ app.patch('/changepassword', mongoChecker, authenticate, (req, res) => {
 		res.status(500).send('Internal Server Error');
 	})
 })
+
+// Route for getting the current user, check to see if there is a better way
+app.get('/users/current', mongoChecker, authenticate, (req, res) => {
+	res.send(req.user)
+})
+
+
+// a POST route to *create* an image
+app.post("/users/picture", multipartMiddleware, authenticate, (req, res) => {
+
+	User.findById(req.user._id).then((user) => {
+		if (!user) {
+			res.status(404).send('User not found');
+		} else {
+			const imageId = user.image_id
+			if(imageId !== ''){
+				cloudinary.uploader.destroy(imageId, function (result) {
+
+					user.image_id= "", 
+                	user.image_url= "",
+					user.save().then((result)=>{
+						//res.send(result);
+						    // Use uploader.upload API to upload image to cloudinary server.
+						cloudinary.uploader.upload(
+							req.files.image.path, // req.files contains uploaded files
+							function (result) {
+								user.image_id= result.public_id, // image id on cloudinary server
+								user.image_url= result.url,
+								user.save().then((result2)=>{
+									res.send(result2);
+								}).catch((error)=>{
+									console.log(error);
+									res.status(400).send('Bad request.');
+								})
+						});
+					}).catch((error)=>{
+						console.log(error);
+						res.status(400).send('Bad request.');
+					})
+
+				});
+			}else{
+				cloudinary.uploader.upload(
+					req.files.image.path, // req.files contains uploaded files
+					function (result) {
+						cloudinary.uploader.upload(
+							req.files.image.path, // req.files contains uploaded files
+							function (result) {
+								user.image_id= result.public_id, // image id on cloudinary server
+								user.image_url= result.url,
+								user.save().then((result2)=>{
+									res.send(result2);
+								}).catch((error)=>{
+									console.log(error);
+									res.status(400).send('Bad request.');
+								})
+						});
+				});
+			}
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+
+});
 
 //get all question for given userid
 app.get('/users/questions/:user', mongoChecker, (req, res) => {
@@ -350,14 +392,9 @@ app.patch('/adminEditUser/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 
-// Route for getting the current user, check to see if there is a better way
-app.get('/currentuser', mongoChecker, authenticate, (req, res) => {
-	res.send(req.user)
-})
-
 /*** Follow Unfollow routes below **********************************/
 // Following a user
-app.post('/follow/:id', mongoChecker, authenticate, (req, res) => {
+app.post('/users/follow/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -419,7 +456,7 @@ app.post('/follow/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 // Unfollowing a user
-app.post('/unfollow/:id', mongoChecker, authenticate, (req, res) => {
+app.post('/users/unfollow/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -481,65 +518,30 @@ app.post('/unfollow/:id', mongoChecker, authenticate, (req, res) => {
 
 /*** Image API Routes below ************************************/
 
-// a POST route to *create* an image
-app.post("/images", multipartMiddleware, authenticate, (req, res) => {
+// Route for getting a user
+app.get('/users/:id', mongoChecker, authenticate, (req, res) => {
+	//log(req.params.id)
+	const id = req.params.id
 
-	User.findById(req.user._id).then((user) => {
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;
+	}
+
+	// If id valid, findById
+	User.findOne({_id: id}).then((user) => {
 		if (!user) {
-			res.status(404).send('User not found');
+			res.status(404).send('Resource not found')  // could not find this student
 		} else {
-			const imageId = user.image_id
-			if(imageId !== ''){
-				cloudinary.uploader.destroy(imageId, function (result) {
-
-					user.image_id= "", 
-                	user.image_url= "",
-					user.save().then((result)=>{
-						//res.send(result);
-						    // Use uploader.upload API to upload image to cloudinary server.
-						cloudinary.uploader.upload(
-							req.files.image.path, // req.files contains uploaded files
-							function (result) {
-								user.image_id= result.public_id, // image id on cloudinary server
-								user.image_url= result.url,
-								user.save().then((result2)=>{
-									res.send(result2);
-								}).catch((error)=>{
-									console.log(error);
-									res.status(400).send('Bad request.');
-								})
-						});
-					}).catch((error)=>{
-						console.log(error);
-						res.status(400).send('Bad request.');
-					})
-
-				});
-			}else{
-				cloudinary.uploader.upload(
-					req.files.image.path, // req.files contains uploaded files
-					function (result) {
-						cloudinary.uploader.upload(
-							req.files.image.path, // req.files contains uploaded files
-							function (result) {
-								user.image_id= result.public_id, // image id on cloudinary server
-								user.image_url= result.url,
-								user.save().then((result2)=>{
-									res.send(result2);
-								}).catch((error)=>{
-									console.log(error);
-									res.status(400).send('Bad request.');
-								})
-						});
-				});
-			}
+			res.send(user)
 		}
 	})
 	.catch((error) => {
-		res.status(500).send('Internal Server Error');
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
 	})
 
-});
+})
 
 /*
 // a GET route to get all images

@@ -3,7 +3,7 @@
 let backendUser = null;
 
 function getCurrentUser() {
-    const url = '/currentuser';
+    const url = '/users/current';
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -127,7 +127,7 @@ function new_upload(e){
     // Check to see a file was selected
     if( document.getElementById("imagefield").files.length > 0 ){
     
-        const url = "/images";
+        const url = "/users/picture";
 
         // The data we are going to send in our request
         const imageData = new FormData(e.target);

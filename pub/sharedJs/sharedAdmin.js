@@ -3,7 +3,7 @@
 async function checkAdminUser(){
 	let currentuser = null;
 
-	await fetch('/currentuser')
+	await fetch('/users/current')
 	.then((res) => {
 		if (res.status === 200) {
 	        return res.json();
