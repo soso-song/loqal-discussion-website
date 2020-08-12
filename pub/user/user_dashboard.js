@@ -82,7 +82,7 @@ function getUserTagsFilter(){
         <div class="userheading">Newest Questions From Tags You Follow</div>
         <div id="filtersection">
             <h3>You are not following any tags yet</h3>
-            <a class="sidebutton" href="../register/subscribe.html">Follow Some Tags</a>
+            <a class="sidebutton" href="/subscribe">Follow Some Tags</a>
         </div>
         <div class="listcontainter" id="tagquestionlist">								
         </div>
