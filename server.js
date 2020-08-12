@@ -659,7 +659,7 @@ app.get('/questions/tags/:tagname', mongoChecker, (req, res) => {
 	).then(tagdata => {
 		const tag = tagdata[0]; // we chuold have tags have unique name, so
 		if(!tag){
-			res.status(404).send('tag name not found'); // tell user tag name is not exist, instead no question
+			res.send(false);//status(404).send('tag name not found'); // tell user tag name is not exist, instead no question
 		}else{
 			Question.find(
 				{tags : tag._id}

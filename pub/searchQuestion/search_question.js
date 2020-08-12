@@ -11,10 +11,12 @@ let search_key = params.get('search_key');
 // init:
 const questionResultEntries = document.querySelector('#questionResult');
 const answerResultEntries = document.querySelector('#answerResult');
+const tagResultEntries = document.querySelector('#tagResult');
 
 if ((search_key != null)&&(search_key != '')){
-	search_question();
-	search_answer();
+	search_question(search_key);
+	search_answer(search_key);
+	search_tag(search_key);
 }
 
 
@@ -23,6 +25,11 @@ if ((search_key != null)&&(search_key != '')){
 function load_result_question(questions){	
 	let i=0;
 	questionResultEntries.innerHTML = '';
+
+	if(questions.length == 0){
+		questionResultEntries.innerHTML+="No results were found.";
+		return;
+	}
 	while(i < questions.length){
 		const curr_question = questions[i];
 		const question_answer_nums = curr_question.answers.length;
@@ -38,16 +45,18 @@ function load_result_question(questions){
 		})
 		i++;
 	}
-	if(questions.length == 0){
-		questionResultEntries.innerHTML+="No results were found. Try searching for 'q' for demo purposes.";
-	}
+	
 }
 
-function load_result_answer(answers){	
+function load_result_answer(questions){	
 	let i=0;
 	answerResultEntries.innerHTML = '';
-	while(i < answers.length){
-		const curr_question = answers[i];
+	if(questions.length == 0){
+		answerResultEntries.innerHTML+="No results were found.";
+		return;
+	}
+	while(i < questions.length){
+		const curr_question = questions[i];
 		const curr_answers = curr_question.answers.filter(ans => ans.content.includes(search_key));
 		let color = '';
 		if(i%2){
@@ -64,15 +73,36 @@ function load_result_answer(answers){
 		});
 		i++;
 	}
+}
 
-	if(answers.length == 0){
-		answerResultEntries.innerHTML+="No results were found. Try searching for 'q' for demo purposes.";
+function load_result_tag(questions){	
+	let i=0;
+	tagResultEntries.innerHTML = '';
+	if(!questions){ 												//questions = false
+		tagResultEntries.innerHTML+="Tag name not exist.";
+		return;
+	}else if(questions.length == 0){								//questions = []
+		tagResultEntries.innerHTML+="No results were found.";
+		return;
 	}
+	while(i < questions.length){
+		const curr_question = questions[i];
+		const question_answer_nums = curr_question.answers.length;
+		let is_resolved = "Unresolved";
+		if(curr_question.isResolved){
+			is_resolved = "Resolved";
+		}
+		getUserInfo(curr_question.user).then(userInfo => {
+			tagResultEntries.innerHTML+=`<div class="shortquestion">
+            <a class="squestion" href="/answer?question_id=${curr_question._id}">${curr_question.title}</a>
+            <div class="sinfo">Asked by <a href="/profile?user_id=${curr_question.user}">${userInfo.displayname}</a> - ${curr_question.time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
+        	</div>`;
+		})
+		i++;
+	}
+	
 }
 
-function load_result_tag(tag){	
-	console.log(tag);
-}
 
 
 
@@ -81,9 +111,7 @@ function load_result_tag(tag){
 
 
 
-
-function search_question(){
-	const keyword = search_key;
+function search_question(search_key){
 	const question_url = '/questions/search/'+search_key;
 	const question_request = new Request(question_url, {
 		method: 'get',
@@ -107,7 +135,7 @@ function search_question(){
 	});
 }
 
-function search_answer(){
+function search_answer(search_key){
 	const answer_url = '/answers/search/'+search_key;
 	const answer_request = new Request(answer_url, {
 		method: 'get',
@@ -132,9 +160,8 @@ function search_answer(){
 	});
 }
 
-function search_tag(){
-	const keyword = search_key;
-	const tag_url = '/questions/search/'+search_key;
+function search_tag(tagname){
+	const tag_url = '/questions/tags/'+tagname;
 	const tag_request = new Request(tag_url, {
 		method: 'get',
 		headers: {
@@ -150,6 +177,7 @@ function search_tag(){
 		}
 	})
 	.then(data => {
+		//console.log(data);
 		load_result_tag(data);
 	})
 	.catch((error) => {
