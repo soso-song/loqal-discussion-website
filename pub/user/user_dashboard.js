@@ -187,7 +187,7 @@ function basicInfo(){
 
 // Loads the latest notification
 function getNotice(){
-    const url = '/notice';
+    const url = '/notice/current';
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)

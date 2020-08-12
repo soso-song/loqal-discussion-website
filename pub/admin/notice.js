@@ -14,7 +14,7 @@ checkAdminUser().then((res) => {
 
 
 function render_notices(){
-	const url = '/notice/all';
+	const url = '/notice';
 	const get_request = new Request(url, {
 		method: 'get',
 		headers: {

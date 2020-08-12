@@ -853,6 +853,7 @@ app.get('/answers/:question_id/:answer_id', mongoChecker, (req, res) => {
 	})
 })
 
+// Gets question and answer based on answer id
 app.get('/answers/:answer_id', mongoChecker, (req, res) => {
 	const answer_id = req.params.answer_id;
 	// Validate id
@@ -1044,7 +1045,7 @@ app.post('/notice', mongoChecker, authenticate, (req, res) => {
 	})
 })
 // get a notice with isShowing set to true
-app.get('/notice', mongoChecker, (req, res) => {
+app.get('/notice/current', mongoChecker, (req, res) => {
 	Notice.findOne(
 		{isShowing : {$eq : true} }
 	).then((notice) => {
@@ -1059,7 +1060,7 @@ app.get('/notice', mongoChecker, (req, res) => {
 	})
 })
 // Route for getting the notice by given id
-app.get('/notice/find/:id', mongoChecker, (req, res) => {
+app.get('/notice/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
 	// Validate id
 	if (!ObjectID.isValid(id)) {
@@ -1079,7 +1080,7 @@ app.get('/notice/find/:id', mongoChecker, (req, res) => {
 })
 
 // get all notice
-app.get('/notice/all', mongoChecker, (req, res) => {
+app.get('/notice', mongoChecker, (req, res) => {
 	Notice.find().then((notice) => {
 		res.send(notice) 
 	})

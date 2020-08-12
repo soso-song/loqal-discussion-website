@@ -1,7 +1,7 @@
 "use strict";
 
 function getNoticeById(Id, callBack){
-	const url = '/notice/find/' + Id;
+	const url = '/notice/' + Id;
 
 	const request = new Request(url, {
 		method: 'get',
