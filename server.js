@@ -1631,6 +1631,10 @@ app.get('/report', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/report/report.html'));
 })
 
+app.get('/search', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/searchQuestion/search_question.html'));
+})
+
 app.use(express.static(__dirname + '/pub'));
 
 
