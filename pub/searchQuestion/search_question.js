@@ -161,7 +161,7 @@ function search_answer(search_key){
 }
 
 function search_tag(tagname){
-	const tag_url = '/questions/tags/'+tagname;
+	const tag_url = '/questions/tags/'+tagname.toLowerCase();
 	const tag_request = new Request(tag_url, {
 		method: 'get',
 		headers: {
