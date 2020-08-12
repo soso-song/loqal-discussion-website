@@ -653,7 +653,7 @@ app.get('/questions/following', mongoChecker, authenticate, (req, res) => {
 })
 
 //get all questions with given tag
-app.post('/questionsByTagIds', mongoChecker, (req, res) => {
+app.post('/questions/tags', mongoChecker, (req, res) => {
 	const tag_ids = req.body.tag_ids;
 	Question.find(
 		{'tags': { $in : tag_ids} }
@@ -664,6 +664,22 @@ app.post('/questionsByTagIds', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 	
+})
+
+//http://localhost:5000/questions/search/o
+app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
+	const keyword = req.params.keyword;
+	//log('inside questionsearch');
+	Question.find({$or:[
+		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{content		: { $regex: keyword, $options: "i" }}
+		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
+	]}).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
 })
 
 // Route for getting the question by given id
@@ -688,24 +704,6 @@ app.get('/questions/:id', mongoChecker, (req, res) => {
 		res.status(500).send('Internal Server Error');
 	})
 })
-
-//http://localhost:5000/questions/search/o
-app.get('/questions/search/:keyword', mongoChecker, (req, res) => {
-	const keyword = req.params.keyword;
-	//log('inside questionsearch');
-	Question.find({$or:[
-		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
-		{content		: { $regex: keyword, $options: "i" }}
-		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
-	]}).then((questions) => {
-		res.send(questions) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-})
-
-
 
 // Route for flag user
 app.patch('/flagUser/:id', mongoChecker, authenticate, (req, res) => {

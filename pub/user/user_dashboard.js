@@ -101,7 +101,7 @@ function getQBySelectedTag(){
     const wanted = document.getElementById('tagquestionlist');
     wanted.innerHTML = ''
 
-    const url = '/questionsByTagIds';
+    const url = '/questions/tags';
 	const data = {
 		tag_ids: selectedTags
 	}
@@ -296,7 +296,7 @@ function getAllTagQ(){
     const wanted = document.getElementById('tagquestionlist');
     wanted.innerHTML = ''
 
-    const url = '/questionsByTagIds';
+    const url = '/questions/tags';
 
     const data = {
         tag_ids: backendUser.tags
