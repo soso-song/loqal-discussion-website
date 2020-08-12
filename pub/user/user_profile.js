@@ -262,7 +262,7 @@ function getAllQUser(){
 // Displays all questions asked by user
 function getAllAnswer(){
 
-    const url = '/users/answers/' + pageUser._id;
+    const url = '/answers/users/' + pageUser._id;
 
     let wanted = document.getElementsByClassName("listcontainter")[1];
     let totalString = ''

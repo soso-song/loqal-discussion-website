@@ -148,7 +148,7 @@ function change_is_flag(no){
 
 function updateAnswer(content, isBest, isFlagged, no){
 
-		const url = '/editAnswer/'+ dict[no];
+		const url = '/answers/'+ dict[no];
 
 		let data = {
 			content: content,

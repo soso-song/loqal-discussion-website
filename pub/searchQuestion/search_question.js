@@ -52,7 +52,7 @@ function search_keyword(mytitle, mydesc, mytags){
 	});
 	
 
-	const answer_url = '/questions/answers/search/'+search_key;
+	const answer_url = '/answers/search/'+search_key;
 	const answer_request = new Request(answer_url, {
 		method: 'get',
 		headers: {

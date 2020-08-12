@@ -167,7 +167,7 @@ async function showAnswers(){
 }
 
 function pickAsBest(questionid, answerid){	
-	const url = `/bestanswer/${questionid}/${answerid}`;
+	const url = `/answers/best/${questionid}/${answerid}`;
 
 	const request = new Request(url, {
 		method: 'post', 
@@ -274,7 +274,7 @@ function setOnclicks(){
 
 
 async function saveAnswer(myanswer,myquestionid){
-	const url = '/questions/'+myquestionid;
+	const url = '/answers/'+myquestionid;
 
 	let data = {
 		content: myanswer

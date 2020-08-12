@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 
 	function getAnswer(){
-		const url = '/answerByQuesIdAnsId/'+ whichQuestion + '/' + whichAnswer;
+		const url = '/answers/'+ whichQuestion + '/' + whichAnswer;
 
 		fetch(url)
 		.then((res) => {
@@ -55,7 +55,7 @@ $(document).ready(function() {
 	}
 
 	function saveAnswer(mydesc){
-		const url = '/editAnswer/'+ whichQuestion + '/' + whichAnswer;
+		const url = '/answers/'+ whichQuestion + '/' + whichAnswer;
 
 		let data = {
 			content: mydesc

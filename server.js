@@ -311,22 +311,6 @@ app.post("/users/picture", multipartMiddleware, authenticate, (req, res) => {
 
 });
 
-//get all answers for given userid
-app.get('/users/answers/:user', mongoChecker, (req, res) => {
-	const userid = req.params.user;
-	Question.find(
-		{'answers.user' : {$eq : userid} }
-	).then((questions) => {
-		questions.forEach(ques=>{
-			ques.answers = ques.answers.filter(ans => ans.user == userid);
-		});
-		res.send(questions) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-})
-
 // Route for updating basic info of current user
 app.patch('/users/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
@@ -828,42 +812,24 @@ app.patch('/answers/flag/:id', mongoChecker, authenticate, (req, res) => {
 
 /*** Answers routes below **********************************/
 
-// Route for creating a new answers
-app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
-
-	const id = req.params.id;
-	if(!ObjectID.isValid(id)){	// nor valid id
-		res.status(404).send('question not valid');
-		return;
-	}
-	Question.findById(id).then((question)=>{
-		if(!question){	//undefined
-			res.status(404).send('question not found');
-		}else{
-			const answer = {
-				user: req.user,
-				content: req.body.content
-			};
-			question.answers.push(answer);
-			question.save().then((question)=>{
-				res.send(question.answers[question.answers.length-1]);	// return the answer
-			}).catch((error)=>{
-				res.status(400).send('Bad request.');
-			})
-		}
+//get all answers for given userid
+app.get('/answers/users/:user', mongoChecker, (req, res) => {
+	const userid = req.params.user;
+	Question.find(
+		{'answers.user' : {$eq : userid} }
+	).then((questions) => {
+		questions.forEach(ques=>{
+			ques.answers = ques.answers.filter(ans => ans.user == userid);
+		});
+		res.send(questions) 
 	})
 	.catch((error) => {
-		if (isMongoError(error)) {
-			res.status(500).send('Internal server error')
-		} else {
-			res.status(400).send('Bad Request')
-		}
+		res.status(500).send("Internal Server Error")
 	})
 })
 
-
 // Route for getting the answer by given question id and answer id
-app.get('/answerByQuesIdAnsId/:question_id/:answer_id', mongoChecker, (req, res) => {
+app.get('/answers/:question_id/:answer_id', mongoChecker, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 	
@@ -887,7 +853,7 @@ app.get('/answerByQuesIdAnsId/:question_id/:answer_id', mongoChecker, (req, res)
 	})
 })
 
-app.get('/answerByAnsId/:answer_id', mongoChecker, (req, res) => {
+app.get('/answers/:answer_id', mongoChecker, (req, res) => {
 	const answer_id = req.params.answer_id;
 	// Validate id
 	if (!ObjectID.isValid(answer_id)) {
@@ -915,7 +881,7 @@ app.get('/answerByAnsId/:answer_id', mongoChecker, (req, res) => {
 })
 
 // Route for edting the answer
-app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, authenticate, (req, res) => {
+app.patch('/answers/:question_id/:answer_id', mongoChecker, authenticate, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 
@@ -928,14 +894,14 @@ app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, authenticate, (re
 	Question.findById(question_id).then((question) => {
 		if (!question) {
 
-			console.log('hi?')
+			//console.log('hi?')
 			res.status(404).send('Question not found');
 		} else if(question.user != req.session.user || !req.user.isAdmin){
 			console.log('not admin??')
 			res.status(403).send("No permission to edit");
 		}
 		else {
-			console.log('hi?')
+			//console.log('hi?')
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
 			answer.content = req.body.content;
 			if(req.body.isBest !== null){
@@ -965,7 +931,7 @@ app.patch('/editAnswer/:question_id/:answer_id', mongoChecker, authenticate, (re
 
 
 // Route for setting an answer as best answer
-app.post('/bestanswer/:question_id/:answer_id', mongoChecker, (req, res) => {
+app.post('/answers/best/:question_id/:answer_id', mongoChecker, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 
@@ -1005,7 +971,7 @@ app.post('/bestanswer/:question_id/:answer_id', mongoChecker, (req, res) => {
 
 
 //http://localhost:5000/questions/search/o
-app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
+app.get('/answers/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
 	Question.find(
 		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
@@ -1017,6 +983,39 @@ app.get('/questions/answers/search/:keyword', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 	
+})
+
+// Route for creating a new answers
+app.post('/answers/:id', mongoChecker, authenticate, (req, res) => {
+
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){	// nor valid id
+		res.status(404).send('question not valid');
+		return;
+	}
+	Question.findById(id).then((question)=>{
+		if(!question){	//undefined
+			res.status(404).send('question not found');
+		}else{
+			const answer = {
+				user: req.user,
+				content: req.body.content
+			};
+			question.answers.push(answer);
+			question.save().then((question)=>{
+				res.send(question.answers[question.answers.length-1]);	// return the answer
+			}).catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
+	})
 })
 
 //Notice route below**********/

@@ -367,7 +367,7 @@ function getQuestionInfo(id, callBack){
 }
 
 function getAnswerInfo(id, callBack){
-	const url = '/answerByAnsId/' + id;
+	const url = '/answers/' + id;
 	const request = new Request(url, {
 		method: 'get',
 		headers: {
