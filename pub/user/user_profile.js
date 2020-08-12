@@ -205,7 +205,7 @@ function basicInfo(){
     }
 
     if(pageUser._id == currentUser._id){
-        myhtml += `<a class="sidebutton" href="../user/edit_profile.html">Edit Profile</a>`
+        myhtml += `<a class="sidebutton" href="/edit/profile">Edit Profile</a>`
     }
 
     const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;

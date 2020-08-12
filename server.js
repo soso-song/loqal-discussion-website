@@ -1599,6 +1599,10 @@ app.get('/profile', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/user/user_profile.html'));
 })
 
+app.get('/edit/profile', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/user/edit_profile.html'));
+})
+
 app.get('/answer', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
 })
