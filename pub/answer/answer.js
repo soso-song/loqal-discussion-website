@@ -140,7 +140,7 @@ async function showAnswers(){
 		;
 
 		if(currentuser._id == answer.user){
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='../answer/edit_answer.html?question_id="
+			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='/edit/answer?question_id="
 					  + myquestionid + "&answer_id="+answer._id+"'>Edit Answer</a>";
 		} else{
 			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
@@ -240,7 +240,7 @@ function setOnclicks(){
 			//Answer add to database-----------
 			let newDiv = '';
 			saveAnswer(myanswer,myquestionid).then((res) => {
-				newDiv = "<div class='answerbuttons'> <a href=''>Report this answer</a> <a href='../answer/edit_answer.html?question_id="
+				newDiv = "<div class='answerbuttons'> <a href=''>Report this answer</a> <a href='/edit/answer?question_id="
 				+ myquestionid + "&answer_id=" + res + "'>Edit Answer</a>";
 				return res;
 			})
