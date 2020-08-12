@@ -220,7 +220,7 @@ function basicInfo(){
 // Displays all questions asked by user
 function getAllQUser(){
 
-    const url = '/users/questions/' + pageUser._id;
+    const url = '/questions/users/' + pageUser._id;
 
     let wanted = document.getElementsByClassName("listcontainter")[0];
     let totalString = ''

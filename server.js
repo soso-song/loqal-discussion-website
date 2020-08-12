@@ -311,19 +311,6 @@ app.post("/users/picture", multipartMiddleware, authenticate, (req, res) => {
 
 });
 
-//get all question for given userid
-app.get('/users/questions/:user', mongoChecker, (req, res) => {
-	const userid = req.params.user;
-	Question.find(
-		{user : { $eq : userid} }
-	).then((questions) => {
-		res.send(questions) 
-	})
-	.catch((error) => {
-		res.status(500).send("Internal Server Error")
-	})
-})
-
 //get all answers for given userid
 app.get('/users/answers/:user', mongoChecker, (req, res) => {
 	const userid = req.params.user;
@@ -638,6 +625,19 @@ app.get('/questions', mongoChecker, (req, res) => {
 
 })
 
+//get all question for given userid
+app.get('/questions/users/:user', mongoChecker, (req, res) => {
+	const userid = req.params.user;
+	Question.find(
+		{user : { $eq : userid} }
+	).then((questions) => {
+		res.send(questions) 
+	})
+	.catch((error) => {
+		res.status(500).send("Internal Server Error")
+	})
+})
+
 // Route for getting questions posted by users the current user is following
 app.get('/questions/following', mongoChecker, authenticate, (req, res) => {
 	const usersfollowing = req.user.following
@@ -705,6 +705,43 @@ app.get('/questions/:id', mongoChecker, (req, res) => {
 	})
 })
 
+// Route for updating basic info(title, desc, tags) of a question given by id
+app.patch('/questions/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid quesiton ID');
+		return;
+	}
+	// If id valid, findById
+	Question.findById(id).then((question) => {
+		if (!question) {
+			res.status(404).send('Quesiton not found');
+		} else {
+			question.title = req.body.title;
+			question.content = req.body.content;
+			question.tags = req.body.tags;
+			if (req.body.isResolved !== null){
+				question.isResolved = req.body.isResolved;
+			}
+			if (req.body.isFlagged !== null){
+				question.isFlagged = req.body.isFlagged;
+			}
+			question.save().then((result)=>{
+				res.redirect(303, '/answer?question_id=' + id);
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+/*** Flagging routes below **********************************/
 // Route for flag user
 app.patch('/flagUser/:id', mongoChecker, authenticate, (req, res) => {
 	const id = req.params.id;
@@ -789,43 +826,7 @@ app.patch('/flagAnswer/:id', mongoChecker, authenticate, (req, res) => {
 	})
 })
 
-// Route for updating basic info(title, desc, tags) of a question given by id
-app.patch('/questions/:id', mongoChecker, (req, res) => {
-	const id = req.params.id;
-
-	// Validate id
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid quesiton ID');
-		return;
-	}
-	// If id valid, findById
-	Question.findById(id).then((question) => {
-		if (!question) {
-			res.status(404).send('Quesiton not found');
-		} else {
-			question.title = req.body.title;
-			question.content = req.body.content;
-			question.tags = req.body.tags;
-			if (req.body.isResolved !== null){
-				question.isResolved = req.body.isResolved;
-			}
-			if (req.body.isFlagged !== null){
-				question.isFlagged = req.body.isFlagged;
-			}
-			question.save().then((result)=>{
-				res.redirect(303, '/answer?question_id=' + id);
-			}).catch((error)=>{
-				console.log(error);
-				res.status(400).send('Bad request.');
-			})
-		}
-	})
-	.catch((error) => {
-		res.status(500).send('Internal Server Error');
-	})
-})
-
-
+/*** Answers routes below **********************************/
 
 // Route for creating a new answers
 app.post('/questions/:id', mongoChecker, authenticate, (req, res) => {
