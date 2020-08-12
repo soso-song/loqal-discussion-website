@@ -163,6 +163,8 @@ $(document).ready(function() {
 	function customTag(tag_name){
 		const url = '/tag';
 
+		tag_name = tag_name.trim().replace(/ /g, '-');
+
 		let data = {
 			name: tag_name
 		}

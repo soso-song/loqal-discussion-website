@@ -126,6 +126,9 @@ async function createTags(tag_names){
 
 	const mytags = [];
 
+	// change all spaces in one tag name into '-'
+	tag_names = tag_names.map(tag => tag.trim().replace(/ /g, '-'));
+
 	for(let tag_name of tag_names){
 		data = { name: tag_name };
 

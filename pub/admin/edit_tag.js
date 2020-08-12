@@ -161,6 +161,11 @@ function add_tag(){
 		return;
 	}
 	const url = '/tag';
+
+	// replace spaces in tag name to '-'
+	tag_name = tag_name.trim().replace(/ /g, '-');
+
+
 	//no error, saving data
 	let data = {
 		"name":tag_name
