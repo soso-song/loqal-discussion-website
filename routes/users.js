@@ -48,7 +48,7 @@ router.post('/', mongoChecker, (req, res) => {
 		//Automatically logging the user in after registeration
 		req.session.user = user._id;
         req.session.email = user.email
-        res.redirect('/dashboard');
+        res.redirect('/subscribe');
 	})
 	.catch((error) => {
 		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
