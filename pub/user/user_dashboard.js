@@ -232,9 +232,9 @@ function getAllQ(){
     })
     .then((json) => {
         const user_ids = json.map(q => q.user);
-        getUserList(user_ids).then((mapping) => {
+        getUserList(user_ids).then((user_mapping) => {
             json.forEach(function(q) {
-                const myUser = mapping[q.user];
+                const myUser = user_mapping[q.user];
 
                 let resolve ='Unresolved';
                 if (q.isResolved == true)
@@ -273,9 +273,9 @@ function getAllFollowingQ(){
     })
     .then((json) => {
         const user_ids = json.map(q => q.user);
-        getUserList(user_ids).then((mapping) => {
+        getUserList(user_ids).then((user_mapping) => {
             json.forEach(function(q) {
-                const myUser = mapping[q.user];
+                const myUser = user_mapping[q.user];
                 const numA = q.answers.length;
 
                 let resolve ='Unresolved';
@@ -325,9 +325,9 @@ function getAllTagQ(){
     })
     .then((json) => {
         const user_ids = json.map(q => q.user);
-        getUserList(user_ids).then((mapping) => {
+        getUserList(user_ids).then((user_mapping) => {
             json.forEach(function(q) {
-                const myUser = mapping[q.user];
+                const myUser = user_mapping[q.user];
                 
                 let resolve ='Unresolved';
                 if (q.isResolved == true)

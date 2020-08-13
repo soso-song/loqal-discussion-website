@@ -30,22 +30,25 @@ function load_result_question(questions){
 		questionResultEntries.innerHTML+="No questions were found.";
 		return;
 	}
-	while(i < questions.length){
-		const curr_question = questions[i];
-		const question_answer_nums = curr_question.answers.length;
-		let is_resolved = "Unresolved";
-		if(curr_question.isResolved){
-			is_resolved = "Resolved";
-		}
-		getUserInfo(curr_question.user).then(userInfo => {
+	// get the mapping of user id to user instance
+	const user_ids = questions.map(q => q.user);
+	getUserList(user_ids).then((user_mapping) => {
+		while(i < questions.length){
+			const curr_question = questions[i];
+			const userInfo = user_mapping[curr_question.user];
+			const question_answer_nums = curr_question.answers.length;
+			let is_resolved = "Unresolved";
+			if(curr_question.isResolved){
+				is_resolved = "Resolved";
+			}
 			questionResultEntries.innerHTML+=`<div class="shortquestion">
-            <a class="squestion" href="/answer?question_id=${curr_question._id}">${curr_question.title}</a>
-            <div class="sinfo">Asked by <a href="/profile?user_id=${curr_question.user}">${userInfo.displayname}</a> - ${curr_question.time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
-        	</div>`;
-		})
-		i++;
-	}
-	
+	        <a class="squestion" href="/answer?question_id=${curr_question._id}">${curr_question.title}</a>
+	        <div class="sinfo">Asked by <a href="/profile?user_id=${curr_question.user}">${userInfo.displayname}</a> - ${curr_question.time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
+	        </div>`;
+			i++;
+		}
+	})
+
 }
 
 function load_result_answer(questions){	
@@ -55,24 +58,27 @@ function load_result_answer(questions){
 		answerResultEntries.innerHTML+="No answers were found.";
 		return;
 	}
-	while(i < questions.length){
-		const curr_question = questions[i];
-		const curr_answers = curr_question.answers.filter(ans => ans.content.includes(search_key));
-		let color = '';
-		if(i%2){
-			color = 'style="background-color:#cccccc"';
-		}
-		curr_answers.forEach(answer => {
 
-			getUserInfo(answer.user).then(userInfo => {
-					answerResultEntries.innerHTML+=`<div ${color} class="shortquestion">
+	const user_ids = questions.map(q => q.user);
+	getUserList(user_ids).then((user_mapping) => {
+		while(i < questions.length){
+			const curr_question = questions[i];
+			const userInfo = user_mapping[curr_question.user];
+			const curr_answers = curr_question.answers.filter(ans => ans.content.includes(search_key));
+			
+			let color = '';
+			if(i%2){
+				color = 'style="background-color:#cccccc"';
+			}
+			curr_answers.forEach(answer => {
+				answerResultEntries.innerHTML+=`<div ${color} class="shortquestion">
 					<a class="sanswer" href="/answer?question_id=${curr_question._id}#${answer._id}">${answer.content}</a>
 					<div class="sinfo">Answered by <a href="/profile?user_id=${answer.user}">${userInfo.displayname}</a> - ${answer.time}</div>
-				</div>`;
-			})
-		});
-		i++;
-	}
+					</div>`;
+			});
+			i++;
+		}
+	})
 }
 
 function load_result_tag(questions){	
@@ -85,21 +91,24 @@ function load_result_tag(questions){
 		tagResultEntries.innerHTML+="No questions were found.";
 		return;
 	}
-	while(i < questions.length){
-		const curr_question = questions[i];
-		const question_answer_nums = curr_question.answers.length;
-		let is_resolved = "Unresolved";
-		if(curr_question.isResolved){
-			is_resolved = "Resolved";
-		}
-		getUserInfo(curr_question.user).then(userInfo => {
+
+	const user_ids = questions.map(q => q.user);
+	getUserList(user_ids).then((user_mapping) => {
+		while(i < questions.length){
+			const curr_question = questions[i];
+			const userInfo = user_mapping[curr_question.user];
+			const question_answer_nums = curr_question.answers.length;
+			let is_resolved = "Unresolved";
+			if(curr_question.isResolved){
+				is_resolved = "Resolved";
+			}
 			tagResultEntries.innerHTML+=`<div class="shortquestion">
             <a class="squestion" href="/answer?question_id=${curr_question._id}">${curr_question.title}</a>
             <div class="sinfo">Asked by <a href="/profile?user_id=${curr_question.user}">${userInfo.displayname}</a> - ${curr_question.time} -  ${question_answer_nums} Answers - ${is_resolved}</div>
         	</div>`;
-		})
-		i++;
-	}
+			i++;
+		}
+	})
 	
 }
 
