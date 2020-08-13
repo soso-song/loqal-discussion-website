@@ -11,7 +11,6 @@ const { mongoose } = require('./db/mongoose')
 mongoose.set('bufferCommands', false);
 mongoose.set('useFindAndModify', false);
 
-
 // body-parser: middleware for parsing HTTP JSON body into a usable object
 const bodyParser = require('body-parser') 
 app.use(bodyParser.json())
@@ -29,6 +28,11 @@ const sessionChecker = (req, res, next) => {
         next(); // next() moves on to the route.
     }    
 };
+
+const {
+	authenticate,
+	adminAuthenticate
+ } = require('./routes/setups');
 
 /*** Session handling **************************************/
 // Create a session cookie
@@ -90,71 +94,71 @@ app.get('/dashboard', (req, res) => {
 	}
 })
 
-app.get('/profile', (req, res) => {
+app.get('/profile', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/user/user_profile.html'));
 })
 
-app.get('/edit/profile', (req, res) => {
+app.get('/edit/profile', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/user/edit_profile.html'));
 })
 
-app.get('/edit/password', (req, res) => {
+app.get('/edit/password', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/user/edit_password.html'));
 })
 
-app.get('/answer', (req, res) => {
+app.get('/answer', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
 })
 
-app.get('/edit/answer', (req, res) => {
+app.get('/edit/answer', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/answer/edit_answer.html'));
 })
 
-app.get('/ask', (req, res) => {
+app.get('/ask', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/question/question.html'));
 })
 
-app.get('/edit/question', (req, res) => {
+app.get('/edit/question', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/question/edit_question.html'));
 })
 
-app.get('/subscribe', (req, res) => {
+app.get('/subscribe', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/register/subscribe.html'));
 })
 
-app.get('/report', (req, res) => {
+app.get('/report', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/report/report.html'));
 })
 
-app.get('/search', (req, res) => {
+app.get('/search', authenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/searchQuestion/search_question.html'));
 })
 
-app.get('/admin/dashboard', (req, res) => {
+app.get('/admin/dashboard', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/admin_dashboard.html'));
 })
 
-app.get('/admin/editquestion', (req, res) => {
+app.get('/admin/editquestion', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/edit_question.html'));
 })
 
-app.get('/admin/editanswer', (req, res) => {
+app.get('/admin/editanswer', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/edit_answer.html'));
 })
 
-app.get('/admin/edituser', (req, res) => {
+app.get('/admin/edituser', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/edit_user.html'));
 })
 
-app.get('/admin/edittag', (req, res) => {
+app.get('/admin/edittag', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/edit_tag.html'));
 })
 
-app.get('/admin/notice', (req, res) => {
+app.get('/admin/notice', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/notice.html'));
 })
 
-app.get('/admin/editnotice', (req, res) => {
+app.get('/admin/editnotice', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/edit_notice.html'));
 })
 
