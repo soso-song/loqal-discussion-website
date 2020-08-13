@@ -16,33 +16,19 @@ We receive a vast amount of information about the COVID-19 daily. This informati
 # How To Use
 
 ## Getting Started
-These instructions will help you get a copy of our completed assignment up and running on your local machine.
-* Clone this repository on your local machine
-```shell
-git clone https://github.com/csc309-summer-2020/team11.git
-```
-* Navigate to the cloned folder
-```shell
-cd team11
-```
-* Open `index.html` in your browser
+There are two ways to use this web application:
+1. Visit our website by going to https://csc309-loqal-team11.herokuapp.com/
 
-## Hardcoded Data
-We decided to hardcode some useful data and user information in a JavaScript file name `sharedClasses\classes.js`, included in most of our pages, to use across our web application. Currently this file is hardcoded to provide the logged in user as a regular user called “user”. To switch to the admin user, navigate to `sharedClasses\classes.js` and simply comment the line for users[0] and uncomment the line containing users[2]:
-```javascript
-//Regular user
-// curr_user = users[0];
-//Admin user
-curr_user = users[2];
-```
-
-When logged in as an Admin, a link to the Admin Dashboard page will be added to the regular user dashboard. Additionally, changing other variables in `sharedClasses\classes.js` such as questions and answers will be dynamically reflected in our pages.
-
-### A Note About Links
-In order to have links that display the correct page associated with displayed data, we decided to add optional parameters to our URLs. In these pages, we use javascript to see if the optional parameters are present. If they are we use them to display the correct data and if not the page will load using hardcoded data. For example `team11/user/user_profile.html?user_id=2`, displays user profile for user id 2 as opposed to the generic `team11/user/user_profile.html` user profile page. Here are some more examples:
-* `team11/answer/answer.html?question_id=1`
-* `team11/answer/edit_answer.html?answer_id=2`
-* `team11/question/edit_question.html?question_id=4`
+2. These instructions will help you get a copy of our completed assignment up and running on your local machine.
+    * Clone this repository on your local machine
+    ```shell
+    git clone https://github.com/csc309-summer-2020/team11.git
+    ```
+    * Navigate to the cloned folder
+    ```shell
+    cd team11
+    ```
+    * Open `index.html` in your browser
 
 # Features
 
@@ -54,21 +40,25 @@ Below we have listed the main functionalities associated with each page for regu
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
 
 ### Register or Login (`register/register.html`)
-* Register by entering all required fields in the left block and press the “Register” button, this will lead you to a page showing some popular tags that you could subscribe to.
+* Register by entering all required fields in the left block and press the “Register” to create a new account.
+* Validation check is performed to check if information inputted are valid and no duplicating username and email.
+* If successfully registered, it will lead you to a page showing some popular tags that you could subscribe to.
 * Alternatively, use one of the login credentials provided below to log in.
 
-| Username | Password | Type of Account |
-| ------------- | ------------- | ------------- |
-| user  | user  | Regular User  |
-| user2  | user2  | Regular User  |
-| admin  | admin  | Admin User  |
-
-Please note that the action you perform on this page, will not actually log you in and your user will still be the user specified in `sharedClasses\classes.js`
+    | Username | Password | Type of Account |
+    | ------------- | ------------- | ------------- |
+    | user  | user  | Regular User  |
+    | user2  | user2  | Regular User  |
+    | admin  | admin  | Admin User  |
+* By logging in, you will be lead to your user dashboard
 
 ### Subscribe to Tags (`register/subscribe.html`)
-* Users will be able to see the most popular tags
-* Users will be able to follow/unfollow tags
-* Users will be able to follow/unfollow a custom tag
+* Subscribing to a tag will allow questions related to this tag to be shown on your webpage.
+* You shall see the most popular tags and the tags you are currently following 
+    * most popular tags meaning tags most followed by other users or most mentioned in questions
+* You could follow/unfollow any tags by clicking on them
+* You could also type in any tag name to subscribe, a non-existing tag name will be creates as new tag.
+* Clicking on the "Continue" button will lead you to your user dashboard if you are first registering, otherwise you will be redirected back to the previous page you were on.
 
 ### User Dashboard (`user/user_dashboard.html`)
 * Users user will be able to see the newest questions and questions related to them
