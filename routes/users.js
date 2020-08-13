@@ -105,7 +105,7 @@ router.get('/logout', (req, res) => {
 })
 
 // Route for getting all users
-router.get('/', mongoChecker, (req, res) => {
+router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 	User.find().then((users) => {
 		res.send(users) 
 	})
@@ -166,7 +166,7 @@ router.get('/current', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for flag user
-router.patch('/flag/:id', mongoChecker, authenticate, (req, res) => {
+router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -174,9 +174,6 @@ router.patch('/flag/:id', mongoChecker, authenticate, (req, res) => {
 	}
 	User.findById(id).then((user) => {
 		if (!user) {
-			// console.log(req.params._id);
-			// console.log(user);
-			// console.log('nonononoooo');
 			res.status(404).send('User not found');
 		} else {
 			user.isFlagged = req.body.flag;
@@ -254,8 +251,8 @@ router.post("/picture", multipartMiddleware, authenticate, (req, res) => {
 
 });
 
-// Route for updating basic info of current user
-router.patch('/:id', mongoChecker, authenticate, (req, res) => {
+// Route for admin side updating basic info of current user
+router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -265,13 +262,9 @@ router.patch('/:id', mongoChecker, authenticate, (req, res) => {
 	User.findById(id).then((user) => {
 		if (!user) {
 			res.status(404).send('User not found');
-		} else if( !req.user.isAdmin ){
-			res.status(403).send("No permission to edit");
 		}
 		else {
 			user.displayname = req.body.displayname;
-			console.log(user.username);
-			console.log(req.body.username);
 			user.username = req.body.username;
 			user.email = req.body.email;
 			user.tags = req.body.tags;
