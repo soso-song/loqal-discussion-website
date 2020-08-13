@@ -153,7 +153,9 @@ async function createTags(tag_names){
 					'Content-Type': 'application/json'
 				}
 			})
-			fetch(request).then()
+			fetch(request).then((res) => {
+				return;
+			})
 			.catch((error) => {
 				console.log(error);
 			})

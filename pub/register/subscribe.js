@@ -127,7 +127,7 @@ $(document).ready(function() {
 
 
   	function followTag(tag_id){
-		const url = '/tag/follow/' + tag_id + '/' + currentuser._id;
+		const url = '/tag/follow/' + tag_id;
 
 		const request = new Request(url, {
 			method: 'PATCH',
@@ -137,14 +137,18 @@ $(document).ready(function() {
 			}
 		});
 
-		fetch(request).then()
+		fetch(request).then((res) => {
+			if(res.status == 409){
+				console.log('already following!')
+			}
+		})
 		.catch((error) => {
 			console.log(error);
 		})
 	}
 
 	function unfollowTag(tag_id){
-		const url = '/tag/unfollow/' + tag_id + '/' + currentuser._id;
+		const url = '/tag/unfollow/' + tag_id;
 
 		const request = new Request(url, {
 			method: 'PATCH',
@@ -177,12 +181,14 @@ $(document).ready(function() {
 				'Content-Type': 'application/json'
 			}
 		});
-
+		console.log('hi');
 		fetch(request)
 		.then(function(res) {
+			console.log('inside');
 			return res.json();
 		})
 		.then((json) => {
+			console.log('inside 2');
 			let newTag = '<a href="javascript:void(0);" class="interactivetag" id="' + json.tag._id + '">' + json.tag.name + '<span class="tagside">Unfollow</span></a>';
 			$('#currenttags').prepend(newTag);
 			followTag(json.tag._id);
