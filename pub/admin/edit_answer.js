@@ -44,10 +44,9 @@ async function getAllQuestions(){
 async function load_row()
 {	
 	let i=0;
-	console.log(questions)
+	
 	for (const question of questions){
-
-		for (const answer of questions[i].answers){
+		for (const answer of question.answers){
 			await getUserInfo(answer.user)
 			.then((a_user) => {
 				postEntries.innerHTML += 
@@ -148,7 +147,7 @@ function change_is_flag(no){
 
 function updateAnswer(content, isBest, isFlagged, no){
 
-		const url = '/answers/'+ dict[no];
+		const url = '/answers/admin/'+ dict[no];
 
 		let data = {
 			content: content,

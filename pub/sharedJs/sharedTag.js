@@ -141,6 +141,7 @@ async function createTags(tag_names){
 			}
 		})
 
+
 		await fetch(request).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -153,6 +154,7 @@ async function createTags(tag_names){
 					'Content-Type': 'application/json'
 				}
 			})
+			
 			fetch(request).then((res) => {
 				return;
 			})
