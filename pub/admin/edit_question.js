@@ -56,7 +56,7 @@ async function load_row()
 			"<td id='tag_row"+i+"'>"+tag_names+"</td>"+
 			"<td id='is_flag_row"+i+"'>"+questions[i].isFlagged+"</td>"+
 			"<td id='is_reso_row"+i+"'>"+questions[i].isResolved+"</td>"+
-			"<td>"+questions[i].time+"</td>"+
+			"<td>"+ readableDate(questions[i].time) +"</td>"+
 			"<td>"+
 				"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
 				"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+

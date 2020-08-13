@@ -56,7 +56,7 @@ async function load_row()
 					"<td id='content_row"+i+"'><textarea id='content_text"+i+"' disabled>"+answer.content+"</textarea></td>"+
 					"<td id='is_best_row"+i+"'>"+answer.isBest+"</td>"+
 					"<td id='is_flag_row"+i+"'>"+answer.isFlagged+"</td>"+
-					"<td>"+answer.lastUpdated+"</td>"+
+					"<td>"+readableDate(answer.time)+"</td>"+
 					"<td>"+
 						"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
 						"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+

@@ -141,7 +141,7 @@ function render_reports(reports){
 			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
 			left.innerHTML += "<p>Reason: " + report.reason + "</p>";
 			//left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
-			left.innerHTML += "<p class='report_time'>Reported at:  " + report.time + "</p>";
+			left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
 
 		});
 	}
