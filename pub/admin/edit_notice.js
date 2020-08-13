@@ -73,7 +73,7 @@ $(document).ready(function() {
 
 		if(!hasError){
 			updateNotice(myquestionid ,mytitle, mydesc, myactive)
-			window.location.href = '/admin/notice.html';
+			window.location.href = '/admin/notice';
 		}
 	});
 });

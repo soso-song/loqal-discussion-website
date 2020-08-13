@@ -45,7 +45,7 @@ function show_notice(notice){
 	div.innerHTML = "<h3>" + notice.title + "</h3> <hr>";
 	div.innerHTML += "<p>" + notice.content + "</p>";
 	getUserInfo(notice.user).then(userInfo => {
-		div.innerHTML += `<div class='notice_info_btn' id="pbutts"><a href="../admin/edit_notice.html?notice_id=${notice._id}">Edit notice</a></div>`;
+		div.innerHTML += `<div class='notice_info_btn' id="pbutts"><a href="/admin/editnotice?notice_id=${notice._id}">Edit notice</a></div>`;
 		div.innerHTML += `<div class='notice_info'><a class='admin_name' href="/profile?user_id=${notice.user}">${userInfo.displayname}(@${userInfo.username})</a> - <a class='post_time'>${notice.time}</a></div>`;
 	})
 	if (notice.isShowing){
@@ -112,5 +112,5 @@ function submit_notice(e){
 	}
 
 	post_notice(title,content);
-	window.location.href = '/admin/notice.html';
+	window.location.href = '/admin/notice';
 }

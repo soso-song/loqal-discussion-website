@@ -1661,6 +1661,34 @@ app.get('/search', (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/searchQuestion/search_question.html'));
 })
 
+app.get('/admin/dashboard', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/admin_dashboard.html'));
+})
+
+app.get('/admin/editquestion', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/edit_question.html'));
+})
+
+app.get('/admin/editanswer', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/edit_answer.html'));
+})
+
+app.get('/admin/edituser', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/edit_user.html'));
+})
+
+app.get('/admin/edittag', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/edit_tag.html'));
+})
+
+app.get('/admin/notice', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/notice.html'));
+})
+
+app.get('/admin/editnotice', (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/edit_notice.html'));
+})
+
 app.use(express.static(__dirname + '/pub'));
 
 

@@ -5,7 +5,7 @@ function includeSidebar() {
 	const sidebar_div = document.querySelector(".sidebar");
 
 	sidebar_div.innerHTML = "<a href='/'><img id='logo' src='../images/logo.png'></a>"
-	sidebar_div.innerHTML += "<h1><a href='admin_dashboard.html'>Admin Dashboard</a><a href='/dashboard'>Regular Dashboard</a></h1>";
+	sidebar_div.innerHTML += "<h1><a href='/admin/dashboard'>Admin Dashboard</a><a href='/dashboard'>Regular Dashboard</a></h1>";
 
 	
 	const u_bookmark = document.querySelector("#rep_users");
@@ -17,11 +17,11 @@ function includeSidebar() {
 	// create_and_add("a", "Suggested Tags", sidebar_div, "href", "#");
 	const hr = document.createElement("hr");
 	sidebar_div.appendChild(hr);
-	create_and_add("a", "Post Notice", sidebar_div,  "href", "notice.html");
-	create_and_add("a", "All Users", sidebar_div, "href", "edit_user.html");
-	create_and_add("a", "All Questions", sidebar_div, "href", "edit_question.html");
-	create_and_add("a", "All Answers", sidebar_div, "href", "edit_answer.html");
-	create_and_add("a", "All Tags", sidebar_div, "href", "edit_tag.html");
+	create_and_add("a", "Post Notice", sidebar_div,  "href", "/admin/notice");
+	create_and_add("a", "All Users", sidebar_div, "href", "/admin/edituser");
+	create_and_add("a", "All Questions", sidebar_div, "href", "/admin/editquestion");
+	create_and_add("a", "All Answers", sidebar_div, "href", "/admin/editanswer");
+	create_and_add("a", "All Tags", sidebar_div, "href", "/admin/edittag");
 
 }
 
@@ -31,7 +31,7 @@ function create_and_add(type, text, parent, attr, attrIn, if_link=true){
 	if(if_link){
 		element.setAttribute(attr, attrIn);
 	}else{
-		element.setAttribute(attr, "admin_dashboard.html" + attrIn);
+		element.setAttribute(attr, "/admin/dashboard" + attrIn);
 	}
 	parent.appendChild(element);
 }

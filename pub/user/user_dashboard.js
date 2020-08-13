@@ -178,7 +178,7 @@ function basicInfo(){
     myhtml += `<a class="sidebutton" href="/profile?user_id=${backendUser._id}">Your Profile</a>`
 
     if(backendUser.isAdmin){
-        myhtml += `<a class="sidebutton" id="adminbutt" href="../admin/admin_dashboard.html">Admin Dashboard</a>`  
+        myhtml += `<a class="sidebutton" id="adminbutt" href="/admin/dashboard">Admin Dashboard</a>`  
     }
 
     $('#userinfo').prepend(myhtml);
