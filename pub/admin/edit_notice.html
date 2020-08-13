@@ -5,7 +5,7 @@
  		<meta charset="utf-8">
     	<title>Edit notice</title>
 		<link rel="stylesheet" type="text/css" href="admin.css">
-		<link rel="stylesheet" type="text/css" href="edit_notice.css">
+		<link rel="stylesheet" type="text/css" href="notice.css">
 		<link rel="stylesheet" type="text/css" href="sidebar.css">
 	</head>
 	<div class="sidebar"></div>
@@ -13,22 +13,20 @@
 		<br>
 		<h2> Edit notice </h2>
 		<div id='postNotice'>
-			<div>
-				<form id='questionForm'>
-					<div class="formerror"></div>
-					<label for="qtitle">Title</label>
-					<input id='qtitle' name="qtitle" type="text" placeholder="Title" value="">
-			
-					<div class="formerror"></div>
-					<label for="qdesc">Description</label>
-					<textarea id="qdesc" name="qdesc" rows="4" cols="50" placeholder="Type your question here"></textarea>
-					
-					<div class="formerror"></div>
-					<label for="qactive">Active (isShowing)</label>
-					<input id='qactive' name="qactive" type="button" value=false onclick="click_bool()">
-					<input id="formbtn" type="submit" value="Save Changes">
-				 </form>
-			 </div>
+			<form id='noticeForm'>
+				<div class="formerror"></div>
+				<label for="qtitle">Title</label>
+				<input id='qtitle' name="qtitle" type="text" placeholder="Title" value="">
+		
+				<div class="formerror"></div>
+				<label for="qdesc">Description</label>
+				<textarea id="qdesc" name="qdesc" rows="4" cols="50" placeholder="Type your question here"></textarea>
+				
+				<div class="formerror"></div>
+				<label for="qactive">Active (isShowing)</label>
+				<input id='qactive' name="qactive" type="button" value=false onclick="click_bool()">
+				<input id="formbtn" type="submit" value="Save Changes">
+			 </form>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" src="../sharedJs/sharedNotice.js"></script>

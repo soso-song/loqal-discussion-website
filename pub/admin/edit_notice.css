@@ -24,7 +24,7 @@
 
 .desc{
 	font-style: italic;
-	margin-bottom:20px;
+	margin:20px;
 }
 
 #preview{
@@ -89,3 +89,4 @@
 	background:#ffffff;
 	padding:20px;
 }
+

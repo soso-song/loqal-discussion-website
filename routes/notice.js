@@ -20,26 +20,27 @@ const {
 //add a notice: set isShowing for all previous notices to false when a new notice is added
 router.post('/', mongoChecker, authenticate, (req, res) => {
 	// disable all passed notices
-	Notice.updateMany({isShowing:true},{$set:{isShowing:false}}).then()
-	.catch(err=>{
-		console.error(err)
-	})
-	const notice = new Notice({
+	Notice.updateMany({isShowing:true},{$set:{isShowing:false}}).then(updated=>{
+		const notice = new Notice({
 		title: req.body.title,
 		content: req.body.content,
 		user: req.user._id
-	});
-	notice.save().then((notice) => {
-        //res.redirect('/admin/notice.html');
+		});
+		notice.save()
+		.catch((error) => {
+			if (isMongoError(error)) { 
+				res.status(500).send('Internal server error')
+			} else {
+				log("this is the error ",error, " end of error")
+				res.status(400).send('Bad Request')
+			}
+		})
+		res.send();
 	})
-	.catch((error) => {
-		if (isMongoError(error)) { 
-			res.status(500).send('Internal server error')
-		} else {
-			log("this is the error ",error, " end of error")
-			res.status(400).send('Bad Request')
-		}
+	.catch(err=>{
+		res.status(500).send('Internal server error')
 	})
+	
 })
 // get a notice with isShowing set to true
 router.get('/current', mongoChecker, (req, res) => {
@@ -77,7 +78,7 @@ router.get('/:id', mongoChecker, (req, res) => {
 	}
 	Notice.findById(id).then((notice) => {
 		if (!notice) {
-			res.status(404).send('Restaurant not found');
+			res.status(404).send('Notice not found');
 		} else {
 			res.json(notice);
 		}
@@ -106,12 +107,11 @@ router.patch('/:id', mongoChecker, (req, res) => {
 			if (req.body.isShowing !== null){
 				notice.isShowing = req.body.isShowing;
 			}
-			notice.save().then((result)=>{
-				//res.redirect(303, '/answer?question_id=' + id);
-			}).catch((error)=>{
-				//console.log(error);
+			notice.save()
+			.catch((error)=>{
 				res.status(400).send('Bad request.');
 			})
+			res.send();
 		}
 	})
 	.catch((error) => {

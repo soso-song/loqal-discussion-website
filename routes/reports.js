@@ -19,7 +19,6 @@ const {
 //report route below********************************************************************/
 // Route for creating a new report
 router.post('/', mongoChecker, authenticate, (req, res) => {
-
 	const report = new Report({
 		type: req.body.type,
 		targetId: req.body.targetId,
@@ -28,14 +27,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 		//reviewer: req.body.reviewer, // no admin review yet
 		//isReviewed: false // by default
 	});
-	// log('this is user');
-	// log(req.user);
-
-	// Save questions
-	// report.save().then((report) => {
- //        res.redirect('/answer?question_id=' + question._id);
-	// })
-	report.save().then()
+	report.save()
 	.catch((error) => {
 		if (isMongoError(error)) { 
 			res.status(500).send('Internal server error')
@@ -44,6 +36,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 			res.status(400).send('Bad Request')
 		}
 	})
+	res.send();
 })
 
 /// Route for getting all exisiting reports
@@ -131,7 +124,6 @@ router.get('/:id', mongoChecker, (req, res) => {
 // Route for updating basic info fromt admin of a review given by id
 router.patch('/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
-
 	// Validate id
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Invalid Report ID');
@@ -144,11 +136,12 @@ router.patch('/:id', mongoChecker, (req, res) => {
 		} else {
 			report.reviewer = req.body.reviewer;
 			report.isReviewed = req.body.isReviewed; // either flag made or review denyed
-			report.save().then()
+			report.save()
 			.catch((error)=>{
 				console.log(error);
 				res.status(400).send('Bad request.');
 			})
+			res.send();
 		}
 	})
 	.catch((error) => {

@@ -52,7 +52,7 @@ $(document).ready(function() {
 	
 	
 
-	$('#questionForm').submit(function(e) {
+	$('#noticeForm').submit(function(e) {
 		e.preventDefault();
 
 		let hasError = false;
