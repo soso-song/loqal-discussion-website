@@ -217,7 +217,7 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 			res.status(500).send('Internal Server Error');
 		})
 	} else {
-		res.status(409).send('Dupplicate following to Tag!');
+		res.send('Dupplicate following to Tag!');
 	}
 
 })
