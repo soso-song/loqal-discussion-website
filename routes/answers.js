@@ -24,8 +24,10 @@ router.get('/users/:user', mongoChecker, (req, res) => {
 	Question.find(
 		{'answers.user' : {$eq : userid} }
 	).then((questions) => {
+		questions = questions.sort((a,b) => b.time - a.time);
 		questions.forEach(ques=>{
 			ques.answers = ques.answers.filter(ans => ans.user == userid);
+			ques.answer = ques.answers.sort((a,b) => b.time - a.time);
 		});
 		res.send(questions) 
 	})
@@ -41,6 +43,7 @@ router.get('/search/:keyword', mongoChecker, (req, res) => {
 		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
 		{'answers.content'	: { $regex: keyword, $options: "i" }}
 	).then((answers) => {
+		answers = answers.sort((a,b) => b.time - a.time);
 		res.send(answers) 
 	})
 	.catch((error) => {
@@ -263,6 +266,7 @@ router.post('/:id', mongoChecker, authenticate, (req, res) => {
 				content: req.body.content
 			};
 			question.answers.push(answer);
+			question.answers = question.answers.sort((a,b) => b.time - a.time);
 			question.save().then((question)=>{
 				res.send(question.answers[question.answers.length-1]);	// return the answer
 			}).catch((error)=>{

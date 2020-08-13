@@ -24,18 +24,21 @@ router.post('/', mongoChecker, adminAuthenticate, (req, res) => {
 		const notice = new Notice({
 		title: req.body.title,
 		content: req.body.content,
-		user: req.user._id
+		user: req.session.user
 		});
-		notice.save()
+
+		notice.save().
+		then(()=>{
+			res.send('Okay');
+		})
 		.catch((error) => {
+			console.log(error)
 			if (isMongoError(error)) { 
 				res.status(500).send('Internal server error')
 			} else {
-				log("this is the error ",error, " end of error")
 				res.status(400).send('Bad Request')
 			}
 		})
-		res.send();
 	})
 	.catch(err=>{
 		res.status(500).send('Internal server error')
@@ -61,6 +64,7 @@ router.get('/current', mongoChecker, (req, res) => {
 // get all notice
 router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 	Notice.find().then((notice) => {
+		notice = notice.sort((a,b) => b.time - a.time);
 		res.send(notice) 
 	})
 	.catch((error) => {

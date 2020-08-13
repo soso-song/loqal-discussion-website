@@ -42,6 +42,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 /// Route for getting all exisiting reports
 router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 	Report.find().then((reports) => {
+		reports = reports.sort((a,b) => b.time - a.time);
 		res.send(reports) 
 	})
 	.catch((error) => {
@@ -58,6 +59,7 @@ router.get('/type/user', mongoChecker, adminAuthenticate, (req, res) => {
 		if(!report){
 			res.status(404).send('Reported user not found');
 		}else{
+			report = report.sort((a,b) => b.time - a.time);
 			res.send(report) 
 		}
 	})
@@ -74,6 +76,7 @@ router.get('/type/question', mongoChecker, adminAuthenticate, (req, res) => {
 		if(!report){
 			res.status(404).send('Reported question not found');
 		}else{
+			report = report.sort((a,b) => b.time - a.time);
 			res.send(report) 
 		}
 	})
@@ -90,6 +93,7 @@ router.get('/type/answer', mongoChecker, adminAuthenticate, (req, res) => {
 		if(!report){
 			res.status(404).send('Reported answer not found');
 		}else{
+			report = report.sort((a,b) => b.time - a.time);
 			res.send(report) 
 		}
 	})
