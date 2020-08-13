@@ -57,24 +57,28 @@ function getCurrentUser() {
 }
 
 function setUpPage(){
-    basicInfo();
-    getUserTags();
-    getAllQUser();
-    getAllAnswer();
-    getFollowers();
-    getFollowing();
-    if(pageUser._id == currentUser._id){
-        $('#followUnfollow').css("display", "none");
+    if(pageUser.isFlagged){
+        $('#userinfo').html("<h2>This user has been flagged by an Admin of LOQAL</h2><h3>Please contact us if you need further information</h3>");
     }else{
-        $('#followUnfollow').css("display", "block");
-    }
-
-    //sets initial state for follower button
-    for(let i=0; i<pageUser.followers.length; i++)
-    {
-        if (pageUser.followers[i]==currentUser._id)
+        basicInfo();
+        getUserTags();
+        getAllQUser();
+        getAllAnswer();
+        getFollowers();
+        getFollowing();
+        if(pageUser._id == currentUser._id){
+            $('#followUnfollow').css("display", "none");
+        }else{
+            $('#followUnfollow').css("display", "block");
+        }
+    
+        //sets initial state for follower button
+        for(let i=0; i<pageUser.followers.length; i++)
         {
-            $('#followUnfollow').text('Unfollow');
+            if (pageUser.followers[i]==currentUser._id)
+            {
+                $('#followUnfollow').text('Unfollow');
+            }
         }
     }
 }
