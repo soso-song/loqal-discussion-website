@@ -45,6 +45,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 /// Route for getting all exisiting questions
 router.get('/', mongoChecker, authenticate, (req, res) => {
 	Question.find().then((questions) => {
+		questions = questions.sort((a,b) => b.time - a.time);
 		res.send(questions) 
 	})
 	.catch((error) => {
@@ -59,6 +60,7 @@ router.get('/users/:user', mongoChecker, authenticate, (req, res) => {
 	Question.find(
 		{user : { $eq : userid} }
 	).then((questions) => {
+		questions = questions.sort((a,b) => b.time - a.time);
 		res.send(questions) 
 	})
 	.catch((error) => {
@@ -73,6 +75,7 @@ router.get('/following', mongoChecker, authenticate, (req, res) => {
 	Question.find(
 		{ user: { "$in": usersfollowing }}
 	).then((questions) => {
+		questions = questions.sort((a,b) => b.time - a.time);
 		res.send(questions) 
 	})
 	.catch((error) => {
@@ -86,6 +89,7 @@ router.post('/tags', mongoChecker, (req, res) => {
 	Question.find(
 		{'tags': { $in : tag_ids} }
 	).then((questions) => {
+		questions = questions.sort((a,b) => b.time - a.time);
 		res.send(questions) 
 	})
 	.catch((error) => {
@@ -108,6 +112,7 @@ router.get('/tags/:tagname', mongoChecker, (req, res) => {
 			Question.find(
 				{tags : tag._id}
 			).then((questions) => {
+				questions = questions.sort((a,b) => b.time - a.time);
 				res.send(questions);
 			})
 			.catch((error) => {
@@ -129,6 +134,7 @@ router.get('/search/:keyword', mongoChecker, (req, res) => {
 		{content		: { $regex: keyword, $options: "i" }}
 		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
 	]}).then((questions) => {
+		questions = questions.sort((a,b) => b.time - a.time);
 		res.send(questions) 
 	})
 	.catch((error) => {
