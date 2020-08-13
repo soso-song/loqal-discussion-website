@@ -23,7 +23,6 @@ function getCurrentUser() {
 }
 
 getCurrentUser()
-//const user = curr_user;
 
 const userEditForm = document.querySelector('#editForm');
 userEditForm.addEventListener('submit',edit);

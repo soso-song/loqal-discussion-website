@@ -84,13 +84,6 @@ $(document).ready(function() {
 			hasError = true;
 		}
 
-		for (let i = 0; i < users.length; i++) {
-			if((users[i].username == username)){
-				$('#uname').prev().prev().text('Username already exists');
-				hasError = true;
-			}
-		}
-
 		if (email.length < 1) {
 			$('#rmail').prev().prev().text('This field is required');
 			hasError = true;
