@@ -97,7 +97,7 @@ function showQuestion(){
 	})
 	
 
-	let extrabutt = "<a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser._id+"&back_url="+window.location.href+"'>Report this question</a>";
+	let extrabutt = "<a href='/report?type=q&target_id="+myquestionid+"&user_id="+currentuser._id+"&back_url="+window.location.href+"'>Report this question</a>";
 
 	let is_solved = "Mark Solved";
 	if(myquestion.isResolved){
@@ -125,7 +125,7 @@ async function showAnswers(){
 
 	await getUserInfo(answer.user).then((ansUser) => {
 
-		let report_answer_btn_url = "../report/report.html?type=a&target_id="+answer._id+"&user_id="+currentuser._id+"&back_url="+window.location.href;
+		let report_answer_btn_url = "/report?type=a&target_id="+answer._id+"&user_id="+currentuser._id+"&back_url="+window.location.href;
 		
 		let bestText = ''
 		if(answer.isBest){

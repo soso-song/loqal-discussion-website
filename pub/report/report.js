@@ -5,7 +5,7 @@ let target_type = params.get('type');
 let target_id = params.get('target_id');
 let user_id = params.get('user_id');
 let back_url = params.get('back_url');
-// <a href='../report/report.html?type=q&target_id="+myquestionid+"&user_id="+currentuser+"'>Report this question</a>
+// <a href='/report?type=q&target_id="+myquestionid+"&user_id="+currentuser+"'>Report this question</a>
 // above variables should be passed and get when user cleck report button
 
 // suppose we already got correct above variables

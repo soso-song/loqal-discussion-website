@@ -88,7 +88,7 @@ $(document).ready(function() {
 		if(!hasError){
 			// At this stage we will send data to backend
 			// And redirect the user to the newly created question
-			// window.location.href = "../answer/answer.html";
+			// window.location.href = "/answer";
 			createTags(mytags.split(',')).then((mytags) => {
 				saveQuestion(mytitle, mydesc, mytags);
 			})

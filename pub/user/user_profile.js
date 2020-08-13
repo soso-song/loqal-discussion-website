@@ -208,7 +208,7 @@ function basicInfo(){
         myhtml += `<a class="sidebutton" href="/edit/profile">Edit Profile</a>`
     }
 
-    const reportLink = "../report/report.html?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
+    const reportLink = "/report?type=u&target_id="+pageUser._id+"&user_id="+currentUser._id+"&back_url="+window.location.href;
 
 
     myhtml += `<a href="javascript:void(0);" onclick='toggleFollowButt()' id="followUnfollow">Follow</a>`
