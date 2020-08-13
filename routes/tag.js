@@ -13,7 +13,7 @@ const {
    isMongoError,
    sessionChecker,
    mongoChecker,
-   c,
+   authenticate,
    adminAuthenticate
 } = require('./setups');
 
