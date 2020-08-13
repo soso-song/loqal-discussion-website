@@ -262,19 +262,6 @@ function save_all(e){
 		username_error.innerHTML = 'Username cannot be empty';
 		hasError = true;
 	}
-	// TODO(?): check duplicates username
-	// else {
-	// 	for (let i = 0; i < users.length; i++) {
-	// 		// TODO: getting user's information from database
- //            if((users[i].username === new_username) && (user.id != users[i].id)){
- //                username_error.innerHTML = 'Username already taken';
- //                hasError = true;
- //                break;
- //            } else {
- //            	username_error.innerHTML = '';
- //            }
- //        }
-	// }
 
 	const disname_error = document.querySelector('#disname_error');
 	if (new_disname.length < 1) {
@@ -283,14 +270,6 @@ function save_all(e){
     } else{
     	disname_error.innerHTML = '';
     }
-
-    // const password_error = document.querySelector('#password_error');
-    // if (new_password.length < 1) {
-    //     password_error.innerHTML = 'Password cannot be empty';
-    //     hasError = true;
-    // } else{
-    // 	password_error.innerHTML = '';
-    // }
 
     const email_error = document.querySelector('#email_error');
     if (new_email.length < 1) {
@@ -303,11 +282,6 @@ function save_all(e){
     if (hasError){
     	return;
     }
-	
-	// user.username = new_username;
-	// user.email = new_email;
-	// user.displayname = new_disname;
-	// user.password = new_password;
 
 	// save tags
 	const tags = document.querySelectorAll(".html_tag");
@@ -320,20 +294,6 @@ function save_all(e){
 			tag.parentElement.removeChild(tag);
 		}
 	}
-	// user.tags = tag_ids;
-	// // save status
-	// if (document.querySelector("#flag_select").value === 'is_flagged'){
-	// 	user.isFlagged = true;
-	// }else{
-	// 	user.isFlagged = false;
-	// }
-
-	// // save status
-	// if (document.querySelector("#admin_select").value === 'is_admin'){
-	// 	user.isAdmin = true;
-	// }else{
-	// 	user.isAdmin = false;
-	// }
 
 	const data = {
 		displayname: new_disname,
