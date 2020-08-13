@@ -32,3 +32,45 @@ async function getUserInfo(user_id){
 	})
 	return userInfo;
 }
+
+// get the list of users with a list of ids
+async function getUserList(user_ids){
+	if(user_ids.length == 0){
+		return;
+	}
+
+	const url = '/users/mapping';
+
+	const data = {
+		ids: user_ids
+	}
+
+
+	const request = new Request(url, {
+		method: 'post',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	let user_mapping;
+	await fetch(request)
+	.then((res) => {
+		if (res.status === 200) {
+           	return res.json();
+       	} else {
+       		console.log(res)
+            alert('Could not get users.');
+       	} 
+	})
+	.then((json) => {
+		user_mapping = json;
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+
+	return user_mapping;
+}

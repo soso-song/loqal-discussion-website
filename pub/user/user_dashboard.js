@@ -231,24 +231,28 @@ function getAllQ(){
        }                
     })
     .then((json) => {
-        json.forEach(function(q) {
+        const user_ids = json.map(q => q.user);
+        getUserList(user_ids).then((mapping) => {
+            json.forEach(function(q) {
+                const myUser = mapping[q.user];
 
-            let resolve ='Unresolved';
-            if (q.isResolved == true)
-            {
-                resolve = 'Resolved';
-            }
+                let resolve ='Unresolved';
+                if (q.isResolved == true)
+                {
+                    resolve = 'Resolved';
+                }
 
-            const numA = q.answers.length;
+                const numA = q.answers.length;
 
-            getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
                 <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
-            })
 
-        });
+            });
+        })
+
+        
     }).catch((error) => {
         console.log(error)
     })
@@ -268,24 +272,24 @@ function getAllFollowingQ(){
        }                
     })
     .then((json) => {
-        json.forEach(function(q) {
-            
-            const numA = q.answers.length;
+        const user_ids = json.map(q => q.user);
+        getUserList(user_ids).then((mapping) => {
+            json.forEach(function(q) {
+                const myUser = mapping[q.user];
+                const numA = q.answers.length;
 
-            let resolve ='Unresolved';
-            if (q.isResolved == true)
-            {
-                resolve = 'Resolved';
-            }
+                let resolve ='Unresolved';
+                if (q.isResolved == true)
+                {
+                    resolve = 'Resolved';
+                }
 
-            getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
                 <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
-            })
-
-        });
+            });
+        })
     }).catch((error) => {
         console.log(error)
     })
@@ -320,23 +324,25 @@ function getAllTagQ(){
        }                
     })
     .then((json) => {
-        json.forEach(function(q) {
+        const user_ids = json.map(q => q.user);
+        getUserList(user_ids).then((mapping) => {
+            json.forEach(function(q) {
+                const myUser = mapping[q.user];
+                
+                let resolve ='Unresolved';
+                if (q.isResolved == true)
+                {
+                    resolve = 'Resolved';
+                }
 
-            let resolve ='Unresolved';
-            if (q.isResolved == true)
-            {
-                resolve = 'Resolved';
-            }
+                const numA = q.answers.length;
 
-            const numA = q.answers.length;
-
-            getUserInfo(q.user).then((myUser) => {
                 wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
                 <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
-            })
-        });
+            });
+        })
     }).catch((error) => {
         console.log(error)
     })
