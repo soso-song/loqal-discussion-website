@@ -179,39 +179,3 @@ $(document).ready(function() {
 	});
 
 });
-
-function userUpdateQuestion(id, mytitle, mydesc, mytags, 
-						isResolved=null){
-	const url = '/questions/' + id;
-
-	const data = {
-		title: mytitle,
-		content: mydesc,
-		tags: mytags,
-		isResolved: isResolved
-	}
-
-	const request = new Request(url, {
-		method: 'PATCH',
-		body: JSON.stringify(data),
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-			'Content-Type': 'application/json'
-		}
-	});
-
-	let newURL;
-
-	fetch(request)
-	.then(function(res) {
-		if (res.status === 403){
-			alert('You have no permission to edit this question!');
-			window.location.href = '/answer?question_id=' + myquestionid;
-		}
-		else if(isResolved === null){
-			window.location.href = res.url;
-		}
-	}).catch((error) => {
-		console.log(error);
-	})
-}
