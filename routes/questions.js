@@ -19,7 +19,6 @@ const {
 /*** Question routes below **********************************/
 // Route for creating a new question
 router.post('/', mongoChecker, authenticate, (req, res) => {
-
 	const question = new Question({
 		title: req.body.title,
 		content: req.body.content,
@@ -29,8 +28,6 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 		isResolved: false,
 		isFlagged: false
 	});
-	// log('this is user');
-	// log(req.user);
 
 	// Save questions
 	question.save().then((quesiton) => {
@@ -40,7 +37,6 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 		if (isMongoError(error)) { 
 			res.status(500).send('Internal server error')
 		} else {
-			log("this is the error ",error, " end of error")
 			res.status(400).send('Bad Request')
 		}
 	})
