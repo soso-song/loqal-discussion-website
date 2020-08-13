@@ -247,10 +247,12 @@ function getAllQUser(){
 
             let numA = currQ.answers.length;
 
-            totalString+=`<div class="shortquestion">
+            if(!currQ.isFlagged){
+                totalString+=`<div class="shortquestion">
                 <a class="squestion" href="/answer?question_id=${currQ._id}">${currQ.title}</a>
                 <div class="sinfo">Asked by <a href="/profile?user_id=${currQ.user}">${pageUser.username}</a> - ${readableDate(currQ.time)} -  ${numA} Answers - ${resolve}</div>
-            </div>`;
+                </div>`;
+            }
         });
 
         wanted.innerHTML = totalString;
@@ -280,11 +282,13 @@ function getAllAnswer(){
     .then((json) => { 
         json.forEach(function(currQ) {
             currQ.answers.forEach(function(currA) {
-                totalString+=`	<div class="shortquestion">
-                <a class="sanswer" href="/answer?question_id=${currQ._id}">${currA.content}</a>
-                <div class="sinfo">In reply to <a href="/answer?question_id=${currQ._id}">${currQ.title}</a> - ${readableDate(currA.time)}</div>
-                </div>`;
-                answerCount += 1;
+                if(!currA.isFlagged){
+                    totalString+=`	<div class="shortquestion">
+                    <a class="sanswer" href="/answer?question_id=${currQ._id}">${currA.content}</a>
+                    <div class="sinfo">In reply to <a href="/answer?question_id=${currQ._id}">${currQ.title}</a> - ${readableDate(currA.time)}</div>
+                    </div>`;
+                    answerCount += 1;
+                }
             });
         });
         let headings = document.getElementsByClassName("userheading");

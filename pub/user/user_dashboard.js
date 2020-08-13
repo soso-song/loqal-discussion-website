@@ -130,10 +130,16 @@ function getQBySelectedTag(){
             }
 
             getUserInfo(q.user).then((myUser) => {
-                wanted.innerHTML+=`<div class="shortquestion">
+
+                if (q.isFlagged){
+                    // Don't show anything
+                    // Modify this if you wanna show some sort of message instead
+                }else{
+                    wanted.innerHTML+=`<div class="shortquestion">
                 <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
                 <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
                 </div>`;
+                }
             })
 
         });
@@ -244,10 +250,15 @@ function getAllQ(){
 
                 const numA = q.answers.length;
 
-                wanted.innerHTML+=`<div class="shortquestion">
-                <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
-                </div>`;
+                if (q.isFlagged){
+                    // Don't show anything
+                    // Modify this if you wanna show some sort of message instead
+                }else{
+                    wanted.innerHTML+=`<div class="shortquestion">
+                    <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
+                    <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                    </div>`;
+                }
 
             });
         })
@@ -284,10 +295,15 @@ function getAllFollowingQ(){
                     resolve = 'Resolved';
                 }
 
-                wanted.innerHTML+=`<div class="shortquestion">
-                <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
-                </div>`;
+                if (q.isFlagged){
+                    // Don't show anything
+                    // Modify this if you wanna show some sort of message instead
+                }else{
+                    wanted.innerHTML+=`<div class="shortquestion">
+                    <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
+                    <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                    </div>`;
+                }
             });
         })
     }).catch((error) => {
@@ -337,10 +353,15 @@ function getAllTagQ(){
 
                 const numA = q.answers.length;
 
-                wanted.innerHTML+=`<div class="shortquestion">
-                <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
-                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
-                </div>`;
+                if (q.isFlagged){
+                    // Don't show anything
+                    // Modify this if you wanna show some sort of message instead
+                }else{
+                    wanted.innerHTML+=`<div class="shortquestion">
+                    <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
+                    <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                    </div>`;
+                }
             });
         })
     }).catch((error) => {

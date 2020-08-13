@@ -48,8 +48,13 @@ function getQuestionByURL() {
 
 
 function showQuestion(){
-	$('#ptitle').text(myquestion.title);
-	$('#pdesc').text(myquestion.content);
+	if(myquestion.isFlagged){
+		$('#ptitle').text("This question has been flagged by an Admin of LOQAL");
+		$('#pdesc').text("Please contact us if you need further information");	
+	}else{
+		$('#ptitle').text(myquestion.title);
+		$('#pdesc').text(myquestion.content);	
+	}
 
 
 	const url = '/tag/names';
@@ -132,9 +137,14 @@ async function showAnswers(){
 			bestText = "id='isbest'"
 		}
 
+		let myanswertext = answer.content;
+		if(answer.isFlagged){
+			myanswertext = "This answer has been flagged by an Admin of LOQAL"
+		}
+
 		let oneanswer = '<div '+bestText+' class="answer"><div id="'+answer._id+'" class="answertext">'
 		+
-		answer.content
+		myanswertext
 		+
 		'</div><div class="answerinfo">Answered by <a href="/profile?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a> - ' +readableDate(answer.time)+' </div>'
 		;
