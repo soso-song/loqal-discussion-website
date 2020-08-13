@@ -2,6 +2,7 @@
 
 let currentuser;
 let tags;
+let user_tag_names = [];
 
 const params = new URLSearchParams(window.location.search)
 let back_url = params.get('back_url');
@@ -64,10 +65,12 @@ $(document).ready(function() {
 		for (let i = 0; i < tags.length; i++) {
 			let newDiv = '<a href="javascript:void(0);" class="interactivetag" id="' + tags[i]._id + '">' + tags[i].name + '<span class="tagside">Follow</span></a>';
 			if(currentuser.tags.includes(tags[i]._id)){
+				user_tag_names.push(tags[i].name);
 				newDiv = '<a href="javascript:void(0);" class="interactivetag" id="' + tags[i]._id + '">' + tags[i].name + '<span class="tagside">Unfollow</span></a>';
 				$('#currenttags').prepend(newDiv);
-			}else if (limit < 10){
+			}else if (limit < 15){
 				$('#alltags').prepend(newDiv);
+				limit++;
 			}
 		}
 	}
@@ -118,9 +121,16 @@ $(document).ready(function() {
 			hasError = true;
 		}
 
+		// can't follow to already following tags
+		if (user_tag_names.includes(formattedString)){
+			hasError = true;
+			$('.formerror').html('Your are already following this tag!');
+		}
+
 		if(!hasError){
 			// At this stage we will send data to backend to add tag to user and will get the tag id from back-end
 			customTag(formattedString);
+			$('#newtag').val('');
 			
 		}
   	});
@@ -138,9 +148,10 @@ $(document).ready(function() {
 		});
 
 		fetch(request).then((res) => {
-			if(res.status == 409){
-				console.log('already following!')
-			}
+			return res.json();
+		})
+		.then((json) => {
+			user_tag_names.push(json.name);
 		})
 		.catch((error) => {
 			console.log(error);
@@ -158,7 +169,12 @@ $(document).ready(function() {
 			}
 		});
 
-		fetch(request).then()
+		fetch(request).then((res) => {
+			return res.json();
+		})
+		.then((json) => {
+			user_tag_names = user_tag_names.filter(name => name !== json.name);
+		})
 		.catch((error) => {
 			console.log(error);
 		})
@@ -181,17 +197,16 @@ $(document).ready(function() {
 				'Content-Type': 'application/json'
 			}
 		});
-		console.log('hi');
+
 		fetch(request)
 		.then(function(res) {
-			console.log('inside');
 			return res.json();
 		})
 		.then((json) => {
-			console.log('inside 2');
 			let newTag = '<a href="javascript:void(0);" class="interactivetag" id="' + json.tag._id + '">' + json.tag.name + '<span class="tagside">Unfollow</span></a>';
 			$('#currenttags').prepend(newTag);
 			followTag(json.tag._id);
+
 		})
 		.catch((error) => {
 			console.log(error)

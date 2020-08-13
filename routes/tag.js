@@ -202,7 +202,7 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 
 					user.save()
 					.then(() => {
-						res.send('Okay!');
+						res.send(tag);
 					})
 					.catch((error) => {
 						res.status(400).send('Bad request.');
@@ -242,7 +242,7 @@ router.patch('/unfollow/:tag_id', mongoChecker, authenticate, (req, res) => {
 				tag.save().then((tag) => {
 					user.tags = user.tags.filter((tag) => tag._id != tag_id);
 					user.save().then(() => {
-						res.send('Okay!');
+						res.send(tag);
 					})
 					.catch((error) => {
 						res.status(400).send('Bad request.');
