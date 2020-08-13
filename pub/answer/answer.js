@@ -229,7 +229,7 @@ function setOnclicks(){
 			isResolved = true;
 		}
 		//Send data to server to mark question as solved or unsolved
-		updateQuestion(myquestionid, myquestion.title, myquestion.content, myquestion.tags, isResolved);
+		userUpdateQuestion(myquestionid, myquestion.title, myquestion.content, myquestion.tags, isResolved);
 	});
 
 	// A New answer is submitted

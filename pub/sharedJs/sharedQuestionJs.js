@@ -29,39 +29,42 @@ async function getQuestionByID(id){
 	return question;
 }
 
-// async function updateQuestion(id, mytitle, mydesc, mytags, 
-// 							  isResolved=null, isFlagged=null){
-// 	const url = '/questions/' + id;
 
-// 	const data = {
-// 		title: mytitle,
-// 		content: mydesc,
-// 		tags: mytags,
-// 		isResolved: isResolved,
-// 		isFlagged: isFlagged
-// 	}
+function userUpdateQuestion(id, mytitle, mydesc, mytags, 
+						isResolved=null){
+	const url = '/questions/' + id;
 
-// 	const request = new Request(url, {
-// 		method: 'PATCH',
-// 		body: JSON.stringify(data),
-// 		headers: {
-// 			'Accept': 'application/json, text/plain, */*',
-// 			'Content-Type': 'application/json'
-// 		}
-// 	});
+	const data = {
+		title: mytitle,
+		content: mydesc,
+		tags: mytags,
+		isResolved: isResolved
+	}
 
-// 	let newURL;
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
 
-// 	await fetch(request)
-// 	.then(function(res) {
-// 		if(isResolved === null){
-// 			newURL = res.url;
-// 		}
-// 	}).catch((error) => {
-// 		console.log(error);
-// 	})
-// 	return newURL;
-// }
+	let newURL;
+
+	fetch(request)
+	.then(function(res) {
+		if (res.status === 403){
+			alert('You have no permission to edit this question!');
+			window.location.href = res.url;
+		}
+		else if(isResolved === null){
+			window.location.href = res.url;
+		}
+	}).catch((error) => {
+		console.log(error);
+	})
+}
 
 // get the user's username and displayname from server
 async function getUserInfo(user_id){

@@ -170,7 +170,7 @@ $(document).ready(function() {
 			// At this stage we will send data to backend
 			// And redirect the user to the newly updated question
 			createTags(mytags.split(',')).then((mytags) => {
-				updateQuestion(myquestionid ,mytitle, mydesc, mytags);
+				userUpdateQuestion(myquestionid ,mytitle, mydesc, mytags);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -180,7 +180,7 @@ $(document).ready(function() {
 
 });
 
-function updateQuestion(id, mytitle, mydesc, mytags, 
+function userUpdateQuestion(id, mytitle, mydesc, mytags, 
 						isResolved=null){
 	const url = '/questions/' + id;
 
