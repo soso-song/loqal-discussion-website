@@ -250,11 +250,12 @@ function setOnclicks(){
 			//Answer add to database-----------
 			let newDiv = '';
 			saveAnswer(myanswer,myquestionid).then((res) => {
-				newDiv = "<div class='answerbuttons'> <a href=''>Report this answer</a> <a href='/edit/answer?question_id="
-				+ myquestionid + "&answer_id=" + res + "'>Edit Answer</a>";
-				return res;
-			})
-			.then((res) => {
+
+				const report_answer_btn_url = "/report?type=a&target_id="+res._id+"&user_id="+currentuser._id+"&back_url="+window.location.href;
+
+				newDiv = "<div class='answerbuttons'> <a href='"+ report_answer_btn_url +"'>Report this answer</a> <a href='/edit/answer?question_id="
+				+ myquestionid + "&answer_id=" + res._id + "'>Edit Answer</a>";
+
 				newDiv = "<div class='answer'><div class='answertext'>"
 				+
 				myanswer
@@ -264,7 +265,7 @@ function setOnclicks(){
 				newDiv;
 
 				if(currentuser._id == myquestion.user){
-					newDiv += ' <a href="javascript:void(0);" onclick="'+ `pickAsBest('${myquestionid}', '${res}')` +'" class="pickbest">Pick as Best Answer</a></div></div>';
+					newDiv += ' <a href="javascript:void(0);" onclick="'+ `pickAsBest('${myquestionid}', '${res._id}')` +'" class="pickbest">Pick as Best Answer</a></div></div>';
 				} else{
 					newDiv += '</div></div>'
 				}
@@ -299,19 +300,18 @@ async function saveAnswer(myanswer,myquestionid){
 		}
 	});
 
-	let answer_id;
+	let answer;
 	await fetch(request)
 	.then(function(res) {
 		return res.json();
-		return res.json();
 	})
 	.then((json) => {
-		answer_id = json._id;
+		answer = json;
 	})
 	.catch((error) => {
 		console.log(error)
 	})
-	return answer_id;
+	return answer;
 }
 
 function getAnchor() {

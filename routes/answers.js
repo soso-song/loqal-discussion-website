@@ -266,7 +266,7 @@ router.post('/:id', mongoChecker, authenticate, (req, res) => {
 				content: req.body.content
 			};
 			question.answers.push(answer);
-			question.answers = question.answers.sort((a,b) => b.time - a.time);
+			question.answers = question.answers.sort((a,b) => a.time - b.time);
 			question.save().then((question)=>{
 				res.send(question.answers[question.answers.length-1]);	// return the answer
 			}).catch((error)=>{
