@@ -38,6 +38,7 @@ $(document).ready(function() {
 				}
 				else {
 					alert('You have no permission to edit this question!');
+					window.location.href = '/answer?question_id=' + myquestionid;
 				}
 				
 			});
@@ -169,10 +170,7 @@ $(document).ready(function() {
 			// At this stage we will send data to backend
 			// And redirect the user to the newly updated question
 			createTags(mytags.split(',')).then((mytags) => {
-				return updateQuestion(myquestionid ,mytitle, mydesc, mytags);
-			})
-			.then((url) => {
-				window.location.href = url;
+				updateQuestion(myquestionid ,mytitle, mydesc, mytags);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -181,3 +179,39 @@ $(document).ready(function() {
 	});
 
 });
+
+function updateQuestion(id, mytitle, mydesc, mytags, 
+						isResolved=null){
+	const url = '/questions/' + id;
+
+	const data = {
+		title: mytitle,
+		content: mydesc,
+		tags: mytags,
+		isResolved: isResolved
+	}
+
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	let newURL;
+
+	fetch(request)
+	.then(function(res) {
+		if (res.status === 403){
+			alert('You have no permission to edit this question!');
+			window.location.href = '/answer?question_id=' + myquestionid;
+		}
+		else if(isResolved === null){
+			window.location.href = res.url;
+		}
+	}).catch((error) => {
+		console.log(error);
+	})
+}

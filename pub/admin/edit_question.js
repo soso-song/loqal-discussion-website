@@ -243,3 +243,34 @@ function change_is_reso(no){
 	}
 }
 
+async function updateQuestion(id, mytitle, mydesc, mytags, 
+							  isResolved, isFlagged){
+	const url = '/questions/admin/' + id;
+
+	const data = {
+		title: mytitle,
+		content: mydesc,
+		tags: mytags,
+		isResolved: isResolved,
+		isFlagged: isFlagged
+	}
+
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	let newURL;
+
+	await fetch(request)
+	.then(function(res) {
+		return;
+	}).catch((error) => {
+		console.log(error);
+	})
+	return newURL;
+}

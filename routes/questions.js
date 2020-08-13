@@ -43,7 +43,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 })
 
 /// Route for getting all exisiting questions
-router.get('/', mongoChecker, (req, res) => {
+router.get('/', mongoChecker, authenticate, (req, res) => {
 	Question.find().then((questions) => {
 		res.send(questions) 
 	})
@@ -54,7 +54,7 @@ router.get('/', mongoChecker, (req, res) => {
 })
 
 //get all question for given userid
-router.get('/users/:user', mongoChecker, (req, res) => {
+router.get('/users/:user', mongoChecker, authenticate, (req, res) => {
 	const userid = req.params.user;
 	Question.find(
 		{user : { $eq : userid} }
@@ -80,7 +80,7 @@ router.get('/following', mongoChecker, authenticate, (req, res) => {
 	})
 })
 
-//get all questions with given tag
+// Route for get all questions with given a list of tag ids in the body
 router.post('/tags', mongoChecker, (req, res) => {
 	const tag_ids = req.body.tag_ids;
 	Question.find(
@@ -94,7 +94,7 @@ router.post('/tags', mongoChecker, (req, res) => {
 	
 })
 
-//get questions with given tag name
+// Route for getting questions with given tag name
 router.get('/tags/:tagname', mongoChecker, (req, res) => {
 	const tagname = req.params.tagname;
 	//log('inside questionsearch');
@@ -120,7 +120,7 @@ router.get('/tags/:tagname', mongoChecker, (req, res) => {
 	})
 })
 
-//http://localhost:5000/questions/search/o
+// Route for getting questions containing the given keyword
 router.get('/search/:keyword', mongoChecker, (req, res) => {
 	const keyword = req.params.keyword;
 	//log('inside questionsearch');
@@ -136,30 +136,6 @@ router.get('/search/:keyword', mongoChecker, (req, res) => {
 	})
 })
 
-// Route for flag question
-router.patch('/flag/:id', mongoChecker, authenticate, (req, res) => {
-	const id = req.params.id;
-	if(!ObjectID.isValid(id)){
-		res.status(404).send('ID not valid');
-		return;
-	}
-	Question.findById(id).then((question) => {
-		if (!question) {
-			res.status(404).send('User not found');
-		} else {
-			question.isFlagged = req.body.flag;
-			question.save().then(ques=>{
-				res.send(ques);
-			})
-			.catch((error)=>{
-				res.status(400).send('Bad request.');
-			})
-		}
-	})
-	.catch((error) => {
-		res.status(500).send('Internal Server Error');
-	})
-})
 
 // Route for getting the question by given id
 router.get('/:id', mongoChecker, (req, res) => {
@@ -184,8 +160,72 @@ router.get('/:id', mongoChecker, (req, res) => {
 	})
 })
 
-// Route for updating basic info(title, desc, tags) of a question given by id
-router.patch('/:id', mongoChecker, (req, res) => {
+// Route for flagging question
+router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
+	const id = req.params.id;
+	if(!ObjectID.isValid(id)){
+		res.status(404).send('ID not valid');
+		return;
+	}
+	Question.findById(id).then((question) => {
+		if (!question) {
+			res.status(404).send('User not found');
+		} else {
+			question.isFlagged = req.body.flag;
+			question.save().then(ques=>{
+				res.send(ques);
+			})
+			.catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+
+// Route for updating info of a question given by id
+router.patch('/:id', mongoChecker, authenticate, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid quesiton ID');
+		return;
+	}
+	// If id valid, findById
+	Question.findById(id).then((question) => {
+		if (!question) {
+			res.status(404).send('Quesiton not found');
+		} else if (req.session.user == question.user) {
+			question.title = req.body.title;
+			question.content = req.body.content;
+			question.tags = req.body.tags;
+			if (req.body.isResolved !== null){
+				question.isResolved = req.body.isResolved;
+			}
+			question.save().then((result)=>{
+				res.redirect(303, '/answer?question_id=' + id);
+			}).catch((error)=>{
+				console.log(error);
+				res.status(400).send('Bad request.');
+			})
+		}
+		else {
+			console.log(req.session.user)
+			console.log(question.user)
+			res.status(403).send('No permission to edit quesiton');
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
+// Route for updating info of a question given by id
+router.patch('/admin/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
@@ -201,14 +241,10 @@ router.patch('/:id', mongoChecker, (req, res) => {
 			question.title = req.body.title;
 			question.content = req.body.content;
 			question.tags = req.body.tags;
-			if (req.body.isResolved !== null){
-				question.isResolved = req.body.isResolved;
-			}
-			if (req.body.isFlagged !== null){
-				question.isFlagged = req.body.isFlagged;
-			}
+			question.isResolved = req.body.isResolved;
+			question.isFlagged = req.body.isFlagged;
 			question.save().then((result)=>{
-				res.redirect(303, '/answer?question_id=' + id);
+				res.send('Okay');
 			}).catch((error)=>{
 				console.log(error);
 				res.status(400).send('Bad request.');

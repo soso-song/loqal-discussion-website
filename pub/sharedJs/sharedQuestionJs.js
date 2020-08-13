@@ -29,39 +29,39 @@ async function getQuestionByID(id){
 	return question;
 }
 
-async function updateQuestion(id, mytitle, mydesc, mytags, 
-							  isResolved=null, isFlagged=null){
-	const url = '/questions/' + id;
+// async function updateQuestion(id, mytitle, mydesc, mytags, 
+// 							  isResolved=null, isFlagged=null){
+// 	const url = '/questions/' + id;
 
-	const data = {
-		title: mytitle,
-		content: mydesc,
-		tags: mytags,
-		isResolved: isResolved,
-		isFlagged: isFlagged
-	}
+// 	const data = {
+// 		title: mytitle,
+// 		content: mydesc,
+// 		tags: mytags,
+// 		isResolved: isResolved,
+// 		isFlagged: isFlagged
+// 	}
 
-	const request = new Request(url, {
-		method: 'PATCH',
-		body: JSON.stringify(data),
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-			'Content-Type': 'application/json'
-		}
-	});
+// 	const request = new Request(url, {
+// 		method: 'PATCH',
+// 		body: JSON.stringify(data),
+// 		headers: {
+// 			'Accept': 'application/json, text/plain, */*',
+// 			'Content-Type': 'application/json'
+// 		}
+// 	});
 
-	let newURL;
+// 	let newURL;
 
-	await fetch(request)
-	.then(function(res) {
-		if(isResolved === null){
-			newURL = res.url;
-		}
-	}).catch((error) => {
-		console.log(error);
-	})
-	return newURL;
-}
+// 	await fetch(request)
+// 	.then(function(res) {
+// 		if(isResolved === null){
+// 			newURL = res.url;
+// 		}
+// 	}).catch((error) => {
+// 		console.log(error);
+// 	})
+// 	return newURL;
+// }
 
 // get the user's username and displayname from server
 async function getUserInfo(user_id){
