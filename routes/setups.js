@@ -50,10 +50,10 @@ const authenticate = (req, res, next) => {
 				next()
 			}
 		}).catch((error) => {
-			res.status(401).send("Unauthorized")
+			res.redirect('/login')
 		})
 	} else {
-		res.status(401).send("Unauthorized")
+		res.redirect('/login')
 	}
 }
 
@@ -69,10 +69,10 @@ const adminAuthenticate = (req, res, next) => {
 				next();
 			}
 		}).catch((error) => {
-			res.status(401).send("Unauthorized")
+			res.redirect('/dashboard')
 		})
 	} else {
-		res.status(401).send("Unauthorized")
+		res.redirect('/dashboard')
 	}
 }
 
