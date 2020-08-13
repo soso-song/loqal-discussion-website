@@ -133,7 +133,6 @@ router.patch('/:id', mongoChecker, (req, res) => {
 		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
 			res.status(500).send('Internal server error')
 		} else {
-			log(error)
 			res.status(400).send('Bad Request') // bad request for changing the student.
 		}
 	})
@@ -161,7 +160,6 @@ router.delete('/:id', mongoChecker, (req,res) =>{
 		}
 	})
 	.catch((error) => {
-		log(error)
 		res.status(500).send() // server error, could not delete.
 	})
 })
@@ -190,7 +188,6 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 	}
 
 	const user = req.user;
-	console.log(req.user);
 
 	if(!user.tags.includes(tag_id)){
 		// add to tag count
@@ -208,12 +205,10 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 						res.send('Okay!');
 					})
 					.catch((error) => {
-						log(error)
 						res.status(400).send('Bad request.');
 					})
 				})
 				.catch((error) => {
-					log(error)
 					res.status(400).send('Bad request.');
 				})
 			}
@@ -227,49 +222,44 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 
 })
 
-router.patch('/unfollow/:tag_id/:user_id', mongoChecker, (req, res) => {
+router.patch('/unfollow/:tag_id', mongoChecker, authenticate, (req, res) => {
 	const tag_id = req.params.tag_id;
-	const user_id = req.params.user_id;
+	const user = req.user;
 
 	// Validate id
-	if (!ObjectID.isValid(tag_id) || !ObjectID.isValid(user_id)) {
+	if (!ObjectID.isValid(tag_id)) {
 		res.status(404).send('Invalid ID');
 		return;  // so that we don't run the rest of the handler.
 	}
 
-	User.findById(user_id).then((user) => {
-		if(!user){
-			res.status(404).send('User not found');
-		} else if (user.tags.includes(tag_id)){
-			Tag.findById(tag_id).then((tag) => {
-				if(!tag){
-					res.status(404).send('Tag not found');
-				}
-				else {
-					tag.count = tag.count <= 0 ? 0 : tag.count-1;
-					tag.save().then((tag) => {
-						user.tags = user.tags.filter((tag) => tag._id != tag_id);
-						user.save().then()
-						.catch((error) => {
-							res.status(400).send('Bad request.');
-						})
+	if (user.tags.includes(tag_id)){
+		Tag.findById(tag_id).then((tag) => {
+			if(!tag){
+				res.status(404).send('Tag not found');
+			}
+			else {
+				tag.count = tag.count <= 0 ? 0 : tag.count-1;
+				tag.save().then((tag) => {
+					user.tags = user.tags.filter((tag) => tag._id != tag_id);
+					user.save().then(() => {
+						res.send('Okay!');
 					})
 					.catch((error) => {
 						res.status(400).send('Bad request.');
 					})
-				}
-			})
-			.catch((error) => {
-				res.status(500).send('Internal Server Error');
-			})
-		}
-		else {
-			res.send('Nothing changed');
-		}
-	})
-	.catch((error) => {
-		res.status(500).send('Internal Server Error');
-	})
+				})
+				.catch((error) => {
+					res.status(400).send('Bad request.');
+				})
+			}
+		})
+		.catch((error) => {
+			res.status(500).send('Internal Server Error');
+		})
+	}
+	else {
+		res.send('Nothing changed');
+	}
 
 })
 
