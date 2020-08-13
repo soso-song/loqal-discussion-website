@@ -112,8 +112,6 @@ function save_row(no){
 	document.getElementById("name_row"+no).innerHTML=name_val;
 
 	//connect and save variabe to db
-	//push_name(name_val);
-	tags[no].name = name_val;
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
 
