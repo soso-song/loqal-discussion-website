@@ -18,7 +18,7 @@ const {
 
 //Notice route below**********/
 //add a notice: set isShowing for all previous notices to false when a new notice is added
-router.post('/', mongoChecker, authenticate, (req, res) => {
+router.post('/', mongoChecker, adminAuthenticate, (req, res) => {
 	// disable all passed notices
 	Notice.updateMany({isShowing:true},{$set:{isShowing:false}}).then(updated=>{
 		const notice = new Notice({
@@ -39,9 +39,9 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 	})
 	.catch(err=>{
 		res.status(500).send('Internal server error')
-	})
-	
+	})	
 })
+
 // get a notice with isShowing set to true
 router.get('/current', mongoChecker, (req, res) => {
 	Notice.findOne(
@@ -59,7 +59,7 @@ router.get('/current', mongoChecker, (req, res) => {
 })
 
 // get all notice
-router.get('/', mongoChecker, (req, res) => {
+router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 	Notice.find().then((notice) => {
 		res.send(notice) 
 	})
@@ -89,7 +89,7 @@ router.get('/:id', mongoChecker, (req, res) => {
 })
 
 // manually edit notice from dashboard
-router.patch('/:id', mongoChecker, (req, res) => {
+router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
