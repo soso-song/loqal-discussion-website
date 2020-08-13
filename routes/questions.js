@@ -178,6 +178,7 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 			res.status(404).send('User not found');
 		} else {
 			question.isFlagged = req.body.flag;
+			question.lastUpdated = Date.now();
 			question.save().then(ques=>{
 				res.send(ques);
 			})
@@ -209,6 +210,7 @@ router.patch('/:id', mongoChecker, authenticate, (req, res) => {
 			question.title = req.body.title;
 			question.content = req.body.content;
 			question.tags = req.body.tags;
+			question.lastUpdated = Date.now();
 			if (req.body.isResolved !== null){
 				question.isResolved = req.body.isResolved;
 			}
@@ -249,6 +251,7 @@ router.patch('/admin/:id', mongoChecker, adminAuthenticate, (req, res) => {
 			question.tags = req.body.tags;
 			question.isResolved = req.body.isResolved;
 			question.isFlagged = req.body.isFlagged;
+			question.lastUpdated = Date.now();
 			question.save().then((result)=>{
 				res.send('Okay');
 			}).catch((error)=>{

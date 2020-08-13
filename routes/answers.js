@@ -91,6 +91,7 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 			if(answer){
 				//res.json({question,answer});
 				answer.isFlagged = req.body.flag;
+				answer.lastUpdated = Date.now();
 				question.save()
 				.then(ques=>{
 					//console.log(ques);
@@ -156,6 +157,7 @@ router.patch('/:question_id/:answer_id', mongoChecker, authenticate, (req, res) 
 		else {
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
 			answer.content = req.body.content;
+			answer.lastUpdated = Date.now();
 			question.save().then((result)=>{
 				res.redirect(303, '/answer?question_id=' + question_id);
 			}).catch((error)=>{
@@ -188,6 +190,7 @@ router.patch('/admin/:question_id/:answer_id', mongoChecker, adminAuthenticate, 
 		else {
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
 			answer.content = req.body.content;
+			answer.lastUpdated = Date.now();
 			if(req.body.isBest){
 				question.answers.map((myans) => {
 					myans.isBest = false;
