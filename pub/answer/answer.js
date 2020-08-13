@@ -1,9 +1,9 @@
 "use strict"
 
 //Getting the main question from database
-let myquestionid = 4;
-let currentuser = curr_user.id;
-let myquestion = questions[4];
+let myquestionid;
+let currentuser;
+let myquestion;
 
 fetch('/users/current')
 .then((res) => {

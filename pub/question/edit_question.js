@@ -3,8 +3,8 @@
 $(document).ready(function() {
 
 	//Getting the question from database
-	let myquestionid = 4;
-	let myquestion = questions[myquestionid];
+	let myquestionid;
+	let myquestion;
 	let currentuser;
 
 	fetch('/users/current')
