@@ -16,7 +16,6 @@ const noUser = document.querySelector('#no_user');
 
 const editForm = document.querySelector("#editForm");
 editForm.addEventListener('submit', save_all);
-editForm.addEventListener('change', update_photo);
 
 const searchUserForm = document.querySelector('#searchUserForm');
 searchUserForm.addEventListener('submit', search_user);
@@ -307,21 +306,6 @@ function save_all(e){
 	updateUser(data);
 }
 
-
-function update_photo(e){
-	const photo_in = e.target;
-	if(photo_in.files && photo_in.files[0]){
-		const reader = new FileReader();
-		let ee;
-       	reader.onload = function (ee) {
-            $('#single_photo').attr('src', ee.target.result)
-                };
-
-        reader.readAsDataURL(photo_in.files[0]);
-
-	}
-}
-
 function updateUser(data){
 
 	const url = '/users/' + user._id;
@@ -352,43 +336,4 @@ function updateUser(data){
 	}).catch((error) => {
 		console.log(error);
 	})
-}
-
-function new_upload(e){
-    e.preventDefault();
-    
-    // Check to see a file was selected
-    if( document.getElementById("imagefield").files.length > 0 ){
-    
-        const url = "/users/picture";
-
-        // The data we are going to send in our request
-        const imageData = new FormData(e.target);
-
-        // Create our request constructor with all the parameters we need
-        const request = new Request(url, {
-            method: "post",
-            body: imageData,
-        });
-
-        // Send the request with fetch()
-        fetch(request)
-        .then(function (res) {
-            // Handle response we get from the API.
-            // Usually check the error codes to see what happened.
-            if (res.status === 200) {
-                // If image was added successfully, tell the user.
-                getCurrentUser()
-                console.log("image successfully added");
-            } else {
-                // If server couldn't add the image, tell the user.
-                // Here we are adding a generic message, but you could be more specific in your app.
-                console.log("image error added");
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-    }
 }
