@@ -13,11 +13,13 @@ const {
    isMongoError,
    sessionChecker,
    mongoChecker,
-   authenticate,
+   c,
    adminAuthenticate
 } = require('./setups');
 
 //tag route below**********/
+
+// Route which give all exisiting the tags
 router.get('/', mongoChecker, (req, res) => {
 	Tag.find().then((tags) => {
 		res.send(tags)
@@ -62,7 +64,7 @@ router.post('/info', mongoChecker, (req, res) => {
 })
 
 // Route for creating a new tag but will check if tag already exist
-router.post("/", mongoChecker, (req, res) => {
+router.post("/", mongoChecker, authenticate, (req, res) => {
 	const tagName = (req.body.name).toLowerCase();
 
 	// check if tag already exist
@@ -99,7 +101,8 @@ router.post("/", mongoChecker, (req, res) => {
 	})
 })
 
-router.patch('/:id', mongoChecker, (req, res) => {
+// Route for modifying tag name by given id
+router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
@@ -107,21 +110,10 @@ router.patch('/:id', mongoChecker, (req, res) => {
 		return;  // so that we don't run the rest of the handler.
 	}
 
-	// check mongoose connection established.
-	if (mongoose.connection.readyState != 1) {
-		log('Issue with mongoose connection')
-		res.status(500).send('Internal server error')
-		return;
-	}
-
 	// Find the fields to update and their values.
 	const fieldsToUpdate = {
 		name:req.body.name
 	}
-	// req.body.name((change) => {
-	// 	const propertyToChange = change.path.substr(1). // getting rid of the '/' character
-	// 	fieldsToUpdate[propertyToChange] = change.value
-	// })
 
 	Tag.findByIdAndUpdate(id, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false}).then((tag) => {
 		if (!tag) {
@@ -138,19 +130,14 @@ router.patch('/:id', mongoChecker, (req, res) => {
 	})
 })
 
-router.delete('/:id', mongoChecker, (req,res) =>{
+// Route for deleting tag by given id
+router.delete('/:id', mongoChecker, adminAuthenticate, (req,res) =>{
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Resource not found')
 		return;
 	}
-
-	if (mongoose.connection.readyState != 1) {
-		log('Issue with mongoose connection')
-		res.status(500).send('Internal server error')
-		return;
-	} 
 
 	Tag.findByIdAndRemove(id).then((tag) => {
 		if (!tag) {
@@ -164,11 +151,11 @@ router.delete('/:id', mongoChecker, (req,res) =>{
 	})
 })
 
+// Route that gives all the tags sorted in decreasing number of usage
 router.get('/popular', mongoChecker, (req, res) => {
 	Tag.find().then((tags) => {
 		// sort the tags by count
 		tags = tags.sort((a,b) =>  a.count - b.count);
-		// tags = tags.slice(0,5);
 		res.send(tags);
 	})
 	.catch((error) => {
@@ -176,8 +163,7 @@ router.get('/popular', mongoChecker, (req, res) => {
 	})
 })
 
-
-
+// Route for current user to follow a tag by given id
 router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 	const tag_id = req.params.tag_id;
 
@@ -222,6 +208,8 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 
 })
 
+
+// Route for current user to unfollow a tag by given id
 router.patch('/unfollow/:tag_id', mongoChecker, authenticate, (req, res) => {
 	const tag_id = req.params.tag_id;
 	const user = req.user;
@@ -263,7 +251,7 @@ router.patch('/unfollow/:tag_id', mongoChecker, authenticate, (req, res) => {
 
 })
 
-// increment the number of tag used
+// Route for incrementing the number of tag used by given id
 router.patch('/increment/:tag_id/', mongoChecker, (req, res) => {
 	const tag_id = req.params.tag_id;
 
@@ -290,6 +278,7 @@ router.patch('/increment/:tag_id/', mongoChecker, (req, res) => {
 	})
 })
 
+// Route for getting the tag by given id
 router.get('/:id', mongoChecker, (req, res) => {
 	const id = req.params.id;
 

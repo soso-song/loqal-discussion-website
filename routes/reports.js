@@ -81,8 +81,9 @@ router.get('/type/question', mongoChecker, adminAuthenticate, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
+
 // get a report with type is answer
-router.get('/type/answer', mongoChecker, (req, res) => {
+router.get('/type/answer', mongoChecker, adminAuthenticate, (req, res) => {
 	Report.find(
 		{type : {$eq : 'a'} }
 	).then((report) => {
