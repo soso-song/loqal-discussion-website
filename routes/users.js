@@ -121,14 +121,12 @@ router.post('/mapping', mongoChecker, (req, res) => {
 
 	User.find({'_id': { $in: ids} }).then((users) => {
 		if(users.length == 0) {
-			console.log('hi')
 			res.status(404).send("Can't find Users");
 		} else {
 			const mapping = {}
 			users.map(user => {
 				mapping[user._id] = user
 			})
-			console.log(mapping)
 			res.send(mapping);
 		}
 	})
