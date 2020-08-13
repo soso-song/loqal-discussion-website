@@ -40,7 +40,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 })
 
 /// Route for getting all exisiting reports
-router.get('/', mongoChecker, (req, res) => {
+router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 	Report.find().then((reports) => {
 		res.send(reports) 
 	})
@@ -51,7 +51,7 @@ router.get('/', mongoChecker, (req, res) => {
 })
 
 // get a report with type is user
-router.get('/type/user', mongoChecker, (req, res) => {
+router.get('/type/user', mongoChecker, adminAuthenticate, (req, res) => {
 	Report.find(
 		{type : {$eq : 'u'} }
 	).then((report) => {
@@ -65,8 +65,9 @@ router.get('/type/user', mongoChecker, (req, res) => {
 		res.status(500).send("Internal Server Error")
 	})
 })
+
 // get a report with type is question
-router.get('/type/question', mongoChecker, (req, res) => {
+router.get('/type/question', mongoChecker, adminAuthenticate, (req, res) => {
 	Report.find(
 		{type : {$eq : 'q'} }
 	).then((report) => {
@@ -98,7 +99,7 @@ router.get('/type/answer', mongoChecker, (req, res) => {
 
 
 // Route for getting the report by given id
-router.get('/:id', mongoChecker, (req, res) => {
+router.get('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
@@ -121,8 +122,8 @@ router.get('/:id', mongoChecker, (req, res) => {
 })
 
 
-// Route for updating basic info fromt admin of a review given by id
-router.patch('/:id', mongoChecker, (req, res) => {
+// Route for updating basic info from admin of a review given by id
+router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	const id = req.params.id;
 	// Validate id
 	if (!ObjectID.isValid(id)) {
