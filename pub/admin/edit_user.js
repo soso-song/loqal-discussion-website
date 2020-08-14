@@ -166,10 +166,10 @@ function load_user_profile(){
 
 	// show if flagged user
 	let flag_html;
-	if (user.is_flagged){
-		flag_html = "<select id='flag_select'><option value='is_flagged'>Flagged</option><option value='not_flagged'>Normal</option></select>";
+	if (user.isFlagged){
+		flag_html = "<select id='flag_select'><option value='is_flagged' selected>Flagged</option><option value='not_flagged'>Normal</option></select>";
 	}else{
-		flag_html = "<select id='flag_select'><option value='not_flagged'>Normal</option><option value='is_flagged'>Flagged</option></select>";
+		flag_html = "<select id='flag_select'><option value='not_flagged' selected>Normal</option><option value='is_flagged'>Flagged</option></select>";
 	}
 	document.querySelector('#status').innerHTML = flag_html;
 
@@ -331,6 +331,7 @@ function updateUser(data){
 		} else {
 			username_error.innerHTML = '';
 			alert('Changes saved!');
+			user = null;
 			getAllUsers();
 		}
 	}).catch((error) => {
