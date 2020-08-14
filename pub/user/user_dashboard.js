@@ -171,14 +171,6 @@ function basicInfo(){
     `
     myhtml += `<div id="notification"></div>`
 
-    if(false){
-        myhtml += `
-        <img src="${userph}" alt="Main Profile Pic" id="profilePic">	
-        <div id="mytags">
-        <h3>Tags</h3>${mytags}
-        </div>`
-    }
-
     myhtml += `<a class="sidebutton" href="/ask">Ask a Question</a>`
 
     myhtml += `<a class="sidebutton" href="/profile?user_id=${backendUser._id}">Your Profile</a>`

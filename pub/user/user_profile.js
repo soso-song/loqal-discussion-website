@@ -180,18 +180,6 @@ function getUserTags(){
 // Loads left hand side information about the user
 function basicInfo(){
 
-    // Finding the number of best answers user have
-    /*
-    let best = 0;
-    for(let a of answers)
-    {
-        if(a.is_best && a.user_id==pageUser)
-        {
-            best ++;
-        }
-    }
-    */
-
     let userph = '/images/staticphoto.jpg'
 
     if(pageUser.image_url !== ''){
@@ -202,12 +190,6 @@ function basicInfo(){
     <h3>@${pageUser.username}</h3>
     <img src="${userph}" alt="Main Profile Pic" id="profilePic">                            
     `
-
-    if(false){
-        myhtml += `<div>
-        <h3>Best Answers</h3>
-        </div>`
-    }
 
     if(pageUser._id == currentUser._id){
         myhtml += `<a class="sidebutton" href="/edit/profile">Edit Profile</a>`
@@ -238,8 +220,7 @@ function getAllQUser(){
             alert('Could not get questions')
        }                
     })
-    .then((json) => {  // the resolved promise with the JSON body
-        //console.log(json.username)
+    .then((json) => {  
         let headings = document.getElementsByClassName("userheading");
         headings[0].innerHTML=`Questions (${json.length})`;
 

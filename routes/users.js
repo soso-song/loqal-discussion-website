@@ -4,13 +4,9 @@ const log = console.log
 
 const {
    User,
-   Question,
-   Notice,
    Tag,
-   Report,
    ObjectID,
    isMongoError,
-   sessionChecker,
    mongoChecker,
    authenticateAPI,
    adminAuthenticateAPI
@@ -29,7 +25,7 @@ cloudinary.config({
 });
 
 /*** User routes below ****************/
-// Set up a POST route to create a user of your web app (*not* a student).
+// Set up a POST route to create a user of your web app
 router.post('/', mongoChecker, (req, res) => {
 	//log(req.body)
 
@@ -52,7 +48,7 @@ router.post('/', mongoChecker, (req, res) => {
 			res.status(500).send('Internal server error')
 		} else {
 			log(error)
-			res.status(400).send('Bad Request') // bad request for changing the student.
+			res.status(400).send('Bad Request') // bad request for changing the user
 		}
 	})
 })
@@ -439,7 +435,7 @@ router.get('/:id', mongoChecker, authenticateAPI, (req, res) => {
 	// If id valid, findById
 	User.findOne({_id: id}).then((user) => {
 		if (!user) {
-			res.status(404).send('Resource not found')  // could not find this student
+			res.status(404).send('Resource not found')  // could not find this user
 		} else {
 			res.send(user)
 		}

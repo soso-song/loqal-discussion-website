@@ -5,16 +5,10 @@ const log = console.log
 
 const {
    User,
-   Question,
-   Notice,
    Tag,
-   Report,
    ObjectID,
    isMongoError,
-   sessionChecker,
    mongoChecker,
-   authenticate,
-   adminAuthenticate,
    authenticateAPI,
    adminAuthenticateAPI
 } = require('./setups');
@@ -82,7 +76,7 @@ router.post("/", mongoChecker, authenticateAPI, (req, res) => {
 			const tag = new Tag({
 				name: tagName
 			});
-			// Save questions
+			// Save tags
 			tag.save().then((tag) => {
 		        res.send({
 		        	tag: tag,

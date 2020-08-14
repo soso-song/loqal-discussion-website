@@ -4,16 +4,10 @@ const log = console.log
 
 const {
    User,
-   Question,
-   Notice,
-   Tag,
    Report,
    ObjectID,
    isMongoError,
-   sessionChecker,
    mongoChecker,
-   authenticate,
-   adminAuthenticate,
    authenticateAPI,
    adminAuthenticateAPI
 } = require('./setups');
