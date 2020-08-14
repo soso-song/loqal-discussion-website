@@ -128,6 +128,8 @@ async function createTags(tag_names){
 
 	// change all spaces in one tag name into '-'
 	tag_names = tag_names.map(tag => tag.trim().replace(/ /g, '-'));
+	// remove duplicates
+	tag_names = [...new Set(tag_names)];
 
 	for(let tag_name of tag_names){
 		data = { name: tag_name };

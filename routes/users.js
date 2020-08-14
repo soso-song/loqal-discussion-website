@@ -283,7 +283,7 @@ router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 			user.displayname = req.body.displayname;
 			user.username = req.body.username;
 			user.email = req.body.email;
-			user.tags = req.body.tags;
+			user.tags = [...new Set(req.body.tags)];	// remove duplicates
 			user.isFlagged = req.body.isFlagged;
 			user.isAdmin = req.body.isAdmin;
 
