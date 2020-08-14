@@ -326,14 +326,16 @@ function getUserInfo(user_id, callBack){
        	} 
 	})
 	.then(data => {
-		callBack(data);
+		if(data){
+			callBack(data);
+		}
 		// userInfo = {
   //          	displayname: data.displayname,
   //          	username: data.username
   //       };
 	})
 	.catch((error) => {
-		console.log(error)
+		console.error(error)
 	})
 }
 
@@ -358,11 +360,13 @@ function getQuestionInfo(id, callBack){
        	} 
 	})
 	.then(data => {
-		callBack(data);
+		if(data){
+			callBack(data);
+		}
 		//question = json.question;
 	})
 	.catch((error) => {
-		console.log(error)
+		console.error(error)
 	})
 }
 
@@ -379,14 +383,14 @@ function getAnswerInfo(id, callBack){
 	.then((res) => {
 		if (res.status === 200) {
            	return res.json();
-       	} else {
-            // alert('Could not get user.');
-       	} 
+       	}
 	})
 	.then(data => {
-		callBack(data);
+		if(data){
+			callBack(data);
+		}
 	})
 	.catch((error) => {
-		console.log(error)
+		console.error(error)
 	})
 }
