@@ -31,7 +31,7 @@ cloudinary.config({
 /*** User routes below ****************/
 // Set up a POST route to create a user of your web app (*not* a student).
 router.post('/', mongoChecker, (req, res) => {
-	log(req.body)
+	//log(req.body)
 
 	// Create a new user
 	const user = new User({

@@ -156,7 +156,7 @@ router.patch('/:question_id/:answer_id', mongoChecker, authenticateAPI, (req, re
 		}
 		else {
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
-			if(answer && answer._id == req.session.user){
+			if(answer && answer.user == req.session.user){
 				answer.content = req.body.content;
 				answer.lastUpdated = Date.now();
 				question.save().then((result)=>{

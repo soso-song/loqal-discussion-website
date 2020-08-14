@@ -30,6 +30,8 @@ const sessionChecker = (req, res, next) => {
 };
 
 const {
+	User,
+	Question,
 	authenticate,
 	adminAuthenticate
  } = require('./routes/setups');
@@ -79,6 +81,18 @@ app.get('/', sessionChecker, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/index.html'));
 })
 
+app.get('/404', authenticate, (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/errorPages/404.html'));
+})
+
+app.get('/403', authenticate, (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/errorPages/404.html'));
+})
+
+app.get('/500', authenticate, (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/errorPages/500.html'));
+})
+
 // login route serves the login page
 app.get('/login', sessionChecker, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/register/register.html'))
@@ -95,7 +109,21 @@ app.get('/dashboard', (req, res) => {
 })
 
 app.get('/profile', authenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/user/user_profile.html'));
+	const profileID = req.query.user_id;
+	if(profileID){
+		User.findById(profileID).then((user) => {
+			if (!user) {
+				res.redirect('/404')
+			}else{
+				res.sendFile(path.join(__dirname, '/pub/user/user_profile.html'));
+			}
+		})
+		.catch((error) => {
+			res.redirect('/500')
+		})
+	}else{
+		res.sendFile(path.join(__dirname, '/pub/user/user_profile.html'));
+	}
 })
 
 app.get('/edit/profile', authenticate, (req, res) => {
@@ -107,11 +135,47 @@ app.get('/edit/password', authenticate, (req, res) => {
 })
 
 app.get('/answer', authenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
+	const questionID = req.query.question_id;
+	if(questionID){
+		Question.findById(questionID).then((question) => {
+			if (!question) {
+				res.redirect('/404')
+			}else{
+				res.sendFile(path.join(__dirname, '/pub/answer/answer.html'));
+			}
+		})
+		.catch((error) => {
+			res.redirect('/500')
+		})
+	}else{
+		res.redirect('/404')
+	}
 })
 
 app.get('/edit/answer', authenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/answer/edit_answer.html'));
+	const questionID = req.query.question_id;
+	const answerID = req.query.answer_id;
+	if(!questionID || !answerID){
+		res.redirect('/404')
+	}else{
+		Question.findById(questionID).then((question) => {
+			if (!question) {
+				res.redirect('/404')
+			} else {
+				const answer = (question.answers.filter((ans)=>ans._id == answerID))[0];
+				if(answer && answer.user == req.session.user){
+					res.sendFile(path.join(__dirname, '/pub/answer/edit_answer.html'));
+				} else if(answer){
+					res.redirect('/403')
+				} else{
+					res.redirect('/404')
+				}
+			}
+		})
+		.catch((error) => {
+			res.redirect('/500')
+		})
+	}
 })
 
 app.get('/ask', authenticate, (req, res) => {
@@ -119,7 +183,23 @@ app.get('/ask', authenticate, (req, res) => {
 })
 
 app.get('/edit/question', authenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/question/edit_question.html'));
+	const questionID = req.query.question_id;
+	if(questionID){
+		Question.findById(questionID).then((question) => {
+			if (question && question.user == req.session.user) {
+				res.sendFile(path.join(__dirname, '/pub/question/edit_question.html'));
+			}else if(question){
+				res.redirect('/403')
+			}else{
+				res.redirect('/404')
+			}
+		})
+		.catch((error) => {
+			res.redirect('/500')
+		})
+	}else{
+		res.redirect('/404')
+	}
 })
 
 app.get('/subscribe', authenticate, (req, res) => {
