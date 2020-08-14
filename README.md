@@ -193,16 +193,16 @@ We have a server.js file where the main express app is implemented. Routes are s
 
 ## Main app (`server.js`)
 Routes in `server.js` are webpage routes for responding URI with corresponding webpages, which are all GET methods.
-   | Path | Middleware | Explanation | Required Parameter(s) |
+   | Path | Middleware | Redirects to | Required Parameter(s) |
    | ---- | ---------- | ----------- | --------------------- |
-   | /    | sessionChecker  | Redirects to the landing page of this application.  |  |
-   | /login | sessionChecker  | Redirects to the register/login page. |  |
-   | /dashboard  |   | Redirects to user dashboard if a user is logged in, otherwise redirects to register/login page  |  |
-   | /profile   | authenticate  | Redirects to the current user profile page if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
-   | /edit/profile | authenticate | Redirects to the page for editing current logged in user’s profile.  |
-   | /answer | authenticate | Redirects to a single question page.| `question_id` |
-   | /edit/answer | authenticate | Redirects to the page for editing an answer. | `question_id` and `answer_id` |
-   | /ask | authenticate | Redirects to a page for asking a new question.  |
+   | /    | sessionChecker  | Landing page of this application.  |  |
+   | /login | sessionChecker  | [Register/Login page](#register-or-Login) |  |
+   | /dashboard  |   | User dashboard if a user is logged in, otherwise redirects to register/login page  |  |
+   | /profile   | authenticate  | Current user profile page if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
+   | /edit/profile | authenticate | Page for editing current logged in user’s profile.  |
+   | /answer | authenticate | Single question page.| `question_id` |
+   | /edit/answer | authenticate | Page for editing an answer. | `question_id` and `answer_id` |
+   | /ask | authenticate | Page for asking a new question.  |
    | /edit/question | authenticate | Redirects to a page for editing a question. | `question_id` |
    | /subscribe | authenticate | Redirects to the subscribe page where the user modifies their following tags list. |
    | /report | authenticate | Redirects to the report page for entering a reason of report. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
