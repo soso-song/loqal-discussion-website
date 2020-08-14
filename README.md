@@ -265,9 +265,6 @@ User Scheme is the schema for containing user information including
    | /users<br>/unfollow/:id | POST | User ID | | - (json) current User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 500: Internal server error | Remove user ID from<br> following list of current <br>logged in user, will check<br> to avoid unfollowing twice. |
  
  
- 
- 
- 
 ### Tag (`tag.js`)
 #### Tag Schema Explanation
 Tag Schema contains two attributes: including name, and count.
@@ -295,54 +292,65 @@ Tag Schema contains two attributes: including name, and count.
 ### Question (`questions.js`)
 #### Question Schema Explanation
 Question Schema includes:
-* title, content, requiring minimum length of 1
+* `title`, `content` are Strings requiring minimum length of 1
 * `user` is the User ID of user who posted this question
 * `answers` is a list of subdocument AnswerSchema
 * `isResolved`, `is Flagged` are Booleans
-* `time` is Date object with default time being Date.now at initialization
+* `time` is Date object with default being Date.now at initialization
 * `lastUpdated` is Date objects that is Date.now for each question update
  
- 
 #### Routes handling Question related requests
-  | Path | Method | Parameters | Body | Respond | Explanations|
-   | ---- | ------ | ---------- | ---- | ------- | --------- |
-   |/question|POST|none|title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|post new question
-|/questions/users/:user|GET|UserId|user|-(send)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the Route for getting all existing questions|
-|/questions/following|GET|none|user|-(send) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|get questions posted by users the current user is following|
-|/questions/tags|POST|none|tag_ids|-(send) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|post the route to get all the questions given a list of tag ids.|
-|questions/tags/:tagname|GET|tag name|none|-(send)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|get the route for getting questions with given tag name|
-|/question/search/:keyword|GET|keyword given by user|keyword|-(send)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| getting questions containing the given keyword|
-|/questions/:id|GET|question Id|id|-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|getting the question by given id|
-|/questions/flag/:id|PATCH|question Id|id|-(send)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|patch the route for flagging question|
-|/Questions/:id|PATCH|question Id|id|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|patch the route for updating info of a question given by id|
-|/questions/admin/:id|PATCH|question Id|id|-(send)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|patch the route for updating in of a question given by id
+   | Path | Method | Parameters | Body | Respond | Explanations|
+   | ---- | ------ | ---------- | ---- | ------- | ---------|
+   |/question|POST| |{ title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged }|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|post new question
+   |/questions/users/:user|GET|UserId| |-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the Route for getting all existing questions|
+   |/questions<br>/following|GET| | |-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|get questions posted by users the current user is following|
+   |/questions/tags|POST| |{ tag_ids: <br>\<ID array\> }|-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|post the route to get all the questions given a list of tag ids.|
+   |questions/tags/:tagname|GET|tag name| |-(json)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|get the route for getting questions with given tag name|
+   |/question<br>/search/:keyword|GET|keyword given by user||-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| getting questions containing the given keyword|
+   |/questions/:id|GET|question Id||-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|getting the question by given id|
+   |/questions<br>/flag/:id| * PATCH|Question ID| { flag } |-(json)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|Flag the question if<br> `flag` is true, otherwise <br> unflag it.|
+   |/questions/:id|PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved }|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|patch the route for updating info of a question given by id|
+   |/questions<br>/admin/:id|* PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|patch the route for updating in of a question given by id |
+ 
+ 
+ 
+ 
  
  
  
 ### Answer (`answer.js`)
 #### Answer Schema Explanation
-Answer Schema includes user, content, isFlagged, isBest, time and lastUpdated.
-Attribute of content requires minimum length of 1.
+Answer Schema includes:
+* `content` is a String requiring minimum length of 1
+* `user` is a User ID
+* `isFlagged`, `isBest` are Booleans
+* `time` is Date object with default being Date.now at initialization
+* `lastUpdated` is Date objects that is Date.now for each answer update
  
 #### Routes handling Question related requests
    | Path | Method | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
-   | /answers<br>/users<br>/:users | GET | User ID | | - (json) array of Questions<br> - status 401:
- 
- 
- 
- 
+   | /answers<br>/users<br>/:users | GET | User ID | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) posted by user with given <br>User ID | 
+   | /answers<br>/search<br>/:keyword | GET | String | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) containing the given <br>keyword | 
+   | /answers<br>/:question_id<br>/:answer_id | GET | Question ID,<br>Answer ID | | - (json) Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 500: Internal Server Error | Get the answer with given <br>Answer ID that could be found<br>in the question with given <br>Question ID | 
+   | /answers<br>/:answer_id | GET | Answer ID | | - (json) Question, Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Find answer using only given, <br>Answer ID. This is different <br>to previous one because we need<br>more steps to search into all ques-<br>tions since Answer is subdocument<br>of Question | 
+   | /answers<br>/flag<br>/:id | * PATCH | Answer ID | {(Boolean)flag} | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: ID not valid<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Flag the answer with given <br>Answer ID if `flag` in body<br>is true, otherwise unflag it | 
+   | /answers<br>/:question_id<br>/:answer_id | PATCH | Question ID,<br>Answer ID | { content } | - redirect to `/answer`<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the content of the answer <br>with given Answer ID that could <br>be found in the question with<br>given Question ID | 
+   | /answers<br>/admin<br>/:question_id<br>/:answer_id | * PATCH | Question ID,<br>Answer ID | { body,<br>isBest,<br>isFlagged } | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the information of the <br>answer with given Answer ID <br>that could be found in the <br>question with given Question ID,<br>by an admin user. | 
+   | /answers<br>/best<br>/:question_id<br>/:answer_id | POST | Question ID,<br>Answer ID |  | - status 200: Selected as best answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the answer with given Answer <br>ID to be the best answer in the<br>question with given Question ID, <br>will check to avoid unrelated user <br>to edit this question |
+  | /answers<br>/:id | POST | Question ID | { content } | - (json) Answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: question not valid<br>- status 404: question not found<br>- status 500: Internal Server Error | Create a new Answer to be <br>stored in the array of answers<br>in the question with given <br>Question ID|
  
  
 ### Report (`reports.js`)
 #### Report Schema Explanation
-* type: String `belongs \[‘u’,’q’,’a’\] representing User, Question and Answer`
-* targetId: mongoose.Schema.Types.ObjectId
-* reason: String
-* user: mongoose.Schema.Types.ObjectId
-* reviewer: mongoose.Schema.Types.ObjectId
-* time: Date
-* isReviewed: Boolean
+* `type`: String belongs to \[`u`,`q`,`a`\] representing User, Question and Answer
+* `targetId` is ObjectId, could be ID of User, Questions, or Answer
+* `reason`: String
+* `user` is User ID of user submitting report
+* `reviewer` is User ID of admin reviewing report
+* `time` is Date object with default being Date.now at initialization
+* `lastUpdated` is Date objects that is Date.now for each report update
  
 #### Routes handling Report related requests
    | Path | Method | Parameters | Body | Respond | Explanations|
