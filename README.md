@@ -50,7 +50,7 @@ Below we have listed the main functionalities associated with each page for regu
 ### Welcome Page (`index.html`):
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
 
-###Register or Login (`register/register.html`)
+### Register or Login (`register/register.html`)
 * Register by entering all required fields in the left block and press the “Register” to create a new account.
 * Validation check is performed to check if information inputted are valid and no duplicating username and email.
 * If successfully registered, it will lead you to a page showing some popular tags that you could subscribe to.
