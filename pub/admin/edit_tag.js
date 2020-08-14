@@ -98,21 +98,20 @@ function save_row(no){
 	});
 	fetch(get_request)
 		.then(function(res) {
-			if (res.status == 403){
-				alert('You have no permission to edit this tag!');
+			if (res.status == 400){
+				alert('Tag with this tag name already exist!');
 			} else {
 				alert("Successful");
+				document.getElementById("name_row"+no).innerHTML=name_val;
+				document.getElementById("edit_button"+no).disabled = false;
+				document.getElementById("save_button"+no).disabled = true;
 			}
 		})
 		.catch((error) => {
 			console.log(error)
 	})
 	
-	document.getElementById("name_row"+no).innerHTML=name_val;
-
-	//connect and save variabe to db
-	document.getElementById("edit_button"+no).disabled = false;
-	document.getElementById("save_button"+no).disabled = true;
+	
 
 }
 

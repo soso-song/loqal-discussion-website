@@ -15,7 +15,7 @@ const {
 
 //tag route below**********/
 
-// Route which give all exisiting the tags
+// Route which give all the exisiting tags
 router.get('/', mongoChecker, authenticateAPI, (req, res) => {
 	Tag.find().then((tags) => {
 		res.send(tags)
@@ -107,24 +107,38 @@ router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 		return;  // so that we don't run the rest of the handler.
 	}
 
+	const tagName = (req.body.name).toLowerCase();
+
 	// Find the fields to update and their values.
 	const fieldsToUpdate = {
-		name:req.body.name
+		name: tagName
 	}
-
-	Tag.findByIdAndUpdate(id, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false}).then((tag) => {
-		if (!tag) {
-			res.status(404).send('Tag not found')
-		} else {   
-			res.send(tag)
-		}
-	}).catch((error) => {
-		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-			res.status(500).send('Internal server error')
+	// check for duplicate tag names
+	Tag.find({name: tagName})
+	.then(tags => {
+		if(tags.length > 0){
+			res.status(400).send('Bad Request');
 		} else {
-			res.status(400).send('Bad Request')
+			Tag.findByIdAndUpdate(id, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false}).then((tag) => {
+				if (!tag) {
+					res.status(404).send('Tag not found');
+				} else {   
+					res.send(tag);
+				}
+			}).catch((error) => {
+				if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+					res.status(500).send('Internal server error');
+				} else {
+					res.status(400).send('Bad Request');
+				}
+			})
 		}
 	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+
+	
 })
 
 // Route for deleting tag by given id
