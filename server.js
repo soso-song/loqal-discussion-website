@@ -86,7 +86,7 @@ app.get('/404', authenticate, (req, res) => {
 })
 
 app.get('/403', authenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/errorPages/404.html'));
+	res.sendFile(path.join(__dirname, '/pub/errorPages/403.html'));
 })
 
 app.get('/500', authenticate, (req, res) => {
