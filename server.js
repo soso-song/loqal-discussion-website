@@ -207,7 +207,14 @@ app.get('/subscribe', authenticate, (req, res) => {
 })
 
 app.get('/report', authenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/report/report.html'));
+	const passedType = req.query.type;
+	const passedTarget = req.query.target_id;
+	const passedUser = req.query.user_id;
+	if((passedUser && passedTarget) && passedType){
+		res.sendFile(path.join(__dirname, '/pub/report/report.html'));
+	}else{
+		res.redirect('/404')
+	}
 })
 
 app.get('/search', authenticate, (req, res) => {
@@ -248,12 +255,9 @@ app.get('/admin/editnotice', adminAuthenticate, (req, res) => {
 
 app.use(express.static(__dirname + '/pub'));
 
-
-// static js directory
-//app.use("/js", express.static(path.join(__dirname, '/public/js')))
-
-// static image directory
-//app.use("/img", express.static(path.join(__dirname, '/public/img')))
+app.get('*', (req, res) => {
+	res.redirect('/404')
+})
 
 /*************************************************/
 // Express server listening...

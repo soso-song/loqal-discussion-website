@@ -15,17 +15,6 @@ function isMongoError(error) { // checks for first error returned by promise rej
 	return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
 
-
-// Our own express middleware to check for 
-// an active user on the session cookie (indicating a logged in user.)
-const sessionChecker = (req, res, next) => {
-    if (req.session.user) {
-        res.redirect('/dashboard'); // redirect to dashboard if logged in.
-    } else {
-        next(); // next() moves on to the route.
-    }    
-};
-
 // middleware for mongo connection error for routes that need it
 const mongoChecker = (req, res, next) => {
 	// check mongoose connection established.
@@ -120,7 +109,6 @@ module.exports = {
    Report,
    ObjectID,
    isMongoError,
-   sessionChecker,
    mongoChecker,
    authenticate,
    adminAuthenticate,
