@@ -203,6 +203,24 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
    * sessionCheck - checks for existence of an active user on the session, and redirect to user dashboard if exist.
    * authenticate - checks for logged in user, will redirect to registar/login page if no account logged in.
 
+## Mini-apps
+### User (`users.js`)
+
+
+
+### Tag (`tag.js`)
+
+### Question (`questions.js`)
+
+### Answer (`answer.js`)
+
+### Report (`reports.js`)
+
+### Notice (`notice.js`)
+
+
+
+
 # Development Log
 Throughout the development of Phase 1, we used the following Google sheet to keep track of our progress and tasks and would like to keep it here for reference:  
 https://docs.google.com/spreadsheets/d/1eXUJ3reDqHHjKZr3RrSvqVHPCbOBuvz-uzYq6QhfW8U/edit?usp=sharing
