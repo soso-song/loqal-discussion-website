@@ -28,7 +28,18 @@ There are two ways to use this web application:
     ```shell
     cd team11
     ```
-    * Open `index.html` in your browser
+    * Run MongoDB
+    ```shell
+    npm install
+    mkdir mongo-data
+    mongod --dbpath ./mongo-data
+    ```
+    * Open a new terminal window to start server
+    ```shell
+    cd team11
+    node server.js
+    ```
+    * Visit `localhost:5000/` in your browser
 
 # Features
 
@@ -174,6 +185,23 @@ In addition to functionalities above, admin users have access to a variety of ot
 * Admin could see a list of all existing tags in a table showing the name of the tags and the number of usage of the tags..
 * Admin could edit the name of any tag.
 * Editing a tag with an empty name is invalid.
+
+# Overview of Routes
+This application uses Express server to manage endpoints repond to client requrests, and uses Mongoose to model application data with schema-based objects. 
+
+We have a server.js file where the main express app is implemented. Routes are separated into smaller files under `/routes` to decrease the size of the main app. Each of these files, which we refer to as mini-apps, creates an  express.Router instance as a module to be required in the main app. Each min-app handles queries on a specific data type while the main app contains methods that redirect some URI to pages. Below are routes in each main/mini-app listed and explained with the schema-based application data.
+
+## Main app (`server.js`)
+Routes in `server.js` are webpage routes for responding URI with corresponding webpages, which are all GET methods.
+   | Path | Middleware Checking | Explanation |
+   | ---- | ---------- | ----------- |
+   | /    | sessionChecker  | Redirects to landing page of this application.  |
+   | /login | sessionChecker  | Redirect to the register/login page. |
+   | /dashboard  |   | Redirects to user dashbaord if a user is logged in, otherwise redirects to register/login page  |
+   | /profile   | authenticate  | Redirects to landing page of this application.  | 
+   
+   * sessionCheck - checks for existence of an active user on the session, and redirect to user dashboard if exist.
+   * authenticate - checks for logged in user, will redirect to registar/login page if no account logged in.
 
 # Development Log
 Throughout the development of Phase 1, we used the following Google sheet to keep track of our progress and tasks and would like to keep it here for reference:  
