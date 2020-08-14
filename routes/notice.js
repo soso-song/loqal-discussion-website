@@ -20,9 +20,10 @@ const {
 
 //Notice route below**********/
 //add a notice: set isShowing for all previous notices to false when a new notice is added
-router.post('/', mongoChecker, adminAuthenticate, (req, res) => {
+router.post('/', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	// disable all passed notices
-	Notice.updateMany({isShowing:true},{$set:{isShowing:false}}).then(updated=>{
+	Notice.updateMany({isShowing:true},{$set:{isShowing:false}})
+	.then(updated=>{
 		const notice = new Notice({
 		title: req.body.title,
 		content: req.body.content,
@@ -30,8 +31,8 @@ router.post('/', mongoChecker, adminAuthenticate, (req, res) => {
 		});
 
 		notice.save().
-		then(()=>{
-			res.send('Okay');
+		then(notice =>{
+			res.send(notice);
 		})
 		.catch((error) => {
 			console.log(error)
@@ -48,7 +49,7 @@ router.post('/', mongoChecker, adminAuthenticate, (req, res) => {
 })
 
 // get a notice with isShowing set to true
-router.get('/current', mongoChecker, (req, res) => {
+router.get('/current', mongoChecker, authenticateAPI, (req, res) => {
 	Notice.findOne(
 		{isShowing : {$eq : true} }
 	).then((notice) => {
@@ -64,7 +65,7 @@ router.get('/current', mongoChecker, (req, res) => {
 })
 
 // get all notice
-router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
+router.get('/', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	Notice.find().then((notice) => {
 		notice = notice.sort((a,b) => b.time - a.time);
 		res.send(notice) 
@@ -74,8 +75,8 @@ router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 	})
 })
 
-// Route for getting the notice by given id
-router.get('/:id', mongoChecker, (req, res) => {
+// Route for getting the notice by given notice id
+router.get('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 	// Validate id
 	if (!ObjectID.isValid(id)) {
@@ -94,8 +95,8 @@ router.get('/:id', mongoChecker, (req, res) => {
 	})
 })
 
-// manually edit notice from dashboard
-router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
+// manually edit notice from admin dashboard
+router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
@@ -113,11 +114,13 @@ router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 			if (req.body.isShowing !== null){
 				notice.isShowing = req.body.isShowing;
 			}
-			notice.save()
+			notice.save().then(notice=>{
+				res.send(notice);
+			})
 			.catch((error)=>{
 				res.status(400).send('Bad request.');
 			})
-			res.send();
+			
 		}
 	})
 	.catch((error) => {
