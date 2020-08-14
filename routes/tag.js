@@ -22,7 +22,7 @@ const {
 //tag route below**********/
 
 // Route which give all exisiting the tags
-router.get('/', mongoChecker, (req, res) => {
+router.get('/', mongoChecker, authenticateAPI, (req, res) => {
 	Tag.find().then((tags) => {
 		res.send(tags)
 	})
@@ -32,7 +32,7 @@ router.get('/', mongoChecker, (req, res) => {
 })
 
 // Route which given a list of tag ids, return a list of tag names
-router.post('/names', mongoChecker, (req, res) => {
+router.post('/names', mongoChecker, authenticateAPI, (req, res) => {
 	const ids = req.body.ids;
 	let names;
 
@@ -50,7 +50,7 @@ router.post('/names', mongoChecker, (req, res) => {
 })
 
 // Route which given a list of tag ids, return a list of tags
-router.post('/info', mongoChecker, (req, res) => {
+router.post('/info', mongoChecker, authenticateAPI, (req, res) => {
 	const ids = req.body.ids;
 
 	Tag.find({'_id': { $in: ids} }).then((tags) => {
@@ -66,7 +66,7 @@ router.post('/info', mongoChecker, (req, res) => {
 })
 
 // Route for creating a new tag but will check if tag already exist
-router.post("/", mongoChecker, authenticate, (req, res) => {
+router.post("/", mongoChecker, authenticateAPI, (req, res) => {
 	const tagName = (req.body.name).toLowerCase();
 
 	// check if tag already exist
@@ -105,11 +105,11 @@ router.post("/", mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for modifying tag name by given id
-router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send()
+		res.status(404).send('Resource not found')
 		return;  // so that we don't run the rest of the handler.
 	}
 
@@ -120,7 +120,7 @@ router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 
 	Tag.findByIdAndUpdate(id, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false}).then((tag) => {
 		if (!tag) {
-			res.status(404).send('Resource not found')
+			res.status(404).send('Tag not found')
 		} else {   
 			res.send(tag)
 		}
@@ -128,13 +128,13 @@ router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
 			res.status(500).send('Internal server error')
 		} else {
-			res.status(400).send('Bad Request') // bad request for changing the student.
+			res.status(400).send('Bad Request')
 		}
 	})
 })
 
 // Route for deleting tag by given id
-router.delete('/:id', mongoChecker, adminAuthenticate, (req,res) =>{
+router.delete('/:id', mongoChecker, adminAuthenticateAPI, (req,res) =>{
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
@@ -144,18 +144,18 @@ router.delete('/:id', mongoChecker, adminAuthenticate, (req,res) =>{
 
 	Tag.findByIdAndRemove(id).then((tag) => {
 		if (!tag) {
-			res.status(404).send()
+			res.status(404).send('Tag not found')
 		} else {   
 			res.send(tag)
 		}
 	})
 	.catch((error) => {
-		res.status(500).send() // server error, could not delete.
+		res.status(500).send('Internal server error') // server error, could not delete.
 	})
 })
 
 // Route that gives all the tags sorted in decreasing number of usage
-router.get('/popular', mongoChecker, (req, res) => {
+router.get('/popular', mongoChecker, authenticateAPI, (req, res) => {
 	Tag.find().then((tags) => {
 		// sort the tags by count
 		tags = tags.sort((a,b) =>  a.count - b.count);
@@ -167,7 +167,7 @@ router.get('/popular', mongoChecker, (req, res) => {
 })
 
 // Route for current user to follow a tag by given id
-router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
+router.patch('/follow/:tag_id', mongoChecker, authenticateAPI, (req, res) => {
 	const tag_id = req.params.tag_id;
 
 	// Validate id
@@ -206,20 +206,20 @@ router.patch('/follow/:tag_id', mongoChecker, authenticate, (req, res) => {
 			res.status(500).send('Internal Server Error');
 		})
 	} else {
-		res.send('Dupplicate following to Tag!');
+		res.status(409).send('Already following Tag');
 	}
 
 })
 
 
 // Route for current user to unfollow a tag by given id
-router.patch('/unfollow/:tag_id', mongoChecker, authenticate, (req, res) => {
+router.patch('/unfollow/:tag_id', mongoChecker, authenticateAPI, (req, res) => {
 	const tag_id = req.params.tag_id;
 	const user = req.user;
 
 	// Validate id
 	if (!ObjectID.isValid(tag_id)) {
-		res.status(404).send('Invalid ID');
+		res.status(404).send('Invalid Tag ID');
 		return;  // so that we don't run the rest of the handler.
 	}
 
@@ -249,13 +249,13 @@ router.patch('/unfollow/:tag_id', mongoChecker, authenticate, (req, res) => {
 		})
 	}
 	else {
-		res.send('Nothing changed');
+		res.status(400).send('Bed request.');
 	}
 
 })
 
 // Route for incrementing the number of tag used by given id
-router.patch('/increment/:tag_id/', mongoChecker, (req, res) => {
+router.patch('/increment/:tag_id/', mongoChecker, authenticateAPI, (req, res) => {
 	const tag_id = req.params.tag_id;
 
 	// Validate id
@@ -282,19 +282,19 @@ router.patch('/increment/:tag_id/', mongoChecker, (req, res) => {
 })
 
 // Route for getting the tag by given id
-router.get('/:id', mongoChecker, (req, res) => {
+router.get('/:id', mongoChecker, authenticateAPI, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid tag ID');
+		res.status(404).send('Invalid Tag ID');
 		return;  // so that we don't run the rest of the handler.
 	}
 
 	// If id valid, findById
 	Tag.findById(id).then((tag) => {
 		if (!tag) {
-			res.status(404).send('tag not found');
+			res.status(404).send('Tag not found');
 		} else {
 			res.json({ tag });
 		}
