@@ -35,7 +35,6 @@ async function getAlltags(){
 		}
 	})
 	.then(data => {
-		console.log(data);
 		currTags = data;
 		load_row(currTags);
 	})
@@ -135,9 +134,7 @@ function delete_row(no){
 		}
 	})
 	.then(data => {
-		//console.log(data);
 		data.forEach(notice => show_notice(notice));
-		//load_result_question(data);
 	})
 	.catch((error) => {
 		console.log(error)
@@ -182,6 +179,5 @@ function add_tag(){
     .then(function(res) {}).catch((error) => {
         log(error)
     })
-	// tags.push(new Tag(tag_name));
 	getAlltags();
 }
