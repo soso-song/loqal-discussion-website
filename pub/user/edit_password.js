@@ -17,8 +17,8 @@ function edit(e){
         hasError = true;
     }
 
-    if (password.length < 6) {
-		$('#changeerror').text('Password must be at least 6 characters long');
+    if (password.length < 3) {
+		$('#changeerror').text('Password must be at least 3 characters long');
 		hasError = true;
 	}
 

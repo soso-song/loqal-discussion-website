@@ -210,7 +210,7 @@ function getNotice(){
             <h4>Latest Notice</h4>
             <div id="noticetitle">${json.title}</div>
             <div id="noticedesc">${json.content}</div>
-            <div id="noticedate">Posted on ${readableDate(json.time)}, 2020</div>`
+            <div id="noticedate">Posted on ${readableDate(json.time)}</div>`
             $('#notification').prepend(myhtml);    
         }else{
             let myhtml =`
