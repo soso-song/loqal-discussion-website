@@ -193,15 +193,32 @@ We have a server.js file where the main express app is implemented. Routes are s
 
 ## Main app (`server.js`)
 Routes in `server.js` are webpage routes for responding URI with corresponding webpages, which are all GET methods.
-   | Path | Middleware Checking | Explanation |
-   | ---- | ---------- | ----------- |
-   | /    | sessionChecker  | Redirects to landing page of this application.  |
-   | /login | sessionChecker  | Redirect to the register/login page. |
-   | /dashboard  |   | Redirects to user dashbaord if a user is logged in, otherwise redirects to register/login page  |
-   | /profile   | authenticate  | Redirects to landing page of this application.  | 
+   | Path | Middleware | Explanation | Required Parameter(s) |
+   | ---- | ---------- | ----------- | --------------------- |
+   | /    | sessionChecker  | Redirects to the landing page of this application.  |  |
+   | /login | sessionChecker  | Redirects to the register/login page. |  |
+   | /dashboard  |   | Redirects to user dashboard if a user is logged in, otherwise redirects to register/login page  |  |
+   | /profile   | authenticate  | Redirects to the current user profile page if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
+   | /edit/profile | authenticate | Redirects to the page for editing current logged in user’s profile.  |
+   | /answer | authenticate | Redirects to a single question page.| `question_id` |
+   | /edit/answer | authenticate | Redirects to the page for editing an answer. | `question_id` and `answer_id` |
+   | /ask | authenticate | Redirects to a page for asking a new question.  |
+   | /edit/question | authenticate | Redirects to a page for editing a question. | `question_id` |
+   | /subscribe | authenticate | Redirects to the subscribe page where the user modifies their following tags list. |
+   | /report | authenticate | Redirects to the report page for entering a reason of report. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
+   | /search | authenticate | Redirects to the page with all questions and answers containing the `search_key` keyword. | `search_key` |
+   | /admin/dashboard | adminAuthenticate | Redirects to the admin’s dashboard |  |
+   | /admin/editquestion | adminAuthenticate | Redirects to the page with all existing questions listed and enables editing by admin. |  |
+   | /admin/editanswer | adminAuthenticate | Redirects to the page with all existing answers listed and enables editing by admin. |  |
+   | /admin/edituser | adminAuthenticate | Redirects to the page with all existing users listed, enables editing profile by admin. |  |
+   | /admin/edittag | adminAuthenticate | Redirects to the page with all existing tags listed and enables editing by admin. |  |
+   | /admin/notice | adminAuthenticate | Redirects to the page for admin to create important notices. |  |
+   | /admin/editnotice | adminAuthenticate | Redirects to the page for admin to edit an important notices.  | `notice_id` |
+   | /admin/pastreport | adminAuthenticate | Redirects to the page with all reivewed reports listed.  |  |
    
    * sessionCheck - checks for existence of an active user on the session, and redirect to user dashboard if exist.
    * authenticate - checks for logged in user, will redirect to registar/login page if no account logged in.
+   * adminAuthenticate - checks if logged in user is an admin user, will redirect to regular user dashboard if failed to authenticate.
 
 ## Mini-apps
 ### User (`users.js`)
