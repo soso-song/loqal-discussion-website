@@ -238,8 +238,8 @@ app.get('/admin/notice', adminAuthenticate, (req, res) => {
 	res.sendFile(path.join(__dirname, '/pub/admin/notice.html'));
 })
 
-app.get('/admin/report', adminAuthenticate, (req, res) => {
-	res.sendFile(path.join(__dirname, '/pub/admin/report.html'));
+app.get('/admin/pastreport', adminAuthenticate, (req, res) => {
+	res.sendFile(path.join(__dirname, '/pub/admin/past_report.html'));
 })
 
 app.get('/admin/editnotice', adminAuthenticate, (req, res) => {

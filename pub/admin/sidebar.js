@@ -18,7 +18,7 @@ function includeSidebar() {
 	const hr = document.createElement("hr");
 	sidebar_div.appendChild(hr);
 	create_and_add("a", "Post Notice", sidebar_div,  "href", "/admin/notice");
-	create_and_add("a", "Past Report", sidebar_div,  "href", "/admin/report");
+	create_and_add("a", "Past Report", sidebar_div,  "href", "/admin/past_report");
 	create_and_add("a", "All Users", sidebar_div, "href", "/admin/edituser");
 	create_and_add("a", "All Questions", sidebar_div, "href", "/admin/editquestion");
 	create_and_add("a", "All Answers", sidebar_div, "href", "/admin/editanswer");
