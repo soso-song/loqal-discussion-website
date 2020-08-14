@@ -196,7 +196,7 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
    | Path | Middleware | Redirects to | Required Parameter(s) |
    | ---- | ---------- | ----------- | --------------------- |
    | /    | sessionChecker  | Landing page of this application.  |  |
-   | /login | sessionChecker  | [Register/Login page](#Register-or-Login-(`register/register.html`)) |  |
+   | /login | sessionChecker  | [Register/Login page](#register-or-login-registerregisterhtml) |  |
    | /dashboard  |   | User dashboard if a user is logged in, otherwise redirects to register/login page  |  |
    | /profile   | authenticate  | Current user profile page if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
    | /edit/profile | authenticate | Page for editing current logged in user’s profile.  |
