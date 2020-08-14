@@ -139,8 +139,8 @@ function render_reports(reports){
 		getUserInfo(report.user,data=>{
 			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
 			left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+			left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
 			left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
-
 		});
 	}
 	if (rep_u_count === 0){
@@ -165,7 +165,9 @@ function remove_report(e){
 	const para = e.currentTarget.myParam;
 	const report_id = para[1];
 
+
 	const url = '/reports/' + report_id;
+
 	const request = new Request(url, {
 		method: 'delete',
 		headers: {

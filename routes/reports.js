@@ -168,7 +168,7 @@ router.delete('/:id', mongoChecker, (req, res) => {
 	}
 
 	// If id valid, findById
-	Report.findOneAndRemove(id).then((report) => { // mongoose >= 2.7.1, more efficient than 
+	Report.findByIdAndDelete(id).then((report) => { // mongoose >= 2.7.1, more efficient than 
 		if (!report) {
 			res.status(404).send('Report not found');
 		} else {

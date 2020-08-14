@@ -67,11 +67,12 @@ function render_reports(reports){
 		const button = document.createElement("button");
 		if(report.type === 'u'){
 			rep_u_count++;
+			rep_users.appendChild(div);
 			getUserInfo(report.targetId,data=>{
 				type_output = "User"; 
 				html_name = "/profile?user_id=" + report.targetId;
 				left.innerHTML = "<p>Reported: <strong>" + data.username + "</strong></p>";
-				rep_users.appendChild(div);
+				
 
 				button.setAttribute("onclick", " location.href='" + html_name + "' ");
 				button.innerHTML = "View " + type_output;
@@ -91,12 +92,12 @@ function render_reports(reports){
 			});
 		}else if(report.type === 'q'){
 			rep_q_count++;
+			rep_ques.appendChild(div);
 			getQuestionInfo(report.targetId,data=>{
 				left.innerHTML = "<p>Reported: <strong>" + data.question.title + "</strong></p>";
 				type_output = "Question"; 
 				html_name = "/answer?question_id=" + report.targetId;
-				rep_ques.appendChild(div);
-
+				
 				button.setAttribute("onclick", " location.href='" + html_name + "' ");
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
@@ -115,11 +116,12 @@ function render_reports(reports){
 			});
 		}else if(report.type === 'a'){
 			rep_a_count++;
+			rep_ans.appendChild(div);
 			getAnswerInfo(report.targetId,data=>{
 				type_output = "Answer";
 				html_name = `/answer?question_id=${data.question._id}#${report.targetId}`;
 				left.innerHTML = "<p>Reported: <strong>" + data.answer.content + "</strong></p>";
-				rep_ans.appendChild(div);
+				
 
 				button.setAttribute("onclick", " location.href='" + html_name + "' ");
 				button.innerHTML = "View " + type_output;
