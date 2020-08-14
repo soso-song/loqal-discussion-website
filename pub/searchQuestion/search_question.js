@@ -51,20 +51,20 @@ function load_result_question(questions){
 
 }
 
-function load_result_answer(questions){	
+function load_result_answer(questions){
 	let i=0;
+	console.log(questions)
 	answerResultEntries.innerHTML = '';
 	if(questions.length == 0){
 		answerResultEntries.innerHTML+="No answers were found.";
 		return;
 	}
-
 	const user_ids = questions.map(q => q.user);
 	getUserList(user_ids).then((user_mapping) => {
 		while(i < questions.length){
 			const curr_question = questions[i];
 			const userInfo = user_mapping[curr_question.user];
-			const curr_answers = curr_question.answers.filter(ans => ans.content.includes(search_key));
+			const curr_answers = curr_question.answers.filter(ans => ans.content.toLowerCase().includes(search_key.toLowerCase()));
 			
 			let color = '';
 			if(i%2){

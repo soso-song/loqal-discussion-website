@@ -125,8 +125,8 @@ router.get('/search/:keyword', mongoChecker, authenticateAPI, (req, res) => {
 	const keyword = req.params.keyword;
 
 	Question.find({$or:[
-		{title 			: { $regex: keyword}}, // "i" is for case insensitive match
-		{content		: { $regex: keyword}}
+		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
+		{content		: { $regex: keyword, $options: "i" }}
 		//{tags 			: { $regex: keyword, $options: "i" }} //TODO: need to add tags
 	]}).then((questions) => {
 		questions = questions.sort((a,b) => b.time - a.time);
