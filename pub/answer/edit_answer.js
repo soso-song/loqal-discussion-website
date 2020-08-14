@@ -47,6 +47,7 @@ $(document).ready(function() {
 		.then((json) => {
 			// Populating the field with the current answer
 			$('#qdesc').val(json.content);
+			$(document).prop('title', 'Edit Answer - '+ json.content);
 			return;
 		})
 		.catch((error) => {

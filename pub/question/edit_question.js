@@ -34,6 +34,7 @@ $(document).ready(function() {
 			getQuestionByID(myquestionid).then((question) => {
 				myquestion = question;
 				if(myquestion.user == currentuser){
+					$(document).prop('title', 'Edit Question - ' + question.title);
 					showQuestionInfo();	
 				}
 				else {
