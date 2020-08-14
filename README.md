@@ -153,6 +153,11 @@ In addition to functionalities above, admin users have access to a variety of ot
  * Option to go back to the regular dashboard.
  * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers.
  * Options to redirect to a page for posting new notices, or to look at all existing users, questions, answers or tags.
+ 
+### Past Reports (`admin/report.html`)
+* Any reivewed reports, either content flagged or report denied, will be listed in this page.
+* An admin user could delete a report by clicking "Remove Report" button for that report to be never seen again.
+* An admin user could reactive a report by clicking "Reactive" button for that report to appear in admin's dashboard and waiting to be reviewed again.
 
 ### Post Notice (`admin/notice.html`)
 * An admin user could post important notices that are to be pinned on the sidebar of a regular user dashboard.
@@ -197,24 +202,24 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
    | ---- | ---------- | ----------- | --------------------- |
    | /    | sessionChecker  | Landing page of this application.  |  |
    | /login | sessionChecker  | [Register/Login page](#register-or-login-registerregisterhtml) |  |
-   | /dashboard  |   | User dashboard if a user is logged in, otherwise redirects to register/login page  |  |
-   | /profile   | authenticate  | Current user profile page if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
-   | /edit/profile | authenticate | Page for editing current logged in user’s profile.  |
-   | /answer | authenticate | Single question page.| `question_id` |
-   | /edit/answer | authenticate | Page for editing an answer. | `question_id` and `answer_id` |
-   | /ask | authenticate | Page for asking a new question.  |
-   | /edit/question | authenticate | Redirects to a page for editing a question. | `question_id` |
-   | /subscribe | authenticate | Redirects to the subscribe page where the user modifies their following tags list. |
-   | /report | authenticate | Redirects to the report page for entering a reason of report. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
-   | /search | authenticate | Redirects to the page with all questions and answers containing the `search_key` keyword. | `search_key` |
-   | /admin/dashboard | adminAuthenticate | Redirects to the admin’s dashboard |  |
-   | /admin/editquestion | adminAuthenticate | Redirects to the page with all existing questions listed and enables editing by admin. |  |
-   | /admin/editanswer | adminAuthenticate | Redirects to the page with all existing answers listed and enables editing by admin. |  |
-   | /admin/edituser | adminAuthenticate | Redirects to the page with all existing users listed, enables editing profile by admin. |  |
-   | /admin/edittag | adminAuthenticate | Redirects to the page with all existing tags listed and enables editing by admin. |  |
-   | /admin/notice | adminAuthenticate | Redirects to the page for admin to create important notices. |  |
-   | /admin/editnotice | adminAuthenticate | Redirects to the page for admin to edit an important notices.  | `notice_id` |
-   | /admin/pastreport | adminAuthenticate | Redirects to the page with all reivewed reports listed.  |  |
+   | /dashboard  |   | [User dashboard](#user-dashboard-useruser_dashboardhtml) if a user is logged in, otherwise redirects to [register/login page](#register-or-login-registerregisterhtml)  |  |
+   | /profile   | authenticate  | [Current user profile page](#user-content-user-profile-useruser_profilehtml) if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
+   | /edit/profile | authenticate | [Page for editing current user’s profile](#user-content-edit-profile-useredit_profilehtml)  |
+   | /answer | authenticate | [Single question page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml)| `question_id` |
+   | /edit/answer | authenticate | [Editing answer page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml) | `question_id` and `answer_id` |
+   | /ask | authenticate | [Asking a new question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)  |
+   | /edit/question | authenticate | [Editing question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml) | `question_id` |
+   | /subscribe | authenticate | [Subscribe page](#user-content-subscribe-to-tags-registersubscribehtml) |
+   | /report | authenticate | [Report page](#user-content-report-reportreporthtml) | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
+   | /search | authenticate | [Search page](#user-content-search-searchquestionsearch_questionhtml) | `search_key` |
+   | /admin/dashboard | adminAuthenticate | [Admin’s dashboard](#user-content-admin-dashboard-adminadmin_dashboardhtml) |  |
+   | /admin/editquestion | adminAuthenticate | [Admin's edit question page](#user-content-all-questions-adminedit_questionhtml) |  |
+   | /admin/editanswer | adminAuthenticate | [Admin's edit answer page](#user-content-all-answers-adminedit_answerhtml) |  |
+   | /admin/edituser | adminAuthenticate | [Admin's edit user page](#user-content-all-users-adminedit_userhtml) |  |
+   | /admin/edittag | adminAuthenticate | [Admin's edit tag page](#user-content-all-tags-adminedit_taghtml) |  |
+   | /admin/notice | adminAuthenticate | [Admin's post important notices page](#user-content-post-notice-adminnoticehtml) |  |
+   | /admin/editnotice | adminAuthenticate | [Admin's edit notice page](#user-content-post-notice-adminnoticehtml)  | `notice_id` |
+   | /admin/pastreport | adminAuthenticate | [Admin's listing past reports page](#past-reports-adminreporthtml)  |  |
    
    * sessionCheck - checks for existence of an active user on the session, and redirect to user dashboard if exist.
    * authenticate - checks for logged in user, will redirect to registar/login page if no account logged in.
