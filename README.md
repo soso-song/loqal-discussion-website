@@ -50,7 +50,7 @@ Below we have listed the main functionalities associated with each page for regu
 ### Welcome Page (`index.html`):
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
 
-### Register or Login (`register/register.html`)
+###Register or Login (`register/register.html`)
 * Register by entering all required fields in the left block and press the “Register” to create a new account.
 * Validation check is performed to check if information inputted are valid and no duplicating username and email.
 * If successfully registered, it will lead you to a page showing some popular tags that you could subscribe to.
@@ -196,7 +196,7 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
    | Path | Middleware | Redirects to | Required Parameter(s) |
    | ---- | ---------- | ----------- | --------------------- |
    | /    | sessionChecker  | Landing page of this application.  |  |
-   | /login | sessionChecker  | [Register/Login page](#register-or-Login) |  |
+   | /login | sessionChecker  | [Register/Login page](#Register-or-Login-(`register/register.html`)) |  |
    | /dashboard  |   | User dashboard if a user is logged in, otherwise redirects to register/login page  |  |
    | /profile   | authenticate  | Current user profile page if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
    | /edit/profile | authenticate | Page for editing current logged in user’s profile.  |
