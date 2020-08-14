@@ -12,13 +12,13 @@ const {
    isMongoError,
    sessionChecker,
    mongoChecker,
-   authenticate,
-   adminAuthenticate
+   authenticateAPI,
+   adminAuthenticateAPI
 } = require('./setups');
 
 /*** Question routes below **********************************/
 // Route for creating a new question
-router.post('/', mongoChecker, authenticate, (req, res) => {
+router.post('/', mongoChecker, authenticateAPI, (req, res) => {
 	const question = new Question({
 		title: req.body.title,
 		content: req.body.content,
@@ -30,8 +30,8 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 	});
 
 	// Save questions
-	question.save().then((quesiton) => {
-        res.redirect('/answer?question_id=' + question._id);
+	question.save().then((result) => {
+        res.redirect('/answer?question_id=' + result._id);
 	})
 	.catch((error) => {
 		if (isMongoError(error)) { 
@@ -43,7 +43,7 @@ router.post('/', mongoChecker, authenticate, (req, res) => {
 })
 
 /// Route for getting all exisiting questions
-router.get('/', mongoChecker, authenticate, (req, res) => {
+router.get('/', mongoChecker, authenticateAPI, (req, res) => {
 	Question.find().then((questions) => {
 		questions = questions.sort((a,b) => b.time - a.time);
 		res.send(questions) 
@@ -51,11 +51,10 @@ router.get('/', mongoChecker, authenticate, (req, res) => {
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
-
 })
 
 //get all question for given userid
-router.get('/users/:user', mongoChecker, authenticate, (req, res) => {
+router.get('/users/:user', mongoChecker, authenticateAPI, (req, res) => {
 	const userid = req.params.user;
 	Question.find(
 		{user : { $eq : userid} }
@@ -69,7 +68,7 @@ router.get('/users/:user', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for getting questions posted by users the current user is following
-router.get('/following', mongoChecker, authenticate, (req, res) => {
+router.get('/following', mongoChecker, authenticateAPI, (req, res) => {
 	const usersfollowing = req.user.following
 
 	Question.find(
@@ -83,8 +82,8 @@ router.get('/following', mongoChecker, authenticate, (req, res) => {
 	})
 })
 
-// Route for get all questions with given a list of tag ids in the body
-router.post('/tags', mongoChecker, (req, res) => {
+// Route to get all the questions given a list of tag ids
+router.post('/tags', mongoChecker, authenticateAPI, (req, res) => {
 	const tag_ids = req.body.tag_ids;
 	Question.find(
 		{'tags': { $in : tag_ids} }
@@ -95,19 +94,18 @@ router.post('/tags', mongoChecker, (req, res) => {
 	.catch((error) => {
 		res.status(500).send("Internal Server Error")
 	})
-	
 })
 
 // Route for getting questions with given tag name
-router.get('/tags/:tagname', mongoChecker, (req, res) => {
+router.get('/tags/:tagname', mongoChecker, authenticateAPI, (req, res) => {
 	const tagname = req.params.tagname;
-	//log('inside questionsearch');
+
 	Tag.find(
 		{name: {$eq: tagname}}
 	).then(tagdata => {
 		const tag = tagdata[0]; // we chuold have tags have unique name, so
 		if(!tag){
-			res.send(false);//status(404).send('tag name not found'); // tell user tag name is not exist, instead no question
+			res.status(404).send('Tag name not found');
 		}else{
 			Question.find(
 				{tags : tag._id}
@@ -126,9 +124,9 @@ router.get('/tags/:tagname', mongoChecker, (req, res) => {
 })
 
 // Route for getting questions containing the given keyword
-router.get('/search/:keyword', mongoChecker, (req, res) => {
+router.get('/search/:keyword', mongoChecker, authenticateAPI, (req, res) => {
 	const keyword = req.params.keyword;
-	//log('inside questionsearch');
+
 	Question.find({$or:[
 		{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
 		{content		: { $regex: keyword, $options: "i" }}
@@ -144,7 +142,7 @@ router.get('/search/:keyword', mongoChecker, (req, res) => {
 
 
 // Route for getting the question by given id
-router.get('/:id', mongoChecker, (req, res) => {
+router.get('/:id', mongoChecker, authenticateAPI, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
@@ -167,7 +165,7 @@ router.get('/:id', mongoChecker, (req, res) => {
 })
 
 // Route for flagging question
-router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/flag/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -175,7 +173,7 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 	}
 	Question.findById(id).then((question) => {
 		if (!question) {
-			res.status(404).send('User not found');
+			res.status(404).send('Question not found');
 		} else {
 			question.isFlagged = req.body.flag;
 			question.lastUpdated = Date.now();
@@ -194,18 +192,18 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 
 
 // Route for updating info of a question given by id
-router.patch('/:id', mongoChecker, authenticate, (req, res) => {
+router.patch('/:id', mongoChecker, authenticateAPI, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid quesiton ID');
+		res.status(404).send('Invalid question ID');
 		return;
 	}
 	// If id valid, findById
 	Question.findById(id).then((question) => {
 		if (!question) {
-			res.status(404).send('Quesiton not found');
+			res.status(404).send('Question not found');
 		} else if (req.session.user == question.user) {
 			question.title = req.body.title;
 			question.content = req.body.content;
@@ -224,7 +222,7 @@ router.patch('/:id', mongoChecker, authenticate, (req, res) => {
 		else {
 			console.log(req.session.user)
 			console.log(question.user)
-			res.status(403).send('No permission to edit quesiton');
+			res.status(403).send('No permission to edit question');
 		}
 	})
 	.catch((error) => {
@@ -233,18 +231,18 @@ router.patch('/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for updating info of a question given by id
-router.patch('/admin/:id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/admin/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 
 	// Validate id
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send('Invalid quesiton ID');
+		res.status(404).send('Invalid question ID');
 		return;
 	}
 	// If id valid, findById
 	Question.findById(id).then((question) => {
 		if (!question) {
-			res.status(404).send('Quesiton not found');
+			res.status(404).send('Question not found');
 		} else {
 			question.title = req.body.title;
 			question.content = req.body.content;
@@ -253,7 +251,7 @@ router.patch('/admin/:id', mongoChecker, adminAuthenticate, (req, res) => {
 			question.isFlagged = req.body.isFlagged;
 			question.lastUpdated = Date.now();
 			question.save().then((result)=>{
-				res.send('Okay');
+				res.send(result);
 			}).catch((error)=>{
 				console.log(error);
 				res.status(400).send('Bad request.');

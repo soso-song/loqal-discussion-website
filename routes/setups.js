@@ -76,6 +76,40 @@ const adminAuthenticate = (req, res, next) => {
 	}
 }
 
+// Middleware for authentication of API
+const authenticateAPI = (req, res, next) => {
+	if (req.session.user) {
+		User.findById(req.session.user).then((user) => {
+			if (!user) {
+				return Promise.reject()
+			} else {
+				req.user = user
+				next()
+			}
+		}).catch((error) => {
+			res.status(401).send("Unauthorized")
+		})
+	} else {
+		res.status(401).send("Unauthorized")
+	}
+}
+
+const adminAuthenticateAPI = (req, res, next) => {
+	if (req.session.user) {
+		User.findById(req.session.user).then((user) => {
+			if (!user || !user.isAdmin) {
+				return Promise.reject()
+			} else {
+				req.user = user
+				next()
+			}
+		}).catch((error) => {
+			res.status(401).send("Unauthorized")
+		})
+	} else {
+		res.status(401).send("Unauthorized")
+	}
+}
 
 
 module.exports = {
@@ -89,5 +123,7 @@ module.exports = {
    sessionChecker,
    mongoChecker,
    authenticate,
-   adminAuthenticate
+   adminAuthenticate,
+   authenticateAPI,
+   adminAuthenticateAPI
 };

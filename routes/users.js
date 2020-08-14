@@ -12,8 +12,8 @@ const {
    isMongoError,
    sessionChecker,
    mongoChecker,
-   authenticate,
-   adminAuthenticate
+   authenticateAPI,
+   adminAuthenticateAPI
 } = require('./setups');
 
 // For handling images
@@ -43,9 +43,6 @@ router.post('/', mongoChecker, (req, res) => {
 
 	// Save the user
 	user.save().then((user) => {
-		//res.send(user)
-		//Behrad adding this:
-		//Automatically logging the user in after registeration
 		req.session.user = user._id;
         req.session.email = user.email
         res.redirect('/subscribe');
@@ -70,7 +67,7 @@ router.post('/login', mongoChecker, (req, res) => {
 	User.findByEmailPassword(email, password).then((user) => {
 	    if (!user) {
 			//res.redirect('/login');
-			res.status(404).send('Resource not found') 
+			res.status(404).send('Resource not found')
         } else {
             // Add the user's id to the session cookie.
 			// We can check later if this exists to ensure we are logged in.
@@ -79,13 +76,10 @@ router.post('/login', mongoChecker, (req, res) => {
             res.redirect('/dashboard');
         }
     }).catch((error) => {
-		// redirect to login if can't login for any reason
     	if (isMongoError(error)) { 
-			//res.status(500).redirect('/login');
 			res.status(500).send('Internal server error')
 		} else {
 			log(error)
-			//res.status(400).redirect('/login');
 			res.status(400).send('Bad Request')
 		}
 		
@@ -105,7 +99,7 @@ router.get('/logout', (req, res) => {
 })
 
 // Route for getting all users
-router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
+router.get('/', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	User.find().then((users) => {
 		res.send(users) 
 	})
@@ -115,8 +109,8 @@ router.get('/', mongoChecker, adminAuthenticate, (req, res) => {
 })
 
 
-// Route which given a list of ids, give a mapping of id to user
-router.post('/mapping', mongoChecker, (req, res) => {
+// Route which given a list of ids, gives a mapping of ids to users
+router.post('/mapping', mongoChecker, authenticateAPI, (req, res) => {
 	const ids = req.body.ids;
 
 	User.find({'_id': { $in: ids} }).then((users) => {
@@ -137,7 +131,7 @@ router.post('/mapping', mongoChecker, (req, res) => {
 
 
 // Route for updating basic info of current user
-router.patch('/', mongoChecker, authenticate, (req, res) => {
+router.patch('/', mongoChecker, authenticateAPI, (req, res) => {
 	User.findById(req.user._id).then((user) => {
 		if (!user) {
 			res.status(404).send('User not found');
@@ -161,7 +155,7 @@ router.patch('/', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for changing password
-router.patch('/password', mongoChecker, authenticate, (req, res) => {
+router.patch('/password', mongoChecker, authenticateAPI, (req, res) => {
 	User.findById(req.user._id).then((user) => {
 		if (!user) {
 			res.status(404).send('User not found');
@@ -183,12 +177,12 @@ router.patch('/password', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for getting the current user, check to see if there is a better way
-router.get('/current', mongoChecker, authenticate, (req, res) => {
+router.get('/current', mongoChecker, authenticateAPI, (req, res) => {
 	res.send(req.user)
 })
 
 // Route for flag user
-router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/flag/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -214,7 +208,7 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 
 
 // a POST route to *create* an image
-router.post("/picture", multipartMiddleware, authenticate, (req, res) => {
+router.post("/picture", multipartMiddleware, authenticateAPI, (req, res) => {
 
 	User.findById(req.user._id).then((user) => {
 		if (!user) {
@@ -274,7 +268,7 @@ router.post("/picture", multipartMiddleware, authenticate, (req, res) => {
 });
 
 // Route for admin side updating basic info of current user
-router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -310,7 +304,7 @@ router.patch('/:id', mongoChecker, adminAuthenticate, (req, res) => {
 
 /*** Follow Unfollow routes below **********************************/
 // Following a user
-router.post('/follow/:id', mongoChecker, authenticate, (req, res) => {
+router.post('/follow/:id', mongoChecker, authenticateAPI, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -318,7 +312,7 @@ router.post('/follow/:id', mongoChecker, authenticate, (req, res) => {
 	}
 	User.findById(id).then((user)=>{
 		if(!user){
-			res.status(404).send('user not found');
+			res.status(404).send('User not found');
 		}else{
 			if(user.followers.includes(req.user._id)){
 				res.status(400).send('Already following');
@@ -372,7 +366,7 @@ router.post('/follow/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 // Unfollowing a user
-router.post('/unfollow/:id', mongoChecker, authenticate, (req, res) => {
+router.post('/unfollow/:id', mongoChecker, authenticateAPI, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -433,7 +427,7 @@ router.post('/unfollow/:id', mongoChecker, authenticate, (req, res) => {
 })
 
 // Route for getting a user
-router.get('/:id', mongoChecker, authenticate, (req, res) => {
+router.get('/:id', mongoChecker, authenticateAPI, (req, res) => {
 	//log(req.params.id)
 	const id = req.params.id
 

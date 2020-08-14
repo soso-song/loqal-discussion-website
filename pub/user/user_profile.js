@@ -165,7 +165,8 @@ function getUserTags(){
         getTagList(pageUser.tags).then((tags) => {
             let mytags = '';
             for(let i=0; i < tags.length; i++){
-                mytags+=`<span class="tag">${tags[i]}</span>`;
+                //mytags+=`<span class="tag">${tags[i]}</span>`;
+                mytags+= `<a class="tag" href="/search?search_key=${tags[i]}">${tags[i]}</a>`;
             }
     
             let myhtml = `<h3>Tags</h3> ${mytags}`

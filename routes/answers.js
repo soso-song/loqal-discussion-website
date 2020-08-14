@@ -12,14 +12,14 @@ const {
    isMongoError,
    sessionChecker,
    mongoChecker,
-   authenticate,
-   adminAuthenticate
+   authenticateAPI,
+   adminAuthenticateAPI
 } = require('./setups');
 
 /*** Answers routes below **********************************/
 
 //get all answers for given userid
-router.get('/users/:user', mongoChecker, (req, res) => {
+router.get('/users/:user', mongoChecker, authenticateAPI, (req, res) => {
 	const userid = req.params.user;
 	Question.find(
 		{'answers.user' : {$eq : userid} }
@@ -37,10 +37,9 @@ router.get('/users/:user', mongoChecker, (req, res) => {
 })
 
 // Route for getting all answers containing the given keyword
-router.get('/search/:keyword', mongoChecker, (req, res) => {
+router.get('/search/:keyword', mongoChecker,  authenticateAPI, (req, res) => {
 	const keyword = req.params.keyword;
 	Question.find(
-		//{title 			: { $regex: keyword, $options: "i" }}, // "i" is for case insensitive match
 		{'answers.content'	: { $regex: keyword, $options: "i" }}
 	).then((answers) => {
 		answers = answers.sort((a,b) => b.time - a.time);
@@ -53,7 +52,7 @@ router.get('/search/:keyword', mongoChecker, (req, res) => {
 })
 
 // Route for getting the answer by given question id and answer id
-router.get('/:question_id/:answer_id', mongoChecker, (req, res) => {
+router.get('/:question_id/:answer_id', mongoChecker, authenticateAPI, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 	
@@ -78,7 +77,7 @@ router.get('/:question_id/:answer_id', mongoChecker, (req, res) => {
 })
 
 // Route for flagging answer
-router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/flag/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		res.status(404).send('ID not valid');
@@ -98,8 +97,10 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 					res.send(ques);
 				})
 				.catch((error)=>{
-				res.status(400).send('Bad request.');
-			})
+					res.status(400).send('Bad request.');
+				})
+			}else{
+				res.status(404).send('Answer not found');
 			}
 		})
 	})
@@ -110,7 +111,7 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticate, (req, res) => {
 })
 
 // Gets question and answer based on answer id
-router.get('/:answer_id', mongoChecker, (req, res) => {
+router.get('/:answer_id', mongoChecker, authenticateAPI, (req, res) => {
 	const answer_id = req.params.answer_id;
 	// Validate id
 	if (!ObjectID.isValid(answer_id)) {
@@ -121,15 +122,16 @@ router.get('/:answer_id', mongoChecker, (req, res) => {
 	// If id valid, findById
 	Question.find().then(questions=> {
 		if (!questions) {
-			res.status(404).send('Question not found');
+			res.status(404).send('Questions not found');
 		} else {
 			for(const question of questions){
 				const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
 				if(answer){
 					res.json({question,answer});
-					break;
+					return;
 				}
 			};
+			res.status(404).send('Answer not found');
 		}
 	})
 	.catch((error) => {
@@ -138,7 +140,7 @@ router.get('/:answer_id', mongoChecker, (req, res) => {
 })
 
 // Route for edting the answer
-router.patch('/:question_id/:answer_id', mongoChecker, authenticate, (req, res) => {
+router.patch('/:question_id/:answer_id', mongoChecker, authenticateAPI, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 
@@ -156,14 +158,18 @@ router.patch('/:question_id/:answer_id', mongoChecker, authenticate, (req, res) 
 		}
 		else {
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
-			answer.content = req.body.content;
-			answer.lastUpdated = Date.now();
-			question.save().then((result)=>{
-				res.redirect(303, '/answer?question_id=' + question_id);
-			}).catch((error)=>{
-				console.log(error);
-				res.status(400).send('Bad request.');
-			})
+			if(answer){
+				answer.content = req.body.content;
+				answer.lastUpdated = Date.now();
+				question.save().then((result)=>{
+					res.redirect(303, '/answer?question_id=' + question_id);
+				}).catch((error)=>{
+					console.log(error);
+					res.status(400).send('Bad request.');
+				})
+			}else{
+				res.status(404).send('Answer not found');
+			}
 		}
 	})
 	.catch((error) => {
@@ -173,7 +179,7 @@ router.patch('/:question_id/:answer_id', mongoChecker, authenticate, (req, res) 
 })
 
 // Route for edting the answer on admin side
-router.patch('/admin/:question_id/:answer_id', mongoChecker, adminAuthenticate, (req, res) => {
+router.patch('/admin/:question_id/:answer_id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 
@@ -189,21 +195,27 @@ router.patch('/admin/:question_id/:answer_id', mongoChecker, adminAuthenticate, 
 		}
 		else {
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
-			answer.content = req.body.content;
-			answer.lastUpdated = Date.now();
-			if(req.body.isBest){
-				question.answers.map((myans) => {
-					myans.isBest = false;
+
+			if(answer){
+				answer.content = req.body.content;
+				answer.lastUpdated = Date.now();
+				if(req.body.isBest){
+					question.answers.map((myans) => {
+						myans.isBest = false;
+					})
+				}
+				answer.isBest = req.body.isBest;
+				answer.isFlagged = req.body.isFlagged;
+				question.save().then((result)=>{
+					res.send(result);
+				}).catch((error)=>{
+					console.log(error);
+					res.status(400).send('Bad request.');
 				})
+			}else{
+				res.status(404).send('Answer not found');
 			}
-			answer.isBest = req.body.isBest;
-			answer.isFlagged = req.body.isFlagged;
-			question.save().then((result)=>{
-				res.send('Okay');
-			}).catch((error)=>{
-				console.log(error);
-				res.status(400).send('Bad request.');
-			})
+
 		}
 	})
 	.catch((error) => {
@@ -214,7 +226,7 @@ router.patch('/admin/:question_id/:answer_id', mongoChecker, adminAuthenticate, 
 
 
 // Route for setting an answer as best answer
-router.post('/best/:question_id/:answer_id', mongoChecker, authenticate, (req, res) => {
+router.post('/best/:question_id/:answer_id', mongoChecker, authenticateAPI, (req, res) => {
 	const question_id = req.params.question_id;
 	const answer_id = req.params.answer_id;
 
@@ -237,14 +249,20 @@ router.post('/best/:question_id/:answer_id', mongoChecker, authenticate, (req, r
 			})
 
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
-			answer.isBest = true;
 
-			question.save().then((result)=>{
-				res.status(200).send('Selected as best answer');
-			}).catch((error)=>{
-				console.log(error);
-				res.status(400).send('Bad request.');
-			})
+			if(answer){
+				answer.isBest = true;
+
+				question.save().then((result)=>{
+					res.status(200).send('Selected as best answer');
+				}).catch((error)=>{
+					console.log(error);
+					res.status(400).send('Bad request.');
+				})
+			}else{
+				res.status(404).send('Answer not found');
+			}
+			
 		}
 	})
 	.catch((error) => {
@@ -253,7 +271,7 @@ router.post('/best/:question_id/:answer_id', mongoChecker, authenticate, (req, r
 })
 
 // Route for creating a new answers
-router.post('/:id', mongoChecker, authenticate, (req, res) => {
+router.post('/:id', mongoChecker, authenticateAPI, (req, res) => {
 
 	const id = req.params.id;
 	if(!ObjectID.isValid(id)){	// nor valid id

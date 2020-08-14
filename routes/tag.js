@@ -14,7 +14,9 @@ const {
    sessionChecker,
    mongoChecker,
    authenticate,
-   adminAuthenticate
+   adminAuthenticate,
+   authenticateAPI,
+   adminAuthenticateAPI
 } = require('./setups');
 
 //tag route below**********/

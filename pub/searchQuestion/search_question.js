@@ -182,7 +182,7 @@ function search_tag(tagname){
 		if(res.status === 200){
 			return res.json();
 		}else{
-			alert('could not get tags');
+			//alert('could not get tags');
 		}
 	})
 	.then(data => {

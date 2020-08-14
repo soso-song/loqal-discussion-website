@@ -77,7 +77,8 @@ function showQuestion(){
 	.then((json) => {
 		let newDiv = '';
 		for(let i=0; i < json.length; i++){
-			newDiv = '<span class="tag">' + json[i] + '</span>';
+			//newDiv = '<span class="tag">' + json[i] + '</span>';
+			newDiv = `<a class="tag" href="/search?search_key=${json[i]}">${json[i]}</a>`;
 			$('#ptags').prepend(newDiv);
 		}
 	})

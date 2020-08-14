@@ -13,7 +13,9 @@ const {
    sessionChecker,
    mongoChecker,
    authenticate,
-   adminAuthenticate
+   adminAuthenticate,
+   authenticateAPI,
+   adminAuthenticateAPI
 } = require('./setups');
 
 //Notice route below**********/
