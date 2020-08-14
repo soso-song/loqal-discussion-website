@@ -270,7 +270,9 @@ router.patch('/increment/:tag_id/', mongoChecker, authenticateAPI, (req, res) =>
 		}
 		else {
 			tag.count++;
-			tag.save().then()
+			tag.save().then(tag => {
+				res.send(tag);
+			})
 			.catch((error) => {
 				res.status(400).send('Bad request.');
 			})
