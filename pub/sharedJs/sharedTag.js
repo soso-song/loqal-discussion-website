@@ -148,7 +148,7 @@ async function createTags(tag_names){
 			return res.json();
 		}).then((json) => {
 			mytags.push(json.tag._id);
-			// count this use of tag
+
 			request = new Request(url_c+json.tag._id, {
 				method: 'PATCH',
 				headers: {

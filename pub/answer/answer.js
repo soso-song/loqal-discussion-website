@@ -192,9 +192,9 @@ function pickAsBest(questionid, answerid){
 	.then(function(res) {
 		//console.log(res)
 		if (res.status === 200) {
-			console.log("picked");
+			alert('Picked Best Answer!').
 		} else {
-			console.log("not picked");
+			alert('Failed to pick the best answer!');
 		}
 	}).catch((error) => {
 		//console.log(error)
