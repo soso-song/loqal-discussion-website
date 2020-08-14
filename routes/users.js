@@ -428,7 +428,7 @@ router.get('/:id', mongoChecker, authenticateAPI, (req, res) => {
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send()
+		res.status(404).send('Resource not found')
 		return;
 	}
 
