@@ -192,7 +192,7 @@ In addition to functionalities above, admin users have access to a variety of ot
 * Editing a tag with an empty name is invalid.
  
 # Overview of Routes
-This application uses Express server to manage endpoints repond to client requrests, and uses Mongoose to model application data with schema-based objects. 
+This application uses Express server to manage endpoints respond to client requrests, and uses Mongoose to model application data with schema-based objects. 
  
 We have a server.js file where the main express app is implemented. Routes are separated into smaller files under `/routes` to decrease the size of the main app. Each of these files, which we refer to as mini-apps, creates an  express.Router instance as a module to be required in the main app. Each min-app handles queries on a specific data type while the main app contains methods that redirect some URI to pages. Below are routes in each main/mini-app listed and explained with the schema-based application data.
  
@@ -230,98 +230,151 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
  
  
 ## Mini-apps
-### User (`users.js`)
-#### User Schema Explanation
-User Scheme is the schema for containing user information includes displayname, username, email, password, isFlagged, isAdmin, following, followers, tags, image_id, image_url.
-Displayname, username and email requires the minimum length of 1.
-Password requires the minimum length of 3.
-* displayname:type: String
-* username:type: String
-* email: type: String
-* password: type: String
-* isFlagged:type: Boolean
-* isAdmin:type: Boolean
-* following: type: mongoose.Schema.Types.ObjectId
-* followers:type: mongoose.Schema.Types.ObjectId
-* tags:[mongoose.Schema.Types.ObjectId]
-* image_id: type: String
-* image_url: type: String
- 
-#### Routes handling User related requests
-Middleware checkers:
+Middleware checkers used in mini-apps:
    * mongoChecker - checks for mongo connection errors, this is implemented in basically every route therefore will not be listed in the table below 
    * authenticateAPI - checks for logged in users, will send error with status 401 "Unauthorized" if no login user
-   * adminAuthenticateAPI - checks if logged in user is an admin user, will send error with status 401 "Unauthorized" if failed to authenticate.
-      * routes listed below with a `*` infront of the method are routes with adminAuthenticateAPI checking
-   
+   * adminAuthenticateAPI - checks if a logged in user is an admin user, will send error with status 401 "Unauthorized" if failed to authenticate.
+      * routes listed below with a `*` in front of the method are routes with adminAuthenticateAPI checking
+ 
+### User (`users.js`)
+#### User Schema Explanation
+User Scheme is the schema for containing user information including 
+* `displayname`, `username`, and `email` are Strings and requires the minimum length of 1
+* `password` requires the minimum length of 3 and are stores as encrypted Strings
+* `isFlagged`, `isAdmin` are Booleans
+* `following`, `followers` are list of User IDs
+* `tags` are list of Tag IDs
+* `image_id`, `image_url` are Strings, default being empty Strings
+ 
+#### Routes handling User related requests
    | Path | Method | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
    | /users | POST |  | { email, <br> password, <br> username, <br> displayname } | - redirect to `/subscribe` <br>- status 400: Bad request <br> - status 500: Internal server error | Add a new User to <br>the User collection. |
    | /users/login | POST |  | { email, <br> password } | - redirect to `/dashboard` <br>- status 404: Resource not found <br> - status 400: Bad request <br> - status 500: Internal server error | Log user in by <br>adding info to session. |\
-   | /users/logout | GET |  | | - redirection to `/` <br> - 500: Internal server error | Log user out by <br>removing the session. |
-   | /users/current | GET | | | - (json) User<br> -401: Unauthorized | Get User object<br> representing current <br> logged in user |
-   | /users/:id | GET | User ID | | - (json) User<br> -401: Unauthorized<br> - status 404: Resource not found<br> - status 500: Internal server error | Get the User object <br>with the given user ID. |
-   | /users | * GET | | | - (json) list of Users <br> -401: Unauthorized <br> - 500: Internal server error | Get a list of all existing <br>User from User collection. |
-   | /users/mapping | POST | | \[ id, id, ... \] | - (json){id : User} <br> - status 404: Can't find Users <br> - status 500: Internal server error | Take in a list of user ids, <br>return an object that maps <br>user ids to corresponding Users. |
-   | /users | PATCH | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email; will check to<br> avoid user changing other's profile. |
-   | /users/:id |* PATCH | User ID | { displayname, <br>username, <br>email, <br>tags, <br>isFlagged, <br>isAdmin } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>- status 400: Bad Request<br> - status 500: Internal server error | Edit profile of user<br>(with given user id)<br> by admin user. |
-   | /users/password | PATCH | | { password } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> password. |
-   | /users/flag/:id | * PATCH | User ID | { (boolean)`flag` } | - (json) User<br> -401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Flag user with given<br> user id if `flag==true`, <br>otherwise unflag user. |
-   | /users/picture | POST |  |  | - (json) User<br> -401: Unauthorized<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Upload a new profile<br> photo. |
-   | /users/follow/:id | POST| User ID | | - (json) current User<br> -401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 500: Internal server error | Add user ID to follow-<br>ing list of current user<br> logged in, will check to <br>avoid following twice. |
-   | /users/unfollow/:id | POST| User ID | | - (json) current User<br> -401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 500: Internal server error | Remove user ID from<br> following list of current <br>logged in user, will check<br> to avoid unfollowing twice. |
-   
-
+   | /users/logout | GET |  | | - redirection to `/` <br> - 500: Internal server error | Log users out by <br>removing the session. |
+   | /users<br>/current | GET | | | - (json) User<br> - status 401: Unauthorized | Get User object<br> representing current <br> logged in user |
+   | /users/:id | GET | User ID | | - (json) User<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 500: Internal server error | Get the User object <br>with the given user ID. |
+   | /users | * GET | | | - (json) array of Users <br> - status 401: Unauthorized <br> - 500: Internal server error | Get a list of all existing <br>User from User collection. |
+   | /users<br>/mapping | POST | | array of User ID | - (json) object mapping ids to Users <br> - status 404: Can't find Users <br> - status 500: Internal server error | Take in a list of user ids, return<br> an object that maps user<br> ids to corresponding Users. |
+   | /users | PATCH | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email; will check to<br> avoid user changing other's profiles. |
+   | /users/:id |* PATCH | User ID | { displayname, <br>username, <br>email, <br>tags, <br>isFlagged, <br>isAdmin } | - redirect to `/profile`<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>- status 400: Bad Request<br> - status 500: Internal server error | Edit profile of user<br>(with given user id)<br> by admin user. |
+   | /users<br>/password | PATCH | | { password } | - redirect to `/profile`<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> password. |
+   | /users<br>/flag/:id | * PATCH | User ID | { (boolean)`flag` } | - (json) User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Flag user with given<br> user id if `flag==true`, <br>otherwise unflag user. |
+   | /users/picture | POST |  |  | - (json) current User<br> - status 401: Unauthorized<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Upload a new profile<br> photo. |
+   | /users<br>/follow/:id | POST | User ID | | - (json) current User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 500: Internal server error | Add user ID to follow-<br>ing list of current user<br> logged in, will check to <br>avoid following twice. |
+   | /users<br>/unfollow/:id | POST | User ID | | - (json) current User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 500: Internal server error | Remove user ID from<br> following list of current <br>logged in user, will check<br> to avoid unfollowing twice. |
+ 
  
  
  
  
 ### Tag (`tag.js`)
 #### Tag Schema Explanation
-Tag Schema contains two attributes including name, and count.
-The minimum length of tag name is 1
-The default number of count is 0, and this is an indicator of how popular the tag is.
+Tag Schema contains two attributes: including name, and count.
+* `name` which is name of the tag, with minimum length of 1
+* `count` with default number 0, this is an indicator of how popular the tag is
+ 
+#### Routes handling Tags related requests
+   | Path | Method | Parameters | Body | Respond | Explanations|
+   | ---- | ------ | ---------- | ---- | ------- | --------- |
+   | /tag | GET | | | - (json) array of Tags<br> - status 401: Unauthorized <br>- status 500: Internal Server Error | Get all existing Tags. |
+   | /tag<br>/popular | GET| | | - (json) array of Tags<br> - status 401: Unauthorized <br>- status 500: Internal Server Error | Get all existing Tags<br> sorted by number of usage. |
+   | /tag/names | POST | | { ids: <br>\<ID array\> } | - (json) array of Strings<br> - status 401: Unauthorized <br> - status 404: Can't find all tags<br> - status 500: Internal Server Error | Input an array of Tag IDs,<br> return the corresponding <br>array of tag names. |
+   | /tag/info | POST | | { ids: <br>\<ID array\> } | - (json) array of Tags<br> - status 401: Unauthorized<br> - status 404: Can't find all tags<br> - status 500: Internal Server Error | Input an array of Tag <br> IDs, return the corresponding <br>array of Tags. |
+   | /tag | POST | | { name } | - (json) new created Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 500: Internal Server Error | Adding a new Tag to<br>collection, will check to <br>avoid duplicate tag names. |
+   | /tag/:id | * PATCH | Tag ID | { name } | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 404: Tag not found <br> - status 500: Internal Server Error | Edit name of tag with given<br> id, will check to avoid<br> duplicate tag names. |
+   | /tag | * DELETE| Tag ID | | - (json) deleted Tag<br> - status 401: Unauthorized <br> - status 404: Resource not found <br> - status 404: Tag not found<br> - status 500: Internal Server Error | Delete Tag with given ID<br> from collection. |
+   | /tag<br>/follow<br>/:id | PATCH | Tag ID | | - (json) followed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 409: Already following Tag<br> - status 500: Internal Server Error | Add Tag ID to current <br>user’s list of following <br>tags, will check to avoid <br>following twice. |
+   | /tag<br>/unfollow<br>/:id | PATCH | Tag ID | | - (json) unfollowed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Remove Tag ID from current<br> user’s list of following <br>tags, will check to avoid <br>unfollowing twice. |
+   | /tag<br>/increment<br>/:id | PATCH | Tag ID | | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Count one more the usage of<BR> Tag with given Tag ID. |
+   | /tag/:id | GET| Tag ID | | - (json) Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Get Tag with given Tag ID |
+ 
+ 
+ 
  
 ### Question (`questions.js`)
 #### Question Schema Explanation
-Question Schema includes title, content, user, tags, answer, isResolved, is Flagged, time, and lastUpdated.
-Title and content require the minimum length of 1.
-The default time for the time is Date.now and for each update, the lastUpdated will be updated as well.
+Question Schema includes:
+* title, content, requiring minimum length of 1
+* `user` is the User ID of user who posted this question
+* `answers` is a list of subdocument AnswerSchema
+* `isResolved`, `is Flagged` are Booleans
+* `time` is Date object with default time being Date.now at initialization
+* `lastUpdated` is Date objects that is Date.now for each question update
  
-* title:type: String
-* content:type: String
-* user: type: mongoose.Schema.Types.ObjectId
-* tags: type: [mongoose.Schema.Types.ObjectId]
+ 
+#### Routes handling Question related requests
+  | Path | Method | Parameters | Body | Respond | Explanations|
+   | ---- | ------ | ---------- | ---- | ------- | --------- |
+   |/question|POST|none|title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|post new question
+|/questions/users/:user|GET|UserId|user|-(send)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the Route for getting all existing questions|
+|/questions/following|GET|none|user|-(send) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|get questions posted by users the current user is following|
+|/questions/tags|POST|none|tag_ids|-(send) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|post the route to get all the questions given a list of tag ids.|
+|questions/tags/:tagname|GET|tag name|none|-(send)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|get the route for getting questions with given tag name|
+|/question/search/:keyword|GET|keyword given by user|keyword|-(send)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| getting questions containing the given keyword|
+|/questions/:id|GET|question Id|id|-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|getting the question by given id|
+|/questions/flag/:id|PATCH|question Id|id|-(send)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|patch the route for flagging question|
+|/Questions/:id|PATCH|question Id|id|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|patch the route for updating info of a question given by id|
+|/questions/admin/:id|PATCH|question Id|id|-(send)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|patch the route for updating in of a question given by id
+ 
  
  
 ### Answer (`answer.js`)
 #### Answer Schema Explanation
 Answer Schema includes user, content, isFlagged, isBest, time and lastUpdated.
 Attribute of content requires minimum length of 1.
+ 
+#### Routes handling Question related requests
+   | Path | Method | Parameters | Body | Respond | Explanations|
+   | ---- | ------ | ---------- | ---- | ------- | --------- |
+   | /answers<br>/users<br>/:users | GET | User ID | | - (json) array of Questions<br> - status 401:
+ 
+ 
+ 
+ 
+ 
+ 
 ### Report (`reports.js`)
 #### Report Schema Explanation
-* type:type: String
-* targetId: type: mongoose.Schema.Types.ObjectId
-* reason: type: String
-* user: type: mongoose.Schema.Types.ObjectId
-* reviewer:type: mongoose.Schema.Types.ObjectId
-* time: type: Date
-* isReviewed: type: Boolean
+* type: String `belongs \[‘u’,’q’,’a’\] representing User, Question and Answer`
+* targetId: mongoose.Schema.Types.ObjectId
+* reason: String
+* user: mongoose.Schema.Types.ObjectId
+* reviewer: mongoose.Schema.Types.ObjectId
+* time: Date
+* isReviewed: Boolean
+ 
+#### Routes handling Report related requests
+   | Path | Method | Parameters | Body | Respond | Explanations|
+   | ---- | ------ | ---------- | ---- | ------- | --------- |
+   | /reports | POST | | {type,<br>targetId,<br>reason,<br>user} | - (json)Report<br>- status 400: Bad Request <br>- status 401: Unauthorized <br> - status 500: Internal Server Error | Creating a new report |
+   | /reports| * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> -status 500: Internal Server Error |Getting all existing reports |
+   | /reports<br>/type/user | * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with the type of 'u'. |
+   | /reports<br>/type/question | * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'q'. |
+   | /reports<br>/type/answer | * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'a'. |
+   | /reports/:id | * GET | Report ID| | - (json)Report<br> - status 401: Unauthorized <br> - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Get report by given report id.|
+   | /reports/:id | * PATCH | Report ID |{reviewer,<br>isReviewed}| - (json) updated Report <br>- status 400: Bed Request<br>  - status 401: Unauthorized <br>  - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Edit state of report with given report id. |
  
 ### Notice (`notice.js`)
 ## Notice Schema Explanation
-Notice Schema includes attributes of anime, content, time, user and isShowing.
-Name and content requires minimum length of 1
-There is an option in front-end to control the boolean of isShowing 
-* name:type: String
-* content:type: String
-* time:type: Date
-* user:type: mongoose.Schema.Types.ObjectId
-* isShowing: type: Boolean
+Notice Schema includes attributes:
+* `title` and `content` are Strings requiring minimum length of 1
+* `time` is Date object of posted time
+* `user` is User ID of user who posted this notice
+* `isShowing` is a Boolean states whether to show notice or not
+ 
+#### Routes handling Notice related requests
+   | Path | Method | Parameters | Body| Respond |Explanations|
+   | ---- | ------ | ---------- | ---- | ------- | --------- |
+   | /notice | * POST | | {title,<br>content,<br>user} | 	- (json)Notice<br> - status 400: Bad Request <br>  - status 401: Unauthorized <br> - status 500: Internal Server Error | Creating a notice |
+   | /notice<br>/current | GET | || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Bad Request <br>- status 500: Internal Server Error | Get an notice with isShowing set to true |
+   | /notice | * GET | || 	- (json)array of Notice<br> - status 401: Unauthorized <br> - status 500: Internal Server Error | Get all notice|
+   | /notice/:id | * GET | Notice ID || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Get the notice by given notice id|
+   | /notice/:id | * PATCH | Notice ID | {title,<br>content,<br>isShowing(opt)}| 	- (json)updated Notice<br> - status 400: Bad request. <br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Manually edit notice from admin dashboard|
  
  
 # Development Log
 Throughout the development of Phase 1, we used the following Google sheet to keep track of our progress and tasks and would like to keep it here for reference:  
 https://docs.google.com/spreadsheets/d/1eXUJ3reDqHHjKZr3RrSvqVHPCbOBuvz-uzYq6QhfW8U/edit?usp=sharing
- 
+
 
