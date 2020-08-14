@@ -53,7 +53,6 @@ function load_result_question(questions){
 
 function load_result_answer(questions){
 	let i=0;
-	console.log(questions)
 	answerResultEntries.innerHTML = '';
 	if(questions.length == 0){
 		answerResultEntries.innerHTML+="No answers were found.";
