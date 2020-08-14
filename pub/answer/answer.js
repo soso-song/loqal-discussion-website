@@ -33,6 +33,7 @@ function getQuestionByURL() {
 		myquestionid = urlquestionid;
 		getQuestionByID(myquestionid).then((question) => {
 			myquestion = question;
+			$(document).prop('title', 'Question - '+question.title);
 			showQuestion();
 		})
 		.then((res) => {
@@ -48,6 +49,7 @@ function getQuestionByURL() {
 
 
 function showQuestion(){
+	// add question title to head title
 	if(myquestion.isFlagged){
 		$('#ptitle').text("This question has been flagged by an Admin of LOQAL");
 		$('#pdesc').text("Please contact us if you need further information");	
@@ -144,21 +146,23 @@ async function showAnswers(){
 		}
 
 		let oneanswer = '<div '+bestText+' class="answer"><div id="'+answer._id+'" class="answertext">'
-		+
-		myanswertext
-		+
-		'</div><div class="answerinfo">Answered by <a href="/profile?user_id='+answer.user+'">' + ansUser.displayname + ' (@' + ansUser.username + ')</a> - ' +readableDate(answer.time)+' </div>'
-		;
+		+ myanswertext
+		+ '</div><div class="answerinfo">Answered by <a href="/profile?user_id='+answer.user+'">'
+		+ ansUser.displayname + ' (@' + ansUser.username + ')</a> - ' 
+		+ readableDate(answer.time)+' </div>';
 
 		if(currentuser._id == answer.user){
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a> <a href='/edit/answer?question_id="
+			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url
+					  + ">Report this answer</a> <a href='/edit/answer?question_id="
 					  + myquestionid + "&answer_id="+answer._id+"'>Edit Answer</a>";
 		} else{
-			oneanswer += "<div class='answerbuttons'> <a href="+report_answer_btn_url+">Report this answer</a>";
+			oneanswer += "<div class='answerbuttons'> <a href="
+					  + report_answer_btn_url+">Report this answer</a>";
 		}
 
 		if(currentuser._id == myquestion.user){
-			oneanswer += ' <a href="javascript:void(0);" onclick="'+ `pickAsBest('${myquestionid}', '${answer._id}')` +'" class="pickbest">Pick as Best Answer</a></div></div>';
+			oneanswer += ' <a href="javascript:void(0);" onclick="'+ `pickAsBest('${myquestionid}', '${answer._id}')` 
+					  + '" class="pickbest">Pick as Best Answer</a></div></div>';
 		} else{
 			oneanswer += '</div></div>'
 		}
@@ -190,26 +194,21 @@ function pickAsBest(questionid, answerid){
 
 	fetch(request)
 	.then(function(res) {
-		//console.log(res)
 		if (res.status === 200) {
-			alert('Picked Best Answer!').
+			alert('Picked Best Answer!');
 		} else {
 			alert('Failed to pick the best answer!');
 		}
 	}).catch((error) => {
-		//console.log(error)
+		console.log(error)
 	})
 }
-
-
-
 
 function setOnclicks(){
 	// Handling selecting best answer
 	$('body').on('click', '.pickbest', function () {
 		$('#isbest').removeAttr('id');
 		$(this).parent().parent().attr('id', 'isbest');
-		//Send data to server to mark answer as best and remove previous best answer if it exists
 	});
 
 
@@ -230,7 +229,8 @@ function setOnclicks(){
 			isResolved = true;
 		}
 		//Send data to server to mark question as solved or unsolved
-		userUpdateQuestion(myquestionid, myquestion.title, myquestion.content, myquestion.tags, isResolved);
+		userUpdateQuestion(myquestionid, myquestion.title, myquestion.content,
+						   myquestion.tags, isResolved);
 	});
 
 	// A New answer is submitted
@@ -248,7 +248,7 @@ function setOnclicks(){
 	    }
 
 		if(!hasError){
-			//Answer add to database-----------
+			//Answer add to database 
 			let newDiv = '';
 			saveAnswer(myanswer,myquestionid).then((res) => {
 
@@ -274,16 +274,10 @@ function setOnclicks(){
 				$('#answers').prepend(newDiv);
 				$('#myans').val("");
 			})
-			//---------------------------------
 			
 		}
 	});
 }
-
-
-
-
-
 
 async function saveAnswer(myanswer,myquestionid){
 	const url = '/answers/'+myquestionid;
