@@ -43,7 +43,9 @@ function getCurrentUser() {
         basicInfo();
         getNotice();
         getAllTagQ();
-        getAllQ();
+        // Unblock this to disable pagination
+        //getAllQ();
+        allQuestionsPagination();
         getAllFollowingQ();
     }).catch((error) => {
         console.log(error)
@@ -359,4 +361,110 @@ function getAllTagQ(){
     }).catch((error) => {
         console.log(error)
     })
+}
+
+/* Pagination */
+// Inspired by https://stackoverflow.com/questions/25434813/simple-pagination-in-javascript
+
+let current_page = 1;
+const records_per_page = 5;
+
+let allQuestions = null;
+
+function allQuestionsPagination(){
+
+    const url = '/questions';
+
+    fetch(url)
+    .then((res) => { 
+        if (res.status === 200) {
+            return res.json()
+       } else {
+            //
+       }                
+    })
+    .then((json) => {
+        allQuestions = json;
+        changePage(1);
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+function nextPagination(){
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+
+function prevPagination(){
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function numPages()
+{
+    return Math.ceil(Object.keys(allQuestions).length / records_per_page);
+}
+
+function changePage(page){
+    const btn_next = document.getElementById("btn_next");
+    const btn_prev = document.getElementById("btn_prev");
+    const listing_table = document.getElementById("everyonequestionlist");
+    const page_span = document.getElementById("page");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML = "";
+
+    const startindex = (page-1) * records_per_page;
+    const endindex = Math.min(page * records_per_page, allQuestions.length);
+
+    const questionsSliced = allQuestions.slice(startindex, endindex);
+
+    const user_ids = questionsSliced.map(q => q.user);
+
+    getUserList(user_ids).then((user_mapping) => {
+        questionsSliced.forEach(function(q) {
+            const myUser = user_mapping[q.user];
+
+            let resolve ='Unresolved';
+            if (q.isResolved == true)
+            {
+                resolve = 'Resolved';
+            }
+
+            const numA = q.answers.length;
+
+            if (q.isFlagged){
+                // Don't show anything
+                // Modify this if you wanna show some sort of message instead
+            }else{
+                listing_table.innerHTML+=`<div class="shortquestion">
+                <a class="squestion" href="/answer?question_id=${q._id}">${q.title}</a>
+                <div class="sinfo">Asked by <a href="/profile?user_id=${q.user}">${myUser.displayname}</a> - ${readableDate(q.time)} - ${numA} Answers - ${resolve}</div>
+                </div>`;
+            }
+
+        });
+    })
+
+    page_span.innerHTML = page;
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
 }

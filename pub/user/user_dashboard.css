@@ -215,3 +215,31 @@ a.sanswer{
 	background:#f58484;
 	color:#ffffff;
 }
+
+.pagbutton{
+	text-decoration: none;
+	color:#ee6261;
+	text-decoration:none;
+	background-color:transparent;
+	cursor: pointer;
+	text-align: center;
+	padding:5px;
+	font-weight:normal;
+	border:1px solid #ee6261;
+	width:150px;
+	display: inline-block;
+}
+
+#pagiend{
+	display: block;
+	padding:10px 0px 0px 0px;
+	text-align: center;
+}
+
+#pagenumber{
+	margin-top:15px;
+	font-size:12px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: #cccccc;
+}
