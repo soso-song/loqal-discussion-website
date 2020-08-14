@@ -36,7 +36,7 @@ router.get('/users/:user', mongoChecker, authenticateAPI, (req, res) => {
 router.get('/search/:keyword', mongoChecker,  authenticateAPI, (req, res) => {
 	const keyword = req.params.keyword;
 	Question.find(
-		{'answers.content'	: { $regex: keyword, $options: "i" }}
+		{'answers.content'	: { $regex: keyword}} // $options: "i" 
 	).then((answers) => {
 		answers = answers.sort((a,b) => b.time - a.time);
 		res.send(answers) 
