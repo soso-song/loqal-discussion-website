@@ -252,20 +252,26 @@ Middleware checkers:
    * mongoChecker - checks for mongo connection errors, this is implemented in basically every route therefore will not be listed in the table below 
    * authenticateAPI - checks for logged in users, will send error with status 401 "Unauthorized" if no login user
    * adminAuthenticateAPI - checks if logged in user is an admin user, will send error with status 401 "Unauthorized" if failed to authenticate.
-         * routes listed below with a `*` infront of the method are routes with adminAuthenticateAPI checking
+      * routes listed below with a `*` infront of the method are routes with adminAuthenticateAPI checking
    
    | Path | Method | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
    | /users | POST |  | { email, <br> password, <br> username, <br> displayname } | - redirect to `/subscribe` <br>- status 400: Bad request <br> - status 500: Internal server error | Add a new User to <br>the User collection. |
    | /users/login | POST |  | { email, <br> password } | - redirect to `/dashboard` <br>- status 404: Resource not found <br> - status 400: Bad request <br> - status 500: Internal server error | Log user in by <br>adding info to session. |\
    | /users/logout | GET |  | | - redirection to `/` <br> - 500: Internal server error | Log user out by <br>removing the session. |
+   | /users/current | GET | | | - (json) User<br> -401: Unauthorized | Get User object<br> representing current <br> logged in user |
+   | /users/:id | GET | User ID | | - (json) User<br> -401: Unauthorized<br> - status 404: Resource not found<br> - status 500: Internal server error | Get the User object <br>with the given user ID. |
    | /users | * GET | | | - (json) list of Users <br> -401: Unauthorized <br> - 500: Internal server error | Get a list of all existing <br>User from User collection. |
    | /users/mapping | POST | | \[ id, id, ... \] | - (json){id : User} <br> - status 404: Can't find Users <br> - status 500: Internal server error | Take in a list of user ids, <br>return an object that maps <br>user ids to corresponding Users. |
-   | /users | PATCH | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email. |
+   | /users | PATCH | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email; will check to<br> avoid user changing other's profile. |
+   | /users/:id |* PATCH | User ID | { displayname, <br>username, <br>email, <br>tags, <br>isFlagged, <br>isAdmin } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>- status 400: Bad Request<br> - status 500: Internal server error | Edit profile of user<br>(with given user id)<br> by admin user. |
    | /users/password | PATCH | | { password } | - redirect to `/profile`<br> -401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> password. |
-   | /users/current | GET | | | - (json) User<br> -401: Unauthorized | Get User object<br> representing current <br> logged in user |
    | /users/flag/:id | * PATCH | User ID | { (boolean)`flag` } | - (json) User<br> -401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Flag user with given<br> user id if `flag==true`, <br>otherwise unflag user. |
    | /users/picture | POST |  |  | - (json) User<br> -401: Unauthorized<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Upload a new profile<br> photo. |
+   | /users/follow/:id | POST| User ID | | - (json) current User<br> -401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 500: Internal server error | Add user ID to follow-<br>ing list of current user<br> logged in, will check to <br>avoid following twice. |
+   | /users/unfollow/:id | POST| User ID | | - (json) current User<br> -401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 500: Internal server error | Remove user ID from<br> following list of current <br>logged in user, will check<br> to avoid unfollowing twice. |
+   
+
  
  
  
