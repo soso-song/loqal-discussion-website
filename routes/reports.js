@@ -157,4 +157,27 @@ router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	})
 })
 
+// Route for getting the report by given id
+router.delete('/:id', mongoChecker, (req, res) => {
+	const id = req.params.id;
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Invalid Report ID');
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// If id valid, findById
+	Report.findOneAndRemove(id).then((report) => { // mongoose >= 2.7.1, more efficient than 
+		if (!report) {
+			res.status(404).send('Report not found');
+		} else {
+			res.send(report);
+		}
+	})
+	.catch((error) => {
+		res.status(500).send('Internal Server Error');
+	})
+})
+
 module.exports = router;

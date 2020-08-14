@@ -123,7 +123,7 @@ function render_reports(reports){
 				button.setAttribute("onclick", " location.href='" + html_name + "' ");
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
-				right.innerHTML += `<p><button class='arem'>Flag ${type_output} </button></p>`;
+				right.innerHTML += `<p><button class='arem'>Remove Report</button></p>`;
 				right.innerHTML += `<p><button id="${report._id}" class='aact'>Reactive</button></p>`;
 
 				let arem = document.querySelectorAll(".arem");
@@ -165,9 +165,9 @@ function remove_report(e){
 	const para = e.currentTarget.myParam;
 	const report_id = para[1];
 
-	const url = '/reports/remove/' + report_id;
+	const url = '/reports/' + report_id;
 	const request = new Request(url, {
-		method: 'remove',
+		method: 'delete',
 		headers: {
 			'Accept': 'application/json, text/plain, */*',
 		}
