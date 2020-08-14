@@ -153,12 +153,10 @@ router.patch('/:question_id/:answer_id', mongoChecker, authenticateAPI, (req, re
 	Question.findById(question_id).then((question) => {
 		if (!question) {
 			res.status(404).send('Question not found');
-		} else if(question.user != req.session.user){
-			res.status(403).send("No permission to edit");
 		}
 		else {
 			const answer = (question.answers.filter((ans)=>ans._id == answer_id))[0];
-			if(answer){
+			if(answer && answer._id == req.session.user){
 				answer.content = req.body.content;
 				answer.lastUpdated = Date.now();
 				question.save().then((result)=>{
@@ -167,7 +165,10 @@ router.patch('/:question_id/:answer_id', mongoChecker, authenticateAPI, (req, re
 					console.log(error);
 					res.status(400).send('Bad request.');
 				})
-			}else{
+			} else if(answer){
+				res.status(403).send("No permission to edit");
+			}
+			else{
 				res.status(404).send('Answer not found');
 			}
 		}
