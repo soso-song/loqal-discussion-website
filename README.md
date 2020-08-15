@@ -227,7 +227,7 @@ Routes in `server.js` serve HTML pages to the client.
    
    | Path | Middleware | Redirects to | Required Parameter(s) |
    | ---- | ---------- | ----------- | --------------------- |
-   | /    | sessionChecker  | [Landing page](##user-content-welcome-page-)  |  |
+   | /    | sessionChecker  | [Landing page](#user-content-welcome-page-)  |  |
    | /login | sessionChecker  | [Register/Login page](#user-content-register-or-login-login) |  |
    | /dashboard  |   | [User dashboard](#user-content-user-dashboard-dashboard) if a user is logged in, otherwise redirects to [register/login page](#user-content-register-or-login-login)  |  |
    | /profile   | authenticate  | [Current user profile page](#user-content-user-profile-profile) if no parameter given; redirects to other user profile page if given parameter `user_id`.  <br>- Redirects to `/404` page if can't find the user with given ID.| `user_id` |
@@ -336,8 +336,8 @@ Tag Schema contains two attributes:
     }
  
    * This will return `user_dashboard.html` to indicate you are logged in.
-   * To test a get `/tag` routes, set method to GET, enter `http://localhost:5000/tag`, since we can see from the table above that we don't need any other inputs
-   * A list of all tags should be returned.
+   * To test a get `/tag` routes, set method to GET, enter `http://localhost:5000/tag`, since we can see from the table above that we don't need any other inputs, simply send request.
+   * A list of Tag Objects should be returned.
 
 ### Question (`questions.js`)
 #### Question Schema Explanation
@@ -353,17 +353,17 @@ Question Schema includes:
 #### Routes handling Question related requests
    | Path | Method<br>\[middleware\] | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | ---------|
-   |/questions|POST<br>\[authAPI\]| |{ title,<br>content,<br>tags }|- redirects to `/answer`<br>-status 400 : Bad Request <br> - status 401: Unauthorized<br>-status 500: Internal server error|Add a new Question to <br>the collection.
-   |/questions|GET<br>\[authAPI\]| | |-(json) array of Questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all existing questions from<br> the Question collection|
-   |/questions<br>/users/:user|GET<br>\[authAPI\]|User ID| |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error|Get all Questions posted by <br>user with given User ID|
-   |/questions<br>/following|GET<br>\[authAPI\]| | |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error|Get all Questions posted by users which the current user is following.|
-   |/questions/tags|POST<br>\[authAPI\]| |{ tag_ids: <br>\<ID array\> }|-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Given an array of tag ids,<br> get all the questions that<br> each contain at least one tag <br> from the tag id array.|
-   |questions<br>/tags/:tagname|GET<br>\[authAPI\]|tagname| |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 404: Tag name not found<br>-status 500: Internal Server Error<br>|Get all questions containing a tag with given tag name.|
-   |/question<br>/search/:keyword|GET<br>\[authAPI\]|keyword||-(json)array of Question<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Get all questions containing <br>the given keyword in either <br>the `title` or the `content`|
-   |/questions/:id|GET<br>\[authAPI\]|Question ID||-(json) Question<br> - status 401: Unauthorized<br>-status 404: Question not found<br>-status 500: Internal Server Error|Get the question with given ID|
-   |/questions<br>/flag/:id| PATCH<br>\[adminAPI\]|Question ID| { `flag`: <br>Boolean } |-(json) Question<br>-status 400: Bad request<br>-status 404: ID not valid<br>-status 404: Question not found<br>-status 500: Internal Server Error|Flag the Question with given <br> Question ID if `flag` is true,<br> otherwise unflag it.|
-   |/questions/:id|PATCH<br>\[authAPI\]|Question ID|{ title, <br>content, <br>tags, <br>isResolved }|- redirect to  `/answer`<br>-status 400: Bad request<br> - status 401: Unauthorized<br>-status 403: No permission to edit question<br>-404: Question not found<br>-status 500: Internal Server Error|Update information of the question<br> with given Question ID, will<br> check to avoid user with no<br> permission to edit question.|
-   |/questions<br>/admin/:id|PATCH<br>\[adminAPI\]|Question ID|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json) updated Question<br>-status 400: Bad request<br> - status 401: Unauthorized<br>-status 404: Question not found<br>-status 404: Invalid question ID<br>-status 500: INternal Server Error|Edit a question with given<br> Question ID by an admin user. |
+   |/questions|POST<br>\[authAPI\]| |{ title,<br>content,<br>tags }|- redirects to `/answer`<br>-status 400 : Bad Request <br> - status 401: Unauthorized<br>-status 500: Internal server error| Add a new Question <br>to the collection.
+   |/questions|GET<br>\[authAPI\]| | |-(json) array of Questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Get all existing <br>questions from the <br>Question collection|
+   |/questions<br>/users/:user|GET<br>\[authAPI\]|User ID| |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Get all Questions <br>posted by user with<br>given User ID|
+   |/questions<br>/following|GET<br>\[authAPI\]| | |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Get all Questions<br>posted by users which<br>the current user is<br>following.|
+   |/questions/tags|POST<br>\[authAPI\]| |{ tag_ids: <br>\<ID array\> }|-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Given an array of Tag <br>IDs, get all the <br>questions that each<br>contain at least one<br>tag from the Tag ID<br>array.|
+   |questions<br>/tags/:tagname|GET<br>\[authAPI\]|tagname| |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 404: Tag name not found<br>-status 500: Internal Server Error<br>| Get all questions<br>containing a tag with<br>given tag name.|
+   |/question<br>/search/:keyword|GET<br>\[authAPI\]|keyword||-(json)array of Question<br> - status 401: Unauthorized<br>-status 500: Internal Server Error|  Get all questions con-<br>taining <br>the given<br>keyword in either the<br>`title` or the `content`|
+   |/questions/:id|GET<br>\[authAPI\]|Question ID||-(json) Question<br> - status 401: Unauthorized<br>-status 404: Question not found<br>-status 500: Internal Server Error| Get the question with<br>given ID|
+   |/questions<br>/flag/:id| PATCH<br>\[adminAPI\]|Question ID| { `flag`: <br>Boolean } |-(json) Question<br>-status 400: Bad request<br>-status 404: ID not valid<br>-status 404: Question not found<br>-status 500: Internal Server Error| Flag the Question with<br>given Question ID if <br>`flag` is true, <br>otherwise unflag it.|
+   |/questions/:id|PATCH<br>\[authAPI\]|Question ID|{ title, <br>content, <br>tags, <br>isResolved }|- redirect to  `/answer`<br>-status 400: Bad request<br> - status 401: Unauthorized<br>-status 403: No permission to edit question<br>-404: Question not found<br>-status 500: Internal Server Error| Update information of<br>the question with <br>given Question ID, <br>will check to avoid <br>user with no per-<br>mission to edit <br>question.|
+   |/questions<br>/admin/:id|PATCH<br>\[adminAPI\]|Question ID|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json) updated Question<br>-status 400: Bad request<br> - status 401: Unauthorized<br>-status 404: Question not found<br>-status 404: Invalid question ID<br>-status 500: INternal Server Error| Edit a question with<br>given Question ID by<br>an admin user. |
 
 #### Example for testing a Question route in Postman:
  Ex. Testing a `POST /questions` route:
@@ -372,14 +372,13 @@ Question Schema includes:
    * To test a `POST /question` route, according to the table above, we need a body with `title`, `content`, `tags`. By lookin gat the [Question Schema Explanation](#user-content-question-schema-explanation), we know that `title` and `content` are Strings, and `tags` is a list of Tag IDs.
       * You can get a Tag ID by using the `POST /tag` route to create a new Tag, and the Tag object will be returned so you can get the ID of this Tag under the `_id` field. Also, you can get a list of Tags by using the `GET /tag` route if you already have Tags in the database.
    * Set the method to `POST`, type in `http://localhost:5000/questions` for request URL, and enter in the body text area something such as:
-   * In Body text area, choose JSON and input some data. 
    
     {
         "title": "Some title for this question",
         "content": "Some content for this question",
         "tags": ["<Tag ID>", "<Tag ID>", "<Tag ID>"]
     }
-   * After sending the request, answer.html should be returned with paramater `question_id` being the ID of this new created question.
+   * After sending the request, `answer.html` should be returned with paramater `question_id` being the ID of this new created question.
  
 ### Answer (`answer.js`)
 #### Answer Schema Explanation
@@ -408,16 +407,13 @@ Answer Schema includes:
  
    * We can see from the table above that calling an answers route requires you to log in from Postman first. 
    * To test a `POST /answers` route, according to the table above, we need a body with a `content` field, and we need a Question ID as parameter. By lookin gat the [Answer Schema Explanation](#user-content-answer-schema-explanation), we know that `content` is a Strings.
-      * You can get a Question ID by querying as list of questions by using the `GET /question` route if you already have Questions in the database.
-   * Set the method to `POST`, type in `http://localhost:5000/questions` for request URL, and enter in the body text area something such as:
-   * In Body text area, choose JSON and input some data. 
+      * You can get Question IDs by querying as list of questions by using the `GET /questions` route if you already have Questions in the database and look at the `_id` field.
+   * Set the method to `POST`, type in `http://localhost:5000/answers/<Quesiton ID>` for request URL, and enter in the body text area something such as:
    
     {
-        "title": "Some title for this question",
-        "content": "Some content for this question",
-        "tags": ["<Tag ID>", "<Tag ID>", "<Tag ID>"]
+        "content": "Some content of this answer"
     }
-   * After sending the request, answer.html should be returned with paramater `question_id` being the ID of this new created question.
+   * After sending the request, a new created Answer object with the given `content` will be returned to you.
  
 ### Report (`reports.js`)
 #### Report Schema Explanation
@@ -439,6 +435,14 @@ Answer Schema includes:
    | /reports<br>/type/answer | GET<br>\[adminAPI\]| | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'a'. |
    | /reports/:id | GET<br>\[adminAPI\]| Report ID| | - (json)Report<br> - status 401: Unauthorized <br> - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Get report by given report id.|
    | /reports/:id | PATCH<br>\[adminAPI\]| Report ID |{reviewer,<br>isReviewed}| - (json) updated Report <br>- status 400: Bed Request<br>  - status 401: Unauthorized <br>  - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Edit state of report with given report id. |
+   
+#### Example for testing a Report route in Postman:
+ Ex. Testing a `get /reports` route:
+ 
+   * By looking at the Method\[middleware\] column, we can see that most `/reports` routes runs with the adminAuthenticateAPI middleware, so we need to log in with an admin account before testing, or else you will receive status 401 Unauthorized error.
+       * The very first admin user is setted by changing the `isAdmin` field of a User from the database.
+   * To test a get `/reports` routes, set method to GET, enter `http://localhost:5000/reports`, since we can see from the table above that we don't need any other inputs, simply send request.
+   * A list of Report Objects will be returned.
  
 ### Notice (`notice.js`)
 #### Notice Schema Explanation
@@ -457,6 +461,6 @@ Notice Schema includes attributes:
    | /notice/:id | GET<br>\[adminAPI\]| Notice ID || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Get the notice by given notice id|
    | /notice/:id | PATCH<br>\[adminAPI\]| Notice ID | {title,<br>content,<br>isShowing(opt)}| 	- (json)updated Notice<br> - status 400: Bad request. <br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Manually edit notice from admin dashboard|
  
-
+\* An example of testing a `/notice` route would be similar to the previous examples.
 
 
