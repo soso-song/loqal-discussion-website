@@ -248,7 +248,7 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
    | /404 | authenticate | 404 error page | |
    | /403 | authenticate | 403 error page | |
    | /500 | authenticate | 500 error page | |
- 
+
  
 ## Mini-apps
 Middleware checkers used in mini-apps:
@@ -284,9 +284,25 @@ User Scheme is the schema for containing user information including
    | /users/picture | POST |  |  | - (json) current User<br>- status 400: Bad Request<br>  - status 401: Unauthorized<br> -status 404: User not found<br> - status 500: Internal server error | Upload a new profile photo. |
    | /users<br>/follow/:id | POST | User ID | | - (json) current User<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Add user ID to following list <br>of current user, will check<br> to avoid following twice. |
    | /users<br>/unfollow/:id | POST | User ID | | - (json) current User<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Remove user ID from following<br> list of current user, will check<br> to avoid unfollowing twice. |
+   
+#### Example for testing a User route in postman:
+ Ex. Running a get `/user` route:
  
-### Tag (`tag.Schema Explanation
-Tag Schema contains two attributes: including name, and count.
+   * Set method as POST
+   * Type in `http://localhost:5000/users` for request URL
+   * In Body text area, choose JSON and input some data. By looking at the table above, we can see that a POST '/users' route requires a body object providing variables `email`, `password`, `username`, and `displayname`. By looking at the [User Schema Explanation](#user-content-user-usersjs), we know that these four variables are all Strings. Therefore we can input to the body something like:
+   
+    {
+        "email": "user@user.com",
+        "password": "user",
+        "username": "useuseuseuse",
+        "displayname": "displaydisplay"
+    }
+   * By sending request, you should be returned with the subscribe.html
+ 
+### Tag (`tag.js`)
+#### Tag Schema Explanation
+Tag Schema contains two attributes:
 * `name` which is name of the tag, with minimum length of 1
 * `count` with default number 0, this is an indicator of how popular the tag is
  
@@ -304,8 +320,22 @@ Tag Schema contains two attributes: including name, and count.
    | /tag<br>/unfollow<br>/:id | PATCH | Tag ID | | - (json) unfollowed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Remove Tag ID from current<br> user’s list of following <br>tags, will check to avoid <br>unfollowing twice. |
    | /tag<br>/increment<br>/:id | PATCH | Tag ID | | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Count one more the usage of<BR> Tag with given Tag ID. |
    | /tag/:id | GET| Tag ID | | - (json) Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Get Tag with given Tag ID |
+
+#### Example for testing a Tag route in postman:
+ Ex. Running a get `/tag` route:
  
+   * Since routes are running with authenticationAPI middleware, we need to log in before testing other routes, or else you will receive status 401 Unauthorized error.
+   * If you are not logged in, you can login using Postman by setting method to POST, with request URL: `http://localhost:5000/users/login`, with having account we just created in previous example in body and send request.
+   
+    {
+        "email": "user@user.com",
+        "password": "user"
+    }
  
+   * This will return you the `user_dashboard.html` meaning you are logged in so we can continue.
+   * To run get `/tag` routes, set method to GET, enter `http://localhost:5000/tag`, since we can see from the table above we don't need any other inputs, we could send request.
+   * Then you should be returned with a list of all tags.
+
 ### Question (`questions.js`)
 #### Question Schema Explanation
 Question Schema includes:
@@ -329,7 +359,6 @@ Question Schema includes:
    |/questions<br>/flag/:id| * PATCH|Question ID| { `flag` } |-(json)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|Flag the question if<br> `flag` is true, otherwise <br> unflag it.|
    |/questions/:id|PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved }|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|Update information of the question<br> with given Question ID, will<br> check to avoid user with no<br> permission to edit question.|
    |/questions<br>/admin/:id|* PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|Edit a question with given<br> Question ID by an admin user. |
- 
 
  
 ### Answer (`answer.js`)
