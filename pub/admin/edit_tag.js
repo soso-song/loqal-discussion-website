@@ -50,7 +50,7 @@ function load_row(currTags)
 	while(i < currTags.length){
 		postEntries.innerHTML += 
 			"<tr id='row"+i+"'>"+
-				"<td id=tagId"+i+">"+currTags[i]._id+"</td>"+
+				"<td id=tagId"+i+"></td>"+
 				// "<td id='is_geo_row"+i+"'>"+tags[i].is_geo+"</td>"+
 				"<td id='name_row"+i+"'>"+currTags[i].name+"</td>"+
 				"<td>"+
@@ -74,12 +74,11 @@ function edit_row(no){
 }
 
 
-
-
 function save_row(no){
 	var url = '/tag/';
-	const id =  document.getElementById("tagId"+no).innerHTML;
-	url = url+id;
+	// const id =  document.getElementById("tagId"+no).innerHTML;
+	url += currTags[no]._id;
+	
 	const name_val = document.getElementById("name_select"+no).value;
 	if(name_val.length < 1){
 		window.alert('Tag name can not be empty!');
@@ -142,8 +141,8 @@ function delete_row(no){
 
 
 function add_tag(){
-	const tag_name=document.getElementById("tagName").value;
-	const tag_erro=document.getElementById("addTagError");
+	let tag_name = document.getElementById("tagName").value;
+	const tag_erro = document.getElementById("addTagError");
 	//check errors
 	let is_exist = false;
 	let is_empty = tag_name == "";
