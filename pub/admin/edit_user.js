@@ -222,8 +222,6 @@ function getPopularTags(){
 	})
 }
 
-
-
 function add_tag(){
 	const tag=document.getElementById("tags");
 	let html_tag = '<select class="html_tag">';
@@ -253,7 +251,6 @@ function save_all(e){
 	const new_username = document.querySelector("#in_username").value;
 	const new_email = document.querySelector("#in_email").value;
 	const new_disname = document.querySelector("#in_disname").value;
-	// const new_password = document.querySelector("#in_password").value;
 
 	let hasError = false;
 	const username_error = document.querySelector('#username_error')

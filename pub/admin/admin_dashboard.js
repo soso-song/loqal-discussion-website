@@ -182,20 +182,13 @@ function flag_report(e){
 
 	switch(type){
 		case 'u':
-		//http://localhost:5000/users/flag/5f2f8690dd8ed22c0c074d5d
-			//users[report.rep_unique_id].is_flagged = true;	// TODO: modifying an user in database
 			flag_user(target_id);
-			//console.log('user');
 			break;
 		case 'q':
 			flag_question(target_id);
-			//questions[report.rep_unique_id].is_flagged = true;	// TODO: modifying a question in database
-			//console.log('quest');
 			break;
 		case 'a':
 			flag_answer(target_id);
-			//answers[report.rep_unique_id].is_flagged = true;	// TODO: modifying an answer in database
-			//console.log('answ');
 			break;
 	}
 	// remove current lrdiv
@@ -262,23 +255,12 @@ function flag_answer(id){
 }
 
 
-
-
-
 function deny_report(e){
 	e.preventDefault();
-	const report_id = e.target.id;//e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML;
-	// console.log(report_id);
-	// console.log(e.target);
-	// const report = reports[report_id];	// TODO: get report instance from database
-	// report.is_reviewed = true;
-	// report.reviewedBy = curr_user.id;
-	// // remove current lrdiv
+	const report_id = e.target.id;
 	const curr_lrdiv = e.target.parentElement.parentElement.parentElement;
 	remove_lrdiv(curr_lrdiv,report_id);
 }
-
-
 
 function remove_lrdiv(curr_lrdiv,report_id){
 	const parent = curr_lrdiv.parentElement;
@@ -338,10 +320,6 @@ function getUserInfo(user_id, callBack){
 		if(data){
 			callBack(data);
 		}
-		// userInfo = {
-  //          	displayname: data.displayname,
-  //          	username: data.username
-  //       };
 	})
 	.catch((error) => {
 		console.error(error)

@@ -10,10 +10,8 @@ function click_bool(){
 }
 
 $(document).ready(function() {
-
 	//Getting the question from database
 	let myquestionid;
-	//let myquestion;
 	let currentuser;
 
 	fetch('/users/current')
@@ -50,8 +48,6 @@ $(document).ready(function() {
 		$('#qactive').val(myquestion.isShowing);
 	}
 	
-	
-
 	$('#noticeForm').submit(function(e) {
 		e.preventDefault();
 

@@ -16,7 +16,6 @@ checkAdminUser().then((res) => {
 	console.log(error);
 })
 
-
 async function getAlltags(){
 	const url = '/tag';
 	const get_request =  new Request(url,{
@@ -63,7 +62,6 @@ function load_row(tag, tag_num){
 		"</tr>";
 }
 
-
 function edit_row(no){
 	document.getElementById("edit_button"+no).disabled = true;
 	document.getElementById("save_button"+no).disabled = false;
@@ -71,7 +69,6 @@ function edit_row(no){
 	const url = '/tag';
 	name_cell.innerHTML="<input type='text' id='name_select"+no+"' value='"+name_cell.innerHTML+"'>";
 }
-
 
 function save_row(no){
 	var url = '/tag/';
@@ -108,9 +105,6 @@ function save_row(no){
 		.catch((error) => {
 			console.log(error)
 	})
-	
-	
-
 }
 
 function delete_row(no){
@@ -137,7 +131,6 @@ function delete_row(no){
 		console.log(error)
 	});
 }
-
 
 function add_tag(){
 	let tag_name = document.getElementById("tagName").value;

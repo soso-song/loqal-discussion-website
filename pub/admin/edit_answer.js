@@ -6,8 +6,6 @@ let currentuser;
 let dict = {};	// dictionary for mapping row number to question_id/answer_id
 
 const postEntries = document.querySelector('#posts');
-// postEntries.addEventListener('click', submit_tag);
-
 
 checkAdminUser().then((res) => {
 	if (res){
@@ -18,7 +16,6 @@ checkAdminUser().then((res) => {
 .catch((error) => {
 	console.log(error);
 })
-
 
 async function getAllQuestions(){
 	await fetch('/questions')
@@ -37,9 +34,6 @@ async function getAllQuestions(){
 		console.log(error)
 	})
 }
-
-
-
 
 async function load_row()
 {	
@@ -69,10 +63,6 @@ async function load_row()
 			})
 		}
 	}
-	
-
-
-
 }
 
 
@@ -89,9 +79,6 @@ function edit_row(no){
 	is_flag_cell.innerHTML="<input type='button' id='is_flag_select"+no+"' value='"+is_flag_cell.innerHTML+"' onclick='change_is_flag("+no+")'>";
 }
 
-
-
-
 function save_row(no){
 	const content_val=document.getElementById("content_text"+no).value;
 	if (content_val.length < 1){
@@ -100,23 +87,14 @@ function save_row(no){
 	}
 	const is_best_val=document.getElementById("is_best_select"+no).value;
 	const is_flag_val=document.getElementById("is_flag_select"+no).value;
-	//var tag_val=document.getElementById("tag_text"+no);
-
 
 	document.getElementById("content_text"+no).disabled = true;
 	document.getElementById("is_best_row"+no).innerHTML=is_best_val;
 	document.getElementById("is_flag_row"+no).innerHTML=is_flag_val;
-	//get all tag_id for current question
-
-	//document.getElementById("tag_row"+no).innerHTML='';
 
 	//below is write function to answer database
 	updateAnswer(content_val, (is_best_val == "true"), (is_flag_val == "true"), no);
 
-
-	// answers[no].content = content_val;
-	// answers[no].is_best = (is_best_val == "true");
-	// answers[no].is_flagged = (is_flag_val == "true");
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
 
@@ -124,7 +102,6 @@ function save_row(no){
 
 function delete_row(no){
 	document.getElementById("row"+no+"").outerHTML="";
-	// answers.remove_index();
 }
 
 
@@ -147,37 +124,37 @@ function change_is_flag(no){
 
 function updateAnswer(content, isBest, isFlagged, no){
 
-		const url = '/answers/admin/'+ dict[no];
+	const url = '/answers/admin/'+ dict[no];
 
-		let data = {
-			content: content,
-			isBest: isBest,
-			isFlagged: isFlagged
-		}
-
-		const request = new Request(url, {
-			method: 'PATCH',
-			body: JSON.stringify(data),
-			headers: {
-				'Accept': 'application/json, text/plain, */*',
-				'Content-Type': 'application/json'
-			}
-		});
-
-		fetch(request)
-		.then(function(res) {
-			if (res.status == 403){
-				alert('You have no permission to edit this answer!');
-				fetch('/answer?question_id=' + whichQuestion)
-				.then((res)=>{
-					window.location.href = res.url;
-				})
-				.catch((error) => {
-					console.log(error);
-				})
-			}
-		})
-		.catch((error) => {
-			console.log(error)
-		})
+	let data = {
+		content: content,
+		isBest: isBest,
+		isFlagged: isFlagged
 	}
+
+	const request = new Request(url, {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		}
+	});
+
+	fetch(request)
+	.then(function(res) {
+		if (res.status == 403){
+			alert('You have no permission to edit this answer!');
+			fetch('/answer?question_id=' + whichQuestion)
+			.then((res)=>{
+				window.location.href = res.url;
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+		}
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+}

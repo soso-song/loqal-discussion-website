@@ -15,7 +15,6 @@ checkAdminUser().then((res) => {
 	console.log(error);
 })
 
-
 async function getAllQuestions(){
 	await fetch('/questions')
 	.then((res) => {
@@ -38,7 +37,6 @@ async function getAllQuestions(){
 }
 
 const postEntries = document.querySelector('#posts');
-// postEntries.addEventListener('click', submit_tag);
 
 let i = 0;
 
@@ -63,7 +61,6 @@ async function load_row()
 			"<td>"+
 				"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
 				"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
-				// "<input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'>"+
 			"</td>"+
 		"</tr>";
 		i++;
@@ -88,14 +85,8 @@ function edit_row(no){
 	const is_flag_cell=document.getElementById("is_flag_row"+no);
 	const is_reso_cell=document.getElementById("is_reso_row"+no);
 
-
-	// const title_data=title.innerHTML;
-	// const content_data=content.innerHTML;
-	//const tag_data=tag.innerHTML;
 	title.disabled = false;
 	content.disabled = false;
-	// title.innerHTML="<textarea id='title_text"+no+"'>"+title.innerHTML+"</textarea>";
-	// content.innerHTML="<textarea id='content_text"+no+"'>"+content.innerHTML+"</textarea>";
 	is_flag_cell.innerHTML="<input type='button' id='is_flag_select"+no+"' value='"+is_flag_cell.innerHTML+"' onclick='change_is_flag("+no+")'>";
 	is_reso_cell.innerHTML="<input type='button' id='is_reso_select"+no+"' value='"+is_reso_cell.innerHTML+"' onclick='change_is_reso("+no+")'>";
 
@@ -142,9 +133,6 @@ function showTagsToEdit(all_tags, no){
 	tag.innerHTML += html_tag;
 }
 
-
-
-
 function save_row(no){
 	const title_val=document.getElementById("title_text"+no).value;
 	if (title_val.length < 1){
@@ -189,8 +177,6 @@ function save_row(no){
 	document.getElementById("is_flag_row"+no).innerHTML=is_flag_val;
 	document.getElementById("is_reso_row"+no).innerHTML=is_reso_val;
 
-	//below is write function to questions database
-	//edit_question(no,tag_id,title_val,content_val,(is_flag_val == "true"),(is_reso_val == "true"))
 	updateQuestion(questions[no]._id, title_val, content_val, Array.from(tag_id), 
 				   (is_reso_val == "true"),
 				   (is_flag_val == "true"),no);
@@ -201,7 +187,6 @@ function save_row(no){
 
 function delete_row(no){
 	document.getElementById("row"+no+"").outerHTML="";
-	// questions.remove_index();
 }
 
 
@@ -226,7 +211,6 @@ function add_tag_row(no){
 	  options[i].selectedIndex = selected_index[i-1];
 	}
 }
-
 
 function change_is_flag(no){
 	const is_flag_button=document.getElementById("is_flag_select"+no);
@@ -283,12 +267,4 @@ function updateQuestion(id, mytitle, mydesc, mytags,
 	.catch((error) => {
 		console.log(error);
 	})
-
-	// await fetch(request)
-	// .then(function(res) {
-	// 	return;
-	// }).catch((error) => {
-	// 	console.log(error);
-	// })
-	// return newURL;
 }
