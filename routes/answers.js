@@ -80,25 +80,29 @@ router.patch('/flag/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 		return;
 	}
 	Question.find().then(questions => {
-		questions.forEach(question => {
-			const answer = (question.answers.filter(ans=>ans._id == id))[0];
-			//console.log(answer);
+		for(const question of questions){
+			answer = (question.answers.filter(ans=>ans._id == id))[0];
 			if(answer){
-				//res.json({question,answer});
-				answer.isFlagged = req.body.flag;
-				answer.lastUpdated = Date.now();
-				question.save()
-				.then(ques=>{
-					//console.log(ques);
-					res.send(ques);
-				})
-				.catch((error)=>{
-					res.status(400).send('Bad request.');
-				})
-			}else{
-				res.status(404).send('Answer not found');
+				return question;
 			}
-		})
+		}
+		return null;
+	})
+	.then(question => {
+		if (!question) {
+			res.status(404).send('Answer not found');
+		} else {
+			const answer = (question.answers.filter(ans=>ans._id == id))[0];
+			answer.isFlagged = req.body.flag;
+			answer.lastUpdated = Date.now();
+			question.save()
+			.then(ques=>{
+				res.send(ques);
+			})
+			.catch((error)=>{
+				res.status(400).send('Bad request.');
+			})
+		}
 	})
 	.catch((error) => {
 		console.error(error);
