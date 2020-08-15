@@ -229,7 +229,6 @@ function getUserInfo(user_id, callBack){
 
 function getQuestionInfo(id, callBack){
 	const url = '/questions/' + id;
-
 	const request = new Request(url, {
 		method: 'get',
 		headers: {

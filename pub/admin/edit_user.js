@@ -326,7 +326,8 @@ function updateUser(data){
 	.then(function(res) {
 		return res.json();
 	})
-	.then(json => {		if (json.msg == 'Bad Username'){
+	.then(json => {
+		if (json.msg == 'Bad Username'){
 			username_error.innerHTML = 'Username already taken';
 			document.querySelector("#in_username").value = user.username;
 		} else if(json.msg == 'Bad Email'){
