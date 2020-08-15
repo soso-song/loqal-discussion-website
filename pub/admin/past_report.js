@@ -83,6 +83,12 @@ function render_reports(reports){
 				let rem_button = urem[urem.length-1];
 				rem_button.addEventListener('click', remove_report);
 				rem_button.myParam = ['u',report._id,report.targetId];
+				getUserInfo(report.user,data=>{
+					left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+					left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+					left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
+					left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
+				});
 			});
 		}else if(report.type === 'q'){
 			rep_q_count++;
@@ -102,6 +108,12 @@ function render_reports(reports){
 				let rem_button = qrem[qrem.length-1];
 				rem_button.addEventListener('click', remove_report);
 				rem_button.myParam = ['q',report._id,report.targetId];
+				getUserInfo(report.user,data=>{
+					left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+					left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+					left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
+					left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
+				});
 			});
 		}else if(report.type === 'a'){
 			rep_a_count++;
@@ -121,14 +133,14 @@ function render_reports(reports){
 				let rem_button = arem[arem.length-1];
 				rem_button.addEventListener('click', remove_report);
 				rem_button.myParam = ['a',report._id,report.targetId];
+				getUserInfo(report.user,data=>{
+					left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+					left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+					left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
+					left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
+				});
 			});
 		}
-		getUserInfo(report.user,data=>{
-			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
-			left.innerHTML += "<p>Reason: " + report.reason + "</p>";
-			left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
-			left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
-		});
 	}
 	if (rep_u_count === 0){
 		const div = document.createElement("div");

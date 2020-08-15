@@ -78,7 +78,7 @@ function render_reports(reports){
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
 				right.innerHTML += `<p><button class='uflag'>Flag ${type_output}</button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='udeny'>Deny</button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='udeny'>Ignore</button></p>`;
 
 				let uflag = document.querySelectorAll(".uflag");
 				let udeny = document.querySelectorAll(".udeny");
@@ -87,8 +87,12 @@ function render_reports(reports){
 				flag_button.addEventListener('click', flag_report);
 				flag_button.myParam = ['u',report._id,report.targetId];
 
-				//uflag[uflag.length-1].addEventListener('click', flag_report);
 				udeny[udeny.length-1].addEventListener('click', deny_report);
+				getUserInfo(report.user,data=>{
+					left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+					left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+					left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
+				});
 			});
 		}else if(report.type === 'q'){
 			rep_q_count++;
@@ -102,7 +106,7 @@ function render_reports(reports){
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
 				right.innerHTML += `<p><button class='qflag'>Flag ${type_output}</button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='qdeny'>Deny</button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='qdeny'>Ignore</button></p>`;
 
 				let qflag = document.querySelectorAll(".qflag");
 				let qdeny = document.querySelectorAll(".qdeny");
@@ -111,8 +115,12 @@ function render_reports(reports){
 				flag_button.addEventListener('click', flag_report);
 				flag_button.myParam = ['q',report._id,report.targetId];
 
-				//qflag[qflag.length-1].addEventListener('click', flag_report);
 				qdeny[qdeny.length-1].addEventListener('click', deny_report);
+				getUserInfo(report.user,data=>{
+					left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+					left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+					left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
+				});
 			});
 		}else if(report.type === 'a'){
 			rep_a_count++;
@@ -127,7 +135,7 @@ function render_reports(reports){
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
 				right.innerHTML += `<p><button class='aflag'>Flag ${type_output} </button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='adeny'>Deny</button></p>`;
+				right.innerHTML += `<p><button id="${report._id}" class='adeny'>Ignore</button></p>`;
 
 				let aflag = document.querySelectorAll(".aflag");
 				let adeny = document.querySelectorAll(".adeny");
@@ -137,15 +145,14 @@ function render_reports(reports){
 				flag_button.myParam = ['a',report._id,report.targetId];
 
 				adeny[adeny.length-1].addEventListener('click', deny_report);
+				getUserInfo(report.user,data=>{
+					left.innerHTML += "<p>Reported by: " + data.username + "</p>";
+					left.innerHTML += "<p>Reason: " + report.reason + "</p>";
+					left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
+				});
 			});
 		}
-		getUserInfo(report.user,data=>{
-			left.innerHTML += "<p>Reported by: " + data.username + "</p>";
-			left.innerHTML += "<p>Reason: " + report.reason + "</p>";
-			//left.innerHTML += "<p>Report ID:<strong>"+report._id+"</strong></p>"
-			left.innerHTML += "<p class='report_time'>Reported at:  " + readableDate(report.time) + "</p>";
-
-		});
+		
 	}
 	if (rep_u_count === 0){
 		const div = document.createElement("div");
