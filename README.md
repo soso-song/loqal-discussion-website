@@ -47,10 +47,10 @@ Below we have listed the main functionalities associated with each page for regu
  
 ## Regular Users
  
-### Welcome Page (`index.html`)
+### Welcome Page (`/`)
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
  
-### Register or Login (`register/register.html`)
+### Register or Login (`/login`)
 * Register by entering all required fields in the left block and press the “Register” to create a new account.
 * Validation check is performed to check if information inputted are valid and no duplicating username and email.
 * If successfully registered, it will lead you to a page showing some popular tags that you could subscribe to.
@@ -63,7 +63,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
     | admin  | admin  | Admin User  |
 * By logging in, you will be lead to your user dashboard
  
-### Subscribe to Tags (`register/subscribe.html`)
+### Subscribe to Tags (`/subscribe`)
 * Subscribing to a tag will allow questions related to this tag to be shown on your webpage.
 * Most popular tags are shown, and also the tags you are currently following are shown.
     * most popular tags meaning tags most followed by other users or most mentioned in questions
@@ -72,7 +72,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * All tags are stored in lowercase, and spaces in any tag will be replaced by dashes(-).
 * Clicking on the "Continue" button will lead you to your user dashboard if you are first registering, otherwise you will be redirected back to the previous page you were on.
  
-### User Dashboard (`user/user_dashboard.html`)
+### User Dashboard (`/dashboard`)
 * Users user will be able to see the newest questions, sorted by from most recent to less recent, under the three tabs:
    1. Everyone: newest question from everyone
    2. Tags: newest questions with the tags you are following to.
@@ -85,7 +85,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Bottom of the sidebar contains buttons which allow users to ask a new question, or go to their profile page.
 * The horizontal navigation bar allows searching for questions by keyword, go to user dashboard, ask a question, go to profile page, or logout of account
  
-### User Profile (`user/user_profile.html`)
+### User Profile (`/profile`)
 * Sidebar shows user's display name, username, profile picture, and tags this user subscribes to.
 * If you are visiting your own profile page, you will see the "Edit Profile" button which leads you to the edit page for your basic account information.
 * If you are visiting someone else's profile page, you will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button.
@@ -93,15 +93,15 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Under "Activity", the questions and answers posted by this user account are listed.
 * The list of followers and followings of this profile are listed under "Followers" and "Following".
  
-### Edit Profile (`user/edit_profile.html`)
+### Edit Profile (`edit/profile`)
 * Users can edit their username, display name, email, password, and profile photo.
 * Clicking on "Edit Your Tags" will redirect you to a page where you can follow some popular tags, unfollow current tags, or add a custom tag.
-* Clicking on "Change Password" will redirect you to a page where you can change your password by entering the new password twice to confirm.
+* Clicking on "Change Password" will redirect you to a page (`edit/password`) where you can change your password by entering the new password twice to confirm.
    * Passwords will be encrypted.
 * Users can see their status (normal or flagged)and account type (admin or regular user), but they cannot edit it.
 * Validation check is performed to check if information inputted is valid and no duplicating username and email.
  
-### Ask/Edit a Question (`question/question.html`, `question/edit_question.html`)
+### Ask/Edit a Question (`/ask`, `/edit/question`)
 * Post a new question by clicking on the "Ask a New Question" button on the user dashboard or "Ask" on the main navigation bar.
 * Provide a title, description and at least one related tag and preview your question before posting.
    * Separate tags with commas.
@@ -109,7 +109,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
    * There will be a "Edit Question" button on this redirected page which clicking on it will lead to an edit page for this question.
    * Edit page for the question is very similar to the question posting page.
  
-### Question and Answers (`answer/answer.html`, `answer/edit_answer.html`)
+### Question and Answers (`/answer`, `/edit/answer`)
 * Contains a single question, showing the title and content of the question, the tags this question is related to, the user who posted this question, and the time this question is posted.
 * The user posting this question can edit this question's title, content, and related tags.
 * Right upper corner of the question information block shows if this question is resolved. Only the user posting this question can see a "Mark Solved" button to mark the question as resolved.
@@ -119,11 +119,11 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Clicking on the display name or username shown on the question block or any answer block will redirect to that user's profile page.
 * User can report a question or answer.
  
-### Search (`searchQuestion/search_question.html`)
+### Search (`/search`)
 * Submit a query from any page in the search field provided in the navigation bar.
 * The questions and answers containing that keyword in the title, content, or related tags will be displayed.
  
-### Report (`report/report.html`)
+### Report (`/report`)
 * Buttons for reporting questions or an answer is provided in the individual question page.
 * Buttons for reporting a user are provided in the user's profile page.
 * Clicking on the report button will direct to a page for giving a reason of reporting this user, question, or answer.
@@ -136,7 +136,7 @@ In addition to functionalities above, admin users have access to a variety of ot
 * An admin user also have access to all the features a regular user has.
 * An admin user can visit the admin dashboard by clicking on the "Admin Dashboard" button, showed only for admin users, in the sidebar of their regular dashboard.
  
-### Admin Dashboard (`admin/admin_dashboard.html`)
+### Admin Dashboard (`/admin/dashboard`)
 * View all reported users
   * Shows the user being reported, the user submitting this report, the reason for the report, and the time this report was submitted.
   * Click "View User" to see reported user's profile
@@ -155,19 +155,19 @@ In addition to functionalities above, admin users have access to a variety of ot
  * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers.
  * Options to redirect to a page for posting new notices, or to look at all existing users, questions, answers or tags.
  
-### Post Notice (`admin/notice.html`)
+### Post Notice (`/admin/notice`)
 * An admin user could post important notices that are to be pinned on the sidebar of a regular user dashboard.
 * A notice contains a title and its content.
 * All notices will be shown at the bottom of this page.
 * Admin can edit any notice's title, description, and active status.
    * Only a notice with active status being true will be pinned on the regular user dashboard, and only the newest notice will be shown.
  
-### Past Reports (`admin/past_report.html`)
+### Past Reports (`/admin/pastreport`)
 * Any reviewed reports, either content flagged or report denied, will be listed in this page.
 * An admin user could delete a report by clicking the "Remove Report" button for that report to be never seen again.
 * An admin user could reactivate a report by clicking the "Reactive" button for that report to appear in the admin's dashboard and waiting to be reviewed again.
  
-### All Users (`admin/edit_user.html`)
+### All Users (`/admin/edituser`)
 * An admin could see a list of all registered users.
 * Search a user by his/her exact username or email to see his/her complete account information.
   * Searching a non-existing user will show "No user found".
@@ -177,17 +177,17 @@ In addition to functionalities above, admin users have access to a variety of ot
 * The "See Profile" button will lead to this user's profile page.
 * Clicking on the "save" button for editing the user profile will check validation of information inputs and check for duplicate username and email.
  
-### All Questions (`admin/edit_question.html`)
+### All Questions (`/admin/editquestion`)
 * Admin could see a list of existing questions in a table showing the title, content, posting user, tags, and the time the question is posted, also the admin could see if the question is flagged and if the question is resolved.
 * Admin could edit any question's title, content, and tags, and also could mark questions as flagged or unflagged, resolved or not resolved.
 * Editing a question with an empty title, an empty content, or no tag if invalid. 
  
-### All Answers (`admin/edit_answer.html`)
+### All Answers (`/admin/editanswer`)
 * Admin could see a list of all answers in a table showing the which question it is answering to, the user posting the answer, content of the answer, whether it is the best answer, whether it is flagged, and the time posted.
 * Admin could edit any answer's content, whether it is the best answer, and whether it is flagged.
 * Editing an answer's content to be empty is invalid.
  
-### All Tags (`admin/edit_tag.html`)
+### All Tags (`/admin/edittag`)
 * Admin could see a list of all existing tags in a table showing the name of the tags and the number of usage of the tags..
 * Admin could edit the name of any tag.
 * Editing a tag with an empty name is invalid.
