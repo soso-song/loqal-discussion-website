@@ -237,7 +237,7 @@ Routes in `server.js` serve HTML pages to the client.
    | /ask | authenticate | [Asking a new question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)  |
    | /edit/question | authenticate | [Editing question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)<br>- Redirects to `/404` page if can't find the question<br>- Redirects to `/403` if user attempt to edit someone else's question. | `question_id` |
    | /subscribe | authenticate | [Subscribe page](#user-content-subscribe-to-tags-registersubscribehtml) |
-   | /report | authenticate | [Report page](#user-content-report-reportreporthtml)<br>- Redirects to `/404` page if can't find the target to report. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
+   | /report | authenticate | [Report page](#user-content-report-reportreporthtml)<br>- Redirects to `/404` page if one of the parameters is missing. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
    | /search | authenticate | [Search page](#user-content-search-searchquestionsearch_questionhtml) | `search_key` |
    | /admin/dashboard | adminAuthenticate | [Admin’s dashboard](#user-content-admin-dashboard-adminadmin_dashboardhtml) |  |
    | /admin/editquestion | adminAuthenticate | [Admin's edit question page](#user-content-all-questions-adminedit_questionhtml) |  |
