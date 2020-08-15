@@ -227,26 +227,26 @@ Routes in `server.js` serve HTML pages to the client.
    
    | Path | Middleware | Redirects to | Required Parameter(s) |
    | ---- | ---------- | ----------- | --------------------- |
-   | /    | sessionChecker  | [Landing page](#welcome-pageindexhtml)  |  |
-   | /login | sessionChecker  | [Register/Login page](#register-or-login-registerregisterhtml) |  |
-   | /dashboard  |   | [User dashboard](#user-dashboard-useruser_dashboardhtml) if a user is logged in, otherwise redirects to [register/login page](#register-or-login-registerregisterhtml)  |  |
-   | /profile   | authenticate  | [Current user profile page](#user-content-user-profile-useruser_profilehtml) if no parameter given; redirects to other user profile page if given parameter `user_id`.  <br>- Redirects to `/404` page if can't find the user with given ID.| `user_id` |
-   | /edit/profile | authenticate | [Page for editing current user’s profile](#user-content-edit-profile-useredit_profilehtml)  |
-   | /answer | authenticate | [Single question page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml)<br>- Redirects to `/404` page if can't find the question with given ID.| `question_id` |
-   | /edit/answer | authenticate | [Editing answer page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml)<br>- Redirects to `/404` page if can't find the answer with given ID. | `question_id` and `answer_id` |
-   | /ask | authenticate | [Asking a new question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)  |
-   | /edit/question | authenticate | [Editing question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)<br>- Redirects to `/404` page if can't find the question<br>- Redirects to `/403` if user attempt to edit someone else's question. | `question_id` |
-   | /subscribe | authenticate | [Subscribe page](#user-content-subscribe-to-tags-registersubscribehtml) |
-   | /report | authenticate | [Report page](#user-content-report-reportreporthtml)<br>- Redirects to `/404` page if one of the parameters is missing. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
-   | /search | authenticate | [Search page](#user-content-search-searchquestionsearch_questionhtml) | `search_key` |
-   | /admin/dashboard | adminAuthenticate | [Admin’s dashboard](#user-content-admin-dashboard-adminadmin_dashboardhtml) |  |
-   | /admin/editquestion | adminAuthenticate | [Admin's edit question page](#user-content-all-questions-adminedit_questionhtml) |  |
-   | /admin/editanswer | adminAuthenticate | [Admin's edit answer page](#user-content-all-answers-adminedit_answerhtml) |  |
-   | /admin/edituser | adminAuthenticate | [Admin's edit user page](#user-content-all-users-adminedit_userhtml) |  |
-   | /admin/edittag | adminAuthenticate | [Admin's edit tag page](#user-content-all-tags-adminedit_taghtml) |  |
-   | /admin/notice | adminAuthenticate | [Admin's post important notices page](#user-content-post-notice-adminnoticehtml) |  |
-   | /admin/editnotice | adminAuthenticate | [Admin's edit notice page](#user-content-post-notice-adminnoticehtml)  | `notice_id` |
-   | /admin/pastreport | adminAuthenticate | [Admin's listing past reports page](#past-reports-adminreporthtml)  |  |
+   | /    | sessionChecker  | [Landing page](##user-content-welcome-page-)  |  |
+   | /login | sessionChecker  | [Register/Login page](#user-content-register-or-login-login) |  |
+   | /dashboard  |   | [User dashboard](#user-content-user-dashboard-dashboard) if a user is logged in, otherwise redirects to [register/login page](#user-content-register-or-login-login)  |  |
+   | /profile   | authenticate  | [Current user profile page](#user-content-user-profile-profile) if no parameter given; redirects to other user profile page if given parameter `user_id`.  <br>- Redirects to `/404` page if can't find the user with given ID.| `user_id` |
+   | /edit/profile | authenticate | [Page for editing current user’s profile](#user-content-edit-profile-editprofile)  |
+   | /answer | authenticate | [Single question page](#user-content-question-and-answers-answer-editanswer)<br>- Redirects to `/404` page if can't find the question with given ID.| `question_id` |
+   | /edit/answer | authenticate | [Editing answer page](#user-content-question-and-answers-answer-editanswer)<br>- Redirects to `/404` page if can't find the answer with given ID. | `question_id` and `answer_id` |
+   | /ask | authenticate | [Asking a new question page](#user-content-askedit-a-question-ask-editquestion)  |
+   | /edit/question | authenticate | [Editing question page](#user-content-askedit-a-question-ask-editquestion)<br>- Redirects to `/404` page if can't find the question<br>- Redirects to `/403` if user attempt to edit someone else's question. | `question_id` |
+   | /subscribe | authenticate | [Subscribe page](#user-content-subscribe-to-tags-subscribe) |
+   | /report | authenticate | [Report page](#user-content-report-report)<br>- Redirects to `/404` page if one of the parameters is missing. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
+   | /search | authenticate | [Search page](#user-content-search-search) | `search_key` |
+   | /admin/dashboard | adminAuthenticate | [Admin’s dashboard](#user-content-admin-dashboard-admindashboard) |  |
+   | /admin/editquestion | adminAuthenticate | [Admin's edit question page](#user-content-all-questions-admineditquestion) |  |
+   | /admin/editanswer | adminAuthenticate | [Admin's edit answer page](#user-content-all-answers-admineditanswer) |  |
+   | /admin/edituser | adminAuthenticate | [Admin's edit user page](#user-content-all-users-adminedituser) |  |
+   | /admin/edittag | adminAuthenticate | [Admin's edit tag page](#user-content-all-tags-adminedittag) |  |
+   | /admin/notice | adminAuthenticate | [Admin's post important notices page](#user-content-post-notice-adminnotice) |  |
+   | /admin/editnotice | adminAuthenticate | [Admin's edit notice page](#user-content-post-notice-adminnotice)  | `notice_id` |
+   | /admin/pastreport | adminAuthenticate | [Admin's listing past reports page](#user-content-past-reports-adminpastreport)  |  |
    | /404 | authenticate | 404 error page | |
    | /403 | authenticate | 403 error page | |
    | /500 | authenticate | 500 error page | |
