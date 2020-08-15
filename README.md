@@ -255,9 +255,8 @@ Routes in `server.js` serve HTML pages to the client.
 ## Mini-apps
 Middleware checkers used in mini-apps:
    * mongoChecker - checks for mongo connection errors, this is implemented in basically every route therefore will not be listed in the table below 
-   * authenticateAPI - checks for logged in users, will send an error with status code 401 "Unauthorized" otherwise.
-   * adminAuthenticateAPI - checks if a logged in user is an admin user, will send an error with status code 401 "Unauthorized" otherwise.
-      * routes listed below with a `*` in front of the method are routes with adminAuthenticateAPI checking
+   * authenticateAPI - checks for logged in users, will send an error with status code 401 "Unauthorized" otherwise. This will be indicated as "authAPI" in the method tables below.
+   * adminAuthenticateAPI - checks if a logged in user is an admin user, will send an error with status code 401 "Unauthorized" otherwise. This will be indicated as "adminAPI" in the method tables below.
  
 ### User (`users.js`)
 #### User Schema Explanation
@@ -270,25 +269,27 @@ User Scheme contains user information including
 * `image_id`, `image_url` are Strings, default being empty Strings
  
 #### Routes handling User related requests
-   | Path | Method | Parameters | Body | Respond | Explanations|
+   | Path | Method<br>\[middleware\] | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
    | /users | POST |  | { email, <br> password, <br> username, <br> displayname } | - redirect to `/subscribe` <br>- status 400: Bad request <br> - status 500: Internal server error | Add a new User to <br>the User collection. |
    | /users/login | POST |  | { email, <br> password } | - redirect to `/dashboard`<br> - status 400: Bad request <br>- status 404: Resource not found <br> - status 500: Internal server error | Log user in by adding info <br>to session. |\
    | /users/logout | GET |  | | - redirection to `/` <br> - status 500: Internal server error | Log users out by removing <br>the session. |
-   | /users<br>/current | GET | | | - (json) User<br> - status 401: Unauthorized | Get User object representing<br> current  logged in user |
-   | /users/:id | GET | User ID | | - (json) User<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 500: Internal server error | Get the User object with the<br> given user ID. |
-   | /users | * GET | | | - (json) array of Users <br> - status 401: Unauthorized <br> - status 500: Internal server error | Get a list of all existing <br>User from User collection. |
-   | /users<br>/mapping | POST | | {`ids`:<br> \<ID array\>} | - (json) object mapping ids to Users <br> - status 404: Can't find Users <br> - status 500: Internal server error | Given a list of User `ids`, return<br> an object that maps user<br> ids to corresponding Users. |
-   | /users | PATCH | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email; will check to<br> avoid user changing other's profiles. |
-   | /users/:id |* PATCH | User ID | { displayname, <br>username, <br>email, <br>tags, <br>isFlagged, <br>isAdmin } | - redirect to `/profile`<br>- status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Edit profile of user (with given <br>user id) by admin user. |
-   | /users<br>/password | PATCH | | { password } | - redirect to `/profile`<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 500: Internal server error | Modify current user's password. |
-   | /users<br>/flag/:id | * PATCH | User ID | { `flag` } | - (json) flagged User<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 500: Internal server error | Flag user with given user id <br>if `flag` is true, otherwise<br> unflag user. |
-   | /users/picture | POST |  |  | - (json) current User<br>- status 400: Bad Request<br>  - status 401: Unauthorized<br> -status 404: User not found<br> - status 500: Internal server error | Upload a new profile photo. |
-   | /users<br>/follow/:id | POST | User ID | | - (json) current User<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Add user ID to following list <br>of current user, will check<br> to avoid following twice. |
-   | /users<br>/unfollow/:id | POST | User ID | | - (json) current User<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Remove user ID from following<br> list of current user, will check<br> to avoid unfollowing twice. |
+   | /users<br>/current | GET<br>\[authAPI\] | | | - (json) User<br> - status 401: Unauthorized | Get User object representing<br> current  logged in user |
+   | /users/:id | GET<br>\[authAPI\] | User ID | | - (json) User<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 500: Internal server error | Get the User object with the<br> given user ID. |
+   | /users | GET<br>\[adminAPI\] | | | - (json) array of Users <br> - status 401: Unauthorized <br> - status 500: Internal server error | Get a list of all existing <br>User from User collection. |
+   | /users<br>/mapping | POST<br>\[authAPI\] | | {`ids`:<br> \<ID array\>} | - (json) object mapping ids to Users <br> - status 404: Can't find Users <br> - status 500: Internal server error | Given a list of User `ids`, return<br> an object that maps user<br> ids to corresponding Users. |
+   | /users | PATCH<br>\[authAPI\] | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email; will check to<br> avoid user changing other's profiles. |
+   | /users/:id |PATCH<br>\[adminAPI\]| User ID | { displayname, <br>username, <br>email, <br>tags, <br>isFlagged, <br>isAdmin } | - redirect to `/profile`<br>- status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Edit profile of user (with given <br>user id) by admin user. |
+   | /users<br>/password | PATCH<br>\[authAPI\] | | { password } | - redirect to `/profile`<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 500: Internal server error | Modify current user's password. |
+   | /users<br>/flag/:id | PATCH <br>\[adminAPI\]| User ID | { `flag`: <br>Boolean } | - (json) flagged User<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 500: Internal server error | Flag user with given user id <br>if `flag` is true, otherwise<br> unflag user. |
+   | /users/picture | POST<br>\[authAPI\]<br>\[multipart * \] |  |  | - (json) current User<br>- status 400: Bad Request<br>  - status 401: Unauthorized<br> -status 404: User not found<br> - status 500: Internal server error | Upload a new profile photo. |
+   | /users<br>/follow/:id | POST<br>\[authAPI\] | User ID | | - (json) current User<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Add user ID to following list <br>of current user, will check<br> to avoid following twice. |
+   | /users<br>/unfollow/:id | POST<br>\[authAPI\] | User ID | | - (json) current User<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Remove user ID from following<br> list of current user, will check<br> to avoid unfollowing twice. |
+
+ \* multipart meaning the multipart middleware that allows you to access uploaded file from req.file
    
 #### Example for testing a User route in postman:
- Ex. Testing a `/user` route:
+ Ex. Testing a `post /user` route:
  
    * Set method as POST
    * Type in `http://localhost:5000/users` for request URL
@@ -309,24 +310,24 @@ Tag Schema contains two attributes:
 * `count` with default number 0, this is an indicator of how popular the tag is
  
 #### Routes handling Tags related requests
-   | Path | Method | Parameters | Body | Respond | Explanations|
+   | Path | Method<br>\[middleware\] | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
-   | /tag | GET | | | - (json) array of Tags<br> - status 401: Unauthorized <br>- status 500: Internal Server Error | Get all existing Tags. |
-   | /tag<br>/popular | GET| | | - (json) array of Tags<br> - status 401: Unauthorized <br>- status 500: Internal Server Error | Get all existing Tags<br> sorted by number of usage. |
-   | /tag/names | POST | | { ids: <br>\<ID array\> } | - (json) array of Strings<br> - status 401: Unauthorized <br> - status 404: Can't find all tags<br> - status 500: Internal Server Error | Input an array of Tag IDs,<br> return the corresponding <br>array of tag names. |
-   | /tag/info | POST | | { ids: <br>\<ID array\> } | - (json) array of Tags<br> - status 401: Unauthorized<br> - status 404: Can't find all tags<br> - status 500: Internal Server Error | Input an array of Tag <br> IDs, return the corresponding <br>array of Tags. |
-   | /tag | POST | | { name } | - (json) new created Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 500: Internal Server Error | Adding a new Tag to<br>collection, will check to <br>avoid duplicate tag names. |
-   | /tag/:id | * PATCH | Tag ID | { name } | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 404: Tag not found <br> - status 500: Internal Server Error | Edit name of tag with given<br> id, will check to avoid<br> duplicate tag names. |
-   | /tag | * DELETE| Tag ID | | - (json) deleted Tag<br> - status 401: Unauthorized <br> - status 404: Resource not found <br> - status 404: Tag not found<br> - status 500: Internal Server Error | Delete Tag with given ID<br> from collection. |
-   | /tag<br>/follow<br>/:id | PATCH | Tag ID | | - (json) followed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 409: Already following Tag<br> - status 500: Internal Server Error | Add Tag ID to current <br>user’s list of following <br>tags, will check to avoid <br>following twice. |
-   | /tag<br>/unfollow<br>/:id | PATCH | Tag ID | | - (json) unfollowed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Remove Tag ID from current<br> user’s list of following <br>tags, will check to avoid <br>unfollowing twice. |
-   | /tag<br>/increment<br>/:id | PATCH | Tag ID | | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Count one more the usage of<BR> Tag with given Tag ID. |
-   | /tag/:id | GET| Tag ID | | - (json) Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Get Tag with given Tag ID |
+   | /tag | GET<br>\[authAPI\] | | | - (json) array of Tags<br> - status 401: Unauthorized <br>- status 500: Internal Server Error | Get all existing Tags. |
+   | /tag<br>/popular | GET<br>\[authAPI\]| | | - (json) array of Tags<br> - status 401: Unauthorized <br>- status 500: Internal Server Error | Get all existing Tags<br> sorted by number of usage. |
+   | /tag/names | POST<br>\[authAPI\] | | { ids: <br>\<ID array\> } | - (json) array of Strings<br> - status 401: Unauthorized <br> - status 404: Can't find all tags<br> - status 500: Internal Server Error | Input an array of Tag IDs,<br> return the corresponding <br>array of tag names. |
+   | /tag/info | POST<br>\[authAPI\] | | { ids: <br>\<ID array\> } | - (json) array of Tags<br> - status 401: Unauthorized<br> - status 404: Can't find all tags<br> - status 500: Internal Server Error | Input an array of Tag <br> IDs, return the corresponding <br>array of Tags. |
+   | /tag | POST<br>\[authAPI\] | | { name } | - (json) new created Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 500: Internal Server Error | Adding a new Tag to<br>collection, will check to <br>avoid duplicate tag names. |
+   | /tag/:id | PATCH<br>\[adminAPI\]| Tag ID | { name } | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 404: Tag not found <br> - status 500: Internal Server Error | Edit name of tag with given<br> id, will check to avoid<br> duplicate tag names. |
+   | /tag | DELETE<br>\[adminAPI\]| Tag ID | | - (json) deleted Tag<br> - status 401: Unauthorized <br> - status 404: Resource not found <br> - status 404: Tag not found<br> - status 500: Internal Server Error | Delete Tag with given ID<br> from collection. |
+   | /tag<br>/follow<br>/:id | PATCH<br>\[authAPI\] | Tag ID | | - (json) followed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 409: Already following Tag<br> - status 500: Internal Server Error | Add Tag ID to current <br>user’s list of following <br>tags, will check to avoid <br>following twice. |
+   | /tag<br>/unfollow<br>/:id | PATCH<br>\[authAPI\] | Tag ID | | - (json) unfollowed Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Remove Tag ID from current<br> user’s list of following <br>tags, will check to avoid <br>unfollowing twice. |
+   | /tag<br>/increment<br>/:id | PATCH<br>\[authAPI\] | Tag ID | | - (json) updated Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Count one more the usage of<BR> Tag with given Tag ID. |
+   | /tag/:id | GET<br>\[authAPI\]| Tag ID | | - (json) Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Get Tag with given Tag ID |
 
 #### Example for testing a Tag route in postman:
- Ex. Testing a `/tag` route:
+ Ex. Testing a `get /tag` route:
  
-   * Since routes are running with authenticationAPI middleware, we need to log in before testing, or else you will receive status 401 Unauthorized error.
+   * By looking at the Method\[middleware\] column, we can see that all routes are running with either authenticateAPI or adminAuthenticateAPI middleware, so we need to log in before testing, or else you will receive status 401 Unauthorized error.
    * If you are not logged in, you can login using Postman by setting method to POST, with request URL: `http://localhost:5000/users/login`, with the account we just created in previous example in body and send request.
    
     {
@@ -343,25 +344,42 @@ Tag Schema contains two attributes:
 Question Schema includes:
 * `title`, `content` are Strings requiring minimum length of 1
 * `user` is the User ID of user who posted this question
+* `tags` is a list of Tag IDs
 * `answers` is a list of subdocument AnswerSchema
 * `isResolved`, `is Flagged` are Booleans
 * `time` is Date object with default being Date.now at initialization
 * `lastUpdated` is Date objects that is Date.now for each question update
  
 #### Routes handling Question related requests
-   | Path | Method | Parameters | Body | Respond | Explanations|
+   | Path | Method<br>\[middleware\] | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | ---------|
-   |/question|POST| |{ title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged }|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|Add a new Question to the<br> collection.
-   |/questions<br>/users/:user|GET|UserId| |-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all existing questions from<br> Question collection|
-   |/questions<br>/following|GET| | |-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all questions posted by users the current user is following|
-   |/questions/tags|POST| |{ tag_ids: <br>\<ID array\> }|-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Given an array of tag ids,<br> get all the questions that<br> each contain at least one tag <br> from the tag id array.|
-   |questions<br>/tags/:tagname|GET|tagname| |-(json)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|Get all questions containing a tag with given tag name.|
-   |/question<br>/search/:keyword|GET|keyword given by user||-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Get all questions containing the given keyword|
-   |/questions/:id|GET|question Id||-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the question with given ID|
-   |/questions<br>/flag/:id| * PATCH|Question ID| { `flag` } |-(json)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|Flag the question if<br> `flag` is true, otherwise <br> unflag it.|
-   |/questions/:id|PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved }|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|Update information of the question<br> with given Question ID, will<br> check to avoid user with no<br> permission to edit question.|
-   |/questions<br>/admin/:id|* PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|Edit a question with given<br> Question ID by an admin user. |
+   |/questions|POST<br>\[authAPI\]| |{ title,<br>content,<br>tags }|- redirects to `/answer`<br>-status 400 : Bad Request <br> - status 401: Unauthorized<br>-status 500: Internal server error|Add a new Question to <br>the collection.
+   |/questions|GET<br>\[authAPI\]| | |-(json) array of Questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all existing questions from<br> the Question collection|
+   |/questions<br>/users/:user|GET<br>\[authAPI\]|User ID| |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error|Get all Questions posted by <br>user with given User ID|
+   |/questions<br>/following|GET<br>\[authAPI\]| | |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error|Get all Questions posted by users which the current user is following.|
+   |/questions/tags|POST<br>\[authAPI\]| |{ tag_ids: <br>\<ID array\> }|-(json) array of Questions<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Given an array of tag ids,<br> get all the questions that<br> each contain at least one tag <br> from the tag id array.|
+   |questions<br>/tags/:tagname|GET<br>\[authAPI\]|tagname| |-(json) array of Questions<br> - status 401: Unauthorized<br>-status 404: Tag name not found<br>-status 500: Internal Server Error<br>|Get all questions containing a tag with given tag name.|
+   |/question<br>/search/:keyword|GET<br>\[authAPI\]|keyword||-(json)array of Question<br> - status 401: Unauthorized<br>-status 500: Internal Server Error| Get all questions containing <br>the given keyword in either <br>the `title` or the `content`|
+   |/questions/:id|GET<br>\[authAPI\]|Question ID||-(json) Question<br> - status 401: Unauthorized<br>-status 404: Question not found<br>-status 500: Internal Server Error|Get the question with given ID|
+   |/questions<br>/flag/:id| PATCH<br>\[adminAPI\]|Question ID| { `flag`: <br>Boolean } |-(json) Question<br>-status 400: Bad request<br>-status 404: ID not valid<br>-status 404: Question not found<br>-status 500: Internal Server Error|Flag the Question with given <br> Question ID if `flag` is true,<br> otherwise unflag it.|
+   |/questions/:id|PATCH<br>\[authAPI\]|Question ID|{ title, <br>content, <br>tags, <br>isResolved }|- redirect to  `/answer`<br>-status 400: Bad request<br> - status 401: Unauthorized<br>-status 403: No permission to edit question<br>-404: Question not found<br>-status 500: Internal Server Error|Update information of the question<br> with given Question ID, will<br> check to avoid user with no<br> permission to edit question.|
+   |/questions<br>/admin/:id|PATCH<br>\[adminAPI\]|Question ID|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json) updated Question<br>-status 400: Bad request<br> - status 401: Unauthorized<br>-status 404: Question not found<br>-status 404: Invalid question ID<br>-status 500: INternal Server Error|Edit a question with given<br> Question ID by an admin user. |
 
+#### Example for testing a Question route in Postman:
+ Ex. Testing a `POST /questions` route:
+ 
+   * Same as all the Tag routes, calling a question route requires you to log in from Postman first. 
+   * To test a `POST /question` route, according to the table above, we need a body with `title`, `content`, `tags`. By lookin gat the [Question Schema Explanation](#user-content-question-schema-explanation), we know that `title` and `content` are Strings, and `tags` is a list of Tag IDs.
+      * You can get a Tag ID by using the `POST /tag` route to create a new Tag, and the Tag object will be returned so you can get the ID of this Tag under the `_id` field. Also, you can get a list of Tags by using the `GET /tag` route if you already have Tags in the database.
+   * Set the method to `POST`, type in `http://localhost:5000/questions` for request URL, and enter in the body text area something such as:
+   * In Body text area, choose JSON and input some data. 
+   
+    {
+        "title": "Some title for this question",
+        "content": "Some content for this question",
+        "tags": ["<Tag ID>", "<Tag ID>", "<Tag ID>"]
+    }
+   * After sending the request, answer.html should be returned with paramater `question_id` being the ID of this new created question.
  
 ### Answer (`answer.js`)
 #### Answer Schema Explanation
@@ -373,18 +391,33 @@ Answer Schema includes:
 * `lastUpdated` is Date objects that is Date.now for each answer update
  
 #### Routes handling Answer related requests
-   | Path | Method | Parameters | Body | Respond | Explanations|
+   | Path | Method<br>\[middleware\] | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
-   | /answers<br>/users<br>/:users | GET | User ID | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) posted by user with given <br>User ID | 
-   | /answers<br>/search<br>/:keyword | GET | String | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) containing the given <br>keyword | 
-   | /answers<br>/:question_id<br>/:answer_id | GET | Question ID,<br>Answer ID | | - (json) Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 500: Internal Server Error | Get the answer with given <br>Answer ID that could be found<br>in the question with given <br>Question ID | 
-   | /answers<br>/:answer_id | GET | Answer ID | | - (json) Question, Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Find answer using given Answer ID<br> only. This is different from<br> previous route because this needs<br> more steps to search into all questions<br> since Answer is subdocument of Question | 
-   | /answers<br>/flag/:id | * PATCH | Answer ID | {`flag`} | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: ID not valid<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Flag the answer with given <br>Answer ID if `flag` in body<br>is true, otherwise unflag it | 
-   | /answers<br>/:question_id<br>/:answer_id | PATCH | Question ID,<br>Answer ID | { content } | - redirect to `/answer`<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the content of the answer <br>with given Answer ID that could <br>be found in the question with<br>given Question ID | 
-   | /answers<br>/admin<br>/:question_id<br>/:answer_id | * PATCH | Question ID,<br>Answer ID | { content,<br>isBest,<br>isFlagged } | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the information of the <br>answer with given Answer ID <br>that could be found in the <br>question with given Question ID,<br>by an admin user. | 
-   | /answers<br>/best<br>/:question_id<br>/:answer_id | POST | Question ID,<br>Answer ID |  | - status 200: Selected as best answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the answer with given Answer <br>ID to be the best answer in the<br>question with given Question ID, <br>will check to avoid unrelated user <br>to edit this question |
-  | /answers<br>/:id | POST | Question ID | { content } | - (json) Answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: question not valid<br>- status 404: question not found<br>- status 500: Internal Server Error | Create a new Answer to be <br>stored in the array of answers<br>in the question with given <br>Question ID|
+   | /answers<br>/users<br>/:users | GET<br>\[authAPI\] | User ID | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) posted by user with given <br>User ID | 
+   | /answers<br>/search<br>/:keyword | GET<br>\[authAPI\] | String | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) containing the given <br>keyword | 
+   | /answers<br>/:question_id<br>/:answer_id | GET<br>\[authAPI\] | Question ID,<br>Answer ID | | - (json) Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 500: Internal Server Error | Get the answer with given <br>Answer ID that could be found<br>in the question with given <br>Question ID | 
+   | /answers<br>/:answer_id | GET<br>\[authAPI\] | Answer ID | | - (json) Question, Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Find answer using given Answer ID<br> only. This is different from<br> previous route because this needs<br> more steps to search into all questions<br> since Answer is subdocument of Question | 
+   | /answers<br>/flag/:id | PATCH<br>\[adminAPI\]| Answer ID | { `flag`: <br>Boolean } | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: ID not valid<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Flag the answer with given <br>Answer ID if `flag` in body<br>is true, otherwise unflag it | 
+   | /answers<br>/:question_id<br>/:answer_id | PATCH<br>\[authAPI\] | Question ID,<br>Answer ID | { content } | - redirect to `/answer`<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the content of the answer <br>with given Answer ID that could <br>be found in the question with<br>given Question ID | 
+   | /answers<br>/admin<br>/:question_id<br>/:answer_id | PATCH<br>\[adminAPI\]| Question ID,<br>Answer ID | { content,<br>isBest,<br>isFlagged } | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the information of the <br>answer with given Answer ID <br>that could be found in the <br>question with given Question ID,<br>by an admin user. | 
+   | /answers<br>/best<br>/:question_id<br>/:answer_id | POST<br>\[authAPI\] | Question ID,<br>Answer ID |  | - status 200: Selected as best answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the answer with given Answer <br>ID to be the best answer in the<br>question with given Question ID, <br>will check to avoid unrelated user <br>to edit this question |
+  | /answers<br>/:id | POST<br>\[authAPI\] | Question ID | { content } | - (json) Answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: question not valid<br>- status 404: question not found<br>- status 500: Internal Server Error | Create a new Answer to be <br>stored in the array of answers<br>in the question with given <br>Question ID|
+
+#### Example for testing an Answers route in Postman:
+ Ex. Testing a `POST /answers` route:
  
+   * We can see from the table above that calling an answers route requires you to log in from Postman first. 
+   * To test a `POST /answers` route, according to the table above, we need a body with a `content` field, and we need a Question ID as parameter. By lookin gat the [Answer Schema Explanation](#user-content-answer-schema-explanation), we know that `content` is a Strings.
+      * You can get a Question ID by querying as list of questions by using the `GET /question` route if you already have Questions in the database.
+   * Set the method to `POST`, type in `http://localhost:5000/questions` for request URL, and enter in the body text area something such as:
+   * In Body text area, choose JSON and input some data. 
+   
+    {
+        "title": "Some title for this question",
+        "content": "Some content for this question",
+        "tags": ["<Tag ID>", "<Tag ID>", "<Tag ID>"]
+    }
+   * After sending the request, answer.html should be returned with paramater `question_id` being the ID of this new created question.
  
 ### Report (`reports.js`)
 #### Report Schema Explanation
@@ -397,15 +430,15 @@ Answer Schema includes:
 * `lastUpdated` is Date objects that is Date.now for each report update
  
 #### Routes handling Report related requests
-   | Path | Method | Parameters | Body | Respond | Explanations|
+   | Path | Method<br>\[middleware\] | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
-   | /reports | POST | | {type,<br>targetId,<br>reason,<br>user} | - (json)Report<br>- status 400: Bad Request <br>- status 401: Unauthorized <br> - status 500: Internal Server Error | Creating a new report |
-   | /reports| * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> -status 500: Internal Server Error |Getting all existing reports |
-   | /reports<br>/type/user | * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with the type of 'u'. |
-   | /reports<br>/type/question | * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'q'. |
-   | /reports<br>/type/answer | * GET | | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'a'. |
-   | /reports/:id | * GET | Report ID| | - (json)Report<br> - status 401: Unauthorized <br> - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Get report by given report id.|
-   | /reports/:id | * PATCH | Report ID |{reviewer,<br>isReviewed}| - (json) updated Report <br>- status 400: Bed Request<br>  - status 401: Unauthorized <br>  - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Edit state of report with given report id. |
+   | /reports | POST<br>\[authAPI\] | | {type,<br>targetId,<br>reason,<br>user} | - (json)Report<br>- status 400: Bad Request <br>- status 401: Unauthorized <br> - status 500: Internal Server Error | Creating a new report |
+   | /reports| GET<br>\[adminAPI\]| | | - (json)array of Report<br> - status 401: Unauthorized <br> -status 500: Internal Server Error |Getting all existing reports |
+   | /reports<br>/type/user | GET<br>\[adminAPI\]| | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with the type of 'u'. |
+   | /reports<br>/type/question | GET<br>\[adminAPI\]| | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'q'. |
+   | /reports<br>/type/answer | GET<br>\[adminAPI\]| | | - (json)array of Report<br> - status 401: Unauthorized <br> - status 404: Reported user not found<br> - status 500: Internal Server Error | Get all reports with type 'a'. |
+   | /reports/:id | GET<br>\[adminAPI\]| Report ID| | - (json)Report<br> - status 401: Unauthorized <br> - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Get report by given report id.|
+   | /reports/:id | PATCH<br>\[adminAPI\]| Report ID |{reviewer,<br>isReviewed}| - (json) updated Report <br>- status 400: Bed Request<br>  - status 401: Unauthorized <br>  - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Edit state of report with given report id. |
  
 ### Notice (`notice.js`)
 #### Notice Schema Explanation
@@ -416,13 +449,13 @@ Notice Schema includes attributes:
 * `isShowing` is a Boolean states whether to show notice or not
  
 #### Routes handling Notice related requests
-   | Path | Method | Parameters | Body| Respond |Explanations|
+   | Path | Method<br>\[middleware\] | Parameters | Body| Respond |Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
-   | /notice | * POST | | {title,<br>content,<br>user} | 	- (json)Notice<br> - status 400: Bad Request <br>  - status 401: Unauthorized <br> - status 500: Internal Server Error | Creating a notice |
-   | /notice<br>/current | GET | || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Bad Request <br>- status 500: Internal Server Error | Get an notice with isShowing set to true |
-   | /notice | * GET | || 	- (json)array of Notice<br> - status 401: Unauthorized <br> - status 500: Internal Server Error | Get all notice|
-   | /notice/:id | * GET | Notice ID || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Get the notice by given notice id|
-   | /notice/:id | * PATCH | Notice ID | {title,<br>content,<br>isShowing(opt)}| 	- (json)updated Notice<br> - status 400: Bad request. <br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Manually edit notice from admin dashboard|
+   | /notice | POST<br>\[adminAPI\]| | {title,<br>content,<br>user} | 	- (json)Notice<br> - status 400: Bad Request <br>  - status 401: Unauthorized <br> - status 500: Internal Server Error | Creating a notice |
+   | /notice<br>/current | GET<br>\[authAPI\] | || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Bad Request <br>- status 500: Internal Server Error | Get an notice with isShowing set to true |
+   | /notice | GET<br>\[adminAPI\]| || 	- (json)array of Notice<br> - status 401: Unauthorized <br> - status 500: Internal Server Error | Get all notice|
+   | /notice/:id | GET<br>\[adminAPI\]| Notice ID || 	- (json)Notice<br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Get the notice by given notice id|
+   | /notice/:id | PATCH<br>\[adminAPI\]| Notice ID | {title,<br>content,<br>isShowing(opt)}| 	- (json)updated Notice<br> - status 400: Bad request. <br> - status 401: Unauthorized <br> - status 404: Invalid Notice ID <br>- status 404: Notice not found <br>- status 500: Internal Server Error | Manually edit notice from admin dashboard|
  
 
 
