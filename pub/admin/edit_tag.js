@@ -5,6 +5,7 @@
 let currentuser;
 let currTags;
 const postEntries = document.querySelector('#posts');
+const tag_erro = document.getElementById("addTagError");
 checkAdminUser().then((res) => {
 	if (res){
 		currentuser = res;
@@ -14,8 +15,6 @@ checkAdminUser().then((res) => {
 .catch((error) => {
 	console.log(error);
 })
-
-
 
 
 async function getAlltags(){
@@ -36,32 +35,32 @@ async function getAlltags(){
 	})
 	.then(data => {
 		currTags = data;
-		load_row(currTags);
+		load_rows(currTags);
 	})
 	.catch((error) => {
 		console.log(error)
 	});
 }
 
-function load_row(currTags)
-{	
+function load_rows(currTags){	
 	postEntries.innerHTML = "";
-	let i=0;
-	while(i < currTags.length){
-		postEntries.innerHTML += 
-			"<tr id='row"+i+"'>"+
-				"<td id=tagId"+i+"></td>"+
-				// "<td id='is_geo_row"+i+"'>"+tags[i].is_geo+"</td>"+
-				"<td id='name_row"+i+"'>"+currTags[i].name+"</td>"+
-				"<td>"+
-					"<input type='button' id='edit_button"+i+"' value='Edit' class='edit' onclick='edit_row("+i+")'>"+
-					"<input type='button' id='save_button"+i+"' value='Save' class='save' onclick='save_row("+i+")' disabled>"+
-					// "<input type='button' value='Delete' class='delete' onclick='delete_row("+i+")'>"+
-				"</td>"+
-				"<td>"+currTags[i].count+"</td>"
-			"</tr>";
-		i++;
+	let tag_num=0;
+	while(tag_num < currTags.length){
+		load_row(currTags[tag_num],tag_num)
+		tag_num++;
 	}
+}
+
+function load_row(tag, tag_num){
+	postEntries.innerHTML += 
+		"<tr id='row"+tag_num+"'>"+
+			"<td id='name_row"+tag_num+"'>"+tag.name+"</td>"+
+			"<td>"+
+				"<input type='button' id='edit_button"+tag_num+"' value='Edit' class='edit' onclick='edit_row("+tag_num+")'>"+
+				"<input type='button' id='save_button"+tag_num+"' value='Save' class='save' onclick='save_row("+tag_num+")' disabled>"+
+			"</td>"+
+			"<td>"+tag.count+"</td>"
+		"</tr>";
 }
 
 
@@ -79,7 +78,7 @@ function save_row(no){
 	// const id =  document.getElementById("tagId"+no).innerHTML;
 	url += currTags[no]._id;
 	
-	const name_val = document.getElementById("name_select"+no).value;
+	const name_val = document.getElementById("name_select"+no).value.trim().replace(/ /g, '-');
 	if(name_val.length < 1){
 		window.alert('Tag name can not be empty!');
 		return;
@@ -142,24 +141,13 @@ function delete_row(no){
 
 function add_tag(){
 	let tag_name = document.getElementById("tagName").value;
-	const tag_erro = document.getElementById("addTagError");
-	//check errors
-	let is_exist = false;
-	let is_empty = tag_name == "";
-	if(is_empty){
+	tag_name = tag_name.trim().replace(/ /g, '-'); // replace spaces in tag name to '-'
+	if(tag_name == ""){
 		tag_erro.innerHTML = "please enter a tag name";
 		return;
-	}else if(is_exist){
-		tag_erro.innerHTML = "tag exist with id: " + curr_tag.id;
-		return;
 	}
-	const url = '/tag';
-
-	// replace spaces in tag name to '-'
-	tag_name = tag_name.trim().replace(/ /g, '-');
-
-
 	//no error, saving data
+	const url = '/tag';
 	let data = {
 		"name":tag_name
 	}
@@ -171,11 +159,32 @@ function add_tag(){
             'Content-Type': 'application/json'
         },
     });
-
-    // Send the request with fetch()
     fetch(request)
-    .then(function(res) {}).catch((error) => {
-        log(error)
+    .then(res => {
+    	if(res.status === 200){
+    		return res.json();
+    	}else{
+    		handle_addTag(null,true);
+    	}
     })
-	getAlltags();
+    .then(data => {
+    	handle_addTag(data,false);
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
+
+function handle_addTag(data, status_error){
+	//check errors
+	const is_exist = data.duplicate;
+	if(status_error){
+		tag_erro.innerHTML = "server error";
+		return;
+	}else if(is_exist){
+		tag_erro.innerHTML = "tag existed";
+		return;
+	}// assume no error->tag add success -> just push data to table
+	currTags.push(data.tag);
+	load_row(data.tag,currTags.length-1);
 }
