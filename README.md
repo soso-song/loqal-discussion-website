@@ -215,9 +215,9 @@ In addition to functionalities above, admin users have access to a variety of ot
  
  
 # Overview of Routes
-This application uses Express server to manage endpoints respond to client requrests, and uses Mongoose to model application data with schema-based objects. 
+This application uses Express server to handle requests, and Mongoose to model application data with schema-based objects. 
  
-We have a server.js file where the main express app is implemented. Routes are separated into smaller files under `/routes` to decrease the size of the main app. Each of these files, which we refer to as mini-apps, creates an  express Router instance as a module to be required in the main app. Each mini-app handles queries on a specific data type while the main app contains methods to serve HTML pages. Below you can see an overview of our main and mini-apps routes:
+We have a server.js file where the main express app is implemented. Routes are separated into smaller files under `/routes` for a modular implementation of routes. Each of these files, which we refer to as mini-apps, creates an express Router instance as a module to be required in the main app. Each mini-app handles queries on a specific data type while the main app contains methods to serve HTML pages. Below you can see an overview of our main and mini-apps routes:
  
 ## Main app (`server.js`)
 Routes in `server.js` serve HTML pages to the client.
