@@ -272,19 +272,25 @@ router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 			res.status(404).send('User not found');
 		}
 		else {
-			user.displayname = req.body.displayname;
+			let message;
+			// try to save username first
 			user.username = req.body.username;
-			user.email = req.body.email;
-			user.tags = [...new Set(req.body.tags)];	// remove duplicates
-			user.isFlagged = req.body.isFlagged;
-			user.isAdmin = req.body.isAdmin;
-
-			user.save().then((result)=>{
-				const myurl = '/profile?user_id=' + user._id
-				res.redirect(303, myurl);
+			user.save().then((user) => {
+				user.displayname = req.body.displayname;
+				user.email = req.body.email;
+				user.tags = [...new Set(req.body.tags)];	// remove duplicates
+				user.isFlagged = req.body.isFlagged;
+				user.isAdmin = req.body.isAdmin;
+				user.save().then((result) => {
+					res.send(result)
+				})
+				.catch(error => {
+					message = {msg: 'Bad Email'};
+					res.json(message);
+				})
 			}).catch((error)=>{
-				console.log(error);
-				res.status(400).send('Bad request.');
+				message = {msg: 'Bad Username'};
+				res.json(message);
 			})
 		}
 	})

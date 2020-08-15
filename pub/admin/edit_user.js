@@ -320,21 +320,27 @@ function updateUser(data){
 	});
 
 	const username_error = document.querySelector('#username_error');
+	const email_error = document.querySelector('#email_error');
 
 	fetch(request)
 	.then(function(res) {
-		if(res.status == 403){
-			alert('No permission to edit');
-		} else if(res.status == 400) {
+		return res.json();
+	})
+	.then(json => {		if (json.msg == 'Bad Username'){
 			username_error.innerHTML = 'Username already taken';
 			document.querySelector("#in_username").value = user.username;
+		} else if(json.msg == 'Bad Email'){
+			email_error.innerHTML = 'Email already taken<br>';
+			document.querySelector("#in_email").value = user.email;
 		} else {
 			username_error.innerHTML = '';
+			email_error.innerHTML = '';
 			alert('Changes saved!');
 			user = null;
 			getAllUsers();
 		}
-	}).catch((error) => {
+	})
+	.catch((error) => {
 		console.log(error);
 	})
 }
