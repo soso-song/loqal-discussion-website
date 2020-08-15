@@ -77,17 +77,12 @@ function render_reports(reports){
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
 				right.innerHTML += `<p><button class='urem'>Remove Report</button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='uact'>Reactive</button></p>`;
 
 				let urem = document.querySelectorAll(".urem");
-				let uact = document.querySelectorAll(".uact");
 				
 				let rem_button = urem[urem.length-1];
 				rem_button.addEventListener('click', remove_report);
 				rem_button.myParam = ['u',report._id,report.targetId];
-
-				//urem[urem.length-1].addEventListener('click', remove_report);
-				uact[uact.length-1].addEventListener('click', reactive_report);
 			});
 		}else if(report.type === 'q'){
 			rep_q_count++;
@@ -101,16 +96,12 @@ function render_reports(reports){
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
 				right.innerHTML += `<p><button class='qrem'>Remove Report</button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='qact'>Reactive</button></p>`;
 
 				let qrem = document.querySelectorAll(".qrem");
-				let qact = document.querySelectorAll(".qact");
 
 				let rem_button = qrem[qrem.length-1];
 				rem_button.addEventListener('click', remove_report);
 				rem_button.myParam = ['q',report._id,report.targetId];
-
-				qact[qact.length-1].addEventListener('click', reactive_report);
 			});
 		}else if(report.type === 'a'){
 			rep_a_count++;
@@ -124,16 +115,12 @@ function render_reports(reports){
 				button.innerHTML = "View " + type_output;
 				right.children[0].appendChild(button);
 				right.innerHTML += `<p><button class='arem'>Remove Report</button></p>`;
-				right.innerHTML += `<p><button id="${report._id}" class='aact'>Reactive</button></p>`;
 
 				let arem = document.querySelectorAll(".arem");
-				let aact = document.querySelectorAll(".aact");
 
 				let rem_button = arem[arem.length-1];
 				rem_button.addEventListener('click', remove_report);
 				rem_button.myParam = ['a',report._id,report.targetId];
-
-				aact[aact.length-1].addEventListener('click', reactive_report);
 			});
 		}
 		getUserInfo(report.user,data=>{
@@ -184,15 +171,6 @@ function remove_report(e){
 	remove_lrdiv(curr_lrdiv,report_id);
 }
 
-
-function reactive_report(e){
-	e.preventDefault();
-	const report_id = e.target.id;//e.target.parentElement.parentElement.parentElement.children[0].children[3].children[0].innerHTML;
-	const curr_lrdiv = e.target.parentElement.parentElement.parentElement;
-	remove_lrdiv(curr_lrdiv,report_id);
-	resloveReport(report_id);
-}
-
 function remove_lrdiv(curr_lrdiv,report_id){
 	const parent = curr_lrdiv.parentElement;
 	parent.removeChild(curr_lrdiv);
@@ -202,28 +180,6 @@ function remove_lrdiv(curr_lrdiv,report_id){
 		parent.appendChild(div);
 	}
 }
-
-function resloveReport(report_id){
-	const url = '/reports/' + report_id;
-	const data = {
-        reviewer:admin_user,
-        isReviewed:false
-	}
-
-	const request = new Request(url, {
-		method: 'PATCH',
-		body: JSON.stringify(data),
-		headers: {
-			'Accept': 'application/json, text/plain, */*',
-			'Content-Type': 'application/json'
-		}
-	});
-	fetch(request)
-	.catch((error) => {
-		console.log(error);
-	})
-}
-
 
 // below are my non async type functions different with shared
 function getUserInfo(user_id, callBack){
