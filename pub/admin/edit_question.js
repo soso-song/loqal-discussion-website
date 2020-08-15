@@ -27,7 +27,10 @@ async function getAllQuestions(){
 	})
 	.then((json) => {
 		questions = json;
-		load_row();
+		if(questions.lenght > 0){
+			load_row();	
+		}
+		
 	})
 	.catch((error) => {
 		console.log(error)
