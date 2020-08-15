@@ -116,7 +116,7 @@ router.patch('/:id', mongoChecker, adminAuthenticateAPI, (req, res) => {
 	// check for duplicate tag names
 	Tag.find({name: tagName})
 	.then(tags => {
-		if(tags.length > 0){
+		if(tags.length > 0 && tags[0]._id != id){
 			res.status(400).send('Bad Request');
 		} else {
 			Tag.findByIdAndUpdate(id, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false}).then((tag) => {
@@ -257,7 +257,7 @@ router.patch('/unfollow/:tag_id', mongoChecker, authenticateAPI, (req, res) => {
 		})
 	}
 	else {
-		res.status(400).send('Bed request.');
+		res.status(400).send('Bad request.');
 	}
 
 })
