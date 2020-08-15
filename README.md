@@ -101,16 +101,19 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Sidebar shows user's display name, username, profile picture, and tags this user subscribes to.
 * If you are visiting your own profile page, you will see the "Edit Profile" button which leads you to the edit page for your basic account information.
 * If you are visiting someone else's profile page, you will be able to follow or unfollow other users by clicking on the "Follow" or "Unfollow" button.
+   * Notice how the follower list and its count is dynamically updated upon following a user
 * Click on the "Report This User" button to report any suspicious activity of this user account.
 * Under "Activity", the questions and answers posted by this user account are listed.
 * The list of followers and followings of this profile are listed under "Followers" and "Following".
  
 ### Edit Profile (`/edit/profile`)
-* Users can edit their username, display name, email, password, and profile photo.
+* Users can edit their username, display name and email
+* Users can upload or replace their current profile picture by selecting an image and clicking Upload
+   * The old profile picture will be deleted on the server
 * Clicking on "Edit Your Tags" will redirect you to a page where you can follow some popular tags, unfollow current tags, or add a custom tag.
 * Clicking on "Change Password" will redirect you to a page (`edit/password`) where you can change your password by entering the new password twice to confirm.
    * Passwords will be encrypted.
-* Users can see their status (normal or flagged)and account type (admin or regular user), but they cannot edit it.
+* Users can see their status (normal or flagged) and account type (admin or regular user), but they cannot edit it.
 * Validation check is performed to check if information inputted is valid and no duplicating username and email.
  
 ### Ask/Edit a Question (`/ask`, `/edit/question`)
@@ -129,18 +132,17 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Users can edit their answers' content by clicking on the "Edit Answer" button.
 * The user posting this question can select the best answer by clicking on the "Pick as Best Answer" button. A best answer will be shown in green and only one best answer is allowed.
 * Clicking on the display name or username shown on the question block or any answer block will redirect to that user's profile page.
-* User can report a question or answer.
+* Users can report a question or answer.
  
 ### Search (`/search`)
 * Submit a query from any page in the search field provided in the navigation bar.
-* Contents related to this keyword will be displayed on this page in the following three categories:
+* Questions and Answers related to this keyword will be displayed on this page in the following three categories:
    * Question Results: questions with keyword included in the title or content, click on the search result to jump to corresponding question page
    * Answer Results: answers with keyword included in the content
       * :star2: **New Feature:** Clicking on the answer result will redirect to the corresponding question page and jump to the answer location.
    * Tag Results: questions with a tag which keyword is the exact name of the tag, click on the search result to jump to corresponding question page
-* The questions and answers containing that keyword in the title, content, or related tags will be displayed.
 
-:star2: **New Feature:** Clicking on a Tag from anywhere in regular user accessible webpages would redirect to the search page with tag name as search keyword.
+:star2: **New Feature:** Clicking on a Tag from anywhere (such as the question page) would redirect to the search results page with that tag name as search keyword.
  
 ### Report (`/report`)
 * Buttons for reporting questions or an answer is provided in the individual question page.
