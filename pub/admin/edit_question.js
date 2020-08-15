@@ -193,7 +193,7 @@ function save_row(no){
 	//edit_question(no,tag_id,title_val,content_val,(is_flag_val == "true"),(is_reso_val == "true"))
 	updateQuestion(questions[no]._id, title_val, content_val, Array.from(tag_id), 
 				   (is_reso_val == "true"),
-				   (is_flag_val == "true"));
+				   (is_flag_val == "true"),no);
 
 	document.getElementById("edit_button"+no).disabled = false;
 	document.getElementById("save_button"+no).disabled = true;
@@ -246,8 +246,8 @@ function change_is_reso(no){
 	}
 }
 
-async function updateQuestion(id, mytitle, mydesc, mytags, 
-							  isResolved, isFlagged){
+function updateQuestion(id, mytitle, mydesc, mytags, 
+							  isResolved, isFlagged,no){
 	const url = '/questions/admin/' + id;
 
 	const data = {
@@ -269,11 +269,26 @@ async function updateQuestion(id, mytitle, mydesc, mytags,
 
 	let newURL;
 
-	await fetch(request)
-	.then(function(res) {
-		return;
-	}).catch((error) => {
+	fetch(request)
+	.then(res=>{
+		if(res.status === 200){
+			return res.json();
+		}else{
+			console.error('question unchanged due to server error');
+		}
+	})
+	.then(data=>{
+		questions[no] = data;
+	})
+	.catch((error) => {
 		console.log(error);
 	})
-	return newURL;
+
+	// await fetch(request)
+	// .then(function(res) {
+	// 	return;
+	// }).catch((error) => {
+	// 	console.log(error);
+	// })
+	// return newURL;
 }
