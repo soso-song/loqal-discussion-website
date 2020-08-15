@@ -51,9 +51,10 @@ Below we have listed the main functionalities associated with each page for regu
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
  
 ### Register or Login (`/login`)
-* Register by entering all required fields in the left block and press the "Register" button to create a new account.
-* Validation check is performed to check if information inputted are valid and no duplicating username and email.
-* If successfully registered, it will lead you to a page showing some popular tags that you could subscribe to.
+* Register by entering all required fields in the left side bar and press the "Register" button to create a new account.
+* Validation is performed to check if the input information are valid
+* Furthermore, backend validation is performed to make sure username and email are unique
+* If successfully registered, it will lead you to a page showing some popular tags that you can subscribe to.
 * Alternatively, use one of the login credentials provided below to log in.
  
     | Email | Password | Type of Account |
@@ -64,34 +65,34 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * By logging in, you will be lead to your user dashboard
 
 :star2: **New features:**
-* Validation check for emails
-* Password is encrypted using bcrypt for seccurity reasons.
+* Backend validation for verifying unique username and email 
+* Password is encrypted using bcrypt for security reasons
  
 ### Subscribe to Tags (`/subscribe`)
 * Subscribing to a tag will allow questions related to this tag to be shown on your webpage.
-* Most popular tags are shown, and also the tags you are currently following are shown.
-    * most popular tags meaning tags most followed by other users or most mentioned in questions (:star2: **New Feature**)
+* Most popular tags and the tags you are currently following are shown
+    * Most popular tags are the tags most followed by other users or most mentioned in questions (:star2: **New Feature**)
 * Follow/unfollow a tag by clicking on them
 * Type in any tag name to subscribe, a non-existing tag name will be created as a new tag.
 
-     :star2: **New Feature:** validation checking to avoid following/unfollowing the same tag for more than one time.
+     :star2: **New Feature:** Validation is performed to avoid following/unfollowing the same tag more than once
 * All tags are stored in lowercase, and spaces in any tag will be replaced by dashes(-).
-* Clicking on the "Continue" button will lead you to your user dashboard if you are first registering, otherwise you will be redirected back to the previous page you were on.
+* Clicking on the "Continue" button will lead you to your user dashboard. If you are editing your tags from profile edit, you will be redirected back to that page.
  
 ### User Dashboard (`/dashboard`)
 * Users user will be able to see the newest questions, under the three tabs (:star2: **New Feature**):
    1. Everyone: newest question from everyone
-   2. Tags: newest questions with the tags you are following to.
-      * Filter the questions by optioning in/out the tags you currently have.
-      * Click on "Edit your tags" button to redirect to Subscribe page to modify tags you are following.
+   2. Tags: newest questions with the tags you are following
+      * :star2: **New Feature**: Filter the questions by selecting or deselecting your tags
+      * Click on "Edit your tags" button to redirect to Subscribe page to modify tags you are following
    3. Following: newest questions posted by people you are following.
    * :star2: **New Feature**: Questions are separated with pagination so number of questions shown on the page is limited, scroll to the bottom to continue viewing more questions on the next page by clicking the "Next" button.
-   * :star2: **New Feature**: Questions are sorted by time from most recent to less recent times.
+   * :star2: **New Feature**: Questions are sorted by time from newest to oldest
    
 * Sidebar displays your username and has some nice greetings.
 * Users will be able to see the latest notice posted by the admins.
 * Bottom of the sidebar contains buttons which allow users to ask a new question, or go to their profile page.
-* The horizontal navigation bar allows searching for questions by keyword, go to user dashboard, ask a question, go to profile page, or logout of account
+* The horizontal navigation bar allows searching for questions by keyword, go to user dashboard, ask a question, go to profile page, or logout of their account
 
 :star: **Improvements:** 
    * Removed section of viewing questions/answers posted by current user to differentiate User Dashboard and User Profile.
