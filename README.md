@@ -82,12 +82,11 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 ### User Dashboard (`/dashboard`)
 * Users user will be able to see the newest questions, under the three tabs (:star2: **New Feature**):
    1. Everyone: newest question from everyone
+      * :star2: **New Feature**: Pagination: the number of questions displayed per page is currently set to 5 for demonstration purposes
    2. Tags: newest questions with the tags you are following
       * :star2: **New Feature**: Based on Phase 1 feedback, you can now filter the questions by selecting or deselecting tags
       * Click on "Edit your tags" button to redirect to Subscribe page to modify tags you are following
    3. Following: newest questions posted by people you are following.
-   * :star2: **New Feature**: Questions are separated with pagination so number of questions shown on the page is limited, scroll to the bottom to continue viewing more questions on the next page by clicking the "Next" button.
-   * :star2: **New Feature**: Questions are sorted by time from newest to oldest
    
 * Sidebar displays your username and has some nice greetings.
 * Users will be able to see the latest notice posted by the admins.
@@ -145,7 +144,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 :star2: **New Feature:** Clicking on a Tag from anywhere (such as the question page) would redirect to the search results page with that tag name as search keyword.
  
 ### Report (`/report`)
-* Buttons for reporting questions or an answer is provided in the individual question page.
+* Buttons for reporting questions or answers are provided in the individual question page.
 * Buttons for reporting a user are provided in the user's profile page.
 * Clicking on the report button will direct to a page for giving a reason of reporting this user, question, or answer.
 * Will be redirected back to previous page after submitting the report.
@@ -173,7 +172,7 @@ In addition to functionalities above, admin users have access to a variety of ot
 * Admin's sidebar
   * Option to go back to the admin's dashboard.
   * Option to go back to the regular dashboard.
-  * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers.
+  * Options for jumping to bookmarks on admin's dashboard to the list of reported users, reported questions or reported answers.
   * Options to redirect to a page for posting new notices, to view past reports, or to look at all existing users, questions, answers or tags.
  
 ### Post Notice (`/admin/notice`)
@@ -181,13 +180,13 @@ In addition to functionalities above, admin users have access to a variety of ot
 * A notice contains a title and its content.
 * All notices will be shown at the bottom of this page.
 * Admin can edit any notice's title, description, and active status.
-   * :star2: **New Feature:** Only a notice with active status being true will be pinned on the regular user dashboard, and only the newest notice will be shown.
+
+:star2: **New Feature:** Only a notice with an active status will be shown on the regular user dashboard. A newly created notice will set the active status of previous notices to false and will be the only active notice
  
 ### Past Reports (`/admin/pastreport`)
 :star2: **New Feature**:
-* Any reviewed reports, either content flagged or report denied, will be listed in this page.
-* An admin user could delete a report by clicking the "Remove Report" button for that report to be never seen again.
-* An admin user could reactivate a report by clicking the "Reactive" button for that report to appear in the admin's dashboard and waiting to be reviewed again.
+* Any reviewed reports, which can be both accepted or rejected reports, will be listed in this page.
+* An admin user can delete a report by clicking the "Remove Report" button
  
 ### All Users (`/admin/edituser`)
 * An admin could see a list of all registered users.
@@ -202,7 +201,7 @@ In addition to functionalities above, admin users have access to a variety of ot
 ### All Questions (`/admin/editquestion`)
 * Admin could see a list of existing questions in a table showing the title, content, posting user, tags, and the time the question is posted, also the admin could see if the question is flagged and if the question is resolved.
 * Admin could edit any question's title, content, and tags, and also could mark questions as flagged or unflagged, resolved or not resolved.
-* Editing a question with an empty title, an empty content, or no tag if invalid. 
+* Editing a question with an empty title, an empty content, or no tag is invalid. 
  
 ### All Answers (`/admin/editanswer`)
 * Admin could see a list of all answers in a table showing the which question it is answering to, the user posting the answer, content of the answer, whether it is the best answer, whether it is flagged, and the time posted.
