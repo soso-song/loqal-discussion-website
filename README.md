@@ -302,22 +302,18 @@ Question Schema includes:
 #### Routes handling Question related requests
    | Path | Method | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | ---------|
-   |/question|POST| |{ title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged }|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|post new question
-   |/questions/users/:user|GET|UserId| |-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the Route for getting all existing questions|
-   |/questions<br>/following|GET| | |-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|get questions posted by users the current user is following|
-   |/questions/tags|POST| |{ tag_ids: <br>\<ID array\> }|-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|post the route to get all the questions given a list of tag ids.|
-   |questions/tags/:tagname|GET|tag name| |-(json)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|get the route for getting questions with given tag name|
-   |/question<br>/search/:keyword|GET|keyword given by user||-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| getting questions containing the given keyword|
-   |/questions/:id|GET|question Id||-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|getting the question by given id|
+   |/question|POST| |{ title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged }|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|Add a new Question to the<br> collection.
+   |/questions/users/:user|GET|UserId| |-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all existing questions from<br> Question collection|
+   |/questions<br>/following|GET| | |-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all questions posted by users the current user is following|
+   |/questions/tags|POST| |{ tag_ids: <br>\<ID array\> }|-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Given an array of tag ids<br>, get all the questions that<br> each contain at least one tag <br> from the tag id array.|
+   |questions/tags/:tagname|GET|tagname| |-(json)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|Get all questions containing a tag with given tag name.|
+   |/question<br>/search/:keyword|GET|keyword given by user||-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Get all questions containing the given keyword|
+   |/questions/:id|GET|question Id||-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the question with given ID|
    |/questions<br>/flag/:id| * PATCH|Question ID| { flag } |-(json)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|Flag the question if<br> `flag` is true, otherwise <br> unflag it.|
-   |/questions/:id|PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved }|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|patch the route for updating info of a question given by id|
-   |/questions<br>/admin/:id|* PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|patch the route for updating in of a question given by id |
+   |/questions/:id|PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved }|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|Update information of the question<br> with given Question ID, will<br> check to avoid user with no<br> permission to edit question.|
+   |/questions<br>/admin/:id|* PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|Edit a question with given<br> Question ID by an admin user. |
  
- 
- 
- 
- 
- 
+
  
 ### Answer (`answer.js`)
 #### Answer Schema Explanation
@@ -328,7 +324,7 @@ Answer Schema includes:
 * `time` is Date object with default being Date.now at initialization
 * `lastUpdated` is Date objects that is Date.now for each answer update
  
-#### Routes handling Question related requests
+#### Routes handling Answer related requests
    | Path | Method | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | --------- |
    | /answers<br>/users<br>/:users | GET | User ID | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) posted by user with given <br>User ID | 
