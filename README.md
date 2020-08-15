@@ -51,39 +51,50 @@ Below we have listed the main functionalities associated with each page for regu
 This page serves as a welcome page. To get started, scroll down to the bottom of the page and click on the **Get Started** button.
  
 ### Register or Login (`/login`)
-* Register by entering all required fields in the left block and press the “Register” to create a new account.
+* Register by entering all required fields in the left block and press the "Register" button to create a new account.
 * Validation check is performed to check if information inputted are valid and no duplicating username and email.
 * If successfully registered, it will lead you to a page showing some popular tags that you could subscribe to.
 * Alternatively, use one of the login credentials provided below to log in.
  
-    | Username | Password | Type of Account |
+    | Email | Password | Type of Account |
     | ------------- | ------------- | ------------- |
-    | user  | user  | Regular User  |
-    | user2  | user2  | Regular User  |
-    | admin  | admin  | Admin User  |
+    | user@user.com  | user  | Regular User  |
+    | user2@user2.com  | user2  | Regular User  |
+    | admin@admin.com  | admin  | Admin User  |
 * By logging in, you will be lead to your user dashboard
+
+:star2: **New features:**
+* Validation check for emails
+* Password is encrypted using bcrypt for seccurity reasons.
  
 ### Subscribe to Tags (`/subscribe`)
 * Subscribing to a tag will allow questions related to this tag to be shown on your webpage.
 * Most popular tags are shown, and also the tags you are currently following are shown.
-    * most popular tags meaning tags most followed by other users or most mentioned in questions
+    * most popular tags meaning tags most followed by other users or most mentioned in questions (:star2: **New Feature**)
 * Follow/unfollow a tag by clicking on them
 * Type in any tag name to subscribe, a non-existing tag name will be created as a new tag.
+
+     :star2: **New Feature:** validation checking to avoid following/unfollowing the same tag for more than one time.
 * All tags are stored in lowercase, and spaces in any tag will be replaced by dashes(-).
 * Clicking on the "Continue" button will lead you to your user dashboard if you are first registering, otherwise you will be redirected back to the previous page you were on.
  
 ### User Dashboard (`/dashboard`)
-* Users user will be able to see the newest questions, sorted by from most recent to less recent, under the three tabs:
+* Users user will be able to see the newest questions, under the three tabs (:star2: **New Feature**):
    1. Everyone: newest question from everyone
    2. Tags: newest questions with the tags you are following to.
       * Filter the questions by optioning in/out the tags you currently have.
       * Click on "Edit your tags" button to redirect to Subscribe page to modify tags you are following.
    3. Following: newest questions posted by people you are following.
-   * Questions are separated with pagination so number of questions shown on the page is limited, scroll to the bottom to continue viewing more questions on the next page.
+   * :star2: **New Feature**: Questions are separated with pagination so number of questions shown on the page is limited, scroll to the bottom to continue viewing more questions on the next page by clicking the "Next" button.
+   * :star2: **New Feature**: Questions are sorted by time from most recent to less recent times.
+   
 * Sidebar displays your username and has some nice greetings.
 * Users will be able to see the latest notice posted by the admins.
 * Bottom of the sidebar contains buttons which allow users to ask a new question, or go to their profile page.
 * The horizontal navigation bar allows searching for questions by keyword, go to user dashboard, ask a question, go to profile page, or logout of account
+
+:star: **Improvements:** 
+   * Removed section of viewing questions/answers posted by current user to differentiate User Dashboard and User Profile.
  
 ### User Profile (`/profile`)
 * Sidebar shows user's display name, username, profile picture, and tags this user subscribes to.
@@ -121,7 +132,13 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
  
 ### Search (`/search`)
 * Submit a query from any page in the search field provided in the navigation bar.
+* Contents related to this keyword will be displayed on this page in the following three categories:
+   * Question Results: questions with keyword included in the title or content
+   * Answer Results: answers with keyword included in the content
+      * :star2: **New Feature:** Clicking on the answer result will redirect to the corresponding question page and jump to the answer location.
+   * Tag Results: questions with a tag which keyword is the exact name of the tag
 * The questions and answers containing that keyword in the title, content, or related tags will be displayed.
+:star2: **New Feature:** Clicking on a Tag from anywhere in regular user accessible webpages would redirect to the search page with tag name as search keyword.
  
 ### Report (`/report`)
 * Buttons for reporting questions or an answer is provided in the individual question page.
@@ -150,19 +167,20 @@ In addition to functionalities above, admin users have access to a variety of ot
   * Click "View Question" to jump to the question page with this answer.
   * Flag answer or deny this report.
 * Admin's sidebar
- * Option to go back to the admin's dashboard.
- * Option to go back to the regular dashboard.
- * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers.
- * Options to redirect to a page for posting new notices, or to look at all existing users, questions, answers or tags.
+  * Option to go back to the admin's dashboard.
+  * Option to go back to the regular dashboard.
+  * Options for jumping to bookmarks on admin's dashboard at list of reported users, list of reported questions, and list of reported answers.
+  * Options to redirect to a page for posting new notices, to view past reports, or to look at all existing users, questions, answers or tags.
  
 ### Post Notice (`/admin/notice`)
 * An admin user could post important notices that are to be pinned on the sidebar of a regular user dashboard.
 * A notice contains a title and its content.
 * All notices will be shown at the bottom of this page.
 * Admin can edit any notice's title, description, and active status.
-   * Only a notice with active status being true will be pinned on the regular user dashboard, and only the newest notice will be shown.
+   * :star2: **New Feature:** Only a notice with active status being true will be pinned on the regular user dashboard, and only the newest notice will be shown.
  
 ### Past Reports (`/admin/pastreport`)
+:star2: **New Feature**:
 * Any reviewed reports, either content flagged or report denied, will be listed in this page.
 * An admin user could delete a report by clicking the "Remove Report" button for that report to be never seen again.
 * An admin user could reactivate a report by clicking the "Reactive" button for that report to appear in the admin's dashboard and waiting to be reviewed again.
@@ -172,7 +190,7 @@ In addition to functionalities above, admin users have access to a variety of ot
 * Search a user by his/her exact username or email to see his/her complete account information.
   * Searching a non-existing user will show "No user found".
   * Searching with no keyword input will show all users.
-* An admin user could edit any account's information except for the password.
+* An admin user could edit any account's information except for the password and profile photo.
 * An admin user could mark a user as flagged or unflagged, and make the user to become an admin or regular user.
 * The "See Profile" button will lead to this user's profile page.
 * Clicking on the "save" button for editing the user profile will check validation of information inputs and check for duplicate username and email.
@@ -191,6 +209,7 @@ In addition to functionalities above, admin users have access to a variety of ot
 * Admin could see a list of all existing tags in a table showing the name of the tags and the number of usage of the tags..
 * Admin could edit the name of any tag.
 * Editing a tag with an empty name is invalid.
+ 
  
 # Overview of Routes
 This application uses Express server to manage endpoints respond to client requrests, and uses Mongoose to model application data with schema-based objects. 
