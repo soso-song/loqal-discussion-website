@@ -73,12 +73,13 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Clicking on the "Continue" button will lead you to your user dashboard if you are first registering, otherwise you will be redirected back to the previous page you were on.
  
 ### User Dashboard (`user/user_dashboard.html`)
-* Users user will be able to see the newest questions sorted in three ways:
+* Users user will be able to see the newest questions, sorted by from most recent to less recent, under the three tabs:
    1. Everyone: newest question from everyone
-   2. Tags: Newest questions with the tags you are following to.
+   2. Tags: newest questions with the tags you are following to.
       * Filter the questions by optioning in/out the tags you currently have.
-      * Clicking on "Edit your tags" will lead you to a subscribe page to modify tags you are following.
-   3. Following: Newest questions posted by people you are following
+      * Click on "Edit your tags" button to redirect to Subscribe page to modify tags you are following.
+   3. Following: newest questions posted by people you are following.
+   * Questions are separated with pagination so number of questions shown on the page is limited, scroll to the bottom to continue viewing more questions on the next page.
 * Sidebar displays your username and has some nice greetings.
 * Users will be able to see the latest notice posted by the admins.
 * Bottom of the sidebar contains buttons which allow users to ask a new question, or go to their profile page.
@@ -255,11 +256,11 @@ User Scheme is the schema for containing user information including
    | /users<br>/current | GET | | | - (json) User<br> - status 401: Unauthorized | Get User object<br> representing current <br> logged in user |
    | /users/:id | GET | User ID | | - (json) User<br> - status 401: Unauthorized<br> - status 404: Resource not found<br> - status 500: Internal server error | Get the User object <br>with the given user ID. |
    | /users | * GET | | | - (json) array of Users <br> - status 401: Unauthorized <br> - 500: Internal server error | Get a list of all existing <br>User from User collection. |
-   | /users<br>/mapping | POST | | array of User ID | - (json) object mapping ids to Users <br> - status 404: Can't find Users <br> - status 500: Internal server error | Take in a list of user ids, return<br> an object that maps user<br> ids to corresponding Users. |
+   | /users<br>/mapping | POST | | {`ids`:<br> \<ID array\>} | - (json) object mapping ids to Users <br> - status 404: Can't find Users <br> - status 500: Internal server error | Given a list of User `ids`, return<br> an object that maps user<br> ids to corresponding Users. |
    | /users | PATCH | | { displayname, <br>username, <br>email } | - redirect to `/profile`<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> displayname, username, <br> and email; will check to<br> avoid user changing other's profiles. |
    | /users/:id |* PATCH | User ID | { displayname, <br>username, <br>email, <br>tags, <br>isFlagged, <br>isAdmin } | - redirect to `/profile`<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>- status 400: Bad Request<br> - status 500: Internal server error | Edit profile of user<br>(with given user id)<br> by admin user. |
    | /users<br>/password | PATCH | | { password } | - redirect to `/profile`<br> - status 401: Unauthorized<br> - status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Modify current user's<br> password. |
-   | /users<br>/flag/:id | * PATCH | User ID | { (boolean)`flag` } | - (json) User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Flag user with given<br> user id if `flag==true`, <br>otherwise unflag user. |
+   | /users<br>/flag/:id | * PATCH | User ID | { `flag` } | - (json) User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Flag user with given<br> user id if `flag` is true, <br>otherwise unflag user. |
    | /users/picture | POST |  |  | - (json) current User<br> - status 401: Unauthorized<br> -status 404: User not found<br> - status 400: Bad Request<br> - status 500: Internal server error | Upload a new profile<br> photo. |
    | /users<br>/follow/:id | POST | User ID | | - (json) current User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already following<br> - status 400: Bad Request<br> - status 500: Internal server error | Add user ID to follow-<br>ing list of current user<br> logged in, will check to <br>avoid following twice. |
    | /users<br>/unfollow/:id | POST | User ID | | - (json) current User<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 500: Internal server error | Remove user ID from<br> following list of current <br>logged in user, will check<br> to avoid unfollowing twice. |
@@ -287,8 +288,6 @@ Tag Schema contains two attributes: including name, and count.
    | /tag/:id | GET| Tag ID | | - (json) Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Get Tag with given Tag ID |
  
  
- 
- 
 ### Question (`questions.js`)
 #### Question Schema Explanation
 Question Schema includes:
@@ -303,13 +302,13 @@ Question Schema includes:
    | Path | Method | Parameters | Body | Respond | Explanations|
    | ---- | ------ | ---------- | ---- | ------- | ---------|
    |/question|POST| |{ title,<br>content,<br>user,<br>tags,<br>answers,<br>isResolved,<br>isFlagged }|-send(questions)<br>-status(500)LInternal server error<br>-status(400):Bad Request<br><br> - status 401: Unauthorized|Add a new Question to the<br> collection.
-   |/questions/users/:user|GET|UserId| |-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all existing questions from<br> Question collection|
+   |/questions<br>/users/:user|GET|UserId| |-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all existing questions from<br> Question collection|
    |/questions<br>/following|GET| | |-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get all questions posted by users the current user is following|
    |/questions/tags|POST| |{ tag_ids: <br>\<ID array\> }|-(json) questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Given an array of tag ids<br>, get all the questions that<br> each contain at least one tag <br> from the tag id array.|
-   |questions/tags/:tagname|GET|tagname| |-(json)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|Get all questions containing a tag with given tag name.|
+   |questions<br>/tags/:tagname|GET|tagname| |-(json)Questions-<br>-status 500: Internal Server Error<br>-status 404: Tag name not found<br> - status 401: Unauthorized|Get all questions containing a tag with given tag name.|
    |/question<br>/search/:keyword|GET|keyword given by user||-(json)questions<br>-status 500: Internal Server Error<br> - status 401: Unauthorized| Get all questions containing the given keyword|
    |/questions/:id|GET|question Id||-(json)question<br>-status 404: Question not found<br>-status 500: Internal Server Error<br> - status 401: Unauthorized|Get the question with given ID|
-   |/questions<br>/flag/:id| * PATCH|Question ID| { flag } |-(json)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|Flag the question if<br> `flag` is true, otherwise <br> unflag it.|
+   |/questions<br>/flag/:id| * PATCH|Question ID| { `flag` } |-(json)question<br>-status 404: ID not valid/Question not found<br>-status 400: Bad request<br>-status 500 :internal Server Error|Flag the question if<br> `flag` is true, otherwise <br> unflag it.|
    |/questions/:id|PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved }|-(redirect)answer?question_id= id<br>-status 403" No permission to edit question<br>-status 400: Bad request<br>-404: Question not found<br> - status 401: Unauthorized|Update information of the question<br> with given Question ID, will<br> check to avoid user with no<br> permission to edit question.|
    |/questions<br>/admin/:id|* PATCH|question Id|{ title, <br>content, <br>tags, <br>isResolved, <br>isFlagged }|-(json)info of the question<br>-status 404: Question not found/INvalid question ID<br>-status 400: Bad request.<br>-status 500: INternal Server Error<br> - status 401: Unauthorized|Edit a question with given<br> Question ID by an admin user. |
  
@@ -331,7 +330,7 @@ Answer Schema includes:
    | /answers<br>/search<br>/:keyword | GET | String | | - (json) array of Questions<br>- status 401: Unauthorize<br>- status 500: Internal Server Error | Get a list of Questions containing <br>Answer(s) containing the given <br>keyword | 
    | /answers<br>/:question_id<br>/:answer_id | GET | Question ID,<br>Answer ID | | - (json) Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 500: Internal Server Error | Get the answer with given <br>Answer ID that could be found<br>in the question with given <br>Question ID | 
    | /answers<br>/:answer_id | GET | Answer ID | | - (json) Question, Answer<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Find answer using only given, <br>Answer ID. This is different <br>to previous one because we need<br>more steps to search into all ques-<br>tions since Answer is subdocument<br>of Question | 
-   | /answers<br>/flag<br>/:id | * PATCH | Answer ID | {(Boolean)flag} | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: ID not valid<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Flag the answer with given <br>Answer ID if `flag` in body<br>is true, otherwise unflag it | 
+   | /answers<br>/flag/:id | * PATCH | Answer ID | {`flag`} | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: ID not valid<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Flag the answer with given <br>Answer ID if `flag` in body<br>is true, otherwise unflag it | 
    | /answers<br>/:question_id<br>/:answer_id | PATCH | Question ID,<br>Answer ID | { content } | - redirect to `/answer`<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the content of the answer <br>with given Answer ID that could <br>be found in the question with<br>given Question ID | 
    | /answers<br>/admin<br>/:question_id<br>/:answer_id | * PATCH | Question ID,<br>Answer ID | { body,<br>isBest,<br>isFlagged } | - (json) Question<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the information of the <br>answer with given Answer ID <br>that could be found in the <br>question with given Question ID,<br>by an admin user. | 
    | /answers<br>/best<br>/:question_id<br>/:answer_id | POST | Question ID,<br>Answer ID |  | - status 200: Selected as best answer<br>- status 400: Bad request<br>- status 401: Unauthorize<br>- status 403: No permission to edit<br>- status 404: Invalid ID<br>- status 404: Question not found<br>- status 404: Answer not found<br>- status 500: Internal Server Error | Edit the answer with given Answer <br>ID to be the best answer in the<br>question with given Question ID, <br>will check to avoid unrelated user <br>to edit this question |
@@ -360,7 +359,7 @@ Answer Schema includes:
    | /reports/:id | * PATCH | Report ID |{reviewer,<br>isReviewed}| - (json) updated Report <br>- status 400: Bed Request<br>  - status 401: Unauthorized <br>  - status 404: Invalid Report ID<br> - status 404: Report not found<br> - status 500: Internal Server Error | Edit state of report with given report id. |
  
 ### Notice (`notice.js`)
-## Notice Schema Explanation
+#### Notice Schema Explanation
 Notice Schema includes attributes:
 * `title` and `content` are Strings requiring minimum length of 1
 * `time` is Date object of posted time
