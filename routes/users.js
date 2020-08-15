@@ -241,18 +241,14 @@ router.post("/picture", multipartMiddleware, authenticateAPI, (req, res) => {
 				cloudinary.uploader.upload(
 					req.files.image.path, // req.files contains uploaded files
 					function (result) {
-						cloudinary.uploader.upload(
-							req.files.image.path, // req.files contains uploaded files
-							function (result) {
-								user.image_id= result.public_id, // image id on cloudinary server
-								user.image_url= result.url,
-								user.save().then((result2)=>{
-									res.send(result2);
-								}).catch((error)=>{
-									console.log(error);
-									res.status(400).send('Bad request.');
-								})
-						});
+						user.image_id= result.public_id, // image id on cloudinary server
+						user.image_url= result.url,
+						user.save().then((result2)=>{
+							res.send(result2);
+						}).catch((error)=>{
+							console.log(error);
+							res.status(400).send('Bad request.');
+						})
 				});
 			}
 		}
