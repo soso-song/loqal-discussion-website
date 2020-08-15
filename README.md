@@ -133,11 +133,12 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 ### Search (`/search`)
 * Submit a query from any page in the search field provided in the navigation bar.
 * Contents related to this keyword will be displayed on this page in the following three categories:
-   * Question Results: questions with keyword included in the title or content
+   * Question Results: questions with keyword included in the title or content, click on the search result to jump to corresponding question page
    * Answer Results: answers with keyword included in the content
       * :star2: **New Feature:** Clicking on the answer result will redirect to the corresponding question page and jump to the answer location.
-   * Tag Results: questions with a tag which keyword is the exact name of the tag
+   * Tag Results: questions with a tag which keyword is the exact name of the tag, click on the search result to jump to corresponding question page
 * The questions and answers containing that keyword in the title, content, or related tags will be displayed.
+
 :star2: **New Feature:** Clicking on a Tag from anywhere in regular user accessible webpages would redirect to the search page with tag name as search keyword.
  
 ### Report (`/report`)
