@@ -217,13 +217,13 @@ In addition to functionalities above, admin users have access to a variety of ot
 # Overview of Routes
 This application uses Express server to manage endpoints respond to client requrests, and uses Mongoose to model application data with schema-based objects. 
  
-We have a server.js file where the main express app is implemented. Routes are separated into smaller files under `/routes` to decrease the size of the main app. Each of these files, which we refer to as mini-apps, creates an  express.Router instance as a module to be required in the main app. Each min-app handles queries on a specific data type while the main app contains methods that redirect some URI to pages. Below are routes in each main/mini-app listed and explained with the schema-based application data.
+We have a server.js file where the main express app is implemented. Routes are separated into smaller files under `/routes` to decrease the size of the main app. Each of these files, which we refer to as mini-apps, creates an  express Router instance as a module to be required in the main app. Each mini-app handles queries on a specific data type while the main app contains methods to serve HTML pages. Below you can see an overview of our main and mini-apps routes:
  
 ## Main app (`server.js`)
-Routes in `server.js` are webpage routes for responding URI with corresponding webpages, which are all GET methods.
+Routes in `server.js` serve HTML pages to the client.
    * sessionCheck - checks for existence of an active user on the session, and redirects to user dashboard if it exists.
-   * authenticate - checks for logged in user, will redirect to register/login page if no account logged in.
-   * adminAuthenticate - checks if logged in user is an admin user, will redirect to regular user dashboard if failed to authenticate.
+   * authenticate - checks for logged in user, will redirect to register/login page otherwise.
+   * adminAuthenticate - checks if logged in user is an admin user, will redirect to regular user dashboard otherwise.
    
    | Path | Middleware | Redirects to | Required Parameter(s) |
    | ---- | ---------- | ----------- | --------------------- |
