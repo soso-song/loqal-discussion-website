@@ -93,7 +93,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Under "Activity", the questions and answers posted by this user account are listed.
 * The list of followers and followings of this profile are listed under "Followers" and "Following".
  
-### Edit Profile (`edit/profile`)
+### Edit Profile (`/edit/profile`)
 * Users can edit their username, display name, email, password, and profile photo.
 * Clicking on "Edit Your Tags" will redirect you to a page where you can follow some popular tags, unfollow current tags, or add a custom tag.
 * Clicking on "Change Password" will redirect you to a page (`edit/password`) where you can change your password by entering the new password twice to confirm.
@@ -208,14 +208,14 @@ Routes in `server.js` are webpage routes for responding URI with corresponding w
    | /    | sessionChecker  | [Landing page](#welcome-pageindexhtml)  |  |
    | /login | sessionChecker  | [Register/Login page](#register-or-login-registerregisterhtml) |  |
    | /dashboard  |   | [User dashboard](#user-dashboard-useruser_dashboardhtml) if a user is logged in, otherwise redirects to [register/login page](#register-or-login-registerregisterhtml)  |  |
-   | /profile   | authenticate  | [Current user profile page](#user-content-user-profile-useruser_profilehtml) if no parameter given; redirects to other user profile page if given parameter `user_id`.  | `user_id` |
+   | /profile   | authenticate  | [Current user profile page](#user-content-user-profile-useruser_profilehtml) if no parameter given; redirects to other user profile page if given parameter `user_id`.  <br>- Redirects to `/404` page if can't find the user with given ID.| `user_id` |
    | /edit/profile | authenticate | [Page for editing current user’s profile](#user-content-edit-profile-useredit_profilehtml)  |
-   | /answer | authenticate | [Single question page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml)| `question_id` |
-   | /edit/answer | authenticate | [Editing answer page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml) | `question_id` and `answer_id` |
+   | /answer | authenticate | [Single question page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml)<br>- Redirects to `/404` page if can't find the question with given ID.| `question_id` |
+   | /edit/answer | authenticate | [Editing answer page](#user-content-question-and-answers-answeranswerhtml-answeredit_answerhtml)<br>-Redirects to `/404` page if can't find the answer with given ID. | `question_id` and `answer_id` |
    | /ask | authenticate | [Asking a new question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)  |
-   | /edit/question | authenticate | [Editing question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml) | `question_id` |
+   | /edit/question | authenticate | [Editing question page](#user-content-askedit-a-question-questionquestionhtml-questionedit_questionhtml)<br> Redirects to `/404` page if can't find the question; redirects to `/403` if user attempt to edit someone else's question. | `question_id` |
    | /subscribe | authenticate | [Subscribe page](#user-content-subscribe-to-tags-registersubscribehtml) |
-   | /report | authenticate | [Report page](#user-content-report-reportreporthtml) | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
+   | /report | authenticate | [Report page](#user-content-report-reportreporthtml)<br>- Redirects to `/404` page if can't find the target to report. | `type`(=either 'u'(user),'q'(question), or 'a'(answer)), `taget_id`, `user_id`, `back_url` |
    | /search | authenticate | [Search page](#user-content-search-searchquestionsearch_questionhtml) | `search_key` |
    | /admin/dashboard | adminAuthenticate | [Admin’s dashboard](#user-content-admin-dashboard-adminadmin_dashboardhtml) |  |
    | /admin/editquestion | adminAuthenticate | [Admin's edit question page](#user-content-all-questions-adminedit_questionhtml) |  |
