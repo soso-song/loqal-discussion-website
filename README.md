@@ -255,13 +255,13 @@ Routes in `server.js` serve HTML pages to the client.
 ## Mini-apps
 Middleware checkers used in mini-apps:
    * mongoChecker - checks for mongo connection errors, this is implemented in basically every route therefore will not be listed in the table below 
-   * authenticateAPI - checks for logged in users, will send error with status 401 "Unauthorized" if no login user
-   * adminAuthenticateAPI - checks if a logged in user is an admin user, will send error with status 401 "Unauthorized" if failed to authenticate.
+   * authenticateAPI - checks for logged in users, will send an error with status code 401 "Unauthorized" otherwise.
+   * adminAuthenticateAPI - checks if a logged in user is an admin user, will send an error with status code 401 "Unauthorized" otherwise.
       * routes listed below with a `*` in front of the method are routes with adminAuthenticateAPI checking
  
 ### User (`users.js`)
 #### User Schema Explanation
-User Scheme is the schema for containing user information including 
+User Scheme contains user information including 
 * `displayname`, `username`, and `email` are Strings and requires the minimum length of 1
 * `password` requires the minimum length of 3 and are stores as encrypted Strings
 * `isFlagged`, `isAdmin` are Booleans
@@ -288,19 +288,19 @@ User Scheme is the schema for containing user information including
    | /users<br>/unfollow/:id | POST | User ID | | - (json) current User<br>-status 400: Already not following<br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: ID not valid<br> - status 404: User not found<br> - status 500: Internal server error | Remove user ID from following<br> list of current user, will check<br> to avoid unfollowing twice. |
    
 #### Example for testing a User route in postman:
- Ex. Running a get `/user` route:
+ Ex. Testing a `/user` route:
  
    * Set method as POST
    * Type in `http://localhost:5000/users` for request URL
-   * In Body text area, choose JSON and input some data. By looking at the table above, we can see that a POST '/users' route requires a body object providing variables `email`, `password`, `username`, and `displayname`. By looking at the [User Schema Explanation](#user-content-user-usersjs), we know that these four variables are all Strings. Therefore we can input to the body something like:
+   * In Body text area, choose JSON and input some data. By looking at the table above, we can see that a POST '/users' route requires a body object providing variables `email`, `password`, `username`, and `displayname`. By looking at the [User Schema Explanation](#user-content-user-usersjs), we know that these four variables are all Strings:
    
     {
-        "email": "user@user.com",
-        "password": "user",
-        "username": "useuseuseuse",
+        "email": "someuser@someuser.com",
+        "password": "someuser",
+        "username": "someuser",
         "displayname": "displaydisplay"
     }
-   * By sending request, you should be returned with the subscribe.html
+   * After sending the request, subscribe.html should be returned
  
 ### Tag (`tag.js`)
 #### Tag Schema Explanation
@@ -324,19 +324,19 @@ Tag Schema contains two attributes:
    | /tag/:id | GET| Tag ID | | - (json) Tag <br> - status 400: Bad Request<br> - status 401: Unauthorized<br> - status 404: Invalid Tag ID<br> - status 404: Tag not found<br> - status 500: Internal Server Error | Get Tag with given Tag ID |
 
 #### Example for testing a Tag route in postman:
- Ex. Running a get `/tag` route:
+ Ex. Testing a `/tag` route:
  
-   * Since routes are running with authenticationAPI middleware, we need to log in before testing other routes, or else you will receive status 401 Unauthorized error.
-   * If you are not logged in, you can login using Postman by setting method to POST, with request URL: `http://localhost:5000/users/login`, with having account we just created in previous example in body and send request.
+   * Since routes are running with authenticationAPI middleware, we need to log in before testing, or else you will receive status 401 Unauthorized error.
+   * If you are not logged in, you can login using Postman by setting method to POST, with request URL: `http://localhost:5000/users/login`, with the account we just created in previous example in body and send request.
    
     {
-        "email": "user@user.com",
-        "password": "user"
+        "email": "someuser@someuser.com",
+        "password": "someuser"
     }
  
-   * This will return you the `user_dashboard.html` meaning you are logged in so we can continue.
-   * To run get `/tag` routes, set method to GET, enter `http://localhost:5000/tag`, since we can see from the table above we don't need any other inputs, we could send request.
-   * Then you should be returned with a list of all tags.
+   * This will return `user_dashboard.html` to indicate you are logged in.
+   * To test a get `/tag` routes, set method to GET, enter `http://localhost:5000/tag`, since we can see from the table above that we don't need any other inputs
+   * A list of all tags should be returned.
 
 ### Question (`questions.js`)
 #### Question Schema Explanation
