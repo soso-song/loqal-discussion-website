@@ -83,7 +83,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * Users user will be able to see the newest questions, under the three tabs (:star2: **New Feature**):
    1. Everyone: newest question from everyone
    2. Tags: newest questions with the tags you are following
-      * :star2: **New Feature**: Filter the questions by selecting or deselecting your tags
+      * :star2: **New Feature**: Based on Phase 1 feedback, you can now filter the questions by selecting or deselecting tags
       * Click on "Edit your tags" button to redirect to Subscribe page to modify tags you are following
    3. Following: newest questions posted by people you are following.
    * :star2: **New Feature**: Questions are separated with pagination so number of questions shown on the page is limited, scroll to the bottom to continue viewing more questions on the next page by clicking the "Next" button.
@@ -95,7 +95,7 @@ This page serves as a welcome page. To get started, scroll down to the bottom of
 * The horizontal navigation bar allows searching for questions by keyword, go to user dashboard, ask a question, go to profile page, or logout of their account
 
 :star: **Improvements:** 
-   * Removed section of viewing questions/answers posted by current user to differentiate User Dashboard and User Profile.
+   * Based on Phase 1 feedback: Removed the questions and answers posted by the current user from User Dashboard as User Profile already contains that information
  
 ### User Profile (`/profile`)
 * Sidebar shows user's display name, username, profile picture, and tags this user subscribes to.
