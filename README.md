@@ -9,7 +9,7 @@ We receive a vast amount of information about the COVID-19 daily. This informati
 | ------------- | ------------- |
 | Behrad Ghadiri Bashardoost  | burtonrider  |
 | Tongzhou Li  | greysky10  |
-| Zhifei Song  | KylSong  |
+| Zhifei Song  | soso-song  |
 | Nicole Xin Yue Wang  | niconicolii  |
  
  
